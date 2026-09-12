@@ -191,13 +191,16 @@ def test_soiling_accumulates_and_depresses_performance_ratio():
     assert late.performance_ratio.mean() < early.performance_ratio.mean()
 
 
-def test_string_outage_is_a_step_change_in_dc_current():
+def test_string_outage_is_a_step_change_in_performance_ratio():
     df = _telemetry("INV-007")
     onset = pd.Timestamp(_event("INV-007").onset)
-    day = df[(df.poa_wm2 > 300) & df.dc_current_a.notna()]
-    before = day[day.ts < onset]
-    after = day[day.ts >= onset]
-    assert after.dc_current_a.mean() < before.dc_current_a.mean() * 0.97
+    day = df[(df.poa_wm2 > 300) & df.performance_ratio.notna()]
+    before = day[day.ts < onset].performance_ratio
+    after = day[day.ts >= onset].performance_ratio
+    # Performance ratio removes the daylight/weather scale that otherwise masks the
+    # injected current loss when the pre-event and post-event windows have different
+    # irradiance distributions.
+    assert after.mean() < before.mean() * 0.93
 
 
 def test_curtailment_is_flagged_in_operating_state():
