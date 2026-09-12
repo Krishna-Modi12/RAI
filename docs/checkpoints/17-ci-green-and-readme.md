@@ -21,14 +21,16 @@ status: complete
 
 ## How it was verified
 
-` .venv\Scripts\python.exe -m pytest tests\ -q` — 407 passed.
-` .venv\Scripts\ruff.exe check .` — all checks passed.
-` cd web; npm run lint` — 0 errors and 25 existing warnings.
-` cd web; npm run build` — production build passed.
+`.venv\Scripts\python.exe -m pytest tests\ -q` — 407 passed.
+`.venv\Scripts\ruff.exe check .` — all checks passed.
+`cd web; npm run lint` — 0 errors and 25 existing warnings.
+`cd web; npm run build` — production build passed.
+GitHub Actions run `34715429845` for commit `0b74f6d` — Python and frontend jobs passed.
 
 ## Measured results
 
-407 Python tests passed; frontend production build passed; frontend lint reported 0 errors.
+407 Python tests passed; frontend production build passed; frontend lint reported 0 errors;
+both GitHub Actions jobs passed.
 
 ## Limitations
 
