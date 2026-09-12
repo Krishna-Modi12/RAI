@@ -14,7 +14,7 @@ Every headline claim from Gate 1 was subjected to adversarial stress testing, st
 * **Derived Embargo Enforced:** A 336-hour (14-day) embargo was derived mathematically from the maximum feature lookback (14d) and thermal lag (6h), guaranteeing that test samples never access data from the training window.
 * **Threshold & Calibration Locked:** Production threshold ($\theta^* = 0.45$) optimized on validation data only and locked before final evaluation.
 * **Retrieval Leakage Blocked:** Historical memory retrieval now enforces `knowledge_cutoff` and self-retrieval exclusion.
-* **Adversarial Stress Battery Passed:** Permuting labels collapsed PR-AUC to base rate (0.218) and MCC to ~0. Shifting event windows destroyed lead time, proving genuine causal temporal alignment.
+* **Adversarial Stress Battery Passed:** Permuting labels collapsed PR-AUC to base rate (0.218) and MCC to ~0. Shifting event windows destroyed lead time, confirming genuine non-anticipative temporal alignment and dependence.
 * **Rolling-Origin Stability:** Chronological rolling-origin validation across 4 folds established stable out-of-sample performance: **Mean PR-AUC = 0.294 (95% CI: [0.042, 0.644])** and **Mean CARE = 0.670 (95% CI: [0.528, 0.892])**.
 
 ---

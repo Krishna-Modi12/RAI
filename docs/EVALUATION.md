@@ -61,19 +61,19 @@ Results synthesized across `artifacts/evaluation/gate2/scorecard.json` and `arti
 
 ### Multi-View Operational & Classification Metrics
 
-| Evaluation View | Metric | Value | 95% Bootstrap CI | Methodological Guardrail / Interpretation |
-|---|---|---|---|---|
-| **Locked Late Holdout (Sep 06–12)** | PR-AUC | **`0.8220`** | `[0.540, 0.940]` | Evaluates final week where all 6 events are active. Overlaps with Fold 4. |
-| **Locked Late Holdout (Sep 06–12)** | MCC | **`0.6900`** | `[0.420, 0.880]` | Strong late-period discriminability. |
-| **Locked Late Holdout (Sep 06–12)** | False Alarms / Asset-Yr | **`0.19`** | — | Suppresses fleet false alarms via 6h persistence and peer consensus. |
-| **Locked Late Holdout (Sep 06–12)** | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | Advance warning ahead of catastrophic failure. |
-| **View A: Macro Valid-Fold (Rolling)** | PR-AUC Mean | **`0.3919 ± 0.3188`** | `[0.042, 0.644]` | Averages across Folds 2, 3, 4 ($N=3$). Fold 1 excluded as `null` (`NO_POSITIVE_EVENTS`). |
-| **View A: Macro Valid-Fold (Rolling)** | MCC Mean | **`0.3323`** | — | Positive correlation across non-empty rolling folds. |
-| *Prior Naive All-Fold (Historical)* | PR-AUC Mean | *`0.2939 ± 0.3240`* | — | *Invalidated: arbitrarily coerced Fold 1 (0 events) to 0.0.* |
-| **View B: Micro / Pooled PR-AUC** | Concatenated PR-AUC | **`0.6482`** | — | Single PR curve computed over concatenated valid fold predictions. |
-| **View C: Event-Level Alarm System** | Event Recall | **`83.3%`** (5/6) | `[0.50, 1.00]` | Independent failure episode detection (primary operational metric). |
-| **View C: Event-Level Alarm System** | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | IQR: 1.5 days (range 2.0d to 6.0d). |
-| **Exploratory Aggregation** | Event-Weighted PR-AUC | **`0.5559`** | — | *Exploratory only. Mitigates 1-event fold skew; does NOT establish temporal generalization.* |
+| Evaluation View | Evidentiary Tier | Metric | Value | 95% Bootstrap CI | Methodological Guardrail / Interpretation |
+|---|---|---|---|---|---|
+| **Locked Late Holdout (Sep 06–12)** | `INTERNAL_SYNTHETIC` | PR-AUC | **`0.8220`** | `[0.540, 0.940]` | Evaluates final week where all 6 events are active. Overlaps with Fold 4. |
+| **Locked Late Holdout (Sep 06–12)** | `INTERNAL_SYNTHETIC` | MCC | **`0.6900`** | `[0.420, 0.880]` | Strong late-period discriminability. |
+| **Locked Late Holdout (Sep 06–12)** | `INTERNAL_SYNTHETIC` | False Alarms / Asset-Yr | **`0.19`** | — | v1 baseline rate post-persistence (6h) and peer consensus on holdout. |
+| **Locked Late Holdout (Sep 06–12)** | `INTERNAL_SYNTHETIC` | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | Advance warning ahead of catastrophic failure. |
+| **View A: Macro Valid-Fold (Rolling)**| `INTERNAL_SYNTHETIC` | PR-AUC Mean | **`0.3919 ± 0.3188`** | `[0.042, 0.644]` | Averages across Folds 2, 3, 4 ($N=3$). Fold 1 excluded as `null` (`NO_POSITIVE_EVENTS`). |
+| **View A: Macro Valid-Fold (Rolling)**| `INTERNAL_SYNTHETIC` | MCC Mean | **`0.3323`** | — | Positive correlation across non-empty rolling folds. |
+| *Prior Naive All-Fold (Historical)* | `INTERNAL_SYNTHETIC` | PR-AUC Mean | *`0.2939 ± 0.3240`* | — | *Invalidated: arbitrarily coerced Fold 1 (0 events) to 0.0.* |
+| **View B: Micro / Pooled PR-AUC** | `INTERNAL_SYNTHETIC` | Concatenated PR-AUC | **`0.5488`** | — | Single PR curve computed over concatenated valid fold predictions ($N=126$). |
+| **View C: Event-Level Alarm System**| `INTERNAL_SYNTHETIC` | Event Recall | **`83.3%`** (5/6) | `[0.50, 1.00]` | Independent failure episode detection (primary operational metric). |
+| **View C: Event-Level Alarm System**| `INTERNAL_SYNTHETIC` | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | IQR: 1.0 day (range 2.0d to 6.0d). |
+| **Exploratory Aggregation** | `INTERNAL_SYNTHETIC` | Event-Weighted PR-AUC | **`0.5559`** | — | *Exploratory only. Mitigates 1-event fold skew; does NOT establish temporal generalization.* |
 
 ### Key Insights on Metrics & Generalization
 
@@ -147,19 +147,20 @@ Systematic ablations isolating each layer's marginal contribution (`artifacts/ev
 ## 8. Capability Status Ledger: Measured vs Uncomputed
 
 | Capability / Metric | Status | Evidence / Notes |
-|---|---|---|
-| **Zero Preprocessing Leakage** | `MEASURED` | Scalers & regressors fit on train only; verified |
-| **Derived Temporal Embargo** | `MEASURED` | 342.0-hour embargo enforced in all splits |
-| **Validation Threshold Lock** | `MEASURED` | Locked at $\theta^* = 0.45$ on validation set |
-| **Historical Memory Cutoff** | `MEASURED` | `knowledge_cutoff` and `exclude_asset_id` enforced |
-| **Adversarial Stress Battery** | `MEASURED` | 9 of 9 tests passed; documented in `adversarial/` |
-| **Rolling-Origin Backtest** | `MEASURED` | 4 folds; Macro PR-AUC `0.294 ± 0.324` (sparse folds diagnosed) |
-| **Level 2 Unseen Asset Holdout** | `MEASURED` | PR-AUC `0.833` across 11 held-out assets (2 faulted, 9 healthy) |
-| **External SCADA Zero-Shot Tracking** | `MEASURED` | $R^2 = 0.9943$ (power), $R^2 = 0.8120$ (thermal) on external turbine |
-| **Official CARE Anomaly Benchmark** | `PENDING` | Ingestion adapter built; pending full Zenodo anomaly callset |
-| **Alert Fatigue Funnel (Versioned)** | `MEASURED` | v1: 0.19 / asset-yr; v2: 0.09 / asset-yr (3.78 fleet alarms/yr with downstream gates) |
-| **Model-World Decision Regret** | `MEASURED` | Mean ₹0, 100% optimal (self-consistency check under policy assumptions) |
-| **Independent Outcome-World Regret** | `MEASURED` | Decoupled failure arrival, repair delay, and downtime variance (Phase 4) |
+| Capability / Benchmark Area | Evidentiary Tier | Status | Verification Detail |
+|---|---|---|---|
+| **Zero Preprocessing Leakage** | `SOFTWARE_INVARIANT` | `MEASURED` | Scalers & regressors fit on train only; verified |
+| **Derived Temporal Embargo** | `PHYSICAL_INVARIANT` | `MEASURED` | 342.0-hour embargo enforced in all splits |
+| **Validation Threshold Lock** | `SOFTWARE_INVARIANT` | `MEASURED` | Locked at $\theta^* = 0.45$ on validation set |
+| **Historical Memory Cutoff** | `SOFTWARE_INVARIANT` | `MEASURED` | `knowledge_cutoff` and `exclude_asset_id` enforced |
+| **Adversarial Stress Battery** | `INTERNAL_SYNTHETIC` | `MEASURED` | 9 of 9 tests passed; documented in `adversarial/` |
+| **Rolling-Origin Backtest** | `INTERNAL_SYNTHETIC` | `MEASURED` | Valid-fold macro $0.392 \pm 0.319$, pooled $0.549$; temporal generalization `UNRESOLVED` |
+| **Level 2 Unseen Asset Holdout** | `INTERNAL_SYNTHETIC` | `MEASURED` | PR-AUC `0.833` across 11 held-out assets (2 faulted, 9 healthy) |
+| **External SCADA Zero-Shot Tracking** | `EXTERNAL_REAL` | `MEASURED` | $R^2 = 0.9943$ (power), $R^2 = 0.8120$ (thermal); expected-behavior tracking only |
+| **Official CARE Anomaly Benchmark** | `EXTERNAL_REAL` | `PENDING` | Real Farm A archive downloaded; scoring executed in Gate 5.1 |
+| **Alert Fatigue Funnel (Versioned)** | `INTERNAL_SYNTHETIC` | `MEASURED` | v1: 0.19 / asset-yr; v2: 0.09 / asset-yr (3.78 fleet alarms/yr with downstream gates) |
+| **Model-World Decision Regret** | `SIMULATED_OUTCOME` | `HISTORICAL` | Mean ₹0, 100% optimal (internal self-consistency check under policy model) |
+| **Independent Outcome-World Regret** | `SIMULATED_OUTCOME` | `MEASURED` | Mean ₹9,127, optimal rate 71.0%, p95 ₹19,500 under decoupled outcome simulator |
 
 ---
 

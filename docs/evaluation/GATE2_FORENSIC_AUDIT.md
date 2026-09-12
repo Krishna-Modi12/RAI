@@ -35,7 +35,7 @@ All headline metrics from Gate 1 were subjected to rigorous audit, re-partitioni
 3. **Adversarial Stress Battery: ALL 5 TESTS PASSED:**
    * Label Permutation: PR-AUC collapsed to base prevalence (`0.218`), MCC collapsed to `0.007`.
    * Random Feature Stress: Uncorrelated Gaussian noise did not artificially inflate discrimination.
-   * Temporal Label Shift: Shifting event windows degraded CARE score from `0.797` to `0.462`, confirming genuine temporal-causal alignment.
+   * Temporal Label Shift: Shifting event windows degraded CARE score from `0.797` to `0.462`, confirming genuine non-anticipative temporal alignment and sensitivity.
    * Future Sentinel Audit: Injected `shift(-n)` future features were detected and rejected.
    * Asset Identity Stress: Zero asset or site IDs are used as predictive features; predictions rely purely on physical and statistical telemetry.
 
@@ -57,13 +57,13 @@ A critical finding prior to Gate 2 was that pre-trained model pickles in `artifa
 
 ## 3. Signal & Feature Lineage Matrix ($X_t = f(D_{\le t})$)
 
-Every raw signal, engineered feature, rolling aggregator, and regression residual in the pipeline was audited to ensure mathematical causality.
+Every raw signal, engineered feature, rolling aggregator, and regression residual in the pipeline was audited to ensure strict non-anticipative temporal ordering (mathematical signal causality, $\frac{\partial X_t}{\partial D_{\tau > t}} = 0$, guaranteeing zero future lookahead without claiming experimental intervention causality).
 
 $$\forall t, \quad X_t = f(D_{\tau \le t}) \quad \text{and} \quad \frac{\partial X_t}{\partial D_{\tau > t}} = 0$$
 
-| Component / Feature | Formula / Transform | Lookback ($L$) | Causal Guard | Status |
+| Component / Feature | Formula / Transform | Lookback ($L$) | Non-Anticipative Guard | Status |
 |---|---|---|---|---|
-| **Raw Telemetry** | SCADA 10m (Wind) / 15m (PV) | $0$ | Instantaneous observation | ✅ CAUSAL |
+| **Raw Telemetry** | SCADA 10m (Wind) / 15m (PV) | $0$ | Instantaneous observation | ✅ CAUSAL (Non-anticipative) |
 | **Expected Power (Wind)** | $P_{\text{exp}} = f(v_{\text{wind}}, \rho)$ (Hub-height curve) | $0$ | Model fit on train prefix | ✅ CAUSAL |
 | **Expected Power (PV)** | $P_{\text{exp}} = f(G_{\text{POA}}, T_{\text{cell}})$ (DC/AC loss model) | $0$ | Model fit on train prefix | ✅ CAUSAL |
 | **Expected Temperature** | $T_{\text{exp}} = f(P, T_{\text{ambient}}, v_{\text{wind}})$ | $0$ | Model fit on train prefix | ✅ CAUSAL |
@@ -238,7 +238,7 @@ Systematic component ablations were conducted to isolate the exact marginal cont
 | Capability / Metric Area | Claimed Baseline | Forensic Status | Verified Fact & Boundary |
 |---|---|---|---|
 | **Reproducibility & Pinned Deps** | scikit-learn 1.8.0 | `IMPLEMENTED` | All 55 models retrained; fatal warning policy active; 0 warnings |
-| **Causal Feature Lineage** | $X_t = f(D_{\le t})$ | `IMPLEMENTED` | Complete signal audit verified; zero future lookahead |
+| **Non-Anticipative Feature Lineage** | $X_t = f(D_{\le t})$ | `IMPLEMENTED` | Complete signal audit verified; zero future lookahead |
 | **Mathematical Embargo Gap** | $\ge 342.0$ hours | `IMPLEMENTED` | 336h embargo enforced in all splits |
 | **Threshold Selection Isolation** | Frozen $\theta^* = 0.45$ | `IMPLEMENTED` | Optimized on validation only; locked prior to test |
 | **RAG Knowledge Cutoff** | Zero retrospective leak | `IMPLEMENTED` | `knowledge_cutoff` and `exclude_asset_id` enforced |

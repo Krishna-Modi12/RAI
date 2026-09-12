@@ -447,7 +447,7 @@ Every headline claim from Gate 1 was subjected to adversarial stress testing, st
 * **Derived Embargo Enforced:** A 336-hour (14-day) embargo was derived mathematically from the maximum feature lookback (14d) and thermal lag (6h), guaranteeing that test samples never access data from the training window.
 * **Threshold & Calibration Locked:** Production threshold ($\\theta^* = {locked_threshold:.2f}$) optimized on validation data only and locked before final evaluation.
 * **Retrieval Leakage Blocked:** Historical memory retrieval now enforces `knowledge_cutoff` and self-retrieval exclusion.
-* **Adversarial Stress Battery Passed:** Permuting labels collapsed PR-AUC to base rate ({adv_summary['tests']['label_permutation']['mean_permuted_pr_auc']:.3f}) and MCC to ~0. Shifting event windows destroyed lead time, proving genuine causal temporal alignment.
+* **Adversarial Stress Battery Passed:** Permuting labels collapsed PR-AUC to base rate ({adv_summary['tests']['label_permutation']['mean_permuted_pr_auc']:.3f}) and MCC to ~0. Shifting event windows destroyed lead time, confirming genuine non-anticipative temporal alignment and dependence.
 * **Rolling-Origin Stability:** Chronological rolling-origin validation across 4 folds established stable out-of-sample performance: **Mean PR-AUC = {rolling_summary.mean_pr_auc:.3f} (95% CI: [{rolling_summary.ci95_pr_auc[0]:.3f}, {rolling_summary.ci95_pr_auc[1]:.3f}])** and **Mean CARE = {rolling_summary.mean_care:.3f} (95% CI: [{rolling_summary.ci95_care[0]:.3f}, {rolling_summary.ci95_care[1]:.3f}])**.
 
 ---

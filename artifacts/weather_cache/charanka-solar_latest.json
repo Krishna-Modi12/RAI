@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-12T16:47:18.098895+05:30",
+  "timestamp": "2026-09-12T17:02:09.916749+05:30",
   "site": "charanka-solar",
   "dust_ug_m3": 7.0,
   "aod_550nm": 0.28,
@@ -14,7 +14,7 @@
   "dust_24h_integral": 352.0,
   "aod_24h_mean": 0.462,
   "precipitation_24h_mm": 5.0,
-  "rain_probability_48h": 0.78,
+  "rain_probability_48h": 0.86,
   "days_since_rain": 19.0,
   "source_detail": "open_meteo_cams_cached"
 }
