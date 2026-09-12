@@ -9,7 +9,7 @@ from typing import Any
 from fastapi import APIRouter
 
 from rai.config import FLEET, get_asset
-from rai.economics.engine import evaluate_cleaning_options
+from rai.economics.engine import UNIT_CLEANING_COST_INR, evaluate_cleaning_options
 from rai.models.environment_solar import detect_dust_storm_risk
 from rai.models.pipeline import compute_asset_state
 from rai.models.weather_provider import get_weather_provider
@@ -88,12 +88,13 @@ def get_soiling_summary() -> dict[str, Any]:
         "dust_risk": dust_risk.risk_level,
         "rain_probability_48h": round(conditions.rain_probability_48h, 2),
         "days_since_rain": round(conditions.days_since_rain, 1),
-        "cleaning_cost_inr": round(1850.0 * len(solar_assets), 0),
+        "cleaning_cost_inr": round(UNIT_CLEANING_COST_INR * len(solar_assets), 0),
         "recommendation": {
             "action": action,
             "wait_hours": wait_h,
             "rationale": advisor.rationale,
             "breakeven_days": advisor.break_even_days,
         },
+        "cleaning_options": [option.model_dump() for option in advisor.options],
         "zones": [b1, b2],
     }

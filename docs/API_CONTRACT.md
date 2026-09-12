@@ -291,6 +291,14 @@ The `economics` object as above. Query: `component` (optional override).
   "recommendation": {"action": "wait", "wait_hours": 36,
     "rationale": "Rain probability 23% within 48 h; projected additional loss 0.6% is below cleaning cost threshold",
     "breakeven_days": 4.2},
+  "cleaning_options": [
+    {"option_id": "clean_now", "label": "Clean now", "delay_hours": 0,
+     "cleaning_cost_inr": 44400.0, "expected_energy_loss_inr": 0.0,
+     "net_exposure_inr": 44400.0, "break_even_days": 4.2,
+     "rain_cleaning_probability": 0.0, "cementation_risk": false,
+     "summary": "...",
+     "assumptions": {"unit_cleaning_cost_inr": 1850.0, "post_clean_baseline_soiling_pct": 1.0}}
+  ],
   "zones": [
     {"zone": "block-2", "inverters": 12, "soiling_loss_pct": 8.4,
      "performance_ratio": 0.79, "status": "investigate",
@@ -300,6 +308,10 @@ The `economics` object as above. Query: `component` (optional override).
 ```
 
 `status` ∈ `"normal" | "watch" | "investigate"`; `dust_risk` ∈ `"low" | "moderate" | "high"`.
+`cleaning_options` is the full `CleaningAdvisorEvidence.options` list (`rai/schemas.py`), each
+option carrying its `assumptions` dict so every cost figure traces to a named constant in
+`rai/economics/engine.py` rather than a hidden literal — see
+`docs/checkpoints/20-agent-backend-contracts-audit.md`.
 
 ## `GET /api/knowledge/search`
 

@@ -63,6 +63,23 @@ DEFAULT_CAPACITY_FACTOR = {"wind_turbine": 0.32, "solar_inverter": 0.21}
 # deferral is the cost of running a known-degraded machine.
 DEGRADED_OUTPUT_LOSS_FRAC = 0.03
 
+# Semi-automated module washing, priced per 250kW inverter block (labour + water + consumables).
+# Distinct from COMPONENT_ECONOMICS' "soiling" planned_repair_cost (a full manual cleaning
+# campaign per inverter block): this is the lighter, more frequent routine wash this advisor
+# schedules, not the escalated campaign `evaluate_options` costs.
+UNIT_CLEANING_COST_INR = 1850.0
+
+# Baseline soiling loss immediately after a wash — a clean panel is never literally 0% soiled.
+POST_CLEAN_BASELINE_SOILING_PCT = 1.0
+
+# Recommendation confidence below is a disclosed heuristic judgment calibration (like
+# `fallback._confidence`), not a fitted or learned probability: higher when the deciding signal
+# (rain forecast or break-even economics) is unambiguous, lower when deferring on a thinner
+# economic margin.
+CLEANING_CONFIDENCE_RAIN_WINDOW = 0.88
+CLEANING_CONFIDENCE_IMMEDIATE = 0.92
+CLEANING_CONFIDENCE_DEFER = 0.78
+
 
 def _capacity_factor(asset_type: str) -> float:
     return DEFAULT_CAPACITY_FACTOR.get(asset_type, 0.25)
@@ -252,11 +269,10 @@ def evaluate_cleaning_options(
     daily_kwh = asset.rated_power_kw * capacity_factor * 24.0
     daily_rev_inr = daily_kwh * tariff
 
-    # Baseline cost of specialized semi-automated washing per 250kW block
-    unit_cleaning_cost_inr = 1850.0
+    unit_cleaning_cost_inr = UNIT_CLEANING_COST_INR
 
-    # Recoverable soiling percentage (assuming baseline post-clean soiling is 1.0%)
-    recoverable_loss_pct = max(0.0, soiling_loss_pct - 1.0)
+    # Recoverable soiling percentage above the post-clean baseline
+    recoverable_loss_pct = max(0.0, soiling_loss_pct - POST_CLEAN_BASELINE_SOILING_PCT)
     daily_recovered_rev_inr = daily_rev_inr * (recoverable_loss_pct / 100.0)
 
     # Break-even days
@@ -265,6 +281,16 @@ def evaluate_cleaning_options(
         if daily_recovered_rev_inr > 1.0
         else 99.0
     )
+
+    base_assumptions = {
+        "tariff_inr_per_kwh": tariff,
+        "capacity_factor": round(capacity_factor, 3),
+        "daily_kwh": round(daily_kwh, 1),
+        "unit_cleaning_cost_inr": unit_cleaning_cost_inr,
+        "post_clean_baseline_soiling_pct": POST_CLEAN_BASELINE_SOILING_PCT,
+        "recoverable_loss_pct": round(recoverable_loss_pct, 2),
+        "horizon_days": float(horizon_days),
+    }
 
     # Evaluate Options: Clean Now, Wait 24h, Wait 72h, Wait 7d
     options: list[CleaningAdvisorOption] = []
@@ -284,6 +310,7 @@ def evaluate_cleaning_options(
             rain_cleaning_probability=0.0,
             cementation_risk=False,
             summary="Intervene immediately to restore clean baseline generation.",
+            assumptions={**base_assumptions, "clean_baseline_loss_pct": 1.0},
         )
     )
 
@@ -305,6 +332,7 @@ def evaluate_cleaning_options(
             rain_cleaning_probability=min(0.25, rain_probability_48h * 0.5),
             cementation_risk=False,
             summary="Defer 24 hours to align with night/dawn low generation cycle.",
+            assumptions={**base_assumptions, "soiling_loss_pct_during_wait": round(soiling_loss_pct, 2)},
         )
     )
 
@@ -334,6 +362,12 @@ def evaluate_cleaning_options(
                 if has_cementation
                 else "Leverage natural rainfall to avoid redundant wash expenditure."
             ),
+            assumptions={
+                **base_assumptions,
+                "rain_wash_prob": round(rain_wash_prob, 2),
+                "accumulation_rate_pct_day": round(accumulation_rate_pct_day, 3),
+                "avg_soiling_loss_pct_over_wait": round(avg_soil_3d, 2),
+            },
         )
     )
 
@@ -354,6 +388,7 @@ def evaluate_cleaning_options(
             rain_cleaning_probability=round(min(0.90, rain_wash_prob * 1.3), 2),
             cementation_risk=False,
             summary="Defer to standard scheduled cleaning roster.",
+            assumptions={**base_assumptions, "soiling_loss_pct_during_wait": round(soiling_loss_pct, 2)},
         )
     )
 
@@ -361,7 +396,7 @@ def evaluate_cleaning_options(
     if rain_wash_prob >= 0.60 and soiling_loss_pct < 16.0:
         recommended_action = "post_rain_reassess"
         recommended_window = "48–72h (post-precipitation)"
-        confidence = 0.88
+        confidence = CLEANING_CONFIDENCE_RAIN_WINDOW
         rationale = (
             f"Precipitation probability is {rain_wash_prob*100:.0f}%. Natural rain washing is "
             f"likely to clear accumulated particulate without manual intervention expense. "
@@ -370,7 +405,7 @@ def evaluate_cleaning_options(
     elif break_even_days <= 6.0 or soiling_loss_pct >= 8.5:
         recommended_action = "clean_now"
         recommended_window = "Immediate (within 24 hours)"
-        confidence = 0.92
+        confidence = CLEANING_CONFIDENCE_IMMEDIATE
         rationale = (
             f"Soiling loss is {soiling_loss_pct:.1f}% with economic break-even within "
             f"{break_even_days:.1f} days. Immediate washing generates positive net return."
@@ -378,7 +413,7 @@ def evaluate_cleaning_options(
     else:
         recommended_action = "wait_72h"
         recommended_window = "36–60 hours"
-        confidence = 0.78
+        confidence = CLEANING_CONFIDENCE_DEFER
         rationale = (
             f"Current soiling loss ({soiling_loss_pct:.1f}%) does not yet justify immediate "
             f"mobilization (break-even {break_even_days:.1f} days). Monitor exposure trend."

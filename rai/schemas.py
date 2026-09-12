@@ -180,6 +180,7 @@ class CleaningAdvisorOption(BaseModel):
     rain_cleaning_probability: float
     cementation_risk: bool
     summary: str
+    assumptions: dict[str, float] = Field(default_factory=dict)
 
 
 class CleaningAdvisorEvidence(BaseModel):
