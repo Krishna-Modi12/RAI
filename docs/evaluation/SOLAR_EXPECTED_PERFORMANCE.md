@@ -8,9 +8,22 @@
 >
 > Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`
 > and `artifacts/evaluation/gate56_audit/gate56_scientific_audit_verdict.md`. Valid
-> replacement work: Gate 5.6A real acquisition (`docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`)
-> and Gate 5.6B cohort adjudication (`docs/checkpoints/16-gate56b-cohort-adjudication.md`,
-> adjudication only — no expected-performance model has been fit against real data yet).
+> replacement work: Gate 5.6A real acquisition (`docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`,
+> **COMPLETE and FROZEN**), Gate 5.6B cohort adjudication
+> (`docs/checkpoints/16-gate56b-cohort-adjudication.md`, **COMPLETE and FROZEN**, adjudication
+> only, no model fit), a Gate 5.6C decision record
+> (`docs/checkpoints/18-gate56c-decision-gate.md`, PATH B: no real fault-event labels exist
+> for this cohort), and preliminary **Gate 5.6C model-development code**
+> (`docs/checkpoints/19-gate56c-model-development.md`, status corrected to `partial`) — a real
+> `pvlib.modelchain.ModelChain` physics reference plus empirical/hybrid models were fit against
+> the real, adjudicated telemetry, and every result there is explicitly labeled
+> `MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED` (internal self-consistency diagnostics
+> only, e.g. test-split R²=0.70–0.99 depending on system — never validated accuracy or
+> generalization). **Gate 5.6C itself has NOT been completed, validated, or independently
+> verified** — current phase is **Post-Gate-5.6B / pre-Gate-5.6C**. See
+> `artifacts/evaluation/gate56/gate56c_model_development/summary.md` for the preliminary,
+> unverified solar expected-performance results; everything below this banner remains the
+> retracted historical record only.
 
 ---
 

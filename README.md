@@ -226,13 +226,18 @@ The valid replacement work is deliberately narrower:
 - **Gate 5.6B:** 3 systems are frozen for development, 2 are secondary-only, and the
   validation cohort is empty because the remaining systems have ambiguous timestamps or
   severe missingness. No model was fit in this adjudication gate.
-- **Gate 5.6C:** not yet attempted. Any future solar model must be labeled
-  `MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED` unless a defensible validation route
-  is established.
+- **Gate 5.6C:** **not complete.** A decision record (PATH B — no real component-failure
+  labels exist for this cohort) and preliminary model-development code (a real
+  `pvlib.modelchain.ModelChain` physics reference plus empirical/hybrid models) were executed
+  against the real, adjudicated cohort, but the results have not been independently verified
+  and the gate has not been closed. Every result is labeled `MODEL_DEVELOPMENT` /
+  `NOT_INDEPENDENTLY_VALIDATED`. Current phase: **Post-Gate-5.6B / pre-Gate-5.6C**.
 
 See [`docs/checkpoints/14-solar-expected-performance.md`](docs/checkpoints/14-solar-expected-performance.md),
 [`docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`](docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md),
-and [`docs/checkpoints/16-gate56b-cohort-adjudication.md`](docs/checkpoints/16-gate56b-cohort-adjudication.md).
+[`docs/checkpoints/16-gate56b-cohort-adjudication.md`](docs/checkpoints/16-gate56b-cohort-adjudication.md),
+[`docs/checkpoints/18-gate56c-decision-gate.md`](docs/checkpoints/18-gate56c-decision-gate.md),
+and [`docs/checkpoints/19-gate56c-model-development.md`](docs/checkpoints/19-gate56c-model-development.md) (status: `partial`).
 
 ---
 

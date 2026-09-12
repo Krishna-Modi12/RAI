@@ -517,7 +517,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
             </div>
 
             <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--border)]">
-              SOURCE: needle2_agent_evidence_synthesis · zero_hallucination_guarantee
+              SOURCE: needle2_agent_evidence_synthesis · figures computed deterministically, not LLM-authored
             </div>
           </div>
         )}

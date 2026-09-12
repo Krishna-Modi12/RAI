@@ -29,5 +29,11 @@ added to `docs/checkpoints/14-solar-expected-performance.md` for a full explanat
   signal semantics, unit-scale correctness, physics/empirical readiness). No modeling was
   performed in this gate either — see `cohort_adjudication/summary.md`.
 
-Gate 5.6C — an actual expected-performance model fit against the real, adjudicated cohort —
-has not yet been attempted.
+Gate 5.6C — an expected-performance model fit against the real, adjudicated cohort — has
+**NOT** been completed, validated, or independently verified. Current phase: **Post-Gate-5.6B
+/ pre-Gate-5.6C — Backend Intelligence Contracts + Submission Readiness.** A decision record
+(PATH B — no real component-failure event labels exist for this cohort) and preliminary,
+executed-but-unverified model-development code exist: see `gate56c_decision_gate/decision.md`
+and `gate56c_model_development/summary.md` (a real `pvlib.modelchain.ModelChain` physics
+reference plus empirical/hybrid models, labeled `MODEL_DEVELOPMENT`/`NOT_INDEPENDENTLY_VALIDATED`
+throughout — never validated accuracy, generalization, or a completed gate).

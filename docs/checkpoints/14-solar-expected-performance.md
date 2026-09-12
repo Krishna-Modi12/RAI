@@ -25,10 +25,17 @@ status: blocked
 > policy).
 >
 > **Valid replacement work:** real PVDAQ acquisition —
-> [checkpoint 15](15-gate56a-pvdaq-real-acquisition.md) (Gate 5.6A, complete) — and cohort
-> adjudication — [checkpoint 16](16-gate56b-cohort-adjudication.md) (Gate 5.6B, complete,
-> adjudication-only, no modeling performed). Gate 5.6C (an actual expected-performance model
-> against the real, adjudicated cohort) has not yet been attempted.
+> [checkpoint 15](15-gate56a-pvdaq-real-acquisition.md) (Gate 5.6A, **COMPLETE and FROZEN**) —
+> cohort adjudication — [checkpoint 16](16-gate56b-cohort-adjudication.md) (Gate 5.6B,
+> **COMPLETE and FROZEN**, adjudication-only, no modeling performed) — a decision record —
+> [checkpoint 18](18-gate56c-decision-gate.md) (Gate 5.6C decision recorded, PATH B) — and
+> preliminary model-development code — [checkpoint 19](19-gate56c-model-development.md)
+> (status corrected to `partial`: a real `pvlib.modelchain.ModelChain` physics reference plus
+> empirical/hybrid models were fit against the real, adjudicated cohort and labeled
+> `MODEL_DEVELOPMENT`/`NOT_INDEPENDENTLY_VALIDATED` throughout — but **Gate 5.6C itself has
+> NOT been completed or independently verified**; never cite it as validated accuracy,
+> generalization, or a closed gate). Current phase: **Post-Gate-5.6B / pre-Gate-5.6C —
+> Backend Intelligence Contracts + Submission Readiness.**
 
 ---
 

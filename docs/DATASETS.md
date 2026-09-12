@@ -3,6 +3,26 @@
 What data this system runs on, what it *could* run on, and — stated plainly — the difference
 between the two.
 
+> **Update (2026-09-13):** this document is a **historical snapshot from before the Phase 5
+> external-benchmark gates (5.0–5.6)** and is kept as-is below rather than rewritten row by
+> row. Since it was written, two of the "not downloaded" Tier-1 rows have actually been
+> acquired and substantively used, with real measured results:
+> - **Row 1, CARE to Compare:** downloaded and extracted (`data/raw/care/CARE_To_Compare.zip`,
+>   Wind Farms A/B/C). Used extensively in Gates 5.0–5.4 (CARE scorer audit, cross-turbine
+>   generalization across 36 turbines, cross-farm transfer) — see `CHECKPOINT.md`'s Phase 5
+>   section and `docs/checkpoints/08-external-care-benchmark.md` through
+>   `docs/checkpoints/13-care-fidelity-rai-integration-gate54.md` (wind gate checkpoints).
+>   Not "untouched."
+> - **Row 6, NREL PVDAQ:** a real 5-system cohort was acquired and checksummed from the public
+>   OEDI S3 lake (Gate 5.6A, **COMPLETE and FROZEN**), adjudicated (Gate 5.6B, **COMPLETE and
+>   FROZEN**), and used for preliminary, **not yet independently verified** model-development
+>   code (Gate 5.6C — current phase: **Post-Gate-5.6B / pre-Gate-5.6C**). See
+>   `artifacts/evaluation/gate56/`.
+>
+> Row 4 (Kelmarsh + Penmanshiel) remains genuinely `not downloaded` and untouched. For current,
+> living status of any dataset or gate, `CHECKPOINT.md` is the source of truth — this file is
+> not updated in lockstep with it.
+
 ## Reading this document
 
 Every quantitative claim carries a provenance tag. There are exactly three:

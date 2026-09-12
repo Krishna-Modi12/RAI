@@ -3,8 +3,16 @@
 > Everything below evaluated synthetic data presented as real PVDAQ telemetry, validated
 > against a circular (self-generating) physics formula. None of it may be cited as PVDAQ
 > validation. Full evidence: `../gate56_invalid_prior_run/invalidation_manifest.json`. Valid
-> replacement work: `../gate56/acquisition/summary.md` (Gate 5.6A, real data) and
-> `../gate56/cohort_adjudication/summary.md` (Gate 5.6B, adjudication, no modeling).
+> replacement work: `../gate56/acquisition/summary.md` (Gate 5.6A, **COMPLETE and FROZEN**,
+> real data), `../gate56/cohort_adjudication/summary.md` (Gate 5.6B, **COMPLETE and FROZEN**,
+> adjudication, no modeling), `../gate56/gate56c_decision_gate/decision.md` (a Gate 5.6C
+> decision record, PATH B), and `../gate56/gate56c_model_development/summary.md` (preliminary
+> Gate 5.6C model-development code, executed but **NOT independently verified or complete** —
+> a real `pvlib.modelchain.ModelChain` physics reference plus empirical/hybrid models were fit
+> against the real, adjudicated cohort, labeled `MODEL_DEVELOPMENT`/`NOT_INDEPENDENTLY_VALIDATED`
+> throughout; these are preliminary results, not a completed Gate 5.6C, and not the figures
+> below). Current phase: **Post-Gate-5.6B / pre-Gate-5.6C — Backend Intelligence Contracts +
+> Submission Readiness.**
 
 ---
 
