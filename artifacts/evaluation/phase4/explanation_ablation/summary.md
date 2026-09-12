@@ -1,8 +1,8 @@
 # Explanation Ablation & Decision Sensitivity Boundaries (Phase 4)
 
-## Executive Summary: Validating Causal Decision Drivers
+## Executive Summary: Validating Decision-Driving Evidence (Ablation Sensitivity)
 
-Explanations in RAI are not decorative SHAP bar charts. They represent **actionable causal drivers** tested via counterfactual ablation.
+Explanations in RAI are not decorative SHAP bar charts. They represent **decision-driving evidence** verified via counterfactual feature ablation (f(X) - f(X \ {x_i}) != 0).
 
 ### 1. Counterfactual Feature Ablation Matrix (WT-017 Gearbox Bearing Failure)
 
@@ -33,4 +33,4 @@ Over the last 24 hours on asset `WT-017`:
 | **`monitor`** | `bearing_temp_c` | `82.5°C` | `< 68.0°C and peer_residual < 1.0σ` | Normalizes thermal profile back to expected thermodynamic envelope. |
 
 ## Conclusion
-RAI's explanations survive rigorous ablation testing. Removing the cited diagnostic variables immediately flips the recommended action, proving that the decision engine is directly driven by physics-informed evidence.
+RAI's explanations survive rigorous ablation testing. Removing the cited diagnostic variables immediately flips the recommended action, proving that the decision engine is directly driven by physics-informed evidence rather than superficial correlations.

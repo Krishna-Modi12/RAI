@@ -1,0 +1,49 @@
+{
+  "evaluation_phase": "Gate 3B-0 \u2014 Benchmark Interpretation Repair & Multi-View Aggregation",
+  "timestamp_utc": "2026-09-12T11:09:33.088245+00:00",
+  "runtime_seconds": 0.0,
+  "statuses": {
+    "zero_positive_handling_status": "PASS",
+    "multiview_aggregation_status": "PASS",
+    "interpretation_repair_status": "PASS",
+    "holdout_fold4_overlap_demarcation": "PASS",
+    "temporal_generalization_status": "UNRESOLVED",
+    "sample_size_status": "INSUFFICIENT_DATA (N=6 failure episodes)"
+  },
+  "aggregation_views": {
+    "view_a_macro_valid_fold": {
+      "valid_folds": 3,
+      "total_folds": 4,
+      "macro_prauc_mean": 0.3919,
+      "macro_prauc_std": 0.3186,
+      "macro_mcc_mean": 0.3323,
+      "naive_all_fold_prauc": 0.2939,
+      "note": "Averages only over folds with positive events (Folds 2, 3, 4). Fold 1 is null."
+    },
+    "view_b_micro_pooled": {
+      "pooled_prauc": 0.5488,
+      "total_samples": 126,
+      "positive_samples": 11,
+      "note": "Single PR curve computed across concatenated valid fold predictions."
+    },
+    "view_c_event_level_alarm_system": {
+      "total_episodes": 6,
+      "detected_episodes": 5,
+      "event_recall": 0.8333,
+      "median_lead_time_days": 5.0,
+      "iqr_lead_time_days": 1.0,
+      "note": "Independent physical failure episode detection (primary operational metric)."
+    },
+    "exploratory_aggregation": {
+      "event_weighted_prauc": 0.5559,
+      "qualification": "Non-standard exploratory metric. Weighting by event count raises summary to 0.556."
+    }
+  },
+  "temporal_overlap_audit": {
+    "locked_holdout_period": "2026-09-06 to 2026-09-12",
+    "fold_4_period": "2026-09-06 to 2026-09-12",
+    "is_overlap": true,
+    "audit_finding": "Fold 4 and the locked holdout evaluate the exact same late calendar week (Sep 06\u201312, 2026) where all 6 failure episodes manifest. They are not independent validation experiments; they evaluate the same underlying telemetry period under slightly different training-prefix and scoring contexts (Fold 4 PR-AUC = 0.8306 vs Locked Holdout PR-AUC = 0.8220)."
+  },
+  "scientific_interpretation": "Event weighting reduces the influence of event-free folds, raising the rolling summary to 0.556; however, this remains materially below the locked late-period holdout (0.822) and therefore does not by itself establish robust temporal generalization. Furthermore, Fold 4 evaluates the exact same period as the locked holdout. Robust temporal generalization remains UNRESOLVED until evaluated on genuinely unseen multi-year external SCADA (CARE/WindADBench)."
+}

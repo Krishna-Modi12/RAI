@@ -236,14 +236,14 @@ def run_phase4_master_suite() -> dict[str, Any]:
                 },
                 "status": "PASS (Safety Gates Verified)",
             },
-            "explanation_causality_and_boundaries": {
+            "explanation_sensitivity_and_boundaries": {
                 "features_ablated": len(explanation_res["feature_ablations"]),
                 "decision_flipping_features": [
                     f["feature_ablated"] for f in explanation_res["feature_ablations"] if f["action_flipped"]
                 ],
                 "longitudinal_risk_delta": explanation_res["longitudinal_risk_decomposition"]["algebraic_check"],
                 "counterfactual_boundaries_defined": len(explanation_res["counterfactual_decision_boundaries"]),
-                "status": "PASS (Causal Evidence Validated)",
+                "status": "PASS (Decision-Driving Evidence Validated)",
             },
             "agent_evidence_orchestration": {
                 "cases_audited": agent_res["total_cases_audited"],
@@ -276,14 +276,14 @@ def run_phase4_master_suite() -> dict[str, Any]:
         {"Pillar": "Claim Demarcation", "Metric": "Official CARE Anomaly", "Value": "Pending full Zenodo callset", "Status": "PENDING"},
         {"Pillar": "Alert Funnel", "Metric": "Actionable Alert Rate", "Value": f"{p['claim_integrity_and_status']['alert_funnel_versioning']['v2_production_funnel_alerts_per_asset_yr']} / asset-yr", "Status": "PASS"},
         {"Pillar": "Temporal Diagnosis", "Metric": "Diagnosis Completed", "Value": p["temporal_instability_diagnosis"]["rolling_macro_prauc"], "Status": "PASS"},
-        {"Pillar": "Failure Families", "Metric": "Family Recall", "Value": f"{p['failure_family_generalization']['mean_event_recall'] * 100:.0f}% (PR-AUC NOT_COMPUTABLE)", "Status": "PASS"},
-        {"Pillar": "Decision Regret", "Metric": "Model-World Regret", "Value": f"INR {p['decision_regret_validation']['model_world_regret']['mean_inr']:.0f} (100% opt)", "Status": "PASS"},
+        {"Pillar": "Failure Families", "Metric": "Controlled Episode Recall", "Value": "6/6 evaluated controlled episodes (PR-AUC NOT_COMPUTABLE)", "Status": "PASS"},
+        {"Pillar": "Decision Regret", "Metric": "Model-World Regret", "Value": f"INR {p['decision_regret_validation']['model_world_regret']['mean_inr']:.0f} (100% self-consistent)", "Status": "PASS"},
         {"Pillar": "Decision Regret", "Metric": "Outcome-World Regret", "Value": f"INR {p['decision_regret_validation']['independent_outcome_world_regret']['mean_inr']:.0f} ({p['decision_regret_validation']['independent_outcome_world_regret']['optimal_action_pct']:.1f}% opt)", "Status": "PASS"},
-        {"Pillar": "Sensor Safety", "Metric": "Bad Dispatches Prevented", "Value": f"{p['upstream_safety_and_abstention']['sensor_safety']['bad_dispatches_prevented']} / {p['upstream_safety_and_abstention']['sensor_safety']['scenarios_tested']} (100%)", "Status": "PASS"},
+        {"Pillar": "Sensor Safety", "Metric": "Bad Dispatches Prevented", "Value": f"{p['upstream_safety_and_abstention']['sensor_safety']['bad_dispatches_prevented']} / {p['upstream_safety_and_abstention']['sensor_safety']['scenarios_tested']} controlled scenarios", "Status": "PASS"},
         {"Pillar": "Peer Consensus", "Metric": "Optimal Threshold", "Value": f"{p['upstream_safety_and_abstention']['common_cause_consensus']['optimal_threshold_pct']:.0f}%", "Status": "PASS"},
         {"Pillar": "Explicit Abstention", "Metric": "Action Precision", "Value": f"{p['upstream_safety_and_abstention']['explicit_abstention']['action_precision_pct']:.0f}%", "Status": "PASS"},
-        {"Pillar": "Explanation Ablation", "Metric": "Causal Decision Flips", "Value": f"{len(p['explanation_causality_and_boundaries']['decision_flipping_features'])} features verified", "Status": "PASS"},
-        {"Pillar": "Local Agent", "Metric": "Compliance Rate", "Value": f"{p['agent_evidence_orchestration']['compliance_rate_pct']:.0f}% (0 hallucinations)", "Status": "PASS"},
+        {"Pillar": "Explanation Ablation", "Metric": "Decision-Driving Evidence", "Value": f"{len(p['explanation_sensitivity_and_boundaries']['decision_flipping_features'])} features verified", "Status": "PASS"},
+        {"Pillar": "Local Agent", "Metric": "Structured Evidence Audit", "Value": f"{p['agent_evidence_orchestration']['cases_audited']} cases (0 hallucinations)", "Status": "PASS"},
         {"Pillar": "Solar Soiling", "Metric": "RdTools SRR RMSE", "Value": f"{p['solar_soiling_validation']['rdtools_srr_agreement_rmse']:.4f}", "Status": "PASS"},
     ]
     with open(scorecard_csv_path, "w", newline="", encoding="utf-8") as f:
@@ -308,15 +308,15 @@ def run_phase4_master_suite() -> dict[str, Any]:
 | **External SCADA Zero-Shot Tracking** | $R^2 = 0.9943$ (power), $0.8120$ (thermal) | `PASSED` | Expected-behavior tracking on external commercial turbine. **Not** an anomaly detection score. |
 | **Official CARE Anomaly Benchmark** | Ingestion adapter built; scoring pending | `PENDING` | Requires full Zenodo anomaly sequences; labeled `PENDING / NOT COMPUTED`. |
 | **Alert Funnel Versioning** | v1: 0.19 $\\rightarrow$ v2: 0.09 / asset-yr | `PASSED` | Instrumented transitions with downstream sensor-health and common-cause gates (~3.8 alarms/yr fleet). |
-| **Temporal Diagnosis (0.822 vs 0.294)** | Folds 1–4 decomposed | `PASSED` | **Diagnosed:** Depressed by 0-event (Fold 1) and 1-event (Fold 2) test windows. Multi-event folds reach PR-AUC = 0.831. |
-| **Failure-Family Generalization** | 6 physical failure modes | `PASSED` | Event recall = 100%; PR-AUC marked **`NOT_COMPUTABLE`** due to N=1 support per family (zero fabrication). |
-| **Model-World Regret (Self-Consistency)** | Mean ₹0, 100% optimal | `PASSED` | Internal self-consistency baseline within policy's own world model. |
-| **Independent Outcome-World Regret** | Mean ₹{p['decision_regret_validation']['independent_outcome_world_regret']['mean_inr']:,.0f}, {p['decision_regret_validation']['independent_outcome_world_regret']['optimal_action_pct']:.1f}% optimal | `PASSED` | **Decoupled nature:** Independent failure timing, downtime variance, and imperfect repair effectiveness. Policy can fail. |
-| **Upstream Sensor Safety Gate** | 100% bad dispatches prevented | `PASSED` | Stuck thermocouples, packet loss, and physical contradictions quarantined before dispatch. |
+| **Temporal Diagnosis (0.822 vs 0.294)** | Folds 1–4 decomposed | `PASSED` | **Diagnosed:** Depressed by 0-event (Fold 1) and 1-event (Fold 2) test windows. Multi-event folds reach PR-AUC = 0.831. Multi-period temporal generalization remains unproven on N=6 events. |
+| **Failure-Family Generalization** | 6 physical failure modes | `PASSED` | **6/6 evaluated controlled episodes detected**; PR-AUC marked **`NOT_COMPUTABLE`** due to N=1 support per family (zero fabrication). |
+| **Model-World Regret (Self-Consistency)** | Mean ₹0, 100% self-consistent | `PASSED` | Internal self-consistency baseline within policy's own world model. |
+| **Independent Outcome-World Regret** | Mean ₹{p['decision_regret_validation']['independent_outcome_world_regret']['mean_inr']:,.0f}, {p['decision_regret_validation']['independent_outcome_world_regret']['optimal_action_pct']:.1f}% optimal | `PASSED` | **Decoupled simulated reality:** Independent failure timing, downtime variance, and imperfect repair effectiveness. Policy can fail. |
+| **Upstream Sensor Safety Gate** | 6/6 controlled scenarios prevented | `PASSED` | Stuck thermocouples, packet loss, and physical contradictions quarantined before dispatch. |
 | **Common-Cause Fleet Consensus** | 30% threshold optimal | `PASSED` | Prevents 82 isolated turbine dispatches during plant-wide curtailment and storms. |
 | **Explicit Decision Abstention** | 100% action precision | `PASSED` | Zero dangerous non-abstentions on broken sensing or severe epistemic uncertainty. |
-| **Explanation Feature Ablation** | 5 features causally flip action | `PASSED` | Thermal residual, vibration, and peer context proven to causally drive decision outputs. |
-| **Local Agent Evidence Compilation** | 100% compliance ({p['agent_evidence_orchestration']['cases_audited']} cases) | `PASSED` | Zero hallucinations; strictly enforces deterministic decision engine and temporal cutoff. |
+| **Explanation Feature Ablation** | 5 features flip action | `PASSED` | Thermal residual, vibration, and peer context verified as decision-driving evidence ($f(X) - f(X \\setminus \\{{x_i\\}}) \\neq 0$). |
+| **Local Agent Evidence Compilation** | {p['agent_evidence_orchestration']['cases_audited']}-case structured audit | `PASSED` | Zero hallucinations; strictly enforces deterministic decision engine and temporal cutoff. |
 | **Solar Soiling Validation** | RdTools RMSE = {p['solar_soiling_validation']['rdtools_srr_agreement_rmse']:.4f} | `PASSED` | Model-to-model benchmark clearly separating atmospheric exposure from surface deposition. |
 
 ---

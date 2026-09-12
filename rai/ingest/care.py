@@ -806,7 +806,9 @@ def load_care_csv(
         raise CareDatasetAbsent(
             f"{p} does not exist.\n{_SPEC.instructions}"
         )
-    raw = pd.read_csv(p, nrows=nrows, low_memory=False)
+    # The real archive is semicolon-delimited (verified against Zenodo record 14006163's
+    # per-farm dataset CSVs) - comma is never used, so this is not a configurable guess.
+    raw = pd.read_csv(p, sep=";", nrows=nrows, low_memory=False)
     res = resolve_columns(raw.columns, sensor_map=sensor_map)
     frame = normalise_care_frame(
         raw, asset_id=asset_id, asset_prefix=asset_prefix, resolution=res
@@ -819,7 +821,7 @@ def load_care_csv(
 
 def load_event_info(path: Path) -> pd.DataFrame:
     """Load a CARE event_info table (the anomaly labels) with parsed timestamps."""
-    raw = pd.read_csv(Path(path))
+    raw = pd.read_csv(Path(path), sep=";")
     for col in raw.columns:
         if "date" in col.lower() or "time" in col.lower():
             raw[col] = pd.to_datetime(raw[col], utc=True, errors="coerce", format="mixed")

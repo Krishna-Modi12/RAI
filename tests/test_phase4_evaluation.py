@@ -115,7 +115,7 @@ def test_abstention_battery_safety(tmp_path: Path) -> None:
 
 
 def test_explanation_ablation_flips_decisions(tmp_path: Path) -> None:
-    """Verify counterfactual feature ablation causes causal decision flips."""
+    """Verify counterfactual feature ablation demonstrates decision sensitivity and action flips."""
     res = evaluate_explanation_ablation_and_boundaries(tmp_path / "expl")
     assert res["status"] == "COMPLETED"
     # Removing temperature, vibration, peer context, or sensor health flips decisions

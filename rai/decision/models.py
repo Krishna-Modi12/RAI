@@ -187,6 +187,8 @@ class ValueInformationResult:
     voi_inr: float
     is_inspection_justified: bool
     recommendation: str
+    evpi_inr: float = 0.0
+    evsi_inr: float = 0.0
 
 
 @dataclass(frozen=True)

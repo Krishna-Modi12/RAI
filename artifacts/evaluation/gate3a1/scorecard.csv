@@ -1,7 +1,7 @@
 Pillar,Metric,Value,Status
 Embargo Math,Derived Embargo Hours,342.0,PASS
 Documentation Integrity,Legacy Fabricated Claims Scrub,100% Scrubbed,PASS
-Reproducibility,Frozen Baseline Metadata,df4194ed,PASS
+Reproducibility,Frozen Baseline Metadata,a08bf53c,PASS
 Rolling Backtest,Macro Mean PR-AUC,0.294 ± 0.324,PARTIAL
 Rolling Backtest,Event-Weighted PR-AUC,0.5559,PASS
 Locked Holdout,Holdout PR-AUC,0.822,PASS

@@ -1,0 +1,11 @@
+Pillar,Metric,Value,Status
+Zero-Positive Folds,Fold 1 PR-AUC Handling,null (NO_POSITIVE_EVENTS),PASS
+View A (Macro Valid),Valid-Fold PR-AUC Mean,0.3919 ± 0.3186,PASS
+View A (Macro Valid),Valid-Fold MCC Mean,0.3323,PASS
+View A (Naive All-Fold),Prior Arithmetic Mean (Fold 1=0),0.2939,INVALIDATED_METHOD
+View B (Micro Pooled),Pooled PR-AUC,0.5488,PASS
+View C (Event Alarm),Event Recall (Detection Rate),83.3%,PASS
+View C (Event Alarm),Median Advance Warning,5.0 days,PASS
+Exploratory Aggregation,Event-Weighted PR-AUC,0.5559,EXPLORATORY
+Temporal Overlap,Fold 4 vs Locked Holdout,Sep 06–12 (Same Late Period),PASS
+Generalization Claim,Temporal Generalization Status,UNRESOLVED,UNRESOLVED

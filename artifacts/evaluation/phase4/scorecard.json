@@ -1,6 +1,6 @@
 {
   "phase": "PHASE_4_OPERATIONAL_DECISION_VALIDATION",
-  "timestamp_utc": "2026-09-12T10:51:43.265742+00:00",
+  "timestamp_utc": "2026-09-12T11:16:53.233917+00:00",
   "runtime_seconds": 0.21,
   "overall_status": "PASS",
   "pillars": {
@@ -84,7 +84,7 @@
       },
       "status": "PASS (Safety Gates Verified)"
     },
-    "explanation_causality_and_boundaries": {
+    "explanation_sensitivity_and_boundaries": {
       "features_ablated": 6,
       "decision_flipping_features": [
         "gearbox_bearing_temperature",
@@ -95,7 +95,7 @@
       ],
       "longitudinal_risk_delta": "0.24 + 0.12 + 0.10 + 0.00 = 0.46 (Matches total_risk_delta exactly)",
       "counterfactual_boundaries_defined": 4,
-      "status": "PASS (Causal Evidence Validated)"
+      "status": "PASS (Decision-Driving Evidence Validated)"
     },
     "agent_evidence_orchestration": {
       "cases_audited": 30,

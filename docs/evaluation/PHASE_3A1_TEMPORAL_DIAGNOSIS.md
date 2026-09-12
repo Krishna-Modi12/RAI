@@ -1,27 +1,30 @@
 # Phase 3A-1 Forensic Report: Temporal Stability & Benchmark Integrity
 
-**Phase:** Phase 3A-1 — Temporal Stability Forensics  
-**Status:** `COMPLETED`  
-**Authoritative Scope:** Forensic diagnosis of the gap between Locked Holdout (PR-AUC = 0.822) and Rolling-Origin Average (PR-AUC = 0.294 ± 0.324)  
+**Phase:** Phase 3A-1 / Gate 3B-0 — Temporal Stability Forensics & Aggregation Repair  
+**Status:** `Benchmark integrity passed; temporal generalization remains unresolved.`  
+**Authoritative Scope:** Forensic diagnosis of the gap between Locked Holdout (PR-AUC = 0.822) and Rolling-Origin Average (Macro Valid = 0.392 ± 0.319, Micro Pooled = 0.648, Naive All-Fold = 0.294)  
 **Evaluation Standards:** Strictly enforced $\ge 342.0\text{h}$ embargo gap; independent failure episodes ($N=6$) as primary evaluation unit; dependence-aware uncertainty intervals; zero model upscaling.
 
 ---
 
 ## Executive Summary & Core Scientific Question
 
-Across Gate 1, Gate 2, and Phase 3A-1, RAI's precision-recall metrics evolved as follows:
+Across Gate 1, Gate 2, Phase 3A-1, and Gate 3B-0, RAI's precision-recall metrics evolved as follows:
 - **Gate 1 (Pre-Hardening Baseline):** $\text{PR-AUC} = 0.948$ (contained overlapping window leakage and unconstrained feature lookbacks).
-- **Gate 2 (Locked Chronological Holdout):** $\text{PR-AUC} = 0.822$, $\text{MCC} = 0.690$, $\text{Precision} = 0.800$, $\text{Recall} = 0.667$, $\text{False Alarms} = 0.19/\text{asset-yr}$, $\text{Lead Time} = 5.0\text{ days}$ (with strict 342h embargo and train-only fitted preprocessors).
-- **Gate 2 (4-Fold Rolling-Origin Backtest):** $\text{Macro PR-AUC} = 0.294 \pm 0.324$ ($95\%\text{ CI: } [0.042, 0.644]$), $\text{MCC} = 0.249$, $\text{False Alarms} = 1.09/\text{yr}$, $\text{Lead Time} = 1.5\text{ days}$.
+- **Gate 2 (Locked Chronological Holdout, Sep 06–12):** $\text{PR-AUC} = 0.822$, $\text{MCC} = 0.690$, $\text{Precision} = 0.800$, $\text{Recall} = 0.667$, $\text{False Alarms} = 0.19/\text{asset-yr}$, $\text{Lead Time} = 5.0\text{ days}$ (with strict 342h embargo and train-only fitted preprocessors).
+- **Gate 2 (4-Fold Rolling-Origin Backtest, Naive All-Fold Mean):** $\text{Macro PR-AUC} = 0.294 \pm 0.324$ ($95\%\text{ CI: } [0.042, 0.644]$), $\text{MCC} = 0.249$, $\text{False Alarms} = 1.09/\text{yr}$, $\text{Lead Time} = 1.5\text{ days}$ (arbitrarily coerced Fold 1 with 0 events to 0.0).
+- **Gate 3B-0 Multi-View Aggregation:**
+  - **View A (Macro Valid-Fold, Folds 2–4):** $\text{PR-AUC} = \mathbf{0.3919 \pm 0.3188}$, $\text{MCC} = 0.3323$. (Fold 1 has 0 positive events; $\text{PR-AUC} = \text{null}$, `NO_POSITIVE_EVENTS`).
+  - **View B (Micro / Pooled PR-AUC):** $\text{PR-AUC} = \mathbf{0.6482}$ across all concatenated valid test windows.
+  - **View C (Event-Level Alarm System):** Event recall = $\mathbf{83.3\%}$ (5 of 6 episodes detected early), median lead time = $\mathbf{5.0\text{ days}}$.
+  - **Exploratory Event-Weighted:** $\text{PR-AUC} = \mathbf{0.5559}$.
 
 > [!IMPORTANT]
-> **The Core Research Question:**  
-> Why does the model maintain strong discriminability on the locked holdout ($\text{PR-AUC} = 0.822$), but collapse to $\text{PR-AUC} = 0.294 \pm 0.324$ across rolling chronological windows? Is this caused by model decay, feature drift, baseline instability, or evaluation fold construction?
-
-The empirical investigation conducted in Phase 3A-1 proves conclusively that:
-1. **The collapse is primarily driven by Extreme Event Sparsity and Fold Construction Artifacts (H1, H2, H10), not by healthy-state baseline instability or model degradation.**
-2. When the 4 folds are weighted by the number of independent failure episodes present in each test window, the rolling-origin PR-AUC is **`0.5559`** (and reaches **`0.8306`** in Fold 4 where all 6 failures manifest).
-3. The arithmetic macro-average of $0.294$ gives equal 25% weight to a fold containing **zero positive events** ($\text{PR-AUC} = 0.000$) and a fold containing a single event in its early sub-threshold incubation phase ($\text{PR-AUC} = 0.0833$).
+> **The Core Research Question & Gate 3B-0 Findings:**  
+> Why does the model achieve $\text{PR-AUC} = 0.822$ on the locked holdout, but lower scores on rolling chronological folds?
+> 1. **Zero-Positive Fold Handling:** Fold 1 contains zero positive events. In binary classification, PR-AUC is mathematically indeterminate when positive prevalence is zero. Treating Fold 1 as $0.000$ was an invalid coercion; it is properly represented as $\text{null}$ (`NO_POSITIVE_EVENTS`).
+> 2. **Fold 4 vs Locked Holdout Overlap:** Fold 4 evaluates Sep 06–12 ($\text{PR-AUC} = 0.8306$), which is the identical late-campaign calendar week as the locked holdout ($\text{PR-AUC} = 0.8220$). They are not independent validation experiments; both evaluate the same defect escalation period.
+> 3. **Generalization Status:** Event weighting reduces the influence of event-free folds, raising the rolling summary to 0.556; however, this remains materially below the locked late-period holdout (0.822) and does not by itself establish robust temporal generalization. Robust temporal generalization remains **`UNRESOLVED`** until evaluated on external multi-year wind SCADA (CARE/WindADBench).
 
 ---
 
@@ -59,15 +62,18 @@ The 4 chronological rolling folds span the 45-day monitoring campaign across 42 
 
 | Fold ID | Train Window | Embargo Gap | Test Window | Test Assets | Total Test Rows | Pos. Events in Window | Failure Families Present | PR-AUC | MCC | Precision | Recall | CARE Score | Median Lead |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Fold 1** | Aug 01 – Aug 18 | 342.0h (14.25d) | Aug 19 – Aug 25 | 42 | 36,288 | **0** | *None (All Normal)* | **0.0000** | 0.0000 | 0.000 | 0.000 | 1.000 | 0.0d |
+| **Fold 1** | Aug 01 – Aug 18 | 342.0h (14.25d) | Aug 19 – Aug 25 | 42 | 36,288 | **0** | *None (All Normal)* | `null` *(NO_POSITIVE_EVENTS)* | `null` | `null` | `null` | 1.000 | 0.0d |
 | **Fold 2** | Aug 01 – Aug 24 | 342.0h (14.25d) | Aug 25 – Aug 31 | 42 | 36,288 | **1** | Gearbox Bearing Wear | **0.0833** | -0.0244 | 0.000 | 0.000 | 0.500 | 0.0d |
 | **Fold 3** | Aug 01 – Aug 30 | 342.0h (14.25d) | Aug 31 – Sep 06 | 42 | 36,288 | **4** | Gearbox, Pitch, Yaw, Generator | **0.2619** | 0.3311 | 0.333 | 0.500 | 0.568 | 6.01d |
 | **Fold 4** | Aug 01 – Sep 05 | 342.0h (14.25d) | Sep 06 – Sep 12 | 42 | 36,288 | **6** | Gearbox, Pitch, Yaw, Gen, String, Inverter | **0.8306** | 0.6903 | 0.800 | 0.667 | 0.611 | 5.00d |
 
-### Statistical Aggregation:
-- **Unweighted Macro Arithmetic Mean:** $\text{PR-AUC} = \frac{0.0 + 0.0833 + 0.2619 + 0.8306}{4} = \mathbf{0.2939 \pm 0.3240}$
-- **Event-Weighted Average:** $\text{PR-AUC} = \frac{0(0) + 1(0.0833) + 4(0.2619) + 6(0.8306)}{0 + 1 + 4 + 6} = \frac{6.1145}{11} = \mathbf{0.5559}$
-- **Locked Holdout (Single Origin, Sep 06–12):** $\text{PR-AUC} = \mathbf{0.822}$
+### Three-View Statistical Aggregation:
+- **View A (Macro Valid-Fold Mean, Folds 2–4):** $\text{PR-AUC} = \frac{0.0833 + 0.2619 + 0.8306}{3} = \mathbf{0.3919 \pm 0.3188}$ ($\text{MCC} = 0.3323$). Fold 1 excluded because PR-AUC is mathematically undefined with 0 positive events.
+- **View B (Micro / Pooled PR-AUC):** $\text{PR-AUC} = \mathbf{0.6482}$ (computed over concatenated valid test predictions across 126 asset-windows).
+- **View C (Event-Level Alarm System):** Event recall = $\mathbf{83.3\%}$ (5 of 6 episodes detected early), median lead time = $\mathbf{5.0\text{ days}}$ (IQR: 1.5d).
+- **Exploratory Event-Weighted Average:** $\text{PR-AUC} = \frac{1(0.0833) + 4(0.2619) + 6(0.8306)}{1 + 4 + 6} = \frac{6.1145}{11} = \mathbf{0.5559}$ (*Exploratory only. Dampens 1-event fold influence; does NOT prove temporal generalization*).
+- **Prior Naive All-Fold Mean (Historical):** $\text{PR-AUC} = \frac{0.0 + 0.0833 + 0.2619 + 0.8306}{4} = \mathbf{0.2939 \pm 0.3240}$ (*Invalidated: coerced Fold 1 to 0.0*).
+- **Locked Late Holdout (Sep 06–12):** $\text{PR-AUC} = \mathbf{0.8220}$ (*Overlaps exactly with Fold 4; not an independent validation experiment*).
 
 ---
 
@@ -175,13 +181,17 @@ We do **not** dynamically retune $\theta$ per fold. Dynamically adjusting thresh
 ### Q1: Why does the locked holdout PR-AUC equal 0.822?
 **Answer:** The locked holdout evaluates the final 7 days of the campaign (Sep 06–12), where all 6 injected failure episodes have progressed into detectable degradation phases. With 6 true positives and only 1 false alarm across 42 assets, precision is $0.800$ and recall is $0.667$, yielding $\text{PR-AUC} = 0.822$.
 
-### Q2: Why does the rolling-origin average equal 0.294?
-**Answer:** Because the unweighted macro average computes the arithmetic mean of the 4 fold scores:
-$$\text{Macro PR-AUC} = \frac{0.0000 + 0.0833 + 0.2619 + 0.8306}{4} = 0.2939$$
-Fold 1 (which has 0 events) and Fold 2 (which has 1 event in early incubation) artificially drag down the unweighted average.
+### Q2: Why does the rolling-origin average equal 0.294 (or 0.392 under valid-fold macro)?
+**Answer:** In the prior naive macro average:
+$$\text{Naive Macro PR-AUC} = \frac{0.0000 + 0.0833 + 0.2619 + 0.8306}{4} = 0.2939$$
+Fold 1 has zero positive events; coercing an undefined PR-AUC to $0.0000$ dragged down the average. Under Gate 3B-0, Fold 1 is set to `null` (`NO_POSITIVE_EVENTS`), yielding:
+- **View A (Macro Valid-Fold):** $\text{PR-AUC} = \frac{0.0833 + 0.2619 + 0.8306}{3} = \mathbf{0.3919 \pm 0.3188}$
+- **View B (Micro / Pooled):** $\text{PR-AUC} = \mathbf{0.6482}$
+- **View C (Event-Level Recall):** $\mathbf{83.3\%}$ (5 of 6 episodes detected early)
+- **Exploratory Event-Weighted:** $\mathbf{0.5559}$
 
-### Q3: Which folds are responsible for the collapse?
-**Answer:** **Fold 1 and Fold 2.** In Fold 1, $\text{PR-AUC} = 0.0$ because there are zero positive labels. In Fold 2, $\text{PR-AUC} = 0.0833$ because only a single defect exists, and its early incubation signal is below the conservative alarm threshold.
+### Q3: Which folds are responsible for the low average?
+**Answer:** **Fold 1 and Fold 2.** In Fold 1, PR-AUC is mathematically indeterminate (`null`) because there are zero positive events. In Fold 2, $\text{PR-AUC} = 0.0833$ because only a single defect exists, and its early incubation signal is below the conservative alarm threshold.
 
 ### Q4: How many independent events does each fold contain?
 - **Fold 1:** 0 positive failure episodes
@@ -193,29 +203,30 @@ Fold 1 (which has 0 events) and Fold 2 (which has 1 event in early incubation) a
 **Answer:** The difference is **primarily Event Sparsity (H1, H2) combined with Fold Construction Artifacts (H10)**.
 - Baseline instability is ruled out ($R^2 > 0.99$).
 - Feature covariate collapse is ruled out ($KS \le 0.22$).
-- The fold slicing policy (7-day evaluation windows) artificially bisected 14-day incubation curves and created all-negative test windows.
+- The fold slicing policy (7-day evaluation windows) artificially bisected 14-day incubation curves and created an all-negative test window (Fold 1).
 
 ### Q6: How much confidence can legitimately be placed in the current result?
-**Answer:** Moderate aggregate confidence, but with wide statistical uncertainty. We can be confident that RAI detects mechanical wind turbine defects with 4.5–6.0 days lead time and suppresses false alarms ($0.19/\text{yr}$ on holdout). However, because only 6 total physical failure episodes exist in the fleet, we cannot claim that temporal generalization is proven without wider external evaluation.
+**Answer:** **Temporal generalization remains UNRESOLVED.** Event weighting reduces the influence of event-free folds, raising the rolling summary to 0.556; however, this remains materially below the locked late-period holdout (0.822) and does not by itself establish robust temporal generalization. Crucially, Fold 4 (Sep 06–12) evaluates the exact same late calendar week as the locked holdout (Sep 06–12); they are not independent validation experiments. Because only 6 total physical failure episodes exist in the synthetic fleet, external multi-year wind SCADA (CARE/WindADBench) is required to establish true temporal robustness.
 
 ### Q7: What additional data would most reduce uncertainty?
-**Answer:** **Ingesting a large, multi-year external SCADA failure corpus with dozens of natural failure episodes across multiple seasons.** This is precisely why the 36-turbine, 89-turbine-year CARE to Compare dataset (Gück et al., 2024 / WindADBench) is the natural next step in Phase 3A-2.
+**Answer:** **Ingesting a large, multi-year external SCADA failure corpus with dozens of natural failure episodes across multiple seasons.** This is precisely why the 36-turbine, 89-turbine-year CARE to Compare dataset (Gück et al., 2024 / WindADBench) is the natural next step in Phase 3B.
 
 ---
 
-## Section 8: Final Phase 3A-1 Status & Next Steps
+## Section 8: Final Status & Next Steps
 
-### Status: `PASS (Forensic Diagnosis Complete)`
+### Status: `Benchmark integrity passed; temporal generalization remains unresolved.`
 
 | Audit Component | Requirement | Status | Empirical Outcome |
 |---|---|---|---|
 | **Embargo Math** | Enforce $\ge 342.0\text{h}$ strictly | `PASS` | Formally derived ($336\text{h} + 6\text{h} = 342\text{h}$) and verified at $341.99\text{h}$ fail / $342.00\text{h}$ pass. |
 | **Legacy Claims Scrub** | Remove fabricated $3218 \to 4$, $13.5\text{d}$, $99.99\%$ | `PASS` | All unsupported marketing claims excised from documentation and web UI. |
 | **Frozen Baseline** | Immutable baseline metadata | `PASS` | Recorded git SHA, package hashes, threshold $\theta=0.45$, and seeds. |
-| **Rolling Forensics** | 10-hypothesis analysis across 4 folds | `PASS` | `folds.csv` (23 cols), `feature_shift.csv`, and `summary.md` generated. |
-| **Event Accounting** | N=6 independent failure episodes | `PASS` | `events.csv` (recall: $83.3\%$, median lead: $5.0\text{d}$) and `failure_families.csv`. |
-| **Uncertainty Bounds** | Dependence-aware bootstrap | `PASS` | Event-level and asset-cluster bootstrap report epistemic bounds. |
-| **Baseline & Threshold** | Digital twin fit & threshold audit | `PASS` | Proved baseline stability ($R^2 > 0.99$) and identified sparse threshold mismatch. |
+| **Zero-Positive Fold** | Represent Fold 1 as null | `PASS` | Fold 1 PR-AUC set to `null` (`NO_POSITIVE_EVENTS`); excluded from View A macro average. |
+| **Multi-View Aggregation** | Macro valid, micro pooled, event-level | `PASS` | View A: $0.392 \pm 0.319$, View B: $0.648$, View C: $83.3\%$ recall, $5.0\text{d}$ lead time. |
+| **Exploratory Demarcation** | Event-weighted 0.556 as exploratory | `PASS` | Demarcated as exploratory; removed claim that it proves fold artifact. |
+| **Temporal Overlap Audit** | Document Fold 4 vs Holdout overlap | `PASS` | Sep 06–12 overlap formally declared; double-counting prevented. |
+| **Event Accounting** | N=6 independent failure episodes | `INSUFFICIENT_DATA` | 5 of 6 detected ($83.3\%$), but $N=6$ is insufficient for tight temporal generalization. |
 
-### Immediate Recommendation for Phase 3A-2:
-With the temporal discrepancy fully explained and the software evaluation harness hardened, do **not** re-tune the model or add complex neural architectures. Proceed directly to **Phase 3A-2: External CARE to Compare SCADA Ingestion & Benchmark Execution**.
+### Immediate Recommendation:
+Do **not** retune thresholds or up-scale model architecture. Proceed systematically gate-by-gate through Phase 3B, starting with **Gate 3B-1 (Proper Temporal Robustness & Stratification)** and **Gate 3B-2 (External CARE / WindADBench Benchmark)**.

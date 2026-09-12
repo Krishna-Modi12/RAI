@@ -1,8 +1,8 @@
 {
   "evaluation_phase": "Phase 3A-1 \u2014 Temporal Stability Forensics & Benchmark Integrity",
-  "timestamp_utc": "2026-09-12T10:55:14.097889+00:00",
-  "runtime_seconds": 1.82,
-  "git_sha": "df4194edd51b5f1d84266a15e07fc805d9a2796c",
+  "timestamp_utc": "2026-09-12T10:56:34.127748+00:00",
+  "runtime_seconds": 1.55,
+  "git_sha": "a08bf53c3cc9021f59eb4f9779a925f44332c112",
   "statuses": {
     "embargo_status": "PASS",
     "documentation_status": "PASS",

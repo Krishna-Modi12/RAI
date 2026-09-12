@@ -55,34 +55,37 @@ All evaluations strictly enforce zero temporal, preprocessing, label, threshold,
 
 ---
 
-## 4. Latest Measured Performance (Gate 2 Verified)
+## 4. Latest Measured Performance (Gate 2 & Gate 3B-0 Multi-View Verified)
 
-Results from `artifacts/evaluation/gate2/scorecard.json` generated on 2026-09-12 with locked threshold $\theta^* = 0.45$:
+Results synthesized across `artifacts/evaluation/gate2/scorecard.json` and `artifacts/evaluation/gate3b0/scorecard.json` with locked threshold $\theta^* = 0.45$:
 
-### Operational & Classification Metrics
+### Multi-View Operational & Classification Metrics
 
-| Metric | Gate 1 Baseline (Static) | Gate 2 Leak-Free Verified (Holdout) | 4-Fold Rolling-Origin (Mean ± Std) | 95% Bootstrap CI |
+| Evaluation View | Metric | Value | 95% Bootstrap CI | Methodological Guardrail / Interpretation |
 |---|---|---|---|---|
-| **CARE-inspired Score** | 0.797 | **`0.797`** | 0.670 ± 0.195 | `[0.528, 0.892]` |
-| **PR-AUC** | 0.948 | **`0.822`** | 0.294 ± 0.324 | `[0.042, 0.644]` |
-| **Precision** | 0.800 | **`0.800`** | — | — |
-| **Recall** | 0.667 | **`0.667`** | — | — |
-| **MCC** | 0.690 | **`0.690`** | 0.249 | — |
-| **False Alarms / Asset-Year** | 0.19 | **`0.19`** | 1.09 | — |
-| **Median Detection Lead Time**| 5.0 days | **`5.0 days`** | 1.5 days | — |
-| **Brier Score** | 0.0439 | **`0.0423`** | — | — |
-| **Expected Calibration Error** | 0.0915 | **`0.1491`** | — | — |
+| **Locked Late Holdout (Sep 06–12)** | PR-AUC | **`0.8220`** | `[0.540, 0.940]` | Evaluates final week where all 6 events are active. Overlaps with Fold 4. |
+| **Locked Late Holdout (Sep 06–12)** | MCC | **`0.6900`** | `[0.420, 0.880]` | Strong late-period discriminability. |
+| **Locked Late Holdout (Sep 06–12)** | False Alarms / Asset-Yr | **`0.19`** | — | Suppresses fleet false alarms via 6h persistence and peer consensus. |
+| **Locked Late Holdout (Sep 06–12)** | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | Advance warning ahead of catastrophic failure. |
+| **View A: Macro Valid-Fold (Rolling)** | PR-AUC Mean | **`0.3919 ± 0.3188`** | `[0.042, 0.644]` | Averages across Folds 2, 3, 4 ($N=3$). Fold 1 excluded as `null` (`NO_POSITIVE_EVENTS`). |
+| **View A: Macro Valid-Fold (Rolling)** | MCC Mean | **`0.3323`** | — | Positive correlation across non-empty rolling folds. |
+| *Prior Naive All-Fold (Historical)* | PR-AUC Mean | *`0.2939 ± 0.3240`* | — | *Invalidated: arbitrarily coerced Fold 1 (0 events) to 0.0.* |
+| **View B: Micro / Pooled PR-AUC** | Concatenated PR-AUC | **`0.6482`** | — | Single PR curve computed over concatenated valid fold predictions. |
+| **View C: Event-Level Alarm System** | Event Recall | **`83.3%`** (5/6) | `[0.50, 1.00]` | Independent failure episode detection (primary operational metric). |
+| **View C: Event-Level Alarm System** | Median Lead Time | **`5.0 days`** | `[2.0, 6.0] days` | IQR: 1.5 days (range 2.0d to 6.0d). |
+| **Exploratory Aggregation** | Event-Weighted PR-AUC | **`0.5559`** | — | *Exploratory only. Mitigates 1-event fold skew; does NOT establish temporal generalization.* |
 
-### Key Insights on Metrics
+### Key Insights on Metrics & Generalization
 
-1. **Static Holdout vs Chronological Rolling-Origin PR-AUC:**
-   * In static holdout evaluation, PR-AUC is **`0.822`**.
-   * Under 4-fold chronological rolling-origin validation, Mean PR-AUC is **`0.294` (95% CI: `[0.042, 0.644]`)**.
-   * *Why the difference?* In time-series predictive maintenance with extreme class imbalance ($N=6$ events over 45 days), folds covering late or terminal failure stages have very low positive instance density, meaning even a small number of false positives depresses precision across the recall curve. This reflects the reality of continuous monitoring without artificial balancing.
-2. **CARE Score Stability:**
-   * Mean CARE score across the 4 rolling-origin folds is **`0.670`** with a 95% confidence interval of **`[0.528, 0.892]`**, demonstrating stable operational utility even under varied temporal windows.
-3. **False Alarm Suppression:**
-   * Raw residual thresholding triggers over 3,000 alarms/year. Temporal persistence gating (6h), peer consensus, and environmental conditioning suppress this to **`0.19 / asset-year`** in final test.
+1. **Zero-Positive Fold Rigor:**
+   * In Fold 1 (Aug 19–25), zero positive failure events occurred across all 42 assets. In binary classification, precision-recall metrics are mathematically undefined when positive count is zero. Coercing this to $0.000$ artificially dragged the rolling average down to $0.294$. Representing Fold 1 as `null` (`NO_POSITIVE_EVENTS`) establishes the valid-fold macro average at **`0.3919 ± 0.3188`**.
+2. **Fold 4 vs Locked Holdout Overlap:**
+   * Fold 4 evaluates Sep 06–12 ($\text{PR-AUC} = 0.8306$). The locked holdout evaluates Sep 06–12 ($\text{PR-AUC} = 0.8220$). These two evaluations cover the exact same late calendar week under slightly different execution contexts. They must **never** be cited as two independent validation replications.
+3. **Temporal Generalization Status: `UNRESOLVED`:**
+   * Event weighting raises the rolling summary to $0.556$; however, this remains materially below the late-period holdout ($0.822$).
+   * With only $N=6$ independent failure episodes across 45 days, the dataset is too small to establish temporal generalization. Real-world temporal robustness must be validated on multi-year external SCADA (CARE/WindADBench).
+4. **Event-Level Alarm Utility:**
+   * In real wind/solar operations, operators care whether a turbine failure is flagged days before catastrophic breakdown. RAI detects 5 of 6 episodes ($83.3\%$) with a median advance warning of **`5.0 days`**, demonstrating practical alarm utility despite row-level fold sparsity.
 
 ---
 

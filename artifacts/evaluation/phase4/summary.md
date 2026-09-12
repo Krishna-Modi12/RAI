@@ -1,6 +1,6 @@
 # Master Phase 4 Operational Decision Validation Scorecard
 
-**Execution Timestamp:** 2026-09-12T10:51:43.265742+00:00  
+**Execution Timestamp:** 2026-09-12T11:16:53.233917+00:00  
 **Runtime:** 0.21s  
 **Final Status:** `PASS` (Decision Intelligence & Operational Safety Validated)
 
@@ -13,15 +13,15 @@
 | **External SCADA Zero-Shot Tracking** | $R^2 = 0.9943$ (power), $0.8120$ (thermal) | `PASSED` | Expected-behavior tracking on external commercial turbine. **Not** an anomaly detection score. |
 | **Official CARE Anomaly Benchmark** | Ingestion adapter built; scoring pending | `PENDING` | Requires full Zenodo anomaly sequences; labeled `PENDING / NOT COMPUTED`. |
 | **Alert Funnel Versioning** | v1: 0.19 $\rightarrow$ v2: 0.09 / asset-yr | `PASSED` | Instrumented transitions with downstream sensor-health and common-cause gates (~3.8 alarms/yr fleet). |
-| **Temporal Diagnosis (0.822 vs 0.294)** | Folds 1–4 decomposed | `PASSED` | **Diagnosed:** Depressed by 0-event (Fold 1) and 1-event (Fold 2) test windows. Multi-event folds reach PR-AUC = 0.831. |
-| **Failure-Family Generalization** | 6 physical failure modes | `PASSED` | Event recall = 100%; PR-AUC marked **`NOT_COMPUTABLE`** due to N=1 support per family (zero fabrication). |
-| **Model-World Regret (Self-Consistency)** | Mean ₹0, 100% optimal | `PASSED` | Internal self-consistency baseline within policy's own world model. |
-| **Independent Outcome-World Regret** | Mean ₹9,127, 71.0% optimal | `PASSED` | **Decoupled nature:** Independent failure timing, downtime variance, and imperfect repair effectiveness. Policy can fail. |
-| **Upstream Sensor Safety Gate** | 100% bad dispatches prevented | `PASSED` | Stuck thermocouples, packet loss, and physical contradictions quarantined before dispatch. |
+| **Temporal Diagnosis (0.822 vs 0.294)** | Folds 1–4 decomposed | `PASSED` | **Diagnosed:** Depressed by 0-event (Fold 1) and 1-event (Fold 2) test windows. Multi-event folds reach PR-AUC = 0.831. Multi-period temporal generalization remains unproven on N=6 events. |
+| **Failure-Family Generalization** | 6 physical failure modes | `PASSED` | **6/6 evaluated controlled episodes detected**; PR-AUC marked **`NOT_COMPUTABLE`** due to N=1 support per family (zero fabrication). |
+| **Model-World Regret (Self-Consistency)** | Mean ₹0, 100% self-consistent | `PASSED` | Internal self-consistency baseline within policy's own world model. |
+| **Independent Outcome-World Regret** | Mean ₹9,127, 71.0% optimal | `PASSED` | **Decoupled simulated reality:** Independent failure timing, downtime variance, and imperfect repair effectiveness. Policy can fail. |
+| **Upstream Sensor Safety Gate** | 6/6 controlled scenarios prevented | `PASSED` | Stuck thermocouples, packet loss, and physical contradictions quarantined before dispatch. |
 | **Common-Cause Fleet Consensus** | 30% threshold optimal | `PASSED` | Prevents 82 isolated turbine dispatches during plant-wide curtailment and storms. |
 | **Explicit Decision Abstention** | 100% action precision | `PASSED` | Zero dangerous non-abstentions on broken sensing or severe epistemic uncertainty. |
-| **Explanation Feature Ablation** | 5 features causally flip action | `PASSED` | Thermal residual, vibration, and peer context proven to causally drive decision outputs. |
-| **Local Agent Evidence Compilation** | 100% compliance (30 cases) | `PASSED` | Zero hallucinations; strictly enforces deterministic decision engine and temporal cutoff. |
+| **Explanation Feature Ablation** | 5 features flip action | `PASSED` | Thermal residual, vibration, and peer context verified as decision-driving evidence ($f(X) - f(X \setminus \{x_i\}) \neq 0$). |
+| **Local Agent Evidence Compilation** | 30-case structured audit | `PASSED` | Zero hallucinations; strictly enforces deterministic decision engine and temporal cutoff. |
 | **Solar Soiling Validation** | RdTools RMSE = 0.0067 | `PASSED` | Model-to-model benchmark clearly separating atmospheric exposure from surface deposition. |
 
 ---

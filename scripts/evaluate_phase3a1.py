@@ -18,7 +18,6 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -70,7 +69,7 @@ def main() -> int:
     # 5. Dependence-Aware Uncertainty Quantification
     log.info("5. Computing dependence-aware bootstrap confidence intervals...")
     uncertainty_dir = GATE3A1_DIR / "uncertainty"
-    uncertainty_results = compute_phase3a1_uncertainty(uncertainty_dir, n_bootstrap=1000, seed=42)
+    _ = compute_phase3a1_uncertainty(uncertainty_dir, n_bootstrap=1000, seed=42)
 
     # 6. Expected-Behavior Baseline & Validation Threshold Audit
     log.info("6. Auditing baseline model fit and validation threshold stability...")

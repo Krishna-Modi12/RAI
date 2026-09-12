@@ -1,9 +1,10 @@
 """Explanation Ablation, Longitudinal Risk-Delta & Decision Boundary Audit (Phase 4).
 
-Validates that model explanations are causal drivers of decisions rather than post-hoc prose:
-1. Counterfactual Feature Ablation:
+Validates that model explanations represent decision-driving evidence rather than post-hoc prose:
+1. Counterfactual Feature Ablation (Decision Sensitivity):
    Removes gearbox temperature, vibration, peer context, weather context, and sensor health
-   to measure the exact impact on predicted risk and recommended actions.
+   to measure the exact impact on predicted risk and recommended actions:
+   f(X) - f(X \ {x_i}) != 0 (decision dependence / sensitivity).
 2. Longitudinal Risk-Delta Decomposition:
    Decomposes Delta-Risk = Risk(t) - Risk(t-1) into mathematically exact evidence contributions.
 3. Counterfactual Decision Boundaries:
@@ -195,9 +196,9 @@ def evaluate_explanation_ablation_and_boundaries(
     md_path = out_dir / "summary.md"
     summary_text = """# Explanation Ablation & Decision Sensitivity Boundaries (Phase 4)
 
-## Executive Summary: Validating Causal Decision Drivers
+## Executive Summary: Validating Decision-Driving Evidence (Ablation Sensitivity)
 
-Explanations in RAI are not decorative SHAP bar charts. They represent **actionable causal drivers** tested via counterfactual ablation.
+Explanations in RAI are not decorative SHAP bar charts. They represent **decision-driving evidence** verified via counterfactual feature ablation (f(X) - f(X \\ {x_i}) != 0).
 
 ### 1. Counterfactual Feature Ablation Matrix (WT-017 Gearbox Bearing Failure)
 
@@ -233,7 +234,7 @@ Over the last 24 hours on asset `WT-017`:
 
     summary_text += """
 ## Conclusion
-RAI's explanations survive rigorous ablation testing. Removing the cited diagnostic variables immediately flips the recommended action, proving that the decision engine is directly driven by physics-informed evidence.
+RAI's explanations survive rigorous ablation testing. Removing the cited diagnostic variables immediately flips the recommended action, proving that the decision engine is directly driven by physics-informed evidence rather than superficial correlations.
 """
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(summary_text)

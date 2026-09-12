@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "valid_fold_count": 3,
+    "total_fold_count": 4,
+    "macro_valid_prauc_mean": 0.3919,
+    "macro_valid_prauc_std": 0.3186,
+    "macro_valid_mcc_mean": 0.3323,
+    "naive_all_fold_prauc_mean": 0.2939,
+    "pooled_micro_prauc": 0.5488,
+    "pooled_total_samples": 126,
+    "pooled_positive_samples": 11,
+    "total_failure_episodes": 6,
+    "detected_failure_episodes": 5,
+    "event_recall": 0.8333,
+    "median_lead_time_days": 5.0,
+    "iqr_lead_time_days": 1.0,
+    "exploratory_event_weighted_prauc": 0.5559,
+    "locked_holdout_prauc": 0.822,
+    "locked_holdout_period": "2026-09-06 to 2026-09-12",
+    "fold_4_period": "2026-09-06 to 2026-09-12",
+    "is_fold_4_holdout_overlap": true,
+    "overlap_note": "Fold 4 and the locked holdout evaluate the exact same late calendar week (Sep 06\u201312, 2026) where all 6 failure episodes manifest. They are not independent validation experiments; they evaluate the same underlying telemetry period under slightly different training-prefix and scoring contexts (Fold 4 PR-AUC = 0.8306 vs Locked Holdout PR-AUC = 0.8220).",
+    "temporal_generalization_status": "UNRESOLVED (Requires External Multi-Year SCADA)",
+    "scientific_interpretation": "Event weighting reduces the influence of event-free folds, raising the rolling summary to 0.556; however, this remains materially below the locked late-period holdout (0.822) and therefore does not by itself establish robust temporal generalization. Furthermore, Fold 4 evaluates the exact same period as the locked holdout. Robust temporal generalization remains UNRESOLVED until evaluated on genuinely unseen multi-year external SCADA (CARE/WindADBench)."
+  },
+  "folds": [
+    {
+      "fold_id": 1,
+      "test_start": "2026-08-19T07:50:00+00:00",
+      "test_end": "2026-08-25T07:50:00+00:00",
+      "positive_events": 0,
+      "pr_auc": null,
+      "mcc": null,
+      "precision": null,
+      "recall": null,
+      "care_score": 1.0,
+      "status": "NO_POSITIVE_EVENTS",
+      "reason": "PR-AUC mathematically undefined when positive count is zero; excluded from valid-fold macro average."
+    },
+    {
+      "fold_id": 2,
+      "test_start": "2026-08-25T07:50:00+00:00",
+      "test_end": "2026-08-31T07:50:00+00:00",
+      "positive_events": 1,
+      "pr_auc": 0.0833,
+      "mcc": -0.0244,
+      "precision": 0.0,
+      "recall": 0.0,
+      "care_score": 0.5,
+      "status": "VALID",
+      "reason": null
+    },
+    {
+      "fold_id": 3,
+      "test_start": "2026-08-31T07:50:00+00:00",
+      "test_end": "2026-09-06T07:50:00+00:00",
+      "positive_events": 4,
+      "pr_auc": 0.2619,
+      "mcc": 0.3311,
+      "precision": 0.3333,
+      "recall": 0.5,
+      "care_score": 0.5675,
+      "status": "VALID",
+      "reason": null
+    },
+    {
+      "fold_id": 4,
+      "test_start": "2026-09-06T07:50:00+00:00",
+      "test_end": "2026-09-12T07:50:00+00:00",
+      "positive_events": 6,
+      "pr_auc": 0.8306,
+      "mcc": 0.6903,
+      "precision": 0.8,
+      "recall": 0.6667,
+      "care_score": 0.6114,
+      "status": "VALID",
+      "reason": null
+    }
+  ],
+  "methodological_guardrails": {
+    "zero_positive_rule": "Fold 1 PR-AUC set to null (not coerced to 0.0)",
+    "aggregation_views": [
+      "View A: Macro Valid-Fold (mean across folds with defined metrics)",
+      "View B: Micro Pooled (single curve over concatenated predictions)",
+      "View C: Event-Level Alarm System (episode detection recall and lead time)"
+    ],
+    "exploratory_warning": "Event-weighted PR-AUC is non-standard and reported for exploratory comparison only.",
+    "temporal_overlap_flag": "Fold 4 and Locked Holdout evaluate the same late-period data."
+  }
+}

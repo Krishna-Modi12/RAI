@@ -1,5 +1,5 @@
 {
-  "git_sha": "df4194edd51b5f1d84266a15e07fc805d9a2796c",
+  "git_sha": "a08bf53c3cc9021f59eb4f9779a925f44332c112",
   "python_version": "3.11.9",
   "sklearn_version": "1.8.0",
   "platform": "Windows-10-10.0.26200-SP0",
@@ -26,5 +26,5 @@
     "gate2_rolling": "62c69839420e522ecc386e377a90b3b8926aa100f73ce9817be3bf43b764ffb8"
   },
   "evaluation_command": "python scripts/evaluate_phase3a1.py",
-  "timestamp_utc": "2026-09-12T10:55:12.323602+00:00"
+  "timestamp_utc": "2026-09-12T10:56:32.614213+00:00"
 }
