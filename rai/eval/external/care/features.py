@@ -207,12 +207,19 @@ def build_feature_inventory(
         desc_file = farm_dir / "feature_description.csv"
         desc_df = pd.read_csv(desc_file, sep=";") if desc_file.is_file() else pd.DataFrame()
 
-        # Inspect first dataset file
+        # Inspect the first dataset file when the full CARE archive is available.
+        # CI may use the committed metadata-only fixture, so retain semantic inventory
+        # coverage without pretending that raw columns were downloaded.
         ds_files = sorted((farm_dir / "datasets").glob("*.csv"))
-        if not ds_files:
-            continue
-        sample_df = pd.read_csv(ds_files[0], sep=";", nrows=5)
-        raw_cols = list(sample_df.columns)
+        if ds_files:
+            sample_df = pd.read_csv(ds_files[0], sep=";", nrows=5)
+            raw_cols = list(sample_df.columns)
+        else:
+            raw_cols = sorted({
+                *desc_df.get("sensor_name", pd.Series(dtype=str)).dropna().astype(str).tolist(),
+                *FARM_2D_MAPPING.get(farm, {}).values(),
+                *FARM_COMMON_MAPPING.get(farm, {}).values(),
+            })
 
         # Build map of base_sensor -> list of matching columns in raw data
         col_matches: dict[str, list[str]] = {}
@@ -287,4 +294,3 @@ def build_feature_inventory(
         }
 
     return summary_by_farm, detailed_inventory
-
