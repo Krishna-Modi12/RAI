@@ -1,0 +1,10 @@
+{
+  "brier_score": 0.0423,
+  "expected_calibration_error": 0.1491,
+  "maximum_calibration_error": 0.5333,
+  "log_loss": 0.1786,
+  "calibration_technique": "isotonic_out_of_fold",
+  "sample_size_evaluated": 42,
+  "positive_events_evaluated": 6,
+  "caveat": "Calibration evaluated over N=42 asset states (6 positive). Low Brier score is partly driven by class imbalance; reliability diagram shows empirical bin accuracies."
+}

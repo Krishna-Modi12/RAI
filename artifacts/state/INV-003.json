@@ -1,0 +1,129 @@
+{
+  "asset_id": "INV-003",
+  "asset_type": "solar_inverter",
+  "name": "Inverter 03",
+  "site": "charanka-solar",
+  "as_of": "2026-09-12T07:45:00Z",
+  "health_score": 98.1,
+  "operating_state": "normal",
+  "power_kw": 173.43,
+  "expected_power_kw": 51.04,
+  "capacity_factor": 0.6937,
+  "anomaly": {
+    "anomaly_score": 0.086,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 0.066,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "inverter_temp_c z=-0.39"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.102,
+        "threshold": 0.6,
+        "fired": false,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 0.126,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "step in inverter_temp_c at 2026-09-05 12:45Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "inverter_temp_c",
+        "unit": "°C",
+        "actual": 28.275,
+        "expected": 28.514,
+        "residual": -0.239,
+        "residual_pct": -0.84,
+        "z_score": -0.393,
+        "trend_per_day": 0.007650298406716034,
+        "trend_7d_per_day": -0.03942785462897368,
+        "baseline_sigma": 0.5282
+      },
+      {
+        "name": "ac_power_kw",
+        "unit": "kW",
+        "actual": 49.685,
+        "expected": 51.037,
+        "residual": -1.351,
+        "residual_pct": -2.65,
+        "z_score": 0.305,
+        "trend_per_day": 1.3417537949219924,
+        "trend_7d_per_day": 0.19901721984017853,
+        "baseline_sigma": 1.7658
+      },
+      {
+        "name": "dc_power_kw",
+        "unit": "kW",
+        "actual": 53.56,
+        "expected": 54.64,
+        "residual": -1.08,
+        "residual_pct": -1.98,
+        "z_score": 0.162,
+        "trend_per_day": 0.9763537523206905,
+        "trend_7d_per_day": 0.19215005874473295,
+        "baseline_sigma": 1.7881
+      }
+    ],
+    "persistence_hours": 0.0,
+    "first_seen": null,
+    "change_point_at": "2026-09-05T12:45:00Z",
+    "dominant_signal": "inverter_temp_c"
+  },
+  "risk": {
+    "risk_score": 0.003,
+    "risk_band": "low",
+    "horizon_days": 30,
+    "risk_window_days": null,
+    "calibration": "isotonic",
+    "drivers": {
+      "power_residual_pct": 0.77,
+      "peak_abs_z": 0.122,
+      "persistence_hours": 0.098,
+      "sensor_ok": 0.01,
+      "thermal_z": 0.0
+    }
+  },
+  "peers": {
+    "peer_group": "charanka-block-1",
+    "n_peers": 11,
+    "asset_residual_pct": -2.29,
+    "peer_median_residual_pct": 0.48,
+    "deviation_percentile": 81.8,
+    "verdict": "normal",
+    "note": "within the peer spread (peer median +0.5%)"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 7.8,
+      "ambient_temp_c": 25.36,
+      "poa_wm2": 212.19,
+      "module_temp_c": 29.56
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "ok",
+    "explains_fraction": 0.0,
+    "verdict": "not_environmental",
+    "note": "conditions explain only 0% of the observed deviation"
+  },
+  "soiling": {
+    "soiling_ratio": 0.9954,
+    "soiling_loss_pct": 0.46,
+    "soiling_rate_pct_per_day": 0.0329,
+    "days_since_cleaning": 2.3229166666666665,
+    "days_since_rain": 2.3,
+    "rain_probability_48h": null,
+    "method": "performance_ratio_trajectory",
+    "cleaning_advisor": null
+  },
+  "data_freshness_s": 3526.8
+}

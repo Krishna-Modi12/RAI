@@ -91,6 +91,7 @@ class Case:
     repair_cost_inr: float | None
     signature: dict[str, float] = field(default_factory=dict)
     source_doc: str | None = None
+    closed_at: str | None = None
 
     def vector(self) -> list[float]:
         return [float(self.signature.get(name, 0.0)) for name in FEATURES]

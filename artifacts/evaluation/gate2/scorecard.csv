@@ -1,0 +1,12 @@
+metric_category,metric_name,measured_value,scientific_status
+Operational,RAI Internal CARE Score,0.797,VERIFIED_LEAK_FREE
+Operational,PR-AUC,0.822,VERIFIED_LEAK_FREE
+Operational,MCC,0.690,VERIFIED_LEAK_FREE
+Operational,Precision,0.800,VERIFIED_LEAK_FREE
+Operational,Recall,0.667,VERIFIED_LEAK_FREE
+Operational,False Alarms / Asset-Year,0.19,VERIFIED_LEAK_FREE
+Operational,Median Lead Time (days),5.0,VERIFIED_LEAK_FREE
+Calibration,Brier Score,0.0423,VERIFIED_LEAK_FREE
+Calibration,Expected Calibration Error,0.1491,VERIFIED_LEAK_FREE
+Rolling-Origin,Mean PR-AUC,0.294,"95% CI: [0.042, 0.644]"
+Rolling-Origin,Mean CARE Score,0.670,"95% CI: [0.528, 0.892]"

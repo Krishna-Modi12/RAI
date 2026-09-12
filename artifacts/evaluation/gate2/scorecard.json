@@ -1,0 +1,61 @@
+{
+  "gate": "Gate 2 \u2014 Leakage Hardening & Evaluation Forensics",
+  "gate_status": "PASSED",
+  "evaluation_timestamp": "2026-09-12T10:05:43.055093+00:00",
+  "elapsed_seconds": 193.33,
+  "leakage_audits": {
+    "preprocessing_leakage": "ZERO (scalers, baselines, and imputers fit exclusively on train)",
+    "label_leakage": "ZERO (observation windows strictly precede prediction horizons)",
+    "temporal_leakage": "ZERO (14-day derived embargo enforced, max(train) < min(test))",
+    "threshold_selection_leakage": "ZERO (operational threshold optimized on validation only, locked before final test)",
+    "calibration_leakage": "ZERO (calibrator fit on out-of-fold leave-one-asset-out validation)",
+    "ensemble_selection_leakage": "ZERO (equal physics-statistical weighting, frozen before test)",
+    "retrieval_history_leakage": "ZERO (temporal knowledge_cutoff enforced; self-retrieval blocked)"
+  },
+  "sample_size": {
+    "total_telemetry_rows": 220320,
+    "aggregate_monitored_hours": 45360.0,
+    "independent_equipment_failure_events": 6,
+    "failure_families_count": 4,
+    "assets_evaluated": 42,
+    "sites_evaluated": 2
+  },
+  "reproducibility": {
+    "status": "VERIFIED_DETERMINISTIC",
+    "python_version": "3.11.9",
+    "sklearn_version": "1.8.0",
+    "inconsistent_version_warning": "FATAL_ERROR_CONFIGURED"
+  },
+  "adversarial_tests": {
+    "label_permutation": "PASSED (PR-AUC collapsed to prevalence, MCC -> 0)",
+    "random_feature_stress": "PASSED (Noise did not improve discrimination)",
+    "temporal_label_shift": "PASSED (Shifting event horizons broke lead-time & coverage)",
+    "future_sentinel": "PASSED (Detected and rejected shift(-n) leak)",
+    "asset_identity_stress": "PASSED (Physical features only; zero ID memorization)"
+  },
+  "operational_metrics": {
+    "locked_production_threshold": 0.45,
+    "final_test_care_score": 0.7968,
+    "final_test_pr_auc": 0.8215,
+    "final_test_mcc": 0.6903,
+    "final_test_precision": 0.8,
+    "final_test_recall": 0.6667,
+    "final_test_false_alarms_per_year": 0.19,
+    "final_test_median_lead_days": 5.0,
+    "brier_score": 0.0423,
+    "expected_calibration_error": 0.1491
+  },
+  "rolling_origin_cross_validation": {
+    "n_folds": 4,
+    "mean_pr_auc": 0.2939,
+    "ci95_pr_auc": [
+      0.0416,
+      0.6438
+    ],
+    "mean_care_score": 0.6697,
+    "ci95_care_score": [
+      0.5279,
+      0.8919
+    ]
+  }
+}

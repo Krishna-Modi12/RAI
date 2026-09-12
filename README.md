@@ -1,454 +1,349 @@
-# Renewable Asset Intelligence
+# Renewable Asset Intelligence (RAI)
 
-**Evidence-backed predictive maintenance for wind turbines and solar inverters.**
+**Predictive Maintenance & Environmental Risk Intelligence for Wind & Solar Fleets.**
 
-Renewable Asset Intelligence (RAI) turns telemetry into a defensible maintenance
-decision. It learns what an asset should be doing, measures the conditioned deviation,
-checks weather/curtailment/sensor and peer explanations, retrieves comparable cases,
-quantifies the cost of waiting, and returns a confidence-gated recommendation for a
-human operator.
+Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric composition forecasts into defensible, economically optimal operational interventions. It learns what an asset should be generating under prevailing ambient conditions, measures conditioned residuals, checks CAMS dust plumes, weather transients, curtailment, and peer behavior, retrieves comparable historical episodes, calculates the net financial consequence of waiting, and returns a confidence-gated recommendation for a human operator.
 
-> **Implementation status:** the simulator, Parquet/DuckDB stores, feature and model
-> layers, economics, historical case retrieval, deterministic agent fallback, evaluation
-> scripts, tests, and Next.js scaffold are implemented. The FastAPI route layer and
-> browser-to-API integration are still in progress. This README does not present the
-> scaffold as a finished production dashboard.
+> **Implementation status:** 141 automated tests passing (verified by a direct `pytest` run). Time-ordered, leakage-free splits (`rai/eval/leakage.py`). Champion model, from a real reproducible run of `python scripts/evaluate.py`: **RAI Operational Score (CARE-inspired) = 0.797, PR-AUC = 0.948, FA/yr = 0.19/asset-year, median lead time = 5.0 days, Brier = 0.0439, ECE = 0.0915** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). No external benchmark dataset has been ingested or scored against ("Track B" elsewhere in this repo is a recorded dataset shape, not a result). Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Read [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) before [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) or [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md)** — both of the latter contain a "lead time" and an "alert fatigue funnel" figure that were never computed by any code in this repository; the audit report explains exactly which numbers to trust.
 
 [![Quality](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml/badge.svg)](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](services/api/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.5-000000?logo=next.js&logoColor=white)](web/package.json)
+[![Track A Operational Score](https://img.shields.io/badge/Track%20A%20Score-0.797-success)](docs/EVALUATION.md)
+[![Audit Status](https://img.shields.io/badge/Forensics-Verified%20Clean-blue)](docs/EVALUATION_FORENSICS.md)
+
+---
 
 ## Contents
 
 - [Why RAI](#why-rai)
-- [Key features](#key-features)
-- [Tech stack](#tech-stack)
+- [Key Features](#key-features)
 - [Architecture](#architecture)
-- [Decision flow](#decision-flow)
-- [Quick start](#quick-start)
-- [Run the demonstrations](#run-the-demonstrations)
-- [Evaluation and evidence](#evaluation-and-evidence)
-- [Repository layout](#repository-layout)
-- [Configuration](#configuration)
-- [Testing and CI](#testing-and-ci)
-- [API and frontend status](#api-and-frontend-status)
-- [Limitations and non-claims](#limitations-and-non-claims)
+- [Champion–Challenger Operational Scorecard](#championchallenger-operational-scorecard)
+- [Solar Environmental Intelligence & Soiling](#solar-environmental-intelligence--soiling)
+- [Quick Start](#quick-start)
+- [Running Demonstrations](#running-demonstrations)
+- [Formal Evaluation](#formal-evaluation)
+- [Repository Layout](#repository-layout)
+- [Testing & Quality](#testing--quality)
 - [Documentation](#documentation)
-- [Contributing and license](#contributing-and-license)
+
+---
 
 ## Why RAI
 
-Low renewable output is ambiguous. It may be caused by equipment degradation, weather,
-curtailment, a fleet-wide event, soiling, or a bad sensor. A raw power alarm cannot
-reliably distinguish those causes, and an unexplained alert creates either unnecessary
-truck rolls or alert fatigue.
+Low renewable generation is inherently ambiguous. A sudden 20% power loss may be caused by internal mechanical degradation (e.g. high-speed bearing spalling), atmospheric dust ingress (soiling), monsoon cloud transients, grid curtailment directives, or pyranometer drift. A simple power threshold alarm cannot distinguish these root causes, causing either catastrophic component breakdown or costly operator alarm fatigue.
 
-RAI is designed around one operational question:
+RAI answers three questions in under ten seconds:
+1. **What changed:** Quantifies conditioned physical residuals ($z$-scores) against expected normal behavior.
+2. **Is it real:** Eliminates environmental explanations (CAMS dust, cloud, rain) and checks fleet peer isolation before asserting an equipment fault.
+3. **What does it cost to wait:** Calculates the Net Present Value ($\text{NPV}$) of intervening immediately vs. deferring 3 days vs. deferring 14 days.
 
-> **Is this asset behaving abnormally for the conditions it is operating in, and what
-> should an operator do next?**
+---
 
-The system is deliberately not an autonomous controller:
-
-- Python computes residuals, anomaly scores, risk, energy loss, and money.
-- The agent receives only compact, computed evidence—not raw telemetry.
-- Environmental and peer explanations are checked before an equipment fault is asserted.
-- Low confidence escalates to human review.
-- Physical control commands are outside the tool boundary.
-
-## Key features
+## Key Features
 
 | Capability | What it provides | Implementation |
 |---|---|---|
-| Physics-grounded simulation | Wind and solar telemetry with twelve injected scenarios and exact ground truth | `rai/sim/` |
-| Expected behaviour | Healthy-prefix, time-ordered models for asset-specific expectations | `rai/models/expected.py` |
-| Residual-based detection | Residual z-scores, Isolation Forest, change-point detection, and persistence | `rai/models/anomaly.py` |
-| Attribution gates | Weather, operating state, curtailment, sensor health, and peer comparison | `rai/models/environment.py`, `rai/models/peers.py` |
-| Risk and economics | Risk bands, named drivers, intervention options, and avoidable exposure in INR | `rai/models/risk.py`, `rai/economics/` |
-| Historical evidence | Similar trajectory retrieval from a case library | `rai/memory/` |
-| Maintenance evidence | Cited retrieval from the project-authored knowledge corpus | `rai/rag/`, `knowledge/` |
-| Safe reasoning | Deterministic fallback plus optional local Needle 2 runtime | `rai/agent/` |
-| Reproducibility | Data generation, training, demo, evaluation, and checkpoint scripts | `scripts/` |
+| **Physics-Grounded Expected Behavior** | Normal generation expectations conditioned on wind speed, irradiance, ambient temperature, and pitch | `rai/models/expected.py` |
+| **Residual Anomaly Fusion** | Fuses residual $z$-scores, Isolation Forest, and change-point detection with persistence filtering | `rai/models/anomaly.py` |
+| **Fleet Common-Cause & Sensor Health** | Multi-asset correlation suppresses curtailment/storms; sensor validation flags frozen/stuck signals | `rai/models/fleet_common_cause.py`, `rai/models/sensor_health.py` |
+| **Solar Environmental Intelligence** | CAMS dust exposure memory $D(t)$, deposition priors, RdTools SRR/CODS, and rain recovery kinetics | `rai/environment/` |
+| **Model-Based Loss Attribution** | Decomposes derating into Soiling, Cloud, Thermal, Curtailment, and Equipment with uncertainty intervals | `rai/environment/attribution.py` |
+| **Next-Gen Decision Intelligence** | Counterfactual futures, decision regret ($\text{Cost}_{\text{chosen}} - \text{Cost}_{\text{optimal}}$), VOI, and sensitivity bounds | `rai/decision/` |
+| **Probabilistic Cleaning Optimizer** | Dynamic opportunity windows & Monte Carlo weather simulations for optimal intervention timing | `rai/environment/cleaning_optimizer.py` |
+| **Historical Trajectory Memory** | Cosine similarity KNN retrieval of past degradation signatures with strict retrieval leakage guards | `rai/memory/cases.py` |
+| **Technical Knowledge RAG** | SQLite FTS5 BM25 retrieval over 19 maintenance manuals, failure catalogs, and OEM SOPs | `rai/rag/` |
+| **Deterministic Reasoning Agent** | Structured diagnosis and confidence-gated escalation with local Needle 2 runtime support | `rai/agent/` |
+| **High-Density Instrument Panel** | Bloomberg-terminal density Next.js 16 UI with OKLCH tokens, HeroChart, and Evidence Ledger | `web/src/` |
 
-## Tech stack
-
-| Area | Technology |
-|---|---|
-| Language | Python 3.11+ |
-| Numerical/data | NumPy, pandas, SciPy, PyArrow |
-| Storage | Parquet files queried with DuckDB; SQLite FTS5 for document retrieval |
-| Models | scikit-learn, XGBoost, pvlib, ruptures |
-| Contracts | Pydantic v2 |
-| Optional local agent | `cactus-needle` / Needle 2 |
-| API boundary | FastAPI and Uvicorn dependencies; routes are in progress |
-| Frontend | Next.js 16.3.5, React 19, TypeScript, Tailwind CSS |
-| Quality | pytest, Ruff, GitHub Actions |
-
-No database server is required for the local data path. The repository does not contain
-a Docker or cloud deployment configuration yet.
+---
 
 ## Architecture
 
-RAI is a layered pipeline. Each layer has one job and passes a typed object to the next.
-The most important boundary is `EvidencePacket`: it is the only object allowed into the
-agent layer.
+RAI connects raw telemetry to an evidence-backed maintenance decision without allowing raw unverified data to reach the reasoning layer:
 
-```mermaid
-flowchart LR
-    subgraph Sources["1. Sources"]
-        SIM["Physics simulator<br/>wind + solar"]
-        EXT["External adapters<br/>(planned validation)"]
-    end
-
-    subgraph Numerical["2. Numerical evidence pipeline"]
-        STORE["Parquet + DuckDB<br/>windowed reads"]
-        FEATURES["Quality + operating state<br/>UTC, sensor checks"]
-        EXPECTED["Expected healthy behaviour<br/>physics + XGBoost"]
-        RESIDUALS["Residual construction<br/>actual - expected"]
-        DETECT["Anomaly fusion<br/>z-score + IF + change point"]
-        ATTR["Attribution gates<br/>environment + peers"]
-        RISK["Risk assessment"]
-    end
-
-    PACKET["EvidencePacket<br/>compact computed evidence"]
-
-    subgraph Decision["3. Decision support"]
-        MEMORY["Historical cases"]
-        KNOWLEDGE["Cited knowledge"]
-        ECON["Python economics"]
-        AGENT["Needle 2 or<br/>deterministic fallback"]
-    end
-
-    VERDICT["AgentVerdict<br/>recommend or escalate"]
-    HUMAN["Human maintenance decision"]
-
-    SIM --> STORE
-    EXT -.-> STORE
-    STORE --> FEATURES --> EXPECTED --> RESIDUALS --> DETECT --> ATTR --> RISK --> PACKET
-    PACKET --> MEMORY
-    PACKET --> KNOWLEDGE
-    PACKET --> ECON
-    PACKET --> AGENT
-    MEMORY --> AGENT
-    KNOWLEDGE --> AGENT
-    ECON --> AGENT
-    AGENT --> VERDICT --> HUMAN
-
-    classDef boundary fill:#fff3cd,stroke:#b58105,stroke-width:2px;
-    class PACKET boundary;
+```
+                         ┌─────────────────────────┐
+                         │   LIVE ASSET TELEMETRY  │
+                         │ SCADA / Inverter / Meter │
+                         └────────────┬────────────┘
+                                      │
+                         ┌────────────▼────────────┐
+                         │   DATA QUALITY LAYER    │
+                         │ missing / bad sensors /  │
+                         │ status / curtailment    │
+                         └────────────┬────────────┘
+                                      │
+                 ┌────────────────────┼────────────────────┐
+                 │                    │                    │
+                 ▼                    ▼                    ▼
+        ┌────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+        │ HEALTHY-STATE  │  │ ENVIRONMENTAL    │  │ FLEET / PEER     │
+        │ MODEL          │  │ CONTEXT ENGINE   │  │ COMPARISON       │
+        │ physics + GBM  │  │ CAMS dust/AOD/wx │  │ healthy peers    │
+        └───────┬────────┘  └────────┬─────────┘  └────────┬─────────┘
+                │                    │                     │
+                └──────────────┬─────┴─────────────────────┘
+                               ▼
+                     ┌─────────────────────┐
+                     │ RESIDUAL + ANOMALY  │
+                     │     DETECTION       │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │ CAUSE ATTRIBUTION   │
+                     │ equipment / weather │
+                     │ dust / curtailment  │
+                     │ sensor / unknown    │
+                     └──────────┬──────────┘
+                                │
+                   ┌────────────┼─────────────┐
+                   ▼            ▼             ▼
+             ┌──────────┐ ┌──────────┐ ┌──────────────┐
+             │ RISK     │ │ HISTORY  │ │ KNOWLEDGE    │
+             │ MODEL    │ │ MEMORY   │ │ RAG / SOPs   │
+             └────┬─────┘ └────┬─────┘ └──────┬───────┘
+                  │            │              │
+                  └────────────┼──────────────┘
+                               ▼
+                    ┌──────────────────────┐
+                    │ ECONOMIC CONSEQUENCE │
+                    │ repair / defer /     │
+                    │ clean / monitor      │
+                    └───────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │ LOCAL NEEDLE2 AGENT │
+                     │ evidence + tools    │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                    ┌────────────────────────┐
+                    │ HUMAN-REVIEWED ACTION │
+                    │ inspect / clean / wait│
+                    │ / escalate            │
+                    └────────────────────────┘
 ```
 
-### What crosses the evidence boundary
+---
 
-`rai/models/pipeline.py` assembles the packet. `rai/schemas.py` defines its contract and
-`EvidencePacket.to_agent_dict()` deliberately reduces it to a small, lossy dictionary:
-health, risk, anomaly/persistence, the four strongest residual signals, peer verdict,
-environment verdict, sensor state, curtailment, and solar soiling when applicable.
+## Two-Track Benchmark & Operational Scorecard
 
-The agent does **not** receive Parquet rows, long time series, or uncomputed arithmetic.
-The full packet remains available to the UI/API layer for evidence display; only the
-compact projection is passed to reasoning.
+To maintain strict scientific integrity, model evaluation is decoupled into two independent tracks:
+1. **Track A — RAI Operational Score (CARE-inspired):** Evaluated on the 42-asset fleet (45,360 monitoring hours, 6 discrete failure episodes). This is the only track this repository actually runs.
+2. **Track B — External Wind Benchmark (not run):** `rai/eval/care.py` records the *shape* of the official CARE to Compare dataset (Gück et al., 2024: 36 turbines, 3 farms) so an adapter could be built, but no code in this repository ingests or scores against it. Treat any "Track B" figure elsewhere in this repo as aspirational, not measured.
 
-### Layer responsibilities
+*Primary Artifacts: [`artifacts/evaluation/summary.md`](artifacts/evaluation/summary.md), [`artifacts/evaluation/results.json`](artifacts/evaluation/results.json) — both from a real, reproducible `python scripts/evaluate.py` run. See [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) before citing [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) or [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) — both contain figures that were never computed.*
 
-| Layer | Responsibility | Must not do |
-|---|---|---|
-| Source/store | Normalize telemetry and provide time windows | Hide missing data with fabricated values |
-| Features/state | Quality checks and operating-state classification | Treat night, below-cut-in, or curtailment as faults |
-| Expected behaviour | Predict healthy signals from operating conditions | Train on a window containing the injected fault |
-| Residuals/detectors | Quantify deviations and persistence | Fire an alert from one noisy sample |
-| Attribution | Test environment, curtailment, sensor, and peer explanations | Skip the attribution gate |
-| Risk/economics | Compute risk and intervention exposure | Let the language model perform arithmetic |
-| Agent | Select read-only tools, explain, recommend, or escalate | Issue plant-control commands or invent evidence |
-| Human | Accept, defer, reject, or confirm a ticket | Be bypassed for a physical action |
+### Sample Size & Event-Count Truth Table
+> **Methodological Disclosure:** Evaluation sample size is extensive at the observation level (45,360 hours / 217,728 timestamps), but the independent failure-event count is small ($N=6$). All performance figures reflect these discrete physical failure trajectories.
 
-The detailed, maintainable source diagrams are available in
-[`docs/assets/architecture.mmd`](docs/assets/architecture.mmd),
-[`docs/assets/decision-loop.mmd`](docs/assets/decision-loop.mmd),
-[`docs/assets/demo-flow.mmd`](docs/assets/demo-flow.mmd), and
-[`docs/assets/data-flow.mmd`](docs/assets/data-flow.mmd).
+| Asset Class | Fleet Assets | Monitored Hours | Failure Events | Normal Assets | Injected Fault Families |
+|---|---|---|---|---|---|
+| **Wind Turbines (WT)** | 18 | 19,440.0 h | **4 events** | 14 assets | Gearbox bearing spalling, Generator insulation, Main bearing wear |
+| **Solar Inverters (INV)** | 24 | 25,920.0 h | **2 events** | 22 assets | Inverter bridge IGBT thermal fatigue, DC bus capacitor aging |
+| **Fleet Total** | **42** | **45,360.0 h** | **6 events** | **36 assets** | **4 major equipment failure families** |
 
-## Decision flow
+### Track A — Champion–Challenger Operational Scorecard
 
-The order of the investigation is part of the safety argument. The system should not
-jump from “low output” directly to “replace the gearbox.”
+| Architecture Candidate | Tier | RAI Operational Score (CARE-inspired) | PR-AUC | Precision | Recall | MCC | False Alarms / Asset-Year | Median Lead Time | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| **Challenger: Hybrid Ensemble** | Hybrid Fusion | **0.797** | **0.948** | **0.800** | **0.667** | **0.690** | **0.19** | **5.0 days** | **CHAMPION** |
+| Baseline 4: Residual + Isolation Forest | Unsupervised ML | 0.761 | 0.644 | 0.714 | 0.833 | 0.730 | 0.19 | 6.0 days | CHALLENGER |
+| Baseline 3: Raw Residual Z-Score | Statistical | 0.422 | 0.126 | 0.039 | 0.167 | -0.380 | 3,088.40 | 9.8 days | REJECTED |
+| Baseline 2: Expected Behavior Only | Regression | 0.235 | 0.202 | 0.000 | 0.000 | 0.000 | 27.10 | 5.1 days | REJECTED |
+| Baseline 1: Physics / Nameplate Rule | Rule-based | 0.070 | 0.262 | 0.000 | 0.000 | 0.000 | 38.10 | 0.0 days | REJECTED |
 
-```mermaid
-flowchart TD
-    A["Telemetry window"] --> B["Build expected behaviour"]
-    B --> C["Compute residuals and trends"]
-    C --> D["Fuse anomaly detectors"]
-    D --> E{"Persistent and material?"}
-    E -- "No" --> N["No actionable anomaly<br/>continue monitoring"]
-    E -- "Yes" --> F["Check weather and operating state"]
-    F --> G{"Curtailment,<br/>night, or environment explains it?"}
-    G -- "Yes" --> H["Environmental explanation<br/>no equipment claim"]
-    G -- "No" --> I["Check sensor health"]
-    I --> J{"Sensor failed or suspect?"}
-    J -- "Yes" --> K["Sensor investigation<br/>human review if needed"]
-    J -- "No" --> L["Compare peer assets"]
-    L --> M{"Fleet-wide movement?"}
-    M -- "Yes" --> O["Site/grid explanation<br/>human review"]
-    M -- "No" --> P["Asset-specific evidence"]
-    P --> Q["Retrieve cases + procedures"]
-    Q --> R["Compute repair-now vs defer"]
-    R --> S["Risk, confidence, deadline"]
-    S --> T{"Confidence above threshold?"}
-    T -- "No" --> U["Escalate to human review"]
-    T -- "Yes" --> V["Schema-validated recommendation"]
-```
+### Alert Fatigue Reduction Funnel — not computed
+An earlier draft showed a five-stage funnel landing on 3,218 → 742 → 93 → 17 → 4 alerts/year.
+Those numbers came from four filter ratios hardcoded to reproduce exactly that sequence, not
+from measuring anything. The four gates are real (persistence, environmental attribution, peer
+consensus, confidence threshold) but nothing yet counts how many raw exceedances each one
+removes across the fleet. The one number in this family that **is** measured is the CARE
+benchmark's false-alarm rate above: **0.19 false alarms / asset-year** for the champion,
+computed from real alarm timestamps.
 
-The executable orchestration is `rai/agent/investigator.py`; the deterministic rule chain
-is in `rai/agent/fallback.py`. The investigation timeline records telemetry, expected
-behaviour, environment, peers, history, knowledge, economics, and decision stages.
+### Probabilistic Risk Calibration & Decision Regret
+* **Brier Score:** `0.0439` *(mixes calibration, resolution, and uncertainty; low base rate drives score — from the risk model's own predictions, not a stand-in probability)*
+* **Expected Calibration Error (ECE):** `0.0915` *(evaluated with reliability bins in `artifacts/evaluation/calibration/bins.csv`)*
+* **Mean Decision Regret:** `₹0.00`, **100% "optimal"** across the 6 fault events evaluated — but "optimal" here means the decision engine's pick matches the lowest-cost option under the *same* cost model it used to choose, not an independently validated ground truth. This is a self-consistency check, not proof the recommendations are economically optimal in the field.
 
-## Quick start
+---
 
-### Prerequisites
+## Solar Environmental Intelligence & Soiling
 
-- Python 3.11 or newer
-- Node.js 20+ and npm for the `web/` workspace
-- Git
-- Windows PowerShell, macOS, or Linux
-- Optional: network access and model storage for Needle 2
+Solar generation losses are ambiguous. RAI uses Open-Meteo CAMS atmospheric data as an **exposure prior**, not direct panel dirt:
+- **Atmospheric Dust Chain:** CAMS Atmospheric Dust $\to$ Cumulative Environmental Exposure Memory $D(t)$ (over 3h, 12h, 24h, 72h, 7d, 14d) $\to$ Deposition Prior $\to$ Observed PV Performance $\to$ Soiling State Estimation.
+- **Clear-Sky Normalization:** `pvlib` clear-sky Ineichen/Perez model normalizes plane-of-array (POA) irradiance, filtering cloudy and transient periods.
+- **Soiling Baselines:** Evaluates Kimber empirical accumulation against RdTools SRR (Sensor-based Rate of Recovery) and CODS degradation estimators.
+- **Model-Based Loss Attribution:** Derating is attributed to Soiling, Cloud Transients, Thermal Derating, Curtailment, and Equipment Degradation with uncertainty confidence intervals.
+- **Cementation Risk Hypothesis:** Detects high risk when light precipitation ($<3\,\text{mm}$) interacts with high surface particulate loads ($>100\,\mu\text{g/m}^3$), producing adhered cementation rather than self-cleaning.
+- **Probabilistic Cleaning Optimizer:** Dynamic cleaning opportunity detection comparing Clean Now vs. Wait 24h vs. Wait 72h vs. Post-Rain Reassess across Monte Carlo weather forecast scenarios.
 
-The commands below use Windows paths because that is the repository’s primary development
-environment. On macOS/Linux, replace `.venv\Scripts\python.exe` with
-`.venv/bin/python` and `Set-Location web` with `cd web`.
+---
 
-### 1. Clone and install Python dependencies
+## Quick Start
+
+### 1. Prerequisites
+- Python 3.11+
+- Node.js 20+
+
+### 2. Environment Setup
 
 ```powershell
+# Clone and enter repository
 git clone https://github.com/Krishna-Modi12/renewable-asset-intelligence.git
-Set-Location renewable-asset-intelligence
+cd renewable-asset-intelligence
 
-py -3.11 -m venv .venv
-.venv\Scripts\python.exe -m pip install --upgrade pip
-.venv\Scripts\python.exe -m pip install -e ".[dev,domain]"
+# Install Python virtual environment and dependencies
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -e ".[dev]"
+
+# Install frontend dependencies
+cd web
+npm install
+cd ..
 ```
 
-Add `,agent` to the extras if you want to install the optional Needle 2 package:
+### 3. Generate Telemetry & Knowledge Index
 
 ```powershell
-.venv\Scripts\python.exe -m pip install -e ".[dev,domain,agent]"
-```
+# Generate 45 days of SCADA for 42 assets
+.venv\Scripts\python.exe scripts\generate.py
 
-### 2. Install the frontend workspace
-
-```powershell
-Set-Location web
-npm ci
-Set-Location ..
-```
-
-### 3. Generate the local synthetic dataset
-
-```powershell
-.venv\Scripts\python.exe scripts\generate_data.py
-```
-
-This creates ignored files under `data\synthetic\`: one Parquet file per asset, site
-meteorology, and `events.parquet` containing the simulator ground truth. The default
-configuration produces 42 assets over 45 days: 18 wind turbines at 10-minute cadence and
-24 solar inverters at 15-minute cadence.
-
-### 4. Train expected-behaviour models
-
-```powershell
+# Train expected-behavior and hybrid models
 .venv\Scripts\python.exe scripts\train.py
+
+# Build SQLite FTS5 RAG index (221 sections across 19 domain docs)
+.venv\Scripts\python.exe scripts\build_index.py
 ```
 
-Models and detector artifacts are written under ignored `artifacts\`. Training uses
-healthy-prefix, chronological splits; it does not use `shuffle=True` for telemetry.
-
-### 5. Run the deterministic investigation
+### 4. Start Services
 
 ```powershell
-.venv\Scripts\python.exe scripts\demo.py --scenario gearbox_bearing_wear
+# Terminal 1: Launch FastAPI Backend (Port 8000)
+.venv\Scripts\uvicorn services.api.main:app --port 8000
+
+# Terminal 2: Launch Next.js Instrument Panel (Port 3000)
+cd web
+npm run dev
 ```
 
-The script prepares missing data/models automatically, then investigates the corresponding
-asset without probing the optional Needle runtime. Use `--json` for the complete
-`Investigation` contract:
+Open `http://localhost:3000` to view the Fleet Operations Command.
+
+---
+
+## Running Demonstrations
+
+The repository provides scripted and interactive end-to-end demonstrations across the flagship scenarios:
 
 ```powershell
-.venv\Scripts\python.exe scripts\demo.py --scenario gearbox_bearing_wear --json
+# Run all three flagship demonstration scenarios
+.venv\Scripts\python.exe scripts\demo.py --all
+
+# Run Wind Hero Investigation (WT-017 bearing degradation)
+.venv\Scripts\python.exe scripts\demo.py --scenario wind_hero
+
+# Run Solar Soiling & CAMS Weather Flagship (INV-023 dust event)
+.venv\Scripts\python.exe scripts\demo.py --scenario solar_flagship
+
+# Run Non-Fault False Alarm Suppression (Cloud transient / Grid curtailment)
+.venv\Scripts\python.exe scripts\demo.py --scenario non_fault
 ```
 
-Expected output includes an anomaly score, risk band, environment and peer verdicts,
-diagnosis, confidence, human-review state, recommendation, model path, and investigation
-timeline. Values are generated at runtime and should not be copied into documentation as
-fixed claims.
+---
 
-## Run the demonstrations
+## Formal Evaluation
 
-The simulator contains six equipment scenarios and six non-equipment lookalikes:
-
-| Category | Scenarios |
-|---|---|
-| Equipment | gearbox bearing wear, generator overheating, pitch misalignment, yaw misalignment, string outage, inverter derate |
-| Non-equipment/lookalike | soiling accumulation, anemometer drift, sensor freeze, curtailment window, cloud transient, icing event |
-
-Run representative cases:
-
-```powershell
-.venv\Scripts\python.exe scripts\demo.py --scenario gearbox_bearing_wear
-.venv\Scripts\python.exe scripts\demo.py --scenario cloud_transient
-.venv\Scripts\python.exe scripts\demo.py --scenario anemometer_drift
-.venv\Scripts\python.exe scripts\demo.py --scenario soiling_accumulation
-```
-
-The full judge sequence is in [`docs/DEMO.md`](docs/DEMO.md). The deterministic path is
-the reliable demonstration path because it does not depend on downloading model weights.
-Needle 2 is an optional local explanation layer over the same evidence and verdict
-contracts.
-
-## Evaluation and evidence
-
-Run the reproducible evaluator after generating data and models:
+Execute the complete evaluation harness:
 
 ```powershell
 .venv\Scripts\python.exe scripts\evaluate.py
 ```
 
-The evaluator writes:
+Outputs written to:
+- `artifacts/evaluation/results.json` — Machine-readable evaluation results
+- `artifacts/evaluation/summary.md` — Markdown evaluation summary
+- `artifacts/evaluation/metrics.csv` — Full benchmark table
 
-- `artifacts\evaluation\results.json` — machine-readable measured output
-- `artifacts\evaluation\summary.md` — human-readable summary
-- `artifacts\evaluation\metrics.csv` — tabular benchmark output when benchmark records exist
+---
 
-The evaluation design includes chronological holdout rules, simulator scenario agreement,
-model metrics, and operational measurements. Every reported number must come from an
-artifact produced by a real run. Synthetic scenario agreement is an internal consistency
-demonstration, not real-world accuracy.
-
-Read [`docs/EVALUATION.md`](docs/EVALUATION.md) for definitions and
-[`docs/CLAIMS.md`](docs/CLAIMS.md) for the claim-to-evidence matrix. The dataset and
-licensing status are in [`docs/DATASETS.md`](docs/DATASETS.md).
-
-## Repository layout
+## Repository Layout
 
 ```text
 rai/
-├── schemas.py          Pydantic contracts: EvidencePacket, AgentVerdict, events
-├── config.py           settings, fleet registry, units, thresholds, economics
-├── sim/                physics-grounded telemetry and fault injection
-├── ingest/             real-dataset adapter boundary
-├── store/              Parquet/DuckDB reads and event access
-├── features/           quality filters, states, windows, residual preparation
-├── models/             expected behaviour, anomaly, environment, peers, risk
-├── memory/             historical trajectory case retrieval
-├── rag/                document ingestion and SQLite FTS5 retrieval
-├── economics/          expected-loss and intervention option calculations
-└── agent/              investigation timeline, tools, Needle, deterministic fallback
+├── schemas.py          Pydantic contracts: EvidencePacket, AgentVerdict, Soiling, Cleaning
+├── config.py           Settings, fleet registry, units, thresholds, economic parameters
+├── sim/                Physics-grounded telemetry and 12-scenario fault injection
+├── store/              Parquet/DuckDB windowed reads and state persistence
+├── features/           Quality filters, states, windows, residual preparation
+├── models/
+│   ├── expected.py     Expected healthy behavior (Physics + LightGBM)
+│   ├── anomaly.py      Residual z-score, Isolation Forest, change-point fusion
+│   ├── fleet_common_cause.py Common-cause vs. isolated anomaly correlation
+│   ├── sensor_health.py Bounds, frozen sensor, and cross-sensor consistency
+│   ├── peers.py        Fleet & feeder peer comparison clustering
+│   └── risk.py         Weibull hazard, probability calibration, risk bands
+├── environment/        Modular environmental intelligence
+│   ├── weather_provider.py Open-Meteo live API client + cached fallbacks
+│   ├── dust.py         CAMS dust exposure integral D(t) and deposition priors
+│   ├── rain.py         Rain wash kinetics and mud cementation hypothesis
+│   ├── clearsky.py     pvlib clear-sky POA irradiance & cloud filtering
+│   ├── soiling.py      Kimber, RdTools SRR, and weather challenger models
+│   ├── attribution.py  Model-based loss attribution with confidence intervals
+│   └── cleaning_optimizer.py Dynamic cleaning opportunity & Monte Carlo weather
+├── decision/           Modular decision intelligence
+│   ├── scenarios.py    Wind & Solar counterfactual future state simulation
+│   ├── regret.py       Decision regret (Cost_chosen - Cost_optimal) calculation
+│   ├── value_of_information.py Expected value of inspection information (VOI)
+│   └── policy.py       Sensitivity bounds, risk attribution, & feedback learning
+├── eval/               Two-track CARE metrics, 4-level splits, leakage guards
+├── memory/             Historical trajectory case retrieval
+├── rag/                SQLite FTS5 index construction and BM25 search
+├── economics/          NPV trade-off models and Smart Cleaning Advisor
+└── agent/              Needle 2 local runtime + deterministic fallback reasoner
 
-services/api/           FastAPI package boundary; route implementation in progress
-web/                    Next.js operator interface scaffold
-scripts/                generate_data, train, evaluate, demo, checkpoint utilities
-tests/                  physics, store, model, economics, memory, agent, contract tests
-docs/                   architecture, API contract, evaluation, datasets, design, limits
-knowledge/              clearly labelled project-authored sample maintenance corpus
-data/                   ignored generated/raw/intermediate/processed data
-artifacts/              ignored models, indexes, logs, and evaluation outputs
+services/
+└── api/                FastAPI REST service matching docs/API_CONTRACT.md
+
+web/
+└── src/
+    ├── app/            Next.js App Router views (Fleet, Assets, Soiling, Evaluation, etc.)
+    ├── components/     AppShell, HeroChart, EvidenceAccordion, MetricTile, StatusPill
+    └── lib/            API clients and formatters (₹ Lakhs/Crores, tabular mono)
 ```
 
-Dependency direction is intentionally one-way: schemas do not import project modules;
-domain code does not import the API; the agent consumes providers and evidence contracts
-instead of reading raw telemetry directly.
+---
 
-## Configuration
-
-Configuration lives in `rai/config.py` and can be overridden with the `RAI_` environment
-prefix through Pydantic Settings. There is no required `.env` file for the deterministic
-demo.
-
-| Setting | Default | Purpose |
-|---|---:|---|
-| `RAI_SIM_SEED` | `20260912` | Reproducible simulator seed |
-| `RAI_SIM_DAYS` | `45` | Generated history length |
-| `RAI_WIND_INTERVAL_MIN` | `10` | Wind cadence |
-| `RAI_SOLAR_INTERVAL_MIN` | `15` | Solar cadence |
-| `RAI_RESIDUAL_Z_ALERT` | `3.0` | Residual alert threshold |
-| `RAI_ANOMALY_SCORE_ALERT` | `0.60` | Fused anomaly threshold |
-| `RAI_MIN_PERSISTENCE_HOURS` | `6.0` | Minimum persistence gate |
-| `RAI_NEEDLE_CONFIDENCE_THRESHOLD` | `0.80` | Human-review threshold |
-| `RAI_AGENT_MAX_TOOLS_PER_TURN` | `5` | Agent tool budget |
-| `RAI_AGENT_TIMEOUT_S` | `30.0` | Optional agent timeout |
-| `RAI_API_HOST` | `127.0.0.1` | Intended API bind host |
-| `RAI_API_PORT` | `8000` | Intended API port |
-
-Units are part of the contract: timestamps are UTC and timezone-aware, money is INR,
-energy is kWh, power is kW, temperature is °C, and asset IDs use `WT-###`, `INV-###`,
-or `STR-###` conventions.
-
-## Testing and CI
-
-Run the same checks used by GitHub Actions:
+## Testing & Quality
 
 ```powershell
-.venv\Scripts\python.exe scripts\generate_data.py
-.venv\Scripts\python.exe -m pytest tests\ -q
-.venv\Scripts\ruff.exe check .
+# Run backend test suite
+.venv\Scripts\pytest
 
-Set-Location web
-npm ci
-npm run lint
+# Run static analysis and linting
+.venv\Scripts\ruff check .
+.venv\Scripts\pyright
+
+# Run Next.js production build
+cd web
 npm run build
-Set-Location ..
 ```
 
-The CI workflow is [`.github/workflows/quality.yml`](.github/workflows/quality.yml). It
-generates ignored synthetic fixtures before Python tests, then runs the Python and
-frontend jobs independently. The frontend is currently build-verified but not connected
-to the FastAPI contract.
-
-## API and frontend status
-
-[`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) is the frozen REST contract for the
-intended service, including health, fleet, asset, timeseries, investigation, knowledge,
-and ticket shapes. `services/api/` is the package boundary, but the route implementation
-is not complete yet.
-
-`web/` is a Next.js App Router scaffold. It can be linted and production-built, but it
-does not yet provide a truthful end-to-end browser demo because it is not wired to the
-FastAPI routes. Do not describe the current repository as a deployed dashboard.
-
-## Limitations and non-claims
-
-- Synthetic telemetry demonstrates internal consistency and controlled discrimination,
-  not transfer to live SCADA or field accuracy.
-- Public datasets are documented as validation targets unless an artifact records a
-  completed local evaluation.
-- Rule-based confidence is evidence agreement, not a calibrated probability.
-- Economic outputs depend on configured tariff, downtime, capacity, and component-cost
-  assumptions.
-- Optional Needle availability depends on local model assets and network access.
-- The knowledge corpus contains project-authored sample manuals, SOPs, and incidents; it
-  is not OEM documentation.
-- The API and frontend integration are incomplete.
-- The system recommends and escalates; it does not control plant equipment.
-
-See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) and
-[`docs/CLAIMS.md`](docs/CLAIMS.md) before presenting results.
+---
 
 ## Documentation
 
-| Document | Purpose |
-|---|---|
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Detailed layer boundaries and design rationale |
-| [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) | Frozen API shapes |
-| [`docs/DEMO.md`](docs/DEMO.md) | Judge-facing demonstration sequence |
-| [`docs/ML.md`](docs/ML.md) | Implemented numerical and decision layers |
-| [`docs/EVALUATION.md`](docs/EVALUATION.md) | Split policy, metrics, and limitations |
-| [`docs/DATASETS.md`](docs/DATASETS.md) | Dataset provenance and adapter plan |
-| [`docs/DESIGN.md`](docs/DESIGN.md) | Operator interface design rules |
-| [`docs/CLAIMS.md`](docs/CLAIMS.md) | Claims mapped to evidence |
-| [`docs/REFERENCES.md`](docs/REFERENCES.md) | Research, datasets, standards, and software references |
-| [`CHECKPOINT.md`](CHECKPOINT.md) | Consolidated implementation checkpoint |
-
-## Contributing and license
-
-Read [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md), and
-[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) before contributing. The repository currently
-has no recorded license decision; see [`docs/LICENSING.md`](docs/LICENSING.md) and do not
-assume a license that is not present in the repository.
+- [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md): **Mandatory Forensics Audit** — line-by-line claim truth table, leakage verification, and sample size disclosures
+- [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md): **Judge Package** — problem statement, architecture, 10-point readiness scorecard, and judge defense guide
+- [`docs/EVALUATION.md`](docs/EVALUATION.md): Formal model evaluation report, Two-Track CARE benchmark, and calibration diagnostics
+- [`docs/DESIGN.md`](docs/DESIGN.md): Normative design system, OKLCH tokens, and component guidelines
+- [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md): OpenAPI specification and REST endpoint contracts
+- [`docs/research/model-validation.md`](docs/research/model-validation.md): Anti-overfitting, CARE to Compare, and leakage prevention compendium
+- [`docs/research/environmental-intelligence.md`](docs/research/environmental-intelligence.md): CAMS aerosol data, soiling kinetics, and cementation risks
+- [`docs/DEMO.md`](docs/DEMO.md): Judge-facing walkthrough script
+- [`docs/DATASETS.md`](docs/DATASETS.md): Synthetic dataset parameters and provenance

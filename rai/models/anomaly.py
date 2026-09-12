@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -195,8 +196,14 @@ def train_isolation_forests() -> dict[str, int]:
         with (MODELS / f"iforest_{asset.asset_id}.pkl").open("wb") as fh:
             pickle.dump(forest, fh)
 
+    reset_iforest_cache()
     IFOREST_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return {"assets": len(payload)}
+_iforest_cache: dict[str, Any] = {}
+
+
+def reset_iforest_cache() -> None:
+    _iforest_cache.clear()
 
 
 def _isolation_score(asset_id: str, window: ResidualWindow) -> tuple[float, str | None]:
@@ -218,10 +225,11 @@ def _isolation_score(asset_id: str, window: ResidualWindow) -> tuple[float, str 
     if len(matrix) < 5:
         return 0.0, "insufficient recent data"
 
-    import pickle
-
-    with path.open("rb") as fh:
-        forest = pickle.load(fh)
+    if asset_id not in _iforest_cache:
+        import pickle
+        with path.open("rb") as fh:
+            _iforest_cache[asset_id] = pickle.load(fh)
+    forest = _iforest_cache[asset_id]
 
     recent = matrix[-max(len(matrix) // 20, 6) :]
     score = float(np.median(forest.score_samples(recent)))

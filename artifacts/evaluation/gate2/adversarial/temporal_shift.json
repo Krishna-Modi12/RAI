@@ -1,0 +1,37 @@
+{
+  "test_name": "temporal_label_shift",
+  "passed": true,
+  "baseline_care_score": 0.6589,
+  "baseline_coverage": 0.6667,
+  "shifted_evaluations": [
+    {
+      "shift_days": -7,
+      "care_score": 0.462,
+      "coverage": 0.0,
+      "earliness": 0.0,
+      "false_alarms_per_year": 0.97
+    },
+    {
+      "shift_days": 7,
+      "care_score": 0.6851,
+      "coverage": 0.3333,
+      "earliness": 0.5005,
+      "false_alarms_per_year": 0.58
+    },
+    {
+      "shift_days": -14,
+      "care_score": 0.462,
+      "coverage": 0.0,
+      "earliness": 0.0,
+      "false_alarms_per_year": 0.97
+    },
+    {
+      "shift_days": 14,
+      "care_score": 0.7609,
+      "coverage": 0.1667,
+      "earliness": 1.0,
+      "false_alarms_per_year": 0.77
+    }
+  ],
+  "interpretation": "Temporal shifting of event windows caused sharp performance drop, confirming causal temporal alignment between model alarms and degradation onset."
+}

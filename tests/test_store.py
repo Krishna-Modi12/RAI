@@ -507,6 +507,7 @@ def test_json_artifact_roundtrip(store):
     assert path == state_store.artifact_root() / "evaluation.json"
 
     loaded = state_store.load_json_artifact("evaluation")
+    assert loaded is not None
     assert loaded["assets"] == 42
     assert loaded["computed_at"] == "2026-09-01T00:00:00Z"
     assert loaded["not_evaluated"] is None
@@ -516,6 +517,7 @@ def test_json_artifact_roundtrip(store):
 def test_json_artifact_nested_name_and_pydantic_model(store):
     state_store.save_json_artifact("models/wind_expected_power.json", _asset_state())
     loaded = state_store.load_json_artifact("models/wind_expected_power")
+    assert loaded is not None
     assert loaded["asset_id"] == WIND_ASSET
     assert loaded["asset_type"] == "wind_turbine"
 

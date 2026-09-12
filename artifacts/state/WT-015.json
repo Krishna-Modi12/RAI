@@ -1,0 +1,148 @@
+{
+  "asset_id": "WT-015",
+  "asset_type": "wind_turbine",
+  "name": "Turbine 15",
+  "site": "kutch-wind",
+  "as_of": "2026-09-12T07:50:00Z",
+  "health_score": 66.2,
+  "operating_state": "normal",
+  "power_kw": 1597.41,
+  "expected_power_kw": 1048.07,
+  "capacity_factor": 0.7987,
+  "anomaly": {
+    "anomaly_score": 0.454,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 0.668,
+        "threshold": 0.5,
+        "fired": true,
+        "detail": "power_kw z=-4.01"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.428,
+        "threshold": 0.6,
+        "fired": false,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 1.0,
+        "threshold": 0.5,
+        "fired": true,
+        "detail": "step in power_kw at 2026-09-12 04:50Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "power_kw",
+        "unit": "kW",
+        "actual": 1001.761,
+        "expected": 1048.074,
+        "residual": -46.313,
+        "residual_pct": -4.42,
+        "z_score": -4.008,
+        "trend_per_day": -62.697596782615314,
+        "trend_7d_per_day": -0.7045648371536664,
+        "baseline_sigma": 7.6642
+      },
+      {
+        "name": "drivetrain_vibration_mms",
+        "unit": "mm/s",
+        "actual": 2.325,
+        "expected": 2.33,
+        "residual": -0.005,
+        "residual_pct": -0.23,
+        "z_score": 0.745,
+        "trend_per_day": 0.11760298880972149,
+        "trend_7d_per_day": 0.00836353284860914,
+        "baseline_sigma": 0.1178
+      },
+      {
+        "name": "generator_winding_temp_c",
+        "unit": "°C",
+        "actual": 53.85,
+        "expected": 53.089,
+        "residual": 0.762,
+        "residual_pct": 1.43,
+        "z_score": 0.116,
+        "trend_per_day": 1.4818410582838644,
+        "trend_7d_per_day": -0.06886553862296053,
+        "baseline_sigma": 1.2509
+      },
+      {
+        "name": "gearbox_oil_temp_c",
+        "unit": "°C",
+        "actual": 36.907,
+        "expected": 37.574,
+        "residual": -0.667,
+        "residual_pct": -1.77,
+        "z_score": 0.079,
+        "trend_per_day": 1.2323658756211258,
+        "trend_7d_per_day": -0.0868904555325036,
+        "baseline_sigma": 0.5856
+      },
+      {
+        "name": "main_bearing_temp_c",
+        "unit": "°C",
+        "actual": 34.219,
+        "expected": 33.616,
+        "residual": 0.603,
+        "residual_pct": 1.79,
+        "z_score": 0.072,
+        "trend_per_day": 0.8032011450024759,
+        "trend_7d_per_day": -0.08279427062687207,
+        "baseline_sigma": 0.4643
+      }
+    ],
+    "persistence_hours": 3.17,
+    "first_seen": "2026-09-12T04:40:00Z",
+    "change_point_at": "2026-09-12T04:50:00Z",
+    "dominant_signal": "power_kw"
+  },
+  "risk": {
+    "risk_score": 0.45,
+    "risk_band": "elevated",
+    "horizon_days": 30,
+    "risk_window_days": [
+      21,
+      60
+    ],
+    "calibration": "isotonic",
+    "drivers": {
+      "trend_per_day_norm": 0.421,
+      "vibration_z": 0.326,
+      "changepoint_score": 0.137,
+      "power_residual_pct": 0.115,
+      "sensor_ok": 0.001
+    }
+  },
+  "peers": {
+    "peer_group": "kutch-row-b",
+    "n_peers": 8,
+    "asset_residual_pct": -3.98,
+    "peer_median_residual_pct": -1.06,
+    "deviation_percentile": 75.0,
+    "verdict": "normal",
+    "note": "within the peer spread (peer median -1.1%)"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 4.0,
+      "wind_direction_deg": 279.54,
+      "ambient_temp_c": 25.45,
+      "air_density": 1.18,
+      "humidity_pct": 56.95
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "ok",
+    "explains_fraction": 0.24,
+    "verdict": "not_environmental",
+    "note": "a 4.0 sigma residual remains after conditioning on the measured conditions, so the environment does not account for it"
+  },
+  "soiling": null,
+  "data_freshness_s": 3221.8
+}

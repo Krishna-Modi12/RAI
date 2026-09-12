@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import logging
 import math
+from typing import Any
 
 from rai.memory.library import (
     FEATURES,
@@ -141,8 +142,19 @@ def _contradicts(packet: EvidencePacket, case: Case) -> bool:
     )
 
 
-def find_similar_cases(packet: EvidencePacket, k: int = 5) -> list[HistoricalCase]:
-    """Return up to `k` past episodes whose trajectory resembles this asset's, best first."""
+def find_similar_cases(
+    packet: EvidencePacket,
+    k: int = 5,
+    knowledge_cutoff: Any = None,
+    exclude_asset_id: str | None = None,
+) -> list[HistoricalCase]:
+    """Return up to `k` past episodes whose trajectory resembles this asset's, best first.
+
+    Guards against temporal leakage (knowledge_cutoff) and self-retrieval (exclude_asset_id).
+    """
+    import pandas as pd
+
+    cutoff = pd.to_datetime(knowledge_cutoff, utc=True) if knowledge_cutoff is not None else None
     live = signature_from_packet(packet)
     candidates = cases_for(packet.asset_type.value)
     if not candidates:
@@ -150,6 +162,12 @@ def find_similar_cases(packet: EvidencePacket, k: int = 5) -> list[HistoricalCas
 
     scored: list[tuple[float, Case]] = []
     for case in candidates:
+        if exclude_asset_id is not None and case.asset_id == exclude_asset_id:
+            continue
+        if cutoff is not None and case.closed_at is not None:
+            case_ts = pd.to_datetime(case.closed_at, utc=True)
+            if case_ts > cutoff:
+                continue
         distance = _distance(live, case)
         if _contradicts(packet, case):
             distance = min(1.0, distance + CONTRADICTION_PENALTY)

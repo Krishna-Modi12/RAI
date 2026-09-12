@@ -1,0 +1,10 @@
+{
+  "test_name": "label_permutation",
+  "passed": true,
+  "class_prevalence": 0.1429,
+  "n_permutations": 20,
+  "mean_permuted_pr_auc": 0.2179,
+  "mean_permuted_mcc": 0.0075,
+  "permuted_pr_auc_std": 0.1012,
+  "interpretation": "Permuting labels caused PR-AUC to collapse near base rate and MCC to ~0 as expected; the original classifier signal is genuinely learned rather than a statistical artifact."
+}

@@ -1,0 +1,148 @@
+{
+  "asset_id": "WT-004",
+  "asset_type": "wind_turbine",
+  "name": "Turbine 04",
+  "site": "kutch-wind",
+  "as_of": "2026-09-12T07:50:00Z",
+  "health_score": 55.3,
+  "operating_state": "normal",
+  "power_kw": 1742.24,
+  "expected_power_kw": 1480.41,
+  "capacity_factor": 0.8711,
+  "anomaly": {
+    "anomaly_score": 0.9,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 1.0,
+        "threshold": 0.5,
+        "fired": true,
+        "detail": "generator_winding_temp_c z=+11.24"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.724,
+        "threshold": 0.6,
+        "fired": true,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 0.773,
+        "threshold": 0.5,
+        "fired": true,
+        "detail": "step in generator_winding_temp_c at 2026-09-07 08:30Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "generator_winding_temp_c",
+        "unit": "°C",
+        "actual": 75.383,
+        "expected": 61.394,
+        "residual": 13.99,
+        "residual_pct": 22.79,
+        "z_score": 11.238,
+        "trend_per_day": 3.4070655623731,
+        "trend_7d_per_day": 2.3143099479025957,
+        "baseline_sigma": 1.3738
+      },
+      {
+        "name": "power_kw",
+        "unit": "kW",
+        "actual": 1415.209,
+        "expected": 1480.413,
+        "residual": -65.204,
+        "residual_pct": -4.4,
+        "z_score": -9.973,
+        "trend_per_day": -106.06320456609522,
+        "trend_7d_per_day": -2.5168342623740867,
+        "baseline_sigma": 6.5929
+      },
+      {
+        "name": "gearbox_oil_temp_c",
+        "unit": "°C",
+        "actual": 40.604,
+        "expected": 40.723,
+        "residual": -0.119,
+        "residual_pct": -0.29,
+        "z_score": 1.289,
+        "trend_per_day": 2.193668650467049,
+        "trend_7d_per_day": -0.05425711272689769,
+        "baseline_sigma": 0.595
+      },
+      {
+        "name": "main_bearing_temp_c",
+        "unit": "°C",
+        "actual": 36.768,
+        "expected": 35.385,
+        "residual": 1.383,
+        "residual_pct": 3.91,
+        "z_score": 0.793,
+        "trend_per_day": 1.5735631271212847,
+        "trend_7d_per_day": -0.046378554044303,
+        "baseline_sigma": 0.4659
+      },
+      {
+        "name": "drivetrain_vibration_mms",
+        "unit": "mm/s",
+        "actual": 2.805,
+        "expected": 2.633,
+        "residual": 0.172,
+        "residual_pct": 6.51,
+        "z_score": 0.617,
+        "trend_per_day": 0.146918076542098,
+        "trend_7d_per_day": 0.005211687139992847,
+        "baseline_sigma": 0.1224
+      }
+    ],
+    "persistence_hours": 113.83,
+    "first_seen": "2026-09-07T14:00:00Z",
+    "change_point_at": "2026-09-07T08:30:00Z",
+    "dominant_signal": "generator_winding_temp_c"
+  },
+  "risk": {
+    "risk_score": 0.485,
+    "risk_band": "elevated",
+    "horizon_days": 30,
+    "risk_window_days": [
+      21,
+      60
+    ],
+    "calibration": "isotonic",
+    "drivers": {
+      "thermal_z": 0.856,
+      "vibration_z": 0.068,
+      "power_residual_pct": 0.03,
+      "changepoint_score": 0.025,
+      "trend_per_day_norm": 0.022
+    }
+  },
+  "peers": {
+    "peer_group": "kutch-row-a",
+    "n_peers": 8,
+    "asset_residual_pct": -3.71,
+    "peer_median_residual_pct": -0.92,
+    "deviation_percentile": 87.5,
+    "verdict": "asset_specific",
+    "note": "7 of 8 peers in kutch-row-a deviate less under the same conditions"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 4.42,
+      "wind_direction_deg": 279.54,
+      "ambient_temp_c": 25.45,
+      "air_density": 1.18,
+      "humidity_pct": 56.95
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "ok",
+    "explains_fraction": 0.24,
+    "verdict": "not_environmental",
+    "note": "a 11.2 sigma residual remains after conditioning on the measured conditions, so the environment does not account for it"
+  },
+  "soiling": null,
+  "data_freshness_s": 3213.1
+}

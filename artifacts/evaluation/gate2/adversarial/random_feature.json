@@ -1,0 +1,8 @@
+{
+  "test_name": "random_feature_stress",
+  "passed": true,
+  "baseline_pr_auc": 0.8215,
+  "noisy_scores_pr_auc": 0.7321,
+  "pr_auc_delta": -0.0894,
+  "interpretation": "Random noise degrades or does not artificially inflate model performance as expected."
+}

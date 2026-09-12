@@ -38,7 +38,12 @@ from rai.config import (
     settings,
     tariff_for,
 )
-from rai.schemas import EconomicEvidence, EconomicOption
+from rai.schemas import (
+    CleaningAdvisorEvidence,
+    CleaningAdvisorOption,
+    EconomicEvidence,
+    EconomicOption,
+)
 
 log = logging.getLogger(__name__)
 
@@ -220,3 +225,173 @@ def settings_snapshot() -> dict[str, float]:
         "wind_capacity_factor": DEFAULT_CAPACITY_FACTOR["wind_turbine"],
         "solar_capacity_factor": DEFAULT_CAPACITY_FACTOR["solar_inverter"],
     }
+
+
+def evaluate_cleaning_options(
+    asset_id: str,
+    soiling_loss_pct: float,
+    accumulation_rate_pct_day: float = 0.22,
+    rain_probability_48h: float = 0.0,
+    dust_risk_level: str = "moderate",
+    horizon_days: int = 30,
+) -> CleaningAdvisorEvidence:
+    """Techno-economic cleaning optimization trade-off model.
+
+    Evaluates:
+    1. Direct cost of module washing (water + consumables + labor)
+    2. Daily generation value lost to soiling vs clear performance
+    3. Natural precipitation probability & natural washing trade-offs
+    4. Post-dust cementation risks under light rain
+    5. Net economic break-even horizon
+    """
+    asset = get_asset(asset_id)
+    tariff = tariff_for(asset_id)
+    capacity_factor = _capacity_factor(asset.asset_type.value)
+
+    # Inverter-level daily generation and gross daily revenue
+    daily_kwh = asset.rated_power_kw * capacity_factor * 24.0
+    daily_rev_inr = daily_kwh * tariff
+
+    # Baseline cost of specialized semi-automated washing per 250kW block
+    unit_cleaning_cost_inr = 1850.0
+
+    # Recoverable soiling percentage (assuming baseline post-clean soiling is 1.0%)
+    recoverable_loss_pct = max(0.0, soiling_loss_pct - 1.0)
+    daily_recovered_rev_inr = daily_rev_inr * (recoverable_loss_pct / 100.0)
+
+    # Break-even days
+    break_even_days = (
+        round(unit_cleaning_cost_inr / daily_recovered_rev_inr, 1)
+        if daily_recovered_rev_inr > 1.0
+        else 99.0
+    )
+
+    # Evaluate Options: Clean Now, Wait 24h, Wait 72h, Wait 7d
+    options: list[CleaningAdvisorOption] = []
+
+    # Option 1: Clean Now
+    # Cost = direct washing; Lost energy during 30d horizon = baseline 1% clean loss
+    now_loss = daily_rev_inr * 0.01 * horizon_days
+    options.append(
+        CleaningAdvisorOption(
+            option_id="clean_now",
+            label="Clean immediately (next shift)",
+            delay_hours=0,
+            cleaning_cost_inr=unit_cleaning_cost_inr,
+            expected_energy_loss_inr=round(now_loss, 2),
+            net_exposure_inr=round(unit_cleaning_cost_inr + now_loss, 2),
+            break_even_days=break_even_days,
+            rain_cleaning_probability=0.0,
+            cementation_risk=False,
+            summary="Intervene immediately to restore clean baseline generation.",
+        )
+    )
+
+    # Option 2: Wait 24h
+    # 1 day of current loss + 29 days clean baseline
+    loss_24h = (
+        daily_rev_inr * (soiling_loss_pct / 100.0) * 1.0
+        + daily_rev_inr * 0.01 * (horizon_days - 1)
+    )
+    options.append(
+        CleaningAdvisorOption(
+            option_id="wait_24h",
+            label="Wait 24h (coordinate with low irradiance)",
+            delay_hours=24,
+            cleaning_cost_inr=unit_cleaning_cost_inr,
+            expected_energy_loss_inr=round(loss_24h, 2),
+            net_exposure_inr=round(unit_cleaning_cost_inr + loss_24h, 2),
+            break_even_days=break_even_days,
+            rain_cleaning_probability=min(0.25, rain_probability_48h * 0.5),
+            cementation_risk=False,
+            summary="Defer 24 hours to align with night/dawn low generation cycle.",
+        )
+    )
+
+    # Option 3: Wait 72h (Rain window)
+    # If rain probability is high (>50%), natural rain may wash panels for 0 INR.
+    rain_wash_prob = float(rain_probability_48h)
+    has_cementation = dust_risk_level in ("high", "extreme") and 0.20 <= rain_wash_prob <= 0.65
+    effective_clean_cost = unit_cleaning_cost_inr * (1.0 - rain_wash_prob)
+    avg_soil_3d = soiling_loss_pct + (accumulation_rate_pct_day * 1.5)
+    loss_72h = (
+        daily_rev_inr * (avg_soil_3d / 100.0) * 3.0
+        + daily_rev_inr * 0.01 * (horizon_days - 3)
+    )
+    options.append(
+        CleaningAdvisorOption(
+            option_id="wait_72h",
+            label="Wait 72h (await forecasted precipitation)",
+            delay_hours=72,
+            cleaning_cost_inr=round(effective_clean_cost, 2),
+            expected_energy_loss_inr=round(loss_72h, 2),
+            net_exposure_inr=round(effective_clean_cost + loss_72h, 2),
+            break_even_days=break_even_days,
+            rain_cleaning_probability=round(rain_wash_prob, 2),
+            cementation_risk=has_cementation,
+            summary=(
+                "Opportunity for natural rain cleaning; risk of mud cementation if precipitation < 4mm."
+                if has_cementation
+                else "Leverage natural rainfall to avoid redundant wash expenditure."
+            ),
+        )
+    )
+
+    # Option 4: Wait 7d
+    loss_7d = (
+        daily_rev_inr * (soiling_loss_pct / 100.0) * 7.0
+        + daily_rev_inr * 0.01 * (horizon_days - 7)
+    )
+    options.append(
+        CleaningAdvisorOption(
+            option_id="wait_7d",
+            label="Wait 7 days (routine weekly cycle)",
+            delay_hours=168,
+            cleaning_cost_inr=unit_cleaning_cost_inr,
+            expected_energy_loss_inr=round(loss_7d, 2),
+            net_exposure_inr=round(unit_cleaning_cost_inr + loss_7d, 2),
+            break_even_days=break_even_days,
+            rain_cleaning_probability=round(min(0.90, rain_wash_prob * 1.3), 2),
+            cementation_risk=False,
+            summary="Defer to standard scheduled cleaning roster.",
+        )
+    )
+
+    # Determine recommended action
+    if rain_wash_prob >= 0.60 and soiling_loss_pct < 16.0:
+        recommended_action = "post_rain_reassess"
+        recommended_window = "48–72h (post-precipitation)"
+        confidence = 0.88
+        rationale = (
+            f"Precipitation probability is {rain_wash_prob*100:.0f}%. Natural rain washing is "
+            f"likely to clear accumulated particulate without manual intervention expense. "
+            f"Reassess performance ratio 12 hours post-event."
+        )
+    elif break_even_days <= 6.0 or soiling_loss_pct >= 8.5:
+        recommended_action = "clean_now"
+        recommended_window = "Immediate (within 24 hours)"
+        confidence = 0.92
+        rationale = (
+            f"Soiling loss is {soiling_loss_pct:.1f}% with economic break-even within "
+            f"{break_even_days:.1f} days. Immediate washing generates positive net return."
+        )
+    else:
+        recommended_action = "wait_72h"
+        recommended_window = "36–60 hours"
+        confidence = 0.78
+        rationale = (
+            f"Current soiling loss ({soiling_loss_pct:.1f}%) does not yet justify immediate "
+            f"mobilization (break-even {break_even_days:.1f} days). Monitor exposure trend."
+        )
+
+    return CleaningAdvisorEvidence(
+        recommended_action=recommended_action,
+        recommended_window=recommended_window,
+        confidence=confidence,
+        break_even_days=break_even_days,
+        options=options,
+        current_soiling_loss_pct=round(soiling_loss_pct, 2),
+        dust_risk_level=dust_risk_level,
+        rationale=rationale,
+    )
+

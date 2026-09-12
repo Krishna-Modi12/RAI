@@ -1,0 +1,145 @@
+{
+  "asset_id": "WT-002",
+  "asset_type": "wind_turbine",
+  "name": "Turbine 02",
+  "site": "kutch-wind",
+  "as_of": "2026-09-12T07:50:00Z",
+  "health_score": 92.5,
+  "operating_state": "normal",
+  "power_kw": 1887.57,
+  "expected_power_kw": 1992.67,
+  "capacity_factor": 0.9438,
+  "anomaly": {
+    "anomaly_score": 0.367,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 0.641,
+        "threshold": 0.5,
+        "fired": true,
+        "detail": "power_kw z=-3.85"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.463,
+        "threshold": 0.6,
+        "fired": false,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 0.442,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "step in power_kw at 2026-09-04 14:50Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "power_kw",
+        "unit": "kW",
+        "actual": 1695.957,
+        "expected": 1992.669,
+        "residual": -296.712,
+        "residual_pct": -14.89,
+        "z_score": -3.847,
+        "trend_per_day": -53.05875935444911,
+        "trend_7d_per_day": -1.9690321151394623,
+        "baseline_sigma": 15.2138
+      },
+      {
+        "name": "generator_winding_temp_c",
+        "unit": "°C",
+        "actual": 70.122,
+        "expected": 70.939,
+        "residual": -0.817,
+        "residual_pct": -1.15,
+        "z_score": -0.712,
+        "trend_per_day": -0.7446216386203626,
+        "trend_7d_per_day": -0.04772986819270069,
+        "baseline_sigma": 1.3197
+      },
+      {
+        "name": "main_bearing_temp_c",
+        "unit": "°C",
+        "actual": 35.558,
+        "expected": 37.599,
+        "residual": -2.041,
+        "residual_pct": -5.43,
+        "z_score": -0.456,
+        "trend_per_day": 0.9423229478509167,
+        "trend_7d_per_day": -0.14871045851285822,
+        "baseline_sigma": 0.5494
+      },
+      {
+        "name": "gearbox_oil_temp_c",
+        "unit": "°C",
+        "actual": 45.462,
+        "expected": 44.648,
+        "residual": 0.814,
+        "residual_pct": 1.82,
+        "z_score": 0.236,
+        "trend_per_day": 1.1354230337522269,
+        "trend_7d_per_day": -0.12143811386459495,
+        "baseline_sigma": 0.6034
+      },
+      {
+        "name": "drivetrain_vibration_mms",
+        "unit": "mm/s",
+        "actual": 2.969,
+        "expected": 3.029,
+        "residual": -0.06,
+        "residual_pct": -1.99,
+        "z_score": -0.199,
+        "trend_per_day": -0.0038423447280385996,
+        "trend_7d_per_day": 0.0017831614288606982,
+        "baseline_sigma": 0.1247
+      }
+    ],
+    "persistence_hours": 0.33,
+    "first_seen": "2026-09-12T07:30:00Z",
+    "change_point_at": "2026-09-04T14:50:00Z",
+    "dominant_signal": "power_kw"
+  },
+  "risk": {
+    "risk_score": 0.003,
+    "risk_band": "low",
+    "horizon_days": 30,
+    "risk_window_days": null,
+    "calibration": "isotonic",
+    "drivers": {
+      "power_residual_pct": 0.544,
+      "trend_per_day_norm": 0.192,
+      "thermal_z": 0.142,
+      "vibration_z": 0.067,
+      "changepoint_score": 0.052
+    }
+  },
+  "peers": {
+    "peer_group": "kutch-row-a",
+    "n_peers": 8,
+    "asset_residual_pct": -36.02,
+    "peer_median_residual_pct": -0.92,
+    "deviation_percentile": 100.0,
+    "verdict": "asset_specific",
+    "note": "8 of 8 peers in kutch-row-a deviate less under the same conditions"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 5.06,
+      "wind_direction_deg": 279.54,
+      "ambient_temp_c": 25.45,
+      "air_density": 1.18,
+      "humidity_pct": 56.95
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "suspect",
+    "explains_fraction": 0.24,
+    "verdict": "not_environmental",
+    "note": "a 3.8 sigma residual remains after conditioning on the measured conditions, so the environment does not account for it; anemometer reads +14% against rotor-speed-implied wind"
+  },
+  "soiling": null,
+  "data_freshness_s": 3211.5
+}

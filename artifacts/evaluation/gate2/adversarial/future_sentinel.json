@@ -1,0 +1,9 @@
+{
+  "test_name": "future_information_sentinel",
+  "passed": true,
+  "sentinel_detected": true,
+  "audit_issues": [
+    "Future sentinel feature 'sentinel_future_val' contains tail NaNs consistent with shift(-n)"
+  ],
+  "interpretation": "Audit successfully identified and rejected deliberately injected future-looking features."
+}

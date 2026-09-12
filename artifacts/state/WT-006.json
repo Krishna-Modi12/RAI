@@ -1,0 +1,145 @@
+{
+  "asset_id": "WT-006",
+  "asset_type": "wind_turbine",
+  "name": "Turbine 06",
+  "site": "kutch-wind",
+  "as_of": "2026-09-12T07:50:00Z",
+  "health_score": 96.0,
+  "operating_state": "normal",
+  "power_kw": 1861.26,
+  "expected_power_kw": 1507.97,
+  "capacity_factor": 0.9306,
+  "anomaly": {
+    "anomaly_score": 0.105,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 0.091,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "drivetrain_vibration_mms z=+0.54"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.087,
+        "threshold": 0.6,
+        "fired": false,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 0.159,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "step in drivetrain_vibration_mms at 2026-09-04 19:20Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "drivetrain_vibration_mms",
+        "unit": "mm/s",
+        "actual": 2.731,
+        "expected": 2.697,
+        "residual": 0.035,
+        "residual_pct": 1.29,
+        "z_score": 0.544,
+        "trend_per_day": 0.041120780991839724,
+        "trend_7d_per_day": -0.03116169679383044,
+        "baseline_sigma": 0.1254
+      },
+      {
+        "name": "gearbox_oil_temp_c",
+        "unit": "°C",
+        "actual": 42.7,
+        "expected": 42.279,
+        "residual": 0.421,
+        "residual_pct": 1.0,
+        "z_score": 0.454,
+        "trend_per_day": 1.2403841138543399,
+        "trend_7d_per_day": -0.9946469293439693,
+        "baseline_sigma": 0.6216
+      },
+      {
+        "name": "power_kw",
+        "unit": "kW",
+        "actual": 1485.587,
+        "expected": 1507.971,
+        "residual": -22.384,
+        "residual_pct": -1.48,
+        "z_score": -0.387,
+        "trend_per_day": -21.414926501207365,
+        "trend_7d_per_day": 30.039389311411124,
+        "baseline_sigma": 12.7755
+      },
+      {
+        "name": "main_bearing_temp_c",
+        "unit": "°C",
+        "actual": 36.884,
+        "expected": 36.159,
+        "residual": 0.726,
+        "residual_pct": 2.01,
+        "z_score": 0.347,
+        "trend_per_day": 0.6614669613096087,
+        "trend_7d_per_day": -0.8801767029688713,
+        "baseline_sigma": 0.4834
+      },
+      {
+        "name": "generator_winding_temp_c",
+        "unit": "°C",
+        "actual": 63.461,
+        "expected": 64.028,
+        "residual": -0.568,
+        "residual_pct": -0.89,
+        "z_score": -0.074,
+        "trend_per_day": 0.15661419357212575,
+        "trend_7d_per_day": -1.1080646205519842,
+        "baseline_sigma": 1.2821
+      }
+    ],
+    "persistence_hours": 0.0,
+    "first_seen": null,
+    "change_point_at": "2026-09-04T19:20:00Z",
+    "dominant_signal": "drivetrain_vibration_mms"
+  },
+  "risk": {
+    "risk_score": 0.035,
+    "risk_band": "low",
+    "horizon_days": 30,
+    "risk_window_days": null,
+    "calibration": "isotonic",
+    "drivers": {
+      "vibration_z": 0.772,
+      "power_residual_pct": 0.115,
+      "thermal_z": 0.06,
+      "persistence_hours": 0.029,
+      "peak_abs_z": 0.021
+    }
+  },
+  "peers": {
+    "peer_group": "kutch-row-a",
+    "n_peers": 8,
+    "asset_residual_pct": -1.21,
+    "peer_median_residual_pct": -0.92,
+    "deviation_percentile": 37.5,
+    "verdict": "normal",
+    "note": "within the peer spread (peer median -0.9%)"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 4.42,
+      "wind_direction_deg": 279.54,
+      "ambient_temp_c": 25.45,
+      "air_density": 1.18,
+      "humidity_pct": 56.95
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "ok",
+    "explains_fraction": 0.991,
+    "verdict": "environmental",
+    "note": "conditions account for 99% of the shortfall against typical output"
+  },
+  "soiling": null,
+  "data_freshness_s": 3214.6
+}

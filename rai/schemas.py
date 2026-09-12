@@ -169,6 +169,30 @@ class EnvironmentEvidence(BaseModel):
     note: str | None = None
 
 
+class CleaningAdvisorOption(BaseModel):
+    option_id: str  # "clean_now", "wait_24h", "wait_72h", "wait_7d"
+    label: str
+    delay_hours: int
+    cleaning_cost_inr: float
+    expected_energy_loss_inr: float
+    net_exposure_inr: float
+    break_even_days: float
+    rain_cleaning_probability: float
+    cementation_risk: bool
+    summary: str
+
+
+class CleaningAdvisorEvidence(BaseModel):
+    recommended_action: str  # "clean_now", "wait_24h", "wait_72h", "wait_7d", "post_rain_reassess"
+    recommended_window: str
+    confidence: float
+    break_even_days: float
+    options: list[CleaningAdvisorOption] = Field(default_factory=list)
+    current_soiling_loss_pct: float
+    dust_risk_level: str
+    rationale: str
+
+
 class SoilingEvidence(BaseModel):
     """Solar-only: how much loss is dirt, and is rain coming?"""
 
@@ -179,6 +203,7 @@ class SoilingEvidence(BaseModel):
     days_since_rain: float | None = None
     rain_probability_48h: float | None = None
     method: str | None = None
+    cleaning_advisor: CleaningAdvisorEvidence | None = None
 
 
 class HistoricalCase(BaseModel):

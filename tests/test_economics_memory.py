@@ -6,6 +6,7 @@ from rai.config import FLEET
 from rai.economics.engine import (
     component_cost_table,
     do_nothing_exposure,
+    evaluate_cleaning_options,
     evaluate_options,
     settings_snapshot,
 )
@@ -131,3 +132,36 @@ def test_memory_retrieval():
     assert len(similar) <= 3
     assert len(similar) > 0
     assert similar[0].similarity >= 0
+
+
+def test_evaluate_cleaning_options_now():
+    advisor = evaluate_cleaning_options(
+        asset_id="INV-023",
+        soiling_loss_pct=11.5,
+        accumulation_rate_pct_day=0.25,
+        rain_probability_48h=0.05,
+        dust_risk_level="high",
+    )
+    assert advisor.recommended_action == "clean_now"
+    assert advisor.current_soiling_loss_pct == 11.5
+    assert advisor.break_even_days <= 6.0
+    assert len(advisor.options) == 4
+    assert advisor.confidence > 0.8
+
+
+def test_evaluate_cleaning_options_rain_wait():
+    advisor = evaluate_cleaning_options(
+        asset_id="INV-023",
+        soiling_loss_pct=8.0,
+        accumulation_rate_pct_day=0.20,
+        rain_probability_48h=0.85,
+        dust_risk_level="high",
+    )
+    # High rain forecast should defer immediate washing to leverage natural washing
+    assert advisor.recommended_action == "post_rain_reassess"
+    assert "precipitation" in advisor.recommended_window.lower()
+    wait_opt = [o for o in advisor.options if o.option_id == "wait_72h"][0]
+    assert wait_opt.rain_cleaning_probability == 0.85
+    # Since dust is high and rain is high, cementation risk is false (strong rain > 5mm cleans rather than cements)
+    assert advisor.confidence > 0.8
+

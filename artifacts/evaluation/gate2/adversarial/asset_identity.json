@@ -1,0 +1,8 @@
+{
+  "test_name": "asset_identity_stress",
+  "passed": true,
+  "baseline_pr_auc": 0.8215,
+  "asset_id_feature_used": false,
+  "site_id_feature_used": false,
+  "interpretation": "Feature schema contains zero asset_id or site_id categorical inputs. All inputs are thermodynamic, aerodynamic, electrical, or statistical metrics, guaranteeing that the classifier cannot memorize asset identities."
+}

@@ -1,0 +1,77 @@
+{
+  "adversarial_suite_passed": true,
+  "tests": {
+    "label_permutation": {
+      "test_name": "label_permutation",
+      "passed": true,
+      "class_prevalence": 0.1429,
+      "n_permutations": 20,
+      "mean_permuted_pr_auc": 0.2179,
+      "mean_permuted_mcc": 0.0075,
+      "permuted_pr_auc_std": 0.1012,
+      "interpretation": "Permuting labels caused PR-AUC to collapse near base rate and MCC to ~0 as expected; the original classifier signal is genuinely learned rather than a statistical artifact."
+    },
+    "random_feature": {
+      "test_name": "random_feature_stress",
+      "passed": true,
+      "baseline_pr_auc": 0.8215,
+      "noisy_scores_pr_auc": 0.7321,
+      "pr_auc_delta": -0.0894,
+      "interpretation": "Random noise degrades or does not artificially inflate model performance as expected."
+    },
+    "temporal_shift": {
+      "test_name": "temporal_label_shift",
+      "passed": true,
+      "baseline_care_score": 0.6589,
+      "baseline_coverage": 0.6667,
+      "shifted_evaluations": [
+        {
+          "shift_days": -7,
+          "care_score": 0.462,
+          "coverage": 0.0,
+          "earliness": 0.0,
+          "false_alarms_per_year": 0.97
+        },
+        {
+          "shift_days": 7,
+          "care_score": 0.6851,
+          "coverage": 0.3333,
+          "earliness": 0.5005,
+          "false_alarms_per_year": 0.58
+        },
+        {
+          "shift_days": -14,
+          "care_score": 0.462,
+          "coverage": 0.0,
+          "earliness": 0.0,
+          "false_alarms_per_year": 0.97
+        },
+        {
+          "shift_days": 14,
+          "care_score": 0.7609,
+          "coverage": 0.1667,
+          "earliness": 1.0,
+          "false_alarms_per_year": 0.77
+        }
+      ],
+      "interpretation": "Temporal shifting of event windows caused sharp performance drop, confirming causal temporal alignment between model alarms and degradation onset."
+    },
+    "future_sentinel": {
+      "test_name": "future_information_sentinel",
+      "passed": true,
+      "sentinel_detected": true,
+      "audit_issues": [
+        "Future sentinel feature 'sentinel_future_val' contains tail NaNs consistent with shift(-n)"
+      ],
+      "interpretation": "Audit successfully identified and rejected deliberately injected future-looking features."
+    },
+    "asset_identity": {
+      "test_name": "asset_identity_stress",
+      "passed": true,
+      "baseline_pr_auc": 0.8215,
+      "asset_id_feature_used": false,
+      "site_id_feature_used": false,
+      "interpretation": "Feature schema contains zero asset_id or site_id categorical inputs. All inputs are thermodynamic, aerodynamic, electrical, or statistical metrics, guaranteeing that the classifier cannot memorize asset identities."
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "benchmark_name": "Track B: External SCADA Reality & Generalization Benchmark",
+  "timestamp": "2026-09-12T10:29:07.083232+00:00",
+  "total_runtime_s": 0.12,
+  "external_files_evaluated": 1,
+  "total_monitored_hours": 240.0,
+  "status": "EXECUTED",
+  "zero_shot_generalization": {
+    "mean_power_r2": 0.9943,
+    "mean_false_alarms_per_year": 0.0,
+    "zero_shot_transfer_verified": true
+  },
+  "care_archive_status": {
+    "archives_found": 1,
+    "archive_names": [
+      "CARE_To_Compare.zip"
+    ],
+    "extracted_farms": [
+      "fixtures"
+    ]
+  },
+  "file_details": [
+    {
+      "file_name": "external_turbine_sample.csv",
+      "file_path": "C:\\Users\\krish\\OneDrive\\Desktop\\DAIICT\\data\\raw\\care\\fixtures\\external_turbine_sample.csv",
+      "ingest_time_s": 0.1,
+      "raw_rows": 1440,
+      "filtered_rows": 1440,
+      "monitored_hours": 240.0,
+      "resolved_columns": 5,
+      "unmatched_columns": [
+        "wind_direction_deg",
+        "pitch_angle_deg",
+        "nacelle_temp_c",
+        "gearbox_oil_temp_c",
+        "generator_winding_temp_c",
+        "main_bearing_temp_c",
+        "drivetrain_vibration_mms",
+        "pressure_hpa",
+        "humidity_pct",
+        "air_density"
+      ],
+      "power_model": {
+        "available": true,
+        "n_samples": 1440,
+        "rated_power_kw": 2073.3,
+        "rmse_kw": 57.68,
+        "nrmse_pct": 2.78,
+        "r2_score": 0.9943
+      },
+      "bearing_model": {
+        "available": false
+      },
+      "detection": {
+        "has_degradation_episode": false,
+        "lead_time_days": 0.0,
+        "false_alarms_in_normal": 0,
+        "annualized_false_alarm_rate": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+model,tier,care_score,coverage,accuracy,reliability,earliness,false_alarms_per_year,median_lead_days,n_events,n_detected,pr_auc,mcc,precision,recall,f_beta
+baseline_1_physics_rules,Rule-based,0.0704,0.0,0.2397,0.0419,0.0,38.07,0.0,6,0,0.2619,0.0,0.0,0.0,0.0
+baseline_2_expected_regression,Regression,0.2348,0.1667,0.3088,0.1066,0.3571,26.86,5.0,6,1,0.2024,0.0,0.0,0.0,0.0
+baseline_3_residual_z,Statistical,0.4224,1.0,0.0048,0.0,0.6849,2473.07,9.78,6,6,0.1255,-0.3803,0.0385,0.1667,0.1
+baseline_4_isolation_forest,Unsupervised ML,0.6914,0.3333,0.9842,0.984,0.4643,0.19,6.5,6,2,0.594,0.5629,0.75,0.5,0.5357
+challenger_hybrid_ensemble,Hybrid Fusion,0.7968,0.8333,0.9842,0.984,0.3857,0.19,5.0,6,5,0.8215,0.6903,0.8,0.6667,0.6897

@@ -1,0 +1,87 @@
+{
+  "audit_version": "gate_2_forensics_2026_09_12",
+  "fleet_telemetry": {
+    "total_assets": 42,
+    "asset_breakdown": {
+      "wind_turbines": 18,
+      "solar_inverters": 24
+    },
+    "sites": [
+      {
+        "site_id": "kutch-wind",
+        "name": "Kutch Wind Farm",
+        "asset_type": "wind_turbine",
+        "asset_count": 18,
+        "telemetry_interval_minutes": 10,
+        "rows_per_asset": 6480,
+        "total_rows": 116640,
+        "monitored_hours": 19440.0
+      },
+      {
+        "site_id": "charanka-solar",
+        "name": "Charanka Solar Park",
+        "asset_type": "solar_inverter",
+        "asset_count": 24,
+        "telemetry_interval_minutes": 15,
+        "rows_per_asset": 4320,
+        "total_rows": 103680,
+        "monitored_hours": 25920.0
+      }
+    ],
+    "total_telemetry_rows": 220320,
+    "aggregate_monitored_hours": 45360.0
+  },
+  "ground_truth_events": {
+    "total_injected_events": 16,
+    "non_equipment_events": 10,
+    "non_equipment_breakdown": {
+      "soiling_episodes": 4,
+      "grid_curtailment_events": 3,
+      "sensor_drift_anomalies": 3
+    },
+    "independent_equipment_fault_events": 6,
+    "faulted_assets_count": 6,
+    "normal_assets_count": 36,
+    "event_prevalence_asset_level": 0.1429,
+    "failure_families_count": 4,
+    "failure_families": [
+      {
+        "family_id": "gearbox_bearing_spalling",
+        "component": "gearbox",
+        "asset_type": "wind_turbine",
+        "description": "High-speed stage (HSS) bearing outer-race spalling and BPFO defect",
+        "affected_assets": ["WT-017", "WT-006"]
+      },
+      {
+        "family_id": "generator_winding_insulation",
+        "component": "generator",
+        "asset_type": "wind_turbine",
+        "description": "Stator winding phase-to-phase insulation breakdown and thermal runaway",
+        "affected_assets": ["WT-004"]
+      },
+      {
+        "family_id": "main_bearing_wear",
+        "component": "main_bearing",
+        "asset_type": "wind_turbine",
+        "description": "Main spherical roller bearing cage pocket wear and unbalance",
+        "affected_assets": ["WT-011"]
+      },
+      {
+        "family_id": "inverter_igbt_thermal_fatigue",
+        "component": "inverter",
+        "asset_type": "solar_inverter",
+        "description": "Bridge IGBT bond-wire lift-off and thermal resistance degradation",
+        "affected_assets": ["INV-009", "INV-018"]
+      }
+    ]
+  },
+  "windowing_and_overlap_forensics": {
+    "observation_window_hours": 336.0,
+    "stride_hours": 12.0,
+    "total_eval_windows_across_fleet": 3528,
+    "positive_windows_total": 134,
+    "average_overlapping_windows_per_event": 22.3,
+    "window_to_event_ratio": 22.33,
+    "scientific_statement": "A count of 134 positive evaluation windows across the fleet does NOT represent 134 independent statistical trials; rather, it reflects 134 sliding observations of the same 6 physical degradation episodes. Model selection and generalisation claims must be conditioned on the N=6 independent event count, not the inflated window count."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "asset_id": "WT-018",
+  "asset_type": "wind_turbine",
+  "name": "Turbine 18",
+  "site": "kutch-wind",
+  "as_of": "2026-09-12T07:50:00Z",
+  "health_score": 97.0,
+  "operating_state": "normal",
+  "power_kw": 1592.84,
+  "expected_power_kw": 958.54,
+  "capacity_factor": 0.7964,
+  "anomaly": {
+    "anomaly_score": 0.088,
+    "detectors": [
+      {
+        "detector": "residual_z",
+        "score": 0.086,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "power_kw z=-0.52"
+      },
+      {
+        "detector": "isolation_forest",
+        "score": 0.0,
+        "threshold": 0.6,
+        "fired": false,
+        "detail": "multivariate residual vector"
+      },
+      {
+        "detector": "changepoint",
+        "score": 0.164,
+        "threshold": 0.5,
+        "fired": false,
+        "detail": "step in power_kw at 2026-09-12 02:50Z"
+      }
+    ],
+    "signals": [
+      {
+        "name": "power_kw",
+        "unit": "kW",
+        "actual": 955.938,
+        "expected": 958.543,
+        "residual": -2.605,
+        "residual_pct": -0.27,
+        "z_score": -0.516,
+        "trend_per_day": -2.7993121798316785,
+        "trend_7d_per_day": -0.15323091654568324,
+        "baseline_sigma": 6.5018
+      },
+      {
+        "name": "generator_winding_temp_c",
+        "unit": "°C",
+        "actual": 49.324,
+        "expected": 51.647,
+        "residual": -2.323,
+        "residual_pct": -4.5,
+        "z_score": -0.466,
+        "trend_per_day": 0.21410833076263358,
+        "trend_7d_per_day": -0.09249300043972067,
+        "baseline_sigma": 1.2713
+      },
+      {
+        "name": "drivetrain_vibration_mms",
+        "unit": "mm/s",
+        "actual": 2.042,
+        "expected": 2.218,
+        "residual": -0.176,
+        "residual_pct": -7.94,
+        "z_score": 0.378,
+        "trend_per_day": 0.06728208049485644,
+        "trend_7d_per_day": 0.004365388701571822,
+        "baseline_sigma": 0.1199
+      },
+      {
+        "name": "gearbox_oil_temp_c",
+        "unit": "°C",
+        "actual": 36.382,
+        "expected": 36.535,
+        "residual": -0.153,
+        "residual_pct": -0.42,
+        "z_score": -0.305,
+        "trend_per_day": 0.5634257858705326,
+        "trend_7d_per_day": -0.08563540540141044,
+        "baseline_sigma": 0.6346
+      },
+      {
+        "name": "main_bearing_temp_c",
+        "unit": "°C",
+        "actual": 32.953,
+        "expected": 32.926,
+        "residual": 0.027,
+        "residual_pct": 0.08,
+        "z_score": -0.3,
+        "trend_per_day": 0.36792096370062205,
+        "trend_7d_per_day": -0.07774318918915132,
+        "baseline_sigma": 0.4633
+      }
+    ],
+    "persistence_hours": 0.0,
+    "first_seen": null,
+    "change_point_at": "2026-09-12T02:50:00Z",
+    "dominant_signal": "power_kw"
+  },
+  "risk": {
+    "risk_score": 0.022,
+    "risk_band": "low",
+    "horizon_days": 30,
+    "risk_window_days": null,
+    "calibration": "isotonic",
+    "drivers": {
+      "vibration_z": 0.788,
+      "thermal_z": 0.121,
+      "persistence_hours": 0.047,
+      "peak_abs_z": 0.039,
+      "sensor_ok": 0.005
+    }
+  },
+  "peers": {
+    "peer_group": "kutch-row-b",
+    "n_peers": 8,
+    "asset_residual_pct": -0.5,
+    "peer_median_residual_pct": -1.95,
+    "deviation_percentile": 0.0,
+    "verdict": "normal",
+    "note": "within the peer spread (peer median -2.0%)"
+  },
+  "environment": {
+    "source": "simulated_site_met",
+    "conditions": {
+      "wind_speed_ms": 3.95,
+      "wind_direction_deg": 279.54,
+      "ambient_temp_c": 25.45,
+      "air_density": 1.18,
+      "humidity_pct": 56.95
+    },
+    "operating_state": "normal",
+    "curtailment_detected": false,
+    "sensor_health": "ok",
+    "explains_fraction": 0.998,
+    "verdict": "environmental",
+    "note": "conditions account for 100% of the shortfall against typical output"
+  },
+  "soiling": null,
+  "data_freshness_s": 3224.4
+}
