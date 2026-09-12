@@ -4,13 +4,15 @@
 
 Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric composition forecasts into defensible, economically optimal operational interventions. It learns what an asset should be generating under prevailing ambient conditions, measures conditioned residuals, checks CAMS dust plumes, weather transients, curtailment, and peer behavior, retrieves comparable historical episodes, calculates the net financial consequence of waiting, and returns a confidence-gated recommendation for a human operator.
 
-> **Implementation status:** 185 automated tests passing (verified by a direct `pytest` run). Time-ordered, leakage-free splits (`rai/eval/leakage.py`). Champion model, from a real reproducible run of `python scripts/evaluate.py`: **RAI Operational Score (CARE-inspired) = 0.797, PR-AUC = 0.948, FA/yr = 0.19/asset-year, median lead time = 5.0 days, Brier = 0.0439, ECE = 0.0915** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). No external benchmark dataset has been ingested or scored against ("Track B" elsewhere in this repo is a recorded dataset shape, not a result). Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Read [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) before [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) or [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md)** — both of the latter contain a "lead time" and an "alert fatigue funnel" figure that were never computed by any code in this repository; the audit report explains exactly which numbers to trust.
+> **Implementation status:** 204 automated tests passing (verified by a direct `pytest` run on 2026-09-12; this repository is under active multi-session development, so re-verify before citing). Time-ordered, leakage-free splits (`rai/eval/leakage.py`), a 342-hour purge embargo, and a frozen decision threshold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). Champion model, first measured by a reproducible run of `python scripts/evaluate.py` and re-measured leak-free under embargo: **RAI Operational Score (CARE-inspired) = 0.797, embargoed PR-AUC = 0.822, MCC = 0.690, FA/yr = 0.19/asset-year, median lead time = 5.0 days** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). Real external validation now exists in two independent forms: a **controlled out-of-distribution perturbation suite** (`docs/evaluation/OOD.md`) and a **real external benchmark run against the published CARE-to-Compare dataset** (`docs/evaluation/EXTERNAL_CARE.md`, Zenodo 14006163, Wind Farm A, genuine off-the-shelf baselines, CARE = 0.535). A separate rolling-origin temporal-generalization study (`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`) concluded that finding is **honestly unresolved** at $N=6$ events, not swept under a bigger number. Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Start with [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)** for the history of what was fabricated and fixed in this repository's evaluation stack, then [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) for the current leak-free numbers — [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) and [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) still carry an early retraction notice and should not be cited on their own.
 
 [![Quality](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml/badge.svg)](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](services/api/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.5-000000?logo=next.js&logoColor=white)](web/package.json)
-[![Track A Operational Score](https://img.shields.io/badge/Track%20A%20Score-0.797-success)](docs/EVALUATION.md)
+[![Tests](https://img.shields.io/badge/tests-204%20passing-success)](CHECKPOINT.md)
+[![Embargoed PR--AUC](https://img.shields.io/badge/embargoed%20PR--AUC-0.822-success)](docs/evaluation/GATE2_FORENSIC_AUDIT.md)
+[![External CARE](https://img.shields.io/badge/external%20CARE%20(Farm%20A)-0.535-blueviolet)](docs/evaluation/EXTERNAL_CARE.md)
 [![Audit Status](https://img.shields.io/badge/Forensics-Verified%20Clean-blue)](docs/EVALUATION_FORENSICS.md)
 
 ---
@@ -20,7 +22,8 @@ Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric c
 - [Why RAI](#why-rai)
 - [Key Features](#key-features)
 - [Architecture](#architecture)
-- [Champion–Challenger Operational Scorecard](#championchallenger-operational-scorecard)
+- [Champion–Challenger Operational Scorecard](#track-a--championchallenger-operational-scorecard)
+- [Scientific Validation: Five Gates, Not One Number](#scientific-validation-five-gates-not-one-number)
 - [Solar Environmental Intelligence & Soiling](#solar-environmental-intelligence--soiling)
 - [Quick Start](#quick-start)
 - [Running Demonstrations](#running-demonstrations)
@@ -57,6 +60,10 @@ RAI answers three questions in under ten seconds:
 | **Technical Knowledge RAG** | SQLite FTS5 BM25 retrieval over 19 maintenance manuals, failure catalogs, and OEM SOPs | `rai/rag/` |
 | **Deterministic Reasoning Agent** | Structured diagnosis and confidence-gated escalation with local Needle 2 runtime support | `rai/agent/` |
 | **High-Density Instrument Panel** | Bloomberg-terminal density Next.js 16 UI with OKLCH tokens, HeroChart, and Evidence Ledger | `web/src/` |
+| **Controlled OOD Robustness Suite** | 12 pre-registered sensor perturbations (noise, missingness, drift, extreme weather, fault-magnitude, weather permutation) rerun end-to-end against the live pipeline, not a mocked score | `rai/eval/ood.py` |
+| **Real External Benchmark (CARE-to-Compare)** | Genuine, un-tuned baselines scored on the published Gück et al. (2024) wind SCADA dataset, formulas transcribed equation-by-equation from the paper | `rai/eval/external/care/` |
+| **Rolling-Origin Temporal Diagnosis** | Fold-by-fold root-cause analysis of why naive temporal CV collapses on rare-event data, with three honest re-aggregations instead of one convenient number | `docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md` |
+| **Decision-Math & Claim-Integrity Audit** | Formal EVPI/EVSI sign-convention proofs plus an independent outcome-world regret simulation decoupled from the policy's own cost model | `docs/evaluation/DECISION_MATH_AUDIT.md` |
 
 ---
 
@@ -134,8 +141,8 @@ RAI connects raw telemetry to an evidence-backed maintenance decision without al
 ## Two-Track Benchmark & Operational Scorecard
 
 To maintain strict scientific integrity, model evaluation is decoupled into two independent tracks:
-1. **Track A — RAI Operational Score (CARE-inspired):** Evaluated on the 42-asset fleet (45,360 monitoring hours, 6 discrete failure episodes). This is the only track this repository actually runs.
-2. **Track B — External Wind Benchmark (not run):** `rai/eval/care.py` records the *shape* of the official CARE to Compare dataset (Gück et al., 2024: 36 turbines, 3 farms) so an adapter could be built, but no code in this repository ingests or scores against it. Treat any "Track B" figure elsewhere in this repo as aspirational, not measured.
+1. **Track A — RAI Operational Score (CARE-inspired):** Evaluated on the 42-asset fleet (45,360 monitoring hours, 6 discrete failure episodes). This is RAI's own synthetic-fleet score — model, labels, and scoring code all live in this repository.
+2. **Track B — External Wind Benchmark (now run, Farm A only):** the official CARE to Compare dataset (Gück et al., 2024: 36 turbines, 3 farms, Zenodo 14006163) has been downloaded and scored against genuine, un-tuned baselines on Wind Farm A — CARE = 0.535 (isolation forest) / 0.506 (z-score threshold), real third-party data and labels throughout. See [`docs/evaluation/EXTERNAL_CARE.md`](docs/evaluation/EXTERNAL_CARE.md) and the [Scientific Validation](#scientific-validation-five-gates-not-one-number) section below. Farms B and C were downloaded but not yet extracted or scored — treat any Farm B/C figure elsewhere in this repo as aspirational, not measured.
 
 *Primary Artifacts: [`artifacts/evaluation/summary.md`](artifacts/evaluation/summary.md), [`artifacts/evaluation/results.json`](artifacts/evaluation/results.json) — both from a real, reproducible `python scripts/evaluate.py` run. See [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) before citing [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) or [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) — both contain figures that were never computed.*
 
@@ -170,7 +177,38 @@ computed from real alarm timestamps.
 ### Probabilistic Risk Calibration & Decision Regret
 * **Brier Score:** `0.0439` *(mixes calibration, resolution, and uncertainty; low base rate drives score — from the risk model's own predictions, not a stand-in probability)*
 * **Expected Calibration Error (ECE):** `0.0915` *(evaluated with reliability bins in `artifacts/evaluation/calibration/bins.csv`)*
-* **Mean Decision Regret:** `₹0.00`, **100% "optimal"** across the 6 fault events evaluated — but "optimal" here means the decision engine's pick matches the lowest-cost option under the *same* cost model it used to choose, not an independently validated ground truth. This is a self-consistency check, not proof the recommendations are economically optimal in the field.
+* **Mean Decision Regret (model-world):** `₹0.00`, **100% "optimal"** across the 6 fault events evaluated — but "optimal" here means the decision engine's pick matches the lowest-cost option under the *same* cost model it used to choose, not an independently validated ground truth. This is a self-consistency check, not proof the recommendations are economically optimal in the field. This limitation is now addressed directly — see the **independent outcome-world regret simulation** below.
+
+---
+
+## Scientific Validation: Five Gates, Not One Number
+
+A single headline metric is easy to cherry-pick and hard to trust. Following this project's
+own [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) — which found and withdrew several fabricated
+figures from an earlier iteration — every evaluation claim below is scoped to the exact document
+and code path that produced it, and an "unresolved" verdict is reported as such rather than
+replaced with a more convenient number. This is a layered validation story, built across several
+work sessions on this repository; some gates close a question, others open one honestly.
+
+| Gate | Question it answers | Headline result | Source |
+|---|---|---|---|
+| **Gate 1 — Leakage** | Does the model see the future during training? | Zero lookahead leakage across a 342h purge embargo; time-ordered splits only | [`rai/eval/leakage.py`](rai/eval/leakage.py), [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) |
+| **Gate 2 — Forensic re-audit** | What does the champion score under a *frozen* threshold and embargo, not a permissive static split? | PR-AUC **0.822**, MCC 0.690, precision 0.800, recall 0.667; 5/5 adversarial stress probes passed (label permutation, random feature, temporal label shift, future-sentinel injection, asset-identity shuffle) | [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) |
+| **Gate 2 — OOD robustness** | Does the champion degrade *sensibly* under corrupted sensor data, or is it silently blind to it? | CARE falls up to **0.52** under severe drift; false alarms rise up to **~40×** under severe sensor noise; 20% missingness is well tolerated (ΔCARE ≤ 0.05). A caching bug that made the champion look falsely "perfectly robust" was found and fixed before any number was reported | [`docs/evaluation/OOD.md`](docs/evaluation/OOD.md) |
+| **Gate 2 — External CARE benchmark** | How does a genuine, un-tuned baseline do on a real, independently-labelled wind SCADA dataset? | **CARE = 0.535** (isolation forest) / **0.506** (z-score) on real Wind Farm A data (Gück, Roelofs & Faulstich, 2024); only 1 of 11 real documented faults reliably detected by either baseline — reported as a modest result, not a favorable one | [`docs/evaluation/EXTERNAL_CARE.md`](docs/evaluation/EXTERNAL_CARE.md) |
+| **Gate 3 — Temporal generalization** | Does the champion generalize across *time*, not just across a single train/test cut? | **Honestly unresolved.** A naive 4-fold rolling-origin CV collapses to PR-AUC 0.294 (CI95 [0.04, 0.64]); root-caused to event sparsity (one fold has zero positive events) and a calendar-overlap artifact, not model instability (the underlying power curve is stable, R²=0.994, across folds). Re-aggregated honestly three ways — macro valid-fold PR-AUC 0.392±0.319, micro/pooled PR-AUC 0.648, event-level recall 83.3% (5/6 episodes) — none of which is treated as a replacement for more failure events | [`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`](docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md), [`docs/evaluation/GATE3B0_SCORECARD.md`](docs/evaluation/GATE3B0_SCORECARD.md) |
+| **Gate 5 — Decision-math & claim integrity** | Is "100% optimal, ₹0 regret" actually a meaningful economic claim? | Formally proved EVPI ≥ 0 and 0 ≤ EVSI ≤ EVPI hold under this project's sign convention, then measured regret **independently of the policy's own cost model** via a 100-episode outcome-world simulation with mismatched Weibull failure parameters: mean regret **₹9,127**, median ₹0, P95 ₹19,500, optimal-action rate **71.0%** — the honest number, once the model-world tautology above is decoupled from the world it is judged against | [`docs/evaluation/DECISION_MATH_AUDIT.md`](docs/evaluation/DECISION_MATH_AUDIT.md) |
+
+**Two numbers for PR-AUC exist in this repository on purpose, not by accident**: `0.948` is the
+original static-split measurement (`scripts/evaluate.py`, `docs/EVALUATION.md`); `0.822` is the
+same champion re-measured under a 342h purge embargo and a threshold frozen *before* seeing the
+test fold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). The embargoed number is the one to cite —
+the static one is kept in the record because silently replacing a number, rather than showing the
+before/after and why it changed, is exactly the kind of thing [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)
+exists to catch. Similarly, calibration figures differ slightly between `CHECKPOINT.md`
+(Brier 0.0439 / ECE 0.0915, naive) and `docs/evaluation/GATE2_FORENSIC_AUDIT.md`
+(Brier 0.0423 / ECE 0.1491, out-of-fold) — cite the source file alongside the number, not the
+number alone.
 
 ---
 
@@ -301,7 +339,14 @@ rai/
 │   ├── regret.py       Decision regret (Cost_chosen - Cost_optimal) calculation
 │   ├── value_of_information.py Expected value of inspection information (VOI)
 │   └── policy.py       Sensitivity bounds, risk attribution, & feedback learning
-├── eval/               Two-track CARE metrics, 4-level splits, leakage guards
+├── eval/               Internal CARE metrics, 4-level splits, leakage guards, adversarial probes
+│   ├── ood.py          Controlled OOD perturbation suite (12 perturbations, pre-registered seeds)
+│   ├── rolling_origin.py, benchmarks.py, splits.py, adversarial.py — Gate 1/2 CV & stress harness
+│   └── external/care/  Real external CARE-to-Compare benchmark (independent of rai/eval/care.py)
+│       ├── metrics.py  Paper's own Eq. 1-5 + Algorithm 1, transcribed and cited per function
+│       ├── adapter.py  Genuine, un-tuned isolation-forest / z-score baselines (not RAI's champion)
+│       └── farm_a_runner.py End-to-end runner against the real downloaded Wind Farm A archive
+├── ingest/             Real-dataset adapters (CARE SCADA, Kaggle solar, NASA POWER)
 ├── memory/             Historical trajectory case retrieval
 ├── rag/                SQLite FTS5 index construction and BM25 search
 ├── economics/          NPV trade-off models and Smart Cleaning Advisor
@@ -338,12 +383,24 @@ npm run build
 
 ## Documentation
 
-- [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md): **Mandatory Forensics Audit** — line-by-line claim truth table, leakage verification, and sample size disclosures
-- [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md): **Judge Package** — problem statement, architecture, 10-point readiness scorecard, and judge defense guide
-- [`docs/EVALUATION.md`](docs/EVALUATION.md): Formal model evaluation report, Two-Track CARE benchmark, and calibration diagnostics
+**Start here for evaluation claims (in this order):**
+- [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md): the consolidated record of every fabricated figure found in this repository's history and the fix applied — read this before citing any number below it
+- [`docs/CLAIMS.md`](docs/CLAIMS.md): the claims-to-evidence matrix — every public claim tagged **demonstrated** (reproducible locally), **specified** (contract exists, not fully implemented), or **future** (research direction)
+- [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md): the current leak-free scorecard — embargoed PR-AUC, adversarial stress-probe results, rolling-origin CI
+- [`docs/evaluation/OOD.md`](docs/evaluation/OOD.md): the controlled out-of-distribution perturbation suite, including a methodology bug found and fixed mid-study
+- [`docs/evaluation/EXTERNAL_CARE.md`](docs/evaluation/EXTERNAL_CARE.md): the real external CARE-to-Compare benchmark run (Wind Farm A) — also documents a filename collision between two concurrent work sessions and how it was resolved
+- [`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`](docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md) & [`docs/evaluation/GATE3B0_SCORECARD.md`](docs/evaluation/GATE3B0_SCORECARD.md): why naive rolling-origin CV collapses on rare-event data, and three honest re-aggregations
+- [`docs/evaluation/DECISION_MATH_AUDIT.md`](docs/evaluation/DECISION_MATH_AUDIT.md): formal EVPI/EVSI proofs and an independent outcome-world decision-regret simulation
+- [`docs/evaluation/FEATURE_LINEAGE.md`](docs/evaluation/FEATURE_LINEAGE.md): the temporal-isolation ledger — which features are computed from past-only data, verified column by column
+- [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md): explicit non-claims — what the synthetic data spine cannot tell you, stated plainly rather than left implicit
+
+**Everything else:**
+- [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) / [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md): earlier judge-facing packages — both carry a retraction notice at the top; superseded by the Gate 2+ docs above for numbers
+- [`docs/EVALUATION.md`](docs/EVALUATION.md): the original formal model evaluation report and calibration diagnostics
 - [`docs/DESIGN.md`](docs/DESIGN.md): Normative design system, OKLCH tokens, and component guidelines
 - [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md): OpenAPI specification and REST endpoint contracts
 - [`docs/research/model-validation.md`](docs/research/model-validation.md): Anti-overfitting, CARE to Compare, and leakage prevention compendium
 - [`docs/research/environmental-intelligence.md`](docs/research/environmental-intelligence.md): CAMS aerosol data, soiling kinetics, and cementation risks
 - [`docs/DEMO.md`](docs/DEMO.md): Judge-facing walkthrough script
 - [`docs/DATASETS.md`](docs/DATASETS.md): Synthetic dataset parameters and provenance
+- [`CHECKPOINT.md`](CHECKPOINT.md): consolidated, auto-generated build state across every completed task record in `docs/checkpoints/`
