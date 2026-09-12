@@ -12,6 +12,7 @@ interface MetricTileProps {
   };
   hero?: boolean;
   source?: string;
+  live?: boolean;
 }
 
 export default function MetricTile({
@@ -22,6 +23,7 @@ export default function MetricTile({
   delta,
   hero = false,
   source,
+  live = true,
 }: MetricTileProps) {
   return (
     <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] p-4 flex flex-col justify-between min-h-[96px]">
@@ -61,8 +63,12 @@ export default function MetricTile({
           </span>
         )}
         {source && (
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span
+            className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
+            title={live ? undefined : "API unavailable — showing last-known snapshot value"}
+          >
             {source}
+            {!live && " · cached"}
           </span>
         )}
       </div>

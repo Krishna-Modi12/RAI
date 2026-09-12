@@ -81,6 +81,7 @@ export default function FleetPage() {
           delta={{ value: "+0.4 pts", isPositive: true, isGood: true }}
           hero
           source="GET /api/fleet"
+          live={overview != null}
         />
         <MetricTile
           label="Generation vs Expected"
@@ -88,6 +89,7 @@ export default function FleetPage() {
           context={`Expected: ${formatPower(overview?.expected_generation_kw ?? 68200)}`}
           delta={{ value: "−8.4%", isPositive: false, isGood: false }}
           source="physics_gbm_expectation"
+          live={overview != null}
         />
         <MetricTile
           label="Plant Availability"
@@ -95,6 +97,7 @@ export default function FleetPage() {
           context="41 active / 1 scheduled outage"
           delta={{ value: "+0.2%", isPositive: true, isGood: true }}
           source="scada_status_flags"
+          live={overview != null}
         />
         <MetricTile
           label="Avoidable Revenue Exposure"
@@ -102,6 +105,7 @@ export default function FleetPage() {
           context="Daily financial leakage if unaddressed"
           delta={{ value: "+₹32K vs yesterday", isPositive: true, isGood: false }}
           source="rai.economics.engine"
+          live={overview != null}
         />
       </div>
 

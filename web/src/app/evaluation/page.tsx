@@ -160,6 +160,7 @@ export default function EvaluationPage() {
         { range: "0.8 – 1.0", meanPred: "89.0%", empirical: "100.0%", count: 1 },
       ];
 
+  const champIsLive = evalData?.champion_model?.care_score != null;
   const champCare = evalData?.champion_model?.care_score ?? 0.797;
   const champPrauc = evalData?.champion_model?.pr_auc ?? 0.822;
   const regretMean = evalData?.decision_regret?.mean_regret_inr ?? 0;
@@ -194,8 +195,12 @@ export default function EvaluationPage() {
               <Layers className="w-4 h-4" />
               <span>Track A: RAI Fleet Benchmark (Internal Synthetic)</span>
             </div>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px]">
+            <span
+              className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px]"
+              title={champIsLive ? "Live from /api/evaluation" : "API unavailable — showing last-known snapshot value"}
+            >
               OPERATIONAL SCORE: {champCare.toFixed(3)}
+              {!champIsLive && " (cached)"}
             </span>
           </div>
           <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
@@ -204,7 +209,7 @@ export default function EvaluationPage() {
           <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-1 flex justify-between">
             <span>Observation Hours: 45,360 h</span>
             <span>Independent Failures: N=6</span>
-            <span>PR-AUC: {champPrauc.toFixed(3)}</span>
+            <span>PR-AUC: {champPrauc.toFixed(3)}{!champIsLive && " (cached)"}</span>
           </div>
         </div>
 

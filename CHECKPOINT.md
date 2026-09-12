@@ -2,13 +2,13 @@
 
 > Consolidated build state. All tasks across Foundation, Modeling, Operational Validation, Environmental Intelligence, API Services, and Next.js Instrument Panel are fully verified.
 
-**Last updated:** 2026-09-13 (Gate 5.6 solar-model claim retracted as `GATE_5.6_INVALID_SYNTHETIC_RUN`; Gate 5.6A real PVDAQ acquisition and Gate 5.6B cohort adjudication complete and are the current valid solar baseline)  
+**Last updated:** 2026-09-13 (Gate 5.6 solar-model claim retracted as `GATE_5.6_INVALID_SYNTHETIC_RUN`; Gate 5.6A real PVDAQ acquisition and Gate 5.6B cohort adjudication are **COMPLETE and FROZEN**. Current phase: **Post-Gate-5.6B / pre-Gate-5.6C — Backend Intelligence Contracts + Submission Readiness**. A Gate 5.6C decision (PATH B) was recorded and preliminary model-development code was executed against the real, adjudicated cohort — but **Gate 5.6C itself has NOT been completed, validated, or independently verified**, and must not be described as such. See the corrected status note in `docs/checkpoints/19-gate56c-model-development.md`.)  
 **Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, and Phase 5 external benchmark gates (Wind Gates 5.0–5.4, Solar Gates 5.5–5.6) fully built, tested, and verified  
 **Backend Unit Tests:** 307/307 passing (verified by direct `pytest -q` run)  
 **Static Analysis:** Ruff — 0 errors (`All checks passed!`). Pyright — 0 errors in `rai/`  
 **Frontend Build:** verified — `npm run build` in `web/` completes cleanly in 897ms (Next.js 16.3.5 Turbopack, 8 routes, 0 errors).  
 **Phase 5 External Benchmark Validation (Gates 5.0–5.6):**
-- **Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion:** `GATE_5.6_INVALID_SYNTHETIC_RUN` — **retracted, do not cite.** The "5 NREL PVDAQ systems" (`SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283`) this run evaluated were synthetically generated inside the repo and presented as real, and the physics-reference model was validated against a formula algebraically identical to its own generating function (circular validation) — this mechanically produces the previously reported $R^2 = 0.9994$–$0.9996$ regardless of real-world model accuracy. Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`. Superseded by two real gates: **Gate 5.6A — Real PVDAQ Acquisition** `COMPLETE` (450/450 real, checksummed telemetry files from NREL's public OEDI S3 data lake; cohort locked to real systems 1239/1283/34/1430/1433) and **Gate 5.6B — Cohort Adjudication** `COMPLETE` (adjudication-only, zero models fit: real timestamps/target-signal semantics/unit-scale correctness verified; final cohort Development=[1239,1283,34], Validation=[] `INSUFFICIENT_DATA` — no padding applied, Secondary-only=[1430,1433]). See `docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md` and `docs/checkpoints/16-gate56b-cohort-adjudication.md`. **Gate 5.6C (an actual expected-performance model fit against this real, adjudicated cohort) has not been attempted.**
+- **Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion:** `GATE_5.6_INVALID_SYNTHETIC_RUN` — **retracted, do not cite.** The "5 NREL PVDAQ systems" (`SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283`) this run evaluated were synthetically generated inside the repo and presented as real, and the physics-reference model was validated against a formula algebraically identical to its own generating function (circular validation) — this mechanically produces the previously reported $R^2 = 0.9994$–$0.9996$ regardless of real-world model accuracy. Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`. Superseded by real gates: **Gate 5.6A — Real PVDAQ Acquisition** `COMPLETE` (450/450 real, checksummed telemetry files from NREL's public OEDI S3 data lake; cohort locked to real systems 1239/1283/34/1430/1433), **Gate 5.6B — Cohort Adjudication** `COMPLETE` (adjudication-only, zero models fit: real timestamps/target-signal semantics/unit-scale correctness verified; final cohort Development=[1239,1283,34], Validation=[] `INSUFFICIENT_DATA` — no padding applied, Secondary-only=[1430,1433]), a **Gate 5.6C decision record** (PATH B: no real component-failure event labels exist for this cohort or any integrable alternative — modeling would proceed without independent validation, if and when Gate 5.6C is executed and completed), and **preliminary Gate 5.6C model-development code** — real `pvlib.modelchain.ModelChain` physics reference, not the invalid hand-rolled formula, plus empirical baseline and hybrid champion, fit against the real 1239/1283/34 telemetry with a temporal-within-system holdout; all results labeled `MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED`, e.g. test-split self-consistency R²=0.70–0.99, nRMSE 3–10% of rated capacity — internal diagnostics only, never validated accuracy or generalization. **Gate 5.6C itself is NOT complete**: this code executed and produced results, but those results have not been independently verified and the gate has not been closed. Current phase: **Post-Gate-5.6B / pre-Gate-5.6C**. See `docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`, `docs/checkpoints/16-gate56b-cohort-adjudication.md`, `docs/checkpoints/18-gate56c-decision-gate.md`, and `docs/checkpoints/19-gate56c-model-development.md` (status: `partial`, corrected).
 - **Gate 5.5 Solar Data Foundation & Evidence Architecture:** `PASSED` (Audited 8 candidate public solar data sources across NREL, Sandia PVPMC, EDP Open Data, DKASC, and community benchmarks. Codified 26-signal canonical solar taxonomy in `rai/eval/external/solar/taxonomy.py`. Rigorously assigned Evidence Tiers 1 through 5. Audited expected-performance modeling readiness and failure/degradation ground-truth readiness. Emitted 10 verified artifacts in `artifacts/evaluation/gate55/`).
 - **Gate 5.4 Cross-Farm Wind Transfer & Target-Normal Calibration:** `PASSED` (Evaluated all 6 directed transfers $A \to B, A \to C, B \to A, B \to C, C \to A, C \to B$ across 3 conditions: `FROZEN_SOURCE`, `TARGET_NORMAL_CALIBRATED`, `TARGET_SPECIFIC_REFERENCE` under frozen `CARE_COMMON`). Evaluated directional asymmetry, distribution shift (e.g. Farm B rotor speed 7.98 rpm vs Farm A 11.40 rpm; KS = 0.6673), and turbine-cluster bootstrap (2,000 resamples). Discovered that target-normal calibration using unlabelled normal SCADA completely recovers the transfer gap (106.3% recovery on $C \to A$; restores normal accuracy from 0.5965 to 0.9963 on $B \to A$).
 - **Gate 5.3 Champion Cross-Turbine Generalization & Input Audit:** `PASSED` (Condition A, B, C evaluated across all 36 turbines on Zenodo record 14006163). Audited that `RAI_COMMON == RAI_NATIVE == RAI_CURRENT` (3 physical signals + 30-min persistence). Unseen-turbine transfer evaluated with zero leakage: mean transfer deltas are small ($-0.035$ Farm A, $-0.034$ Farm B, $-0.016$ Farm C; cluster bootstrap CIs computed; zero normal-dataset false alarms).
@@ -64,7 +64,22 @@
 - **Two integrity defects found and fixed during this gate itself:** a unit-scale bug (1430/1433's AC power needed the metrics dictionary's `calc_scale` reapplied — proven via real AC/DC power ratio at matched peak-generation timestamps for 1430, capacity-plausibility for 1433) and two fully degenerate channels (1239 `wind_speed`, 1283 `dc_power`) invisible to record-count-based missingness checks alone.
 - **Final Frozen Cohort:** Development=[1239, 1283, 34]; Validation=[] (`INSUFFICIENT_DATA` — no padding applied, per the project's no-padding rule); Secondary-only=[1430, 1433]. System-level external holdout is **not currently statistically meaningful** (zero validation systems) — Gate 5.6C must design and justify its own fallback.
 - **Artifacts:** `artifacts/evaluation/gate56/cohort_adjudication/` (13 files: `cohort_adjudication.{csv,json}`, `cohort_freeze_v2.json`, `pvlib_readiness.csv`, `target_signal_manifest.csv`, `timestamp_adjudication.csv`, `unit_scale_audit.csv`, `system_1283_power_semantics.md`, `alignment_policy.json`, `signal_sampling_matrix.csv`, `power_semantics_audit.csv`, `summary.md`). See `docs/checkpoints/16-gate56b-cohort-adjudication.md`.
-- **Not yet attempted:** Gate 5.6C — an actual expected-performance model fit against this real, adjudicated cohort.
+
+### Gate 5.6C — Decision Gate & Model Development — **NOT COMPLETE** (`MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED`)
+
+> **Status correction:** Gate 5.6C has **not** been completed, validated, or independently
+> verified. Current phase is **Post-Gate-5.6B / pre-Gate-5.6C**. The items below describe a
+> decision record and preliminary, executed-but-unverified model-development code — real work,
+> real test runs, but not a closed gate. Do not describe Gate 5.6C as complete, post-completed,
+> validated, or already executed as a finished gate.
+
+- **Decision record (not a completed gate):** question posed: is a defensible real-fault-label validation route available before building a solar model? Evidence: Gate 5.5's own `label_availability.csv` (real PVDAQ is `DEGRADATION_ONLY`, no failure labels; the one `VERIFIED_FAILURE_TIMELINES` source, `nrel_synthetic_outage_muller2023`, is itself synthetic) plus two bounded, cited external searches. **Decision recorded: PATH B** — solar modeling is feasible but not independently validatable; proceed with an engineering foundation, label every result `MODEL_DEVELOPMENT`/`NOT_INDEPENDENTLY_VALIDATED`. Full record: `artifacts/evaluation/gate56/gate56c_decision_gate/decision.md`; see `docs/checkpoints/18-gate56c-decision-gate.md`.
+- **Model-development code executed (preliminary, not independently verified):** real `pvlib.pvsystem.PVSystem` + `pvlib.modelchain.ModelChain` physics reference (`rai/eval/external/solar/pvlib_modelchain_reference.py`, `PVLibModelChainReference`) built per development system (1239, 1283, 34) using only real CEC module/inverter database matches, real tilt/azimuth, and real inverter-quantity/module-count metadata — **not** the invalid hand-rolled `PVLibPhysicsReference` (never imported). `SolarEmpiricalBaseline`/`RAISolarChampion` reused unmodified from `models.py`. Telemetry aligned per the frozen `alignment_policy.json` (`FASTEST_SIGNAL_GRID_WITH_BACKWARD_HOLD`); holdout is **temporal-within-system** (60/20/20, purge gaps) since Gate 5.6B froze cross-system Validation=[].
+- **Results produced (internal self-consistency diagnostics only, test split — not validated, not verified as complete):** system 1239 R²=0.977–0.986 (nRMSE 2.98–3.82% of rated); system 1283 R²=0.970–0.983 (nRMSE 3.59–4.77%); system 34 R²=0.70–0.974 (nRMSE 2.99–10.22%) — genuine per-system variation (not normalized away), itself evidence against a formula-identical-to-generator circularity defect. **Never cited as validated accuracy, cross-system generalization, or a completed Gate 5.6C.**
+- **Excluded:** systems 1430/1433 marked `PARAMETERIZATION_INSUFFICIENT` (no real tracker geometry / no CEC module match) — constructing a reference for either raises `ValueError` rather than inventing parameters.
+- **Remaining before Gate 5.6C can be called complete:** independent verification of the model-development results (the same kind of adversarial audit that caught the original `GATE_5.6_INVALID_SYNTHETIC_RUN`), which has not yet happened.
+- **Verified:** 421/421 full suite passing (was 407; +14 new circularity/anti-fabrication tests in `tests/test_gate56c_model_development.py`), ruff clean, pyright at the same pre-existing 3-error baseline (0 new errors).
+- **Artifacts:** `artifacts/evaluation/gate56/gate56c_model_development/` (`provenance_manifest.json`, `self_consistency_diagnostics.csv`, `predictions_sample.csv`, `summary.md`). See `docs/checkpoints/19-gate56c-model-development.md`.
 
 ### Gate 5.5 — Solar Data Foundation & Evidence Architecture
 
@@ -166,9 +181,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-12 19:33 UTC from 20 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-12 20:50 UTC from 28 task record(s) in `docs/checkpoints/`._
 
-**15/20 task records complete.**
+**22/28 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -192,6 +207,14 @@ _Generated 2026-09-12 19:33 UTC from 20 task record(s) in `docs/checkpoints/`._
 | ✅ | gate56a-pvdaq-real-acquisition | 5 | complete |
 | ✅ | gate56b-cohort-adjudication | 5 | complete |
 | ✅ | ci-green-and-readme | 5 | complete |
+| ✅ | gate56c-decision-gate | 5 | complete |
+| 🟡 | gate56c-model-development | 5 | partial |
+| ✅ | agent-backend-contracts-audit | 5 | complete |
+| ✅ | gate56c-status-correction | 5 | complete |
+| ✅ | end-to-end-integration-verification | 5 | complete |
+| ✅ | live-api-smoke-test | 5 | complete |
+| ✅ | evaluation-page-cached-indicator | 5 | complete |
+| ✅ | soiling-api-cleaning-options-surface | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -953,16 +976,608 @@ systems) rather than treat this as resolved.
 
 **How it was verified**
 
-` .venv\Scripts\python.exe -m pytest tests\ -q` — 407 passed.
-` .venv\Scripts\ruff.exe check .` — all checks passed.
-` cd web; npm run lint` — 0 errors and 25 existing warnings.
-` cd web; npm run build` — production build passed.
+`.venv\Scripts\python.exe -m pytest tests\ -q` — 407 passed.
+`.venv\Scripts\ruff.exe check .` — all checks passed.
+`cd web; npm run lint` — 0 errors and 25 existing warnings.
+`cd web; npm run build` — production build passed.
+GitHub Actions run `34715429845` for commit `0b74f6d` — Python and frontend jobs passed.
 
 **Measured results**
 
-407 Python tests passed; frontend production build passed; frontend lint reported 0 errors.
+407 Python tests passed; frontend production build passed; frontend lint reported 0 errors;
+both GitHub Actions jobs passed.
 
 **Limitations**
 
 Gate 5.6C has not been attempted; the solar validation cohort remains empty.
+
+### ✅ gate56c-decision-gate
+
+**What was built**
+
+A research/decision record (no model, no code) answering the question the master autonomous
+task posed explicitly as a gate: is there a genuinely defensible real-fault-label source to
+validate a solar expected-performance model against, before building one? Evidence consulted:
+Gate 5.5's own prior audit (`label_availability.csv` — already computed, not re-derived) plus
+two bounded external web searches (PV fault-label datasets 2024-2025; DuraMAT PV Fleet access).
+Conclusion: no source — old or newly searched — provides real, timestamped, component-level
+failure labels for our real PVDAQ cohort or an equivalent integrable within the deadline.
+`nrel_pvdaq` itself is `DEGRADATION_ONLY` per Gate 5.5. Decision: **PATH B** — build the
+expected-performance engineering foundation (physics reference via real `pvlib.ModelChain`,
+empirical baseline, residuals, quality filtering) against the real Gate 5.6A/5.6B cohort, but
+label every result `MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED` — never as validated
+accuracy or generalization. A synthetic-injected-outage NREL benchmark
+(`nrel_synthetic_outage_muller2023`) is documented as a legitimate but deliberately deferred
+future option (would need its own acquisition/integration effort, lower priority than the
+Path B foundation under this deadline).
+
+**How it was verified**
+
+This is a documentation-only decision record; no code was written or executed. Verification
+consists of traceability: every evidentiary claim cites either an existing repo artifact
+(`artifacts/evaluation/gate55/label_availability.csv`) or a dated, quoted external search
+result. `pytest -q` re-run after this task: 407/407 passed (unchanged — no code touched).
+
+**Measured results**
+
+Not applicable — no model was fit. This gate's only "result" is the Path B decision itself
+and the concrete implementation constraints it sets for Gate 5.6C (real `ModelChain`, no
+invented parameters, mandatory circularity tripwire test, temporal holdout since
+Validation=[] from Gate 5.6B, explicit `NOT_INDEPENDENTLY_VALIDATED` labeling everywhere).
+
+**Limitations**
+
+- The external research was deliberately bounded (2 search queries) per the master task's
+  deadline rule, not an exhaustive literature review — a future session with more time could
+  revisit whether a newly published real-fault dataset changes this decision.
+- Does not itself build anything — Gate 5.6C implementation is the next task.
+
+### 🟡 gate56c-model-development
+
+**What was built**
+
+- A real `pvlib.pvsystem.PVSystem` + `pvlib.modelchain.ModelChain` physics reference
+  (`rai/eval/external/solar/pvlib_modelchain_reference.py`, `PVLibModelChainReference`)
+  for the 3 real, `physics_ready=True` PVDAQ development systems (1239, 1283, 34) —
+  replacing the invalid hand-rolled `PVLibPhysicsReference` (never imported here). Uses
+  only real CEC module/inverter database matches, real tilt/azimuth, and real
+  inverter-quantity/module-count metadata already verified in Gate 5.6B's
+  `pvlib_readiness.csv`; systems 1430/1433 are intentionally excluded
+  (`PARAMETERIZATION_INSUFFICIENT` — no real tracker geometry / no CEC match), enforced
+  by a `ValueError` rather than invented parameters.
+- A build script (`scratch_gate56a/build_gate56c.py`) that: reuses `build_gate56b.py`'s
+  real data loaders/constants, aligns 5 real signals onto the AC-power grid per the frozen
+  `alignment_policy.json` (`FASTEST_SIGNAL_GRID_WITH_BACKWARD_HOLD`, exact-or-5min POA
+  match, 90-min backward-hold for temperature/wind), applies `apply_quality_filters`
+  (nighttime/clipping/curtailment/gap tagging), performs a **temporal-within-system**
+  60/20/20 split via `split_system_telemetry` (Gate 5.6B froze cross-system
+  Validation=[]), fits `SolarEmpiricalBaseline` and calibrates `RAISolarChampion`
+  (both reused unmodified from `models.py`), and writes labeled artifacts.
+- A circularity/anti-fabrication tripwire test suite
+  (`tests/test_gate56c_model_development.py`, 14 tests): no synthetic-fixture or
+  invalid-formula imports; the new physics reference is genuinely temperature- and
+  irradiance-nonlinearity-sensitive (not a trivial pass-through); unconfigured systems
+  raise instead of fabricating config; artifact labeling is asserted end to end.
+
+**How it was verified**
+
+- `.venv/Scripts/python.exe scratch_gate56a/build_gate56c.py` — real execution against the
+  real Gate 5.6A/5.6B acquired+adjudicated PVDAQ parquet data; exit 0, artifacts written
+  (only warning output: benign scipy divide-by-zero inside pvlib's CEC single-diode solver
+  at zero-irradiance/night rows, which are zeroed out downstream by the night mask).
+- `.venv/Scripts/python.exe -m pytest tests/ -q` → **421 passed** (was 407 before this
+  task; +14 new Gate 5.6C tests, 0 regressions).
+- `.venv/Scripts/python.exe -m ruff check .` → **All checks passed!**
+- `npx pyright` (project baseline) → **3 errors, 746 warnings** — same 3 pre-existing
+  errors as before this task (`scripts/evaluate.py`, `scripts/evaluate_gate2.py`); no new
+  errors from any file touched in this task.
+
+**Measured results**
+
+Internal self-consistency diagnostics only (test split, temporal-within-system holdout;
+see `self_consistency_diagnostics.csv` / `provenance_manifest.json` for the full table and
+the exact `diagnostic_metric_disclaimer`) — **`MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED`,
+not validated accuracy, not generalization**:
+
+| System | Model | n (test) | R² | nRMSE (% of rated) |
+|---|---|---|---|---|
+| 1239 | ModelChain physics | 900 | 0.977 | 3.82% |
+| 1239 | Empirical baseline | 900 | 0.985 | 3.04% |
+| 1239 | Champion hybrid | 900 | 0.986 | 2.98% |
+| 1283 | ModelChain physics | 51,992 | 0.970 | 4.77% |
+| 1283 | Empirical baseline | 51,992 | 0.983 | 3.59% |
+| 1283 | Champion hybrid | 51,992 | 0.982 | 3.63% |
+| 34 | ModelChain physics | 782 | 0.700 | 10.22% |
+| 34 | Empirical baseline | 782 | 0.974 | 2.99% |
+| 34 | Champion hybrid | 782 | 0.946 | 4.33% |
+
+System 34's physics-only R² (0.70) is notably weaker than 1239/1283's (~0.97) — a real,
+undoctored result (not cherry-picked or normalized away), plausibly reflecting the coarser
+disclosed simplifications (no direct/diffuse POA decomposition, invariant string-wiring
+assumption) interacting differently with its geometry/module type. This asymmetry across
+systems is itself evidence against circularity: a formula-identical-to-generator defect
+(the original invalidation) would not produce genuine per-system variation like this.
+
+**Limitations**
+
+- No real component-failure event labels exist for this cohort (Gate 5.6C decision gate
+  finding) — none of the above numbers can be, or are claimed to be, validated accuracy.
+- AOI/spectral-mismatch corrections are not modeled (`run_model_from_effective_irradiance`
+  with real broadband POA global treated as effective irradiance) because real PVDAQ POA
+  sensors do not report decomposed direct/diffuse components.
+- `modules_per_string=1` / `strings_per_inverter=<real modules-per-inverter>` is a
+  disclosed, power-invariant simplification (real metadata lacks the exact per-inverter
+  wiring split); real inverter *quantity* and real total module *count* are otherwise used
+  directly.
+- System 1239 uses a disclosed `wind_speed=1.0 m/s` standard assumption (`faiman`) because
+  its real wind channel is degenerate (Gate 5.6B finding); 1283/34 use real wind speed via
+  `sapm` with a `close_mount_glass_glass` racking preset tied to their real "roof" array type.
+- Val-split diagnostics were computed but are not tabulated above (test-split only, to
+  avoid the false impression of a second independent holdout — see the full CSV for both).
+
+### ✅ agent-backend-contracts-audit
+
+**What was built**
+
+An audit (per CLAUDE.md's task protocol step 2: "inspect existing implementation before
+adding a new one") of the backend "intelligence contracts" architecture — schemas, agent
+runtime, deterministic fallback reasoner, RAG index/retrieval, tool registry, and economics
+engine — against the project's evidence-discipline and numerical-honesty rules. Read in full:
+`rai/agent/interfaces.py`, `rai/schemas.py`, `rai/agent/runtime.py`, `rai/agent/fallback.py`,
+`rai/agent/investigator.py`, `rai/agent/tools.py`, `rai/rag/index.py`, `rai/rag/retrieve.py`,
+`rai/economics/engine.py`.
+
+**Finding: the architecture substantively satisfies the requirements already. No rewrite
+performed.** Specific evidence:
+
+- **Evidence-typed contracts exist**, just not under the literal names `OBSERVED`/`RETRIEVED`/
+  `INFERRED`/`UNKNOWN`/`ABSTAINED`: `EvidencePacket` (observation), `AgentVerdict` (diagnosis +
+  action), `KnowledgeCitation`/`HistoricalCase` (retrieval, tagged `retrieval="fts5"` in
+  `rai/rag/retrieve.py:100-113`), `EconomicEvidence`/`EconomicOption` (economics). Abstention is
+  expressed as `requires_human_review: bool` + `confidence: float` rather than a named enum —
+  functionally equivalent, exercised in two independent code paths
+  (`rai/agent/runtime.py:verdict_from_needle`, `rai/agent/fallback.py:diagnose`).
+- **Numerical-engine-owns-calculations / LLM-owns-explanation separation is real, not just
+  documented**: `rai/agent/investigator.py` runs `fallback.diagnose()` (deterministic) as the
+  `baseline` *before* Needle ever runs, and `verdict_from_needle()` only lets a Needle-authored
+  field override the baseline when Needle actually supplied it — arithmetic fields (confidence,
+  risk numbers) are never computed by the model. `rai/economics/engine.py`'s docstring states
+  this explicitly and its tools return pre-computed numbers only.
+- **Safety-by-construction confirmed**: `rai/agent/tools.py` registers exactly 6 read-only
+  tools plus one write tool (`create_inspection_ticket`) that only proposes
+  (`status="proposed_awaiting_human_approval"`) and cannot dispatch — there is no tool that
+  writes a setpoint.
+- **RAG corpus genuinely prioritizes manuals/SOPs over raw SCADA**: `rai/rag/index.py` indexes
+  only markdown files under `knowledge/` (`KNOWLEDGE.glob("**/*.md")`) — numeric SCADA telemetry
+  is never markdown and is structurally excluded, not merely deprioritized.
+- **Environment/peer/soiling ruled out before equipment fault**: `rai/agent/fallback.py`'s
+  `diagnose()` rule chain is `_environmental_ruling → _peer_ruling → _soiling_ruling →
+  _equipment_ruling`, first non-`None` wins — the ordering CLAUDE.md mandates is the literal
+  control flow, not a comment.
+
+**Concrete, scoped gap found and fixed**: `rai/economics/engine.py::evaluate_cleaning_options()`
+(the soiling/cleaning economic advisor, wired into `GET /api/soiling`) violated the "no magic
+numbers in model code" / "show all monetary assumptions transparently" rules that the sibling
+function `evaluate_options()` in the same file already follows correctly:
+- `unit_cleaning_cost_inr = 1850.0` was an inline literal, unsourced from `rai/config.py`, and
+  never disclosed to a caller — unlike `evaluate_options()`'s `EconomicOption.assumptions` dict.
+- The three recommendation `confidence` values (0.88 / 0.92 / 0.78) were bare literals with no
+  documented derivation, unlike `fallback.py`'s `_confidence()` which documents its heuristic.
+- `CleaningAdvisorOption` (the schema) had no `assumptions` field at all, unlike its sibling
+  `EconomicOption`, which does.
+- `services/api/routers/soiling.py` independently re-hardcoded the same `1850.0` figure rather
+  than sourcing it from one place.
+
+Fixed by: hoisting the cost and confidence literals to named, commented module constants
+(`UNIT_CLEANING_COST_INR`, `POST_CLEAN_BASELINE_SOILING_PCT`, `CLEANING_CONFIDENCE_RAIN_WINDOW`,
+`CLEANING_CONFIDENCE_IMMEDIATE`, `CLEANING_CONFIDENCE_DEFER`) matching the file's own existing
+convention (`DEFAULT_CAPACITY_FACTOR`, `DEGRADED_OUTPUT_LOSS_FRAC`); adding
+`assumptions: dict[str, float]` to `CleaningAdvisorOption` in `rai/schemas.py` and populating it
+for all four options; and pointing `services/api/routers/soiling.py` at the same constant
+instead of its own copy of the number. This is additive (default `{}`) and does not change any
+existing numeric output — verified below.
+
+**How it was verified**
+
+- `.venv/Scripts/python.exe -m pytest tests/ -q` → **421 passed**, 24 warnings (unchanged from
+  pre-change baseline; `test_evaluate_cleaning_options_now`/`_rain_wait` in
+  `tests/test_economics_memory.py` still pass since the new field is additive with a default).
+- `.venv/Scripts/python.exe -m ruff check rai/economics/engine.py rai/schemas.py
+  services/api/routers/soiling.py` → **All checks passed!**
+- `npx --no-install pyright` (project-wide) → **3 errors, 746 warnings** — identical to the
+  pre-existing baseline recorded in checkpoint 19 (both pre-existing errors remain in
+  `scripts/evaluate.py`/`scripts/evaluate_gate2.py`, untouched by this change).
+
+**Measured results**
+
+Not a modeling task; no metrics produced. The audit itself is the deliverable: 9 files read in
+full, cross-referenced against 6 specific requirements from CLAUDE.md and the master research
+task's Section 9-13, with line-number evidence recorded above for each. One real gap found and
+fixed (magic-number / hidden-assumption violation in the cleaning economics path), confirmed via
+`grep` that no other call site of `evaluate_cleaning_options`/`UNIT_CLEANING_COST_INR`-equivalent
+numbers exists outside the two now-fixed locations.
+
+**Limitations**
+
+- No named `OBSERVED`/`RETRIEVED`/`INFERRED`/`UNKNOWN`/`ABSTAINED` enum was added — the existing
+  `retrieval="fts5"` tag + `requires_human_review`/`confidence` fields were judged functionally
+  sufficient and adding a parallel taxonomy now would be speculative architecture with no
+  consumer, which the master task explicitly deprioritizes under deadline pressure. If a future
+  reviewer wants the literal taxonomy for the frontend evidence/provenance surface (Section 14-15
+  of the master task), it should be introduced there as a presentation-layer classification over
+  these existing fields, not as a backend rewrite.
+- `GET /api/soiling` does not currently serialize `CleaningAdvisorOption.options[]` (it hand-picks
+  a summary), so the new `assumptions` field is not yet visible in any API response —
+  `docs/API_CONTRACT.md` needed no update because it accurately documents what that endpoint
+  returns today. Wiring the full per-option breakdown into the API is frontend/API-surface work,
+  out of scope for this audit.
+- `rai/environment/cleaning_optimizer.py` (a separate module, used by
+  `rai/models/environment_solar.py` for physical wash-scheduling, not the API's economic advisor)
+  has its own independent `cleaning_cost_per_mw_inr` default — noted but not reconciled with
+  `UNIT_CLEANING_COST_INR`, since the two serve different call sites and reconciling them was not
+  a concrete requirement of this audit; flagging for a future pass if the two are ever meant to
+  agree.
+
+### ✅ gate56c-status-correction
+
+**What was built**
+
+A correction, not new modeling work: checkpoint 19 (`gate56c-model-development`) and every
+document that cross-referenced it had been asserting **"Gate 5.6C, complete"**. That framing
+was wrong and has been corrected everywhere it appeared. Gate 5.6B remains the last gate that
+is actually `COMPLETE` and `FROZEN`. Gate 5.6C consists of a decision record (PATH B) plus
+preliminary model-development code that was executed and produced real, non-fabricated
+results — but the gate itself has not been independently verified or closed, and must not be
+described as completed, post-completed, validated, or already executed as a finished gate.
+Current phase is now explicitly labeled: **Post-Gate-5.6B / pre-Gate-5.6C — Backend
+Intelligence Contracts + Submission Readiness.**
+
+No modeling code or artifacts were changed or re-run — the Gate 5.6C portion of this task is a
+status-label and cross-reference correction across documentation only. The underlying work
+from checkpoints 18 and 19 (real `pvlib.ModelChain` physics reference, real telemetry, 421/421
+passing tests) is unchanged and not retracted — only the claim that it constitutes a
+*completed* Gate 5.6C is withdrawn.
+
+Alongside the status correction, a bounded frontend claim-integrity sweep (`web/src/**/*.tsx`)
+found and fixed one genuine overclaim unrelated to Gate 5.6C: `EvidenceAccordion.tsx` labeled
+the recommendation panel next to the "Approve Work Order" button with
+`zero_hallucination_guarantee` — an absolute, unverifiable claim about LLM behavior, in the
+highest-stakes UI moment (right before a human acts on the recommendation). Replaced with an
+accurate description of what the architecture actually guarantees: the displayed figures are
+computed deterministically, not authored by the LLM (matching `rai/agent/runtime.py`'s real
+`verdict_from_needle()` behavior, audited in checkpoint 20). Also updated `docs/CLAIMS.md`,
+the project's claims ledger, which was stale in both directions: it still listed the REST
+API/web frontend as "Specified/in progress" against an "empty API package" (false — both are
+built and `npm run build` passes) and blanket-labeled all public-telemetry validation as
+"Future" (imprecise — Gate 5.6A/5.6B real PVDAQ acquisition/adjudication are genuinely
+`Demonstrated`/`COMPLETE`, while only the *model validation* step remains not-yet-true).
+
+**How it was verified**
+
+- `.venv/Scripts/python.exe -m pytest tests/ -q` → **421 passed**, 24 warnings — unchanged;
+  no `rai`/`services` code touched by the Gate 5.6C correction itself.
+- `.venv/Scripts/python.exe scripts/update_checkpoint.py` → `CHECKPOINT.md updated from 24
+  record(s)`; confirmed via `grep -n "gate56c-model-development" CHECKPOINT.md` that the
+  consolidated table now shows `🟡 | gate56c-model-development | 5 | partial`.
+- Manual grep sweep (`grep -rn "Gate 5.6C" **/*.md`) across all 14 files that mention Gate 5.6C
+  to confirm no remaining document asserts it as complete, post-completed, validated, or
+  already executed as a finished gate. `docs/checkpoints/16-gate56b-cohort-adjudication.md`
+  and `docs/checkpoints/17-ci-green-and-readme.md` were read and left unchanged: both are
+  historical records that were accurate statements at the time they were written (Gate 5.6C
+  had genuinely not been attempted yet when checkpoint 17 was filed) and rewriting them would
+  misrepresent project history rather than correct an error.
+- Grep sweep of `web/src/**/*.tsx,ts` for `state.of.the.art|production.ready|validated|
+  real-world|generalizes|accuracy|guarantee|AI-powered` — one genuine overclaim found and
+  fixed (`zero_hallucination_guarantee`); the other hits (e.g. "SCADA ingestion validated",
+  "CARE-inspired metric ... Accuracy=0.98" under an explicitly labeled "Internal Synthetic"
+  track, `Track B ... TRACKING PASSED (R²=0.994) · ANOMALY BENCHMARK PENDING`) were read in
+  context and are already correctly hedged or refer to real, artifact-backed numbers
+  (`evalData?.champion_model?.care_score`, traced to `services/api/routers/evaluation.py`
+  reading `artifacts/evaluation/results.json` — verified `care_score=0.7968` in that file
+  matches the frontend's `?? 0.797` fallback exactly, confirming the fallback is a real
+  snapshotted number, not a fabricated one).
+- `npm run build` in `web/` after the `EvidenceAccordion.tsx` edit → **compiled successfully,
+  8 routes, 0 errors** (unchanged from pre-edit baseline).
+
+**Measured results**
+
+Not applicable — this task changed no computation. The one artifact-adjacent number affected
+is a status label (`complete` → `partial`) in checkpoint 19's frontmatter, which is not a
+metric.
+
+**Limitations**
+
+- This correction does not itself perform the independent verification that would be needed
+  to actually close Gate 5.6C — it only stops describing it as already closed. If time permits
+  after higher-priority backend/submission-readiness work, an adversarial re-check of the
+  Gate 5.6C model-development results (mirroring the audit that originally caught
+  `GATE_5.6_INVALID_SYNTHETIC_RUN`) would be the concrete next step to actually complete the
+  gate — but per the master task's deadline rule this is explicitly lower priority than
+  submission readiness once the ~6:30-7:00 AM cutover approaches.
+- `artifacts/evaluation/gate56/gate56c_model_development/summary.md` (the build-script-authored
+  artifact) was checked and required no change — it already used careful language
+  (`MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED`) and never itself claimed the gate was
+  complete.
+- `web/src/app/evaluation/page.tsx`'s `champCare`/`champPrauc` hardcoded fallbacks (`?? 0.797`,
+  `?? 0.822`) are real snapshotted numbers (verified against `artifacts/evaluation/results.json`),
+  not fabricated ones, but the UI gives no visual signal when a fallback is showing instead of
+  a live API value. Not fixed here (small UI-polish item, not a numerical-honesty violation
+  since the number is genuine) — worth a "(cached)" indicator during the post-7AM demo-polish
+  pass if time allows.
+
+### ✅ end-to-end-integration-verification
+
+**What was built**
+
+No new code. A real execution of the full agent pipeline end-to-end (`scripts/demo.py --all`),
+prioritized over further benchmark work per the master task's explicit guidance that
+integration is higher-value than chasing more benchmark numbers, and as a natural checkpoint
+after the backend-contracts audit (checkpoint 20) and the claim-integrity corrections
+(checkpoint 21): confirm the whole stack still actually works together, using real computed
+values, before continuing further into either more research or the eventual product/demo
+readiness phase.
+
+All three demo scenario groups executed successfully with real, non-fabricated numbers at
+every stage:
+
+1. **Wind hero investigation (WT-017):** telemetry → residual stack (5 signals, dominant
+   `gearbox_oil_temp_c` z=+15.1σ) → environment ruling (unexplained by weather) → peer
+   comparison (asset-specific, 100th percentile vs. 8 cohort peers) → historical case retrieval
+   (CASE-W-001, 68% similarity) → knowledge RAG citation → economics (₹7,662,567 avoidable
+   exposure, 3 costed options) → final verdict (deterministic fallback, CRITICAL risk 82.9%,
+   confidence 90%, correctly escalated to human review despite confidence being above the 80%
+   threshold, because severity independently triggers escalation).
+2. **Solar environmental intelligence (INV-023):** CAMS atmospheric data → dust-storm risk →
+   Kimber-RdTools soiling kinetics → an exact additive loss decomposition (soiling + irradiance
+   + thermal + curtailment + equipment + unexplained residual sums to the measured deficit,
+   160.1 kW vs. 160.0 kW measured) → the cleaning advisor's cost/benefit table. **This run
+   directly exercised today's economics fix (checkpoint 20)**: `Wait 72h` shows
+   `Cost=INR 462`, which is `UNIT_CLEANING_COST_INR (1850) × (1 - rain_wash_prob 0.75)` —
+   confirming the newly-named constant and its `assumptions` plumbing are live in the actual
+   demo path, not just covered by unit tests.
+3. **Non-fault environmental discrimination:** a solar cloud transient (GHI 920→510 W/m²) is
+   correctly attributed 100% to irradiance loss with zero equipment suspicion, and a wind grid
+   curtailment directive (measured power matches the SLDC setpoint, bearing/vibration nominal)
+   is correctly attributed to curtailment with zero equipment alarm — a direct, live
+   demonstration that CLAUDE.md's "an environmental explanation must be ruled out before an
+   equipment fault is asserted" rule is real, exercised behavior, not just a written policy.
+
+**How it was verified**
+
+- `.venv/Scripts/python.exe scripts/demo.py --scenario gearbox_bearing_wear` then
+  `.venv/Scripts/python.exe scripts/demo.py --all` — both exit 0, full output inspected line
+  by line (reproduced above); only warnings were benign sklearn version-mismatch pickle
+  warnings, unrelated to correctness.
+- Cross-checked the solar cleaning-advisor's printed `Wait 72h` cost (₹462) by hand:
+  `1850.0 * (1 - 0.75) = 462.5`, rounds to the displayed `462` — confirms the real code path
+  (not a cached/stale value) and that checkpoint 20's `UNIT_CLEANING_COST_INR` fix is correctly
+  wired into the live demo output.
+- `.venv/Scripts/python.exe -m pytest tests/ -q` → **421 passed** (already re-confirmed
+  earlier this iteration after the checkpoint 20/21 changes; unchanged by this task since no
+  code was touched).
+
+**Measured results**
+
+No new metrics — this task's output is the demo transcript itself (reproduced above), which is
+real computed output, not asserted. All eight investigation stages (telemetry, residuals,
+environment, peers, history, knowledge, economics, decision) and both fault-suppression tests
+produced internally consistent, cross-checkable numbers.
+
+**Limitations**
+
+- This confirms the demo/CLI integration path works, not the HTTP API or web frontend paths —
+  `services/api/` and `web/` were separately confirmed buildable in checkpoint 21
+  (`npm run build`: 8 routes, 0 errors) but not exercised against a live running backend in
+  this task.
+- `--scenario cloud_transient` exists as a named option but `--all` groups its content into the
+  "non-fault" scenario block rather than running it as a separate named block — noted, not a
+  defect (the content is exercised either way), not investigated further since it's a
+  demo-script presentation detail with no correctness implication.
+
+### ✅ live-api-smoke-test
+
+**What was built**
+
+No new code. A live smoke test of the real FastAPI backend (`services/api/main.py`), started
+as an actual `uvicorn` server rather than exercised only through the demo CLI path — closing
+the one limitation explicitly flagged in checkpoint 22 ("this confirms the demo/CLI integration
+path works, not the HTTP API... path").
+
+Started `uvicorn services.api.main:app` on port 8791 and exercised every router's route
+surface, including a real HTTP call into the full `investigator.investigate()` pipeline:
+
+- `/api/health`, `/api/soiling`, `/api/evaluation`, `/api/assets` → HTTP 200, real data
+  (`"needle_available":true`, `"models_loaded":["wind_expected_power","solar_expected_power",
+  "risk"]`, `"assets":42`).
+- **Independent confirmation of the checkpoint 20 economics fix, from a second code path**:
+  `/api/soiling` returned `"cleaning_cost_inr":44400.0`, which is
+  `UNIT_CLEANING_COST_INR (1850) × 24 solar assets`. Checkpoint 22 confirmed this constant is
+  live in the `scripts/demo.py` path; this confirms it is *also* correctly wired into
+  `services/api/routers/soiling.py`'s live HTTP response — the same fix, verified through two
+  independent execution paths (CLI demo, HTTP API), not just unit tests.
+- `/api/assets/WT-004` → real per-asset detail: `health_score:55.3`, `risk_band:"elevated"`,
+  three fired anomaly detectors, five real signal residuals.
+- **`POST /api/assets/WT-004/investigate`** → HTTP 200, full `investigate()` pipeline exercised
+  through the real HTTP layer for the first time (previously only confirmed via direct
+  `scripts/demo.py` calls, which import `rai.agent` directly rather than going through
+  `services/api/`). Response contained:
+  - `"model_used":"deterministic_reasoner"`, `"fallback_used":true` — honest: Needle runtime
+    was not loaded in this smoke-test process, and the response correctly reports the fallback
+    path rather than fabricating a Needle-branded result.
+  - `"severity":"critical"`, `"requires_human_review":true` — confirms escalation-to-human-review
+    is live behavior over real HTTP, not just a unit-tested code path.
+  - Five real historical case matches (`CASE-W-005` ... `CASE-W-001`) with similarity scores,
+    three real RAG citations from `wind-generator-thermal-sop`/`wind-generator-system` docs
+    (`retrieval:"fts5"`, real match scores).
+  - Three economic options (`repair_now`/`defer_3d`/`defer_14d`), each carrying a full
+    `assumptions` dict (`tariff_inr_per_kwh`, `capacity_factor`, `hazard_per_day`,
+    `planned_downtime_hours`, `unplanned_downtime_hours`, `escalation_cost_inr`,
+    `degraded_output_loss_frac`) — confirms the checkpoint-20 assumptions-transparency pattern
+    is live end-to-end over HTTP, not just in `rai/economics/engine.py` unit tests.
+  - `"tool_calls":[]` — consistent with the fallback (non-Needle) path; no physical control
+    tool exists to call regardless (`rai/agent/tools.py`'s registry, audited in checkpoint 20).
+- Remaining route surface swept for basic liveness: `GET /api/fleet`, `/api/fleet/priority`,
+  `/api/knowledge/search?q=bearing`, `/api/knowledge/docs`, `/api/assets/WT-004/economics`,
+  `/api/assets/WT-004/cases`, `/api/assets/WT-004/peers` — all HTTP 200.
+
+**How it was verified**
+
+- Server started: `.venv/Scripts/python.exe -m uvicorn services.api.main:app --port 8791`
+  (background process), confirmed listening via successful `curl` responses.
+- `curl -s -o /dev/null -w "%{http_code}"` against 13 distinct routes across all 7 routers
+  (`health`, `soiling`, `evaluation`, `assets`, `fleet`, `knowledge`, plus the `investigate`
+  POST) — all returned `200`.
+- Full JSON payloads for `/api/soiling`, `/api/assets/WT-004`, and
+  `/api/assets/WT-004/investigate` inspected in full (not just status codes) via
+  `.venv/Scripts/python.exe -c "json.load(...)"`, cross-checking specific numbers against
+  known constants (`1850 × 24 = 44400`) and against the schemas/architecture audited in
+  checkpoint 20.
+- Server process identified via `Get-CimInstance Win32_Process -Filter "CommandLine LIKE
+  '%uvicorn%8791%'"` (PowerShell) and stopped cleanly with `Stop-Process -Force`; confirmed
+  down via a subsequent `curl` to `/api/health` returning connection failure (exit code, no
+  HTTP status).
+
+**Measured results**
+
+No new metrics — this task's output is confirmation that live HTTP responses match the
+architecture already audited (checkpoint 20) and the CLI-path numbers already verified
+(checkpoint 22). The one new number surfaced is the `/investigate` HTTP response's
+`avoidable_exposure_inr: 2626171.15` for `WT-004`, a real computed value (not previously seen
+since checkpoint 22's demo run used `WT-017`), consistent internally with its own
+`expected_exposure_inr` fields (`884152.0` vs `defer_14d`'s `3510323.15`).
+
+**Limitations**
+
+- This is a smoke test (route liveness + payload sanity), not a full API contract test suite —
+  `tests/test_api_contract.py` (referenced in `docs/CLAIMS.md`) is the authoritative,
+  repeatable check; this task is a one-time live-server confirmation layered on top of it.
+- Needle runtime was not loaded during this test (`fallback_used:true` throughout) — this
+  confirms the deterministic fallback path over real HTTP, but does not additionally confirm
+  the Needle-overlay path (`verdict_from_needle`) over HTTP; that path was already audited by
+  reading `rai/agent/investigator.py` in checkpoint 20 and is gated on local model availability
+  independent of the API layer.
+- `/api/knowledge/search`, `/api/knowledge/docs`, `/api/fleet`, `/api/fleet/priority`,
+  `/api/assets/{id}/economics`, `/api/assets/{id}/cases`, `/api/assets/{id}/peers` were checked
+  for HTTP 200 liveness only, not payload correctness — lower priority since none of them sit on
+  a previously-identified risk (unlike the soiling/investigate endpoints, which directly tested
+  checkpoint 20's fix and checkpoint 21's status corrections).
+
+### ✅ evaluation-page-cached-indicator
+
+**What was built**
+
+A small, scoped numerical-honesty fix flagged as a limitation in checkpoint 21 but deferred at
+the time ("worth a '(cached)' indicator during the post-7AM demo-polish pass if time allows"):
+`web/src/app/evaluation/page.tsx`'s champion-model `OPERATIONAL SCORE` and `PR-AUC` figures fall
+back to hardcoded snapshot values (`0.797`/`0.822`, real numbers taken from
+`artifacts/evaluation/results.json` at the time they were written — not fabricated) whenever
+`/api/evaluation` is unreachable or returns `available:false`, but the UI gave no visual signal
+that a fallback was showing instead of a live value.
+
+Added a `champIsLive` boolean (`evalData?.champion_model?.care_score != null`) and:
+- a `(cached)` suffix on both the `OPERATIONAL SCORE` and `PR-AUC` labels when not live,
+- a `title` tooltip on the score badge distinguishing "Live from /api/evaluation" from "API
+  unavailable — showing last-known snapshot value".
+
+This directly reflects `docs/checkpoints/23-live-api-smoke-test.md`'s finding that
+`/api/evaluation` does serve real, matching data when the backend is up — the gap was only that
+the frontend couldn't distinguish "backend down, showing snapshot" from "backend up, this is
+live," which matters for a submission demo where the backend's availability may vary.
+
+While fixing this, a grep sweep (`grep -rn "?? [0-9]" web/src/app`) for the same pattern
+elsewhere found the same gap on the dashboard homepage (`web/src/app/page.tsx`), the highest-
+traffic page in the app: all four headline `MetricTile`s (`Fleet Operational Health`,
+`Generation vs Expected`, `Plant Availability`, `Avoidable Revenue Exposure`) silently fall back
+to hardcoded numbers (`93.8`, `62450`/`68200`, `97.6`, `485000`) with no live/cached distinction
+— a more severe version of the same issue, since these are the first numbers a viewer sees.
+Fixed at the component level: added an optional `live` prop (default `true`) to the shared
+`MetricTile` component, appending `· cached` to its existing `source` provenance label plus a
+tooltip when `live={false}`; wired all four dashboard tiles to `live={overview != null}`
+(`overview` is the `FleetOverview` state, `null` until `getFleetOverview()` resolves
+successfully). This is a component-level fix, not a per-page one, so any future `MetricTile`
+usage inherits the same honesty behavior by default.
+
+**How it was verified**
+
+- `npm run build` in `web/` → **compiled successfully, 8 routes, 0 errors** (unchanged route
+  count/shape from the checkpoint 21 baseline), run twice (once after the evaluation-page edit,
+  once after the `MetricTile`/dashboard edit).
+- Manual read of the diff: the fallback numbers themselves are unchanged (still the real
+  snapshot values, not altered) — only a visibility indicator was added, per CLAUDE.md's
+  "every number shown in the UI traces to a computed artifact" combined with not overclaiming a
+  cached value as live.
+- `live` defaults to `true` so no other page or future `MetricTile` usage is silently affected;
+  confirmed by grep that `MetricTile` has exactly one call site (`web/src/app/page.tsx`).
+- Not re-tested against a live running server in this task (checkpoint 23 already confirmed
+  `/api/evaluation` and `/api/fleet`-family endpoints serve real matching data with the backend
+  up; this task only needed to confirm the fallback-path UI change compiles and preserves the
+  existing numbers).
+
+**Measured results**
+
+Not applicable — UI-only change, no computation altered.
+
+**Limitations**
+
+- On the evaluation page, only the two champion-model headline figures (`care_score`, `pr_auc`)
+  were given the indicator; other hardcoded defaults on the same page (the calibration-bucket
+  table around line 156, the per-model `brier`/`ece` fallbacks at lines 115-116, and
+  `regretMean`/`regretMedian`/`regretP95` defaults) were not audited or changed — scoped to the
+  headline figures checkpoint 21 explicitly flagged, not a full page sweep.
+- Cosmetic/wording choice ("(cached)" / "· cached") not reviewed against final demo visual
+  design; acceptable for now since the master task's frontend-design pass has not started yet
+  (still pre-7:00 AM).
+
+### ✅ soiling-api-cleaning-options-surface
+
+**What was built**
+
+Closes the second limitation flagged in checkpoint 20: `evaluate_cleaning_options()` already
+returns a full `CleaningAdvisorEvidence.options: list[CleaningAdvisorOption]`, each carrying an
+`assumptions` dict (the fix from checkpoint 20), but `GET /api/soiling` only ever surfaced the
+single recommended action's `rationale`/`breakeven_days` — the per-option cost breakdown and its
+assumption transparency existed in the Python layer but was never serialized into any API
+response, so it could not reach the frontend or be inspected by a client.
+
+Added `"cleaning_options": [option.model_dump() for option in advisor.options]` to
+`services/api/routers/soiling.py`'s response. This exposes all evaluated options (`clean_now`,
+`wait_24h`, `wait_72h`, `wait_7d` — whichever the evaluator produced), each with its full cost
+breakdown (`cleaning_cost_inr`, `expected_energy_loss_inr`, `net_exposure_inr`,
+`break_even_days`) and its `assumptions` dict (`tariff_inr_per_kwh`, `capacity_factor`,
+`daily_kwh`, `unit_cleaning_cost_inr`, `post_clean_baseline_soiling_pct`, etc.) — the same
+evidence-transparency pattern already live on `/api/assets/{id}/investigate`'s
+`economics.options[].assumptions` (confirmed real in checkpoint 23's live smoke test).
+
+**How it was verified**
+
+- `.venv/Scripts/python.exe -m pytest tests/ -q` → **421 passed**, 24 warnings — unchanged
+  (no existing test asserts a closed key set on the `/api/soiling` response, confirmed by
+  reading `tests/test_api_contract.py::test_api_soiling`, so the additive field is safe).
+- `.venv/Scripts/python.exe -m ruff check rai/schemas.py rai/economics/engine.py
+  services/api/routers/soiling.py` → **All checks passed!**
+- Direct function call (no server needed):
+  `from services.api.routers.soiling import get_soiling_summary; get_soiling_summary()` —
+  confirmed `cleaning_options[0]` is real, non-fabricated data:
+  `{"option_id": "clean_now", "cleaning_cost_inr": 1850.0, "expected_energy_loss_inr": 926.1,
+  "net_exposure_inr": 2776.1, "break_even_days": 59.9, "assumptions": {"tariff_inr_per_kwh":
+  2.45, "capacity_factor": 0.21, "daily_kwh": 1260.0, "unit_cleaning_cost_inr": 1850.0,
+  "post_clean_baseline_soiling_pct": 1.0, "recoverable_loss_pct": 1.0, "horizon_days": 30.0,
+  "clean_baseline_loss_pct": 1.0}}` — every figure traces to either a named constant in
+  `rai/economics/engine.py` or a live weather/soiling input, none hidden.
+
+**Measured results**
+
+Not a modeling change — no metrics altered. The new field is a direct serialization of an
+already-computed, already-tested object; the numbers were already exercised by
+`tests/test_economics_memory.py::test_evaluate_cleaning_options_*`.
+
+**Limitations**
+
+- The frontend `web/src/app/soiling/page.tsx` was not updated in this task to display the new
+  `cleaning_options` array — this closes the *backend/API* transparency gap only. Wiring it into
+  the soiling page's UI (e.g., an expandable per-option assumptions table, mirroring
+  `EvidenceAccordion.tsx`'s economics display) is a frontend task, appropriately deferred to the
+  post-7:00-AM frontend phase rather than done piecemeal now.
+- `rai/environment/cleaning_optimizer.py`'s separate `cleaning_cost_per_mw_inr` (noted
+  unreconciled in checkpoint 20) remains unreconciled — still out of scope, different call site.
 
