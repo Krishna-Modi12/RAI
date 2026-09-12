@@ -908,7 +908,7 @@ mono `--t-micro`, then one `Retry` button.
 | `model_not_trained` | `Model not trained` | the training command to run |
 | `index_not_built` | `Knowledge index not built` | the index-build command to run |
 | `agent_unavailable` | `Agent unavailable` | that the deterministic reasoner is the fallback |
-| network / timeout | `Cannot reach the API` | `Expected http://127.0.0.1:8000. Start it with scripts/run_api.py.` |
+| network / timeout | `Cannot reach the API` | `Expected http://127.0.0.1:8000. The API route layer is still in progress; use the command-line demo meanwhile.` |
 
 Errors state what happened and what to do. They do not apologise and they never invent a cause.
 

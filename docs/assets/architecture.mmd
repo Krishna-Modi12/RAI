@@ -1,0 +1,19 @@
+flowchart TD
+    A[Simulator or normalized telemetry] --> B[DuckDB over Parquet]
+    B --> C[Feature and operating-state filter]
+    C --> D[Expected healthy behaviour]
+    D --> E[Residual signals]
+    E --> F[Anomaly fusion]
+    F --> G[Environment and sensor attribution]
+    F --> H[Peer comparison]
+    G --> I[EvidencePacket]
+    H --> I
+    I --> J[Risk assessment]
+    J --> K[Historical case memory]
+    J --> L[Knowledge corpus]
+    K --> M[Python economics]
+    L --> M
+    M --> N[Needle 2 or deterministic fallback]
+    N --> O[AgentVerdict]
+    O --> P[Human decision]
+

@@ -33,4 +33,5 @@ out/
 # Env + editor
 .env
 .env.local
+.claude/settings.local.json
 .DS_Store

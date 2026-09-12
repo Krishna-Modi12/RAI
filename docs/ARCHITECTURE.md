@@ -179,7 +179,10 @@ arithmetic, the human decides.**
 | `rai/agent/` | Tool registry, Needle 2 runtime, deterministic fallback, confidence gating, verdict validation | `AgentVerdict`, `Investigation` | planned |
 | `rai/eval/` | Split policy, leakage guards, detection/lead-time/calibration metrics, evaluation report | `artifacts/evaluation.json` | planned |
 | `services/api/` | FastAPI implementing the 18 frozen endpoints, typed errors, SSE stream | JSON per `docs/API_CONTRACT.md` | planned |
-| `web/` | Next.js operator interface: fleet command, asset investigation, simulator console, soiling, knowledge | — | planned (directory does not exist yet) |
+| `web/` | Next.js operator interface scaffold for fleet command, asset investigation, simulator console, soiling, and knowledge | — | scaffolded; API integration in progress |
+
+Maintainable Mermaid sources for the architecture, decision loop, demo flow, and data flow
+are in [`docs/assets/`](assets/).
 | `knowledge/` | Illustrative maintenance corpus: `manuals/`, `sops/`, `incidents/` | source documents | directories exist, empty |
 | `scripts/` | Build-time entry points: generate data, train, index, evaluate, warm up Needle | `artifacts/` | partial (`update_checkpoint.py` only) |
 

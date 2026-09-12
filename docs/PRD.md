@@ -5,9 +5,9 @@
 
 **Status of this document.** Requirements are written against the frozen contracts
 (`rai/schemas.py`, `rai/config.py`, `docs/API_CONTRACT.md`). Every requirement carries a
-build status. At the time of writing, the only implemented code in the repository is the
-schema layer, the configuration/fleet registry, and a smoke test; every other capability
-below is marked **planned**. Nothing here claims to exist because it is specified.
+build status. The repository now includes the simulator, stores, numerical model layers,
+economics, historical memory, deterministic agent fallback, tests, and command-line
+evaluation/demo paths. The REST endpoint layer and browser integration remain in progress.
 
 **Scope of the build.** 24-hour hackathon. One machine, no cloud, no GPU, no internet at
 demo time. The deliverable is a runnable system over a simulated-but-physically-grounded

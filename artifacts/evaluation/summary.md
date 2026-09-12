@@ -1,6 +1,6 @@
 # RAI Evaluation Summary
 
-Computed: `2026-09-12T08:10:58.216806+00:00`
+Computed: `2026-09-12T08:21:52.712173+00:00`
 
 This report is generated from the local synthetic simulator. It is not a claim of real-world performance.
 

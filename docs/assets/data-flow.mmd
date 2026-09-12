@@ -1,0 +1,11 @@
+flowchart TD
+    A[Physics simulator] --> C[Canonical telemetry]
+    B[External adapters: planned validation] --> C
+    W[Site weather] --> C
+    C --> D[Parquet and DuckDB]
+    D --> E[Features and residuals]
+    E --> F[Models and attribution]
+    F --> G[EvidencePacket]
+    G --> H[Agent tools]
+    H --> I[CLI demo and future API/UI]
+

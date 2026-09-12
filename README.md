@@ -16,7 +16,21 @@ operator.
 
 [Quick start](#quick-start) · [Architecture](#architecture) ·
 [Phase 2 evaluation](#phase-2-evaluation) · [Judge demo](docs/DEMO.md) ·
+[Claims matrix](docs/CLAIMS.md) · [References](docs/REFERENCES.md) ·
 [Limitations](docs/LIMITATIONS.md)
+
+## Contents
+
+- [Why this exists](#why-this-exists)
+- [What we built](#what-we-built)
+- [Architecture](#architecture)
+- [Machine learning and decision layers](#machine-learning-and-decision-layers)
+- [Quick start](#quick-start)
+- [Phase 2 evaluation](#phase-2-evaluation)
+- [Data and provenance](#data-and-provenance)
+- [Limitations and non-claims](#limitations-and-non-claims)
+- [Roadmap](#roadmap)
+- [Repository guides](#repository-guides)
 
 ## Why this exists
 
@@ -266,6 +280,8 @@ results. Full datasets and generated binaries are excluded from Git by `.gitigno
 - [Dataset guide](docs/DATASETS.md)
 - [Evaluation output](artifacts/evaluation/summary.md) after running the evaluator
 - [Knowledge corpus](knowledge/) — clearly labelled project-authored sample documents
+- [Claims matrix](docs/CLAIMS.md) — what each important claim is based on
+- [References](docs/REFERENCES.md) — datasets, research, standards, and software sources
 
 ## Repository map
 
@@ -297,13 +313,14 @@ artifacts/           ignored model/index outputs plus generated evaluation repor
 
 See [docs/LIMITATIONS.md](docs/LIMITATIONS.md) for the reviewer-oriented version.
 
-## Development and project health
+## Repository guides
 
 - [Contributing](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Copilot instructions](.github/copilot-instructions.md)
 - [Current build checkpoint](CHECKPOINT.md)
+- [Change log](CHANGELOG.md)
 
 There is currently no repository licensing decision recorded. See
 [docs/LICENSING.md](docs/LICENSING.md); do not redistribute this code under an assumed

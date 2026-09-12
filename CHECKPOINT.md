@@ -118,14 +118,15 @@ None.
 
 ## Consolidated task log
 
-_Generated 2026-09-12 08:11 UTC from 2 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-12 08:22 UTC from 3 task record(s) in `docs/checkpoints/`._
 
-**2/2 task records complete.**
+**3/3 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
 | ✅ | repository Copilot instructions | 1 | complete |
 | ✅ | reviewer-ready repository documentation | 1 | complete |
+| ✅ | Phase 2 repository upgrade | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -179,4 +180,43 @@ synthetic, controlled results and are not real-world validation.
 Pyright is configured but is not installed in the checked-in virtual environment, so no
 type-check result is claimed. The FastAPI route layer and browser dashboard remain in
 progress.
+
+### ✅ Phase 2 repository upgrade
+
+**What was built**
+
+- Added a claims-to-evidence matrix and curated references for datasets, research, and
+  software.
+- Added maintainable Mermaid source diagrams for architecture, decision flow, demo flow,
+  and data flow.
+- Added GitHub Actions quality checks for Python tests/Ruff and frontend lint/build.
+- Corrected stale documentation and stopped tracking local Claude settings.
+
+**How it was verified**
+
+`.venv\Scripts\python.exe -m pytest tests\ -q` — 91 passed.
+
+`.venv\Scripts\ruff.exe check .` — passed.
+
+`Set-Location web; npm run lint` — passed.
+
+`Set-Location web; npm run build` — passed.
+
+`.venv\Scripts\python.exe scripts\evaluate.py` — scenario agreement 12/12.
+
+`.venv\Scripts\python.exe scripts\demo.py --scenario gearbox_bearing_wear` — completed
+the deterministic investigation path.
+
+**Measured results**
+
+- Python tests: 91 passed.
+- Synthetic scenario agreement: 12/12.
+- Frontend production build: successful.
+
+**Limitations**
+
+- The API route layer and browser-to-API integration remain incomplete.
+- CI has not run on GitHub in this session; the workflow is validated against the same
+  local commands.
+- Evaluation results remain synthetic and are not real-world accuracy claims.
 
