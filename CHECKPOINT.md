@@ -118,15 +118,16 @@ None.
 
 ## Consolidated task log
 
-_Generated 2026-09-12 08:22 UTC from 3 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-12 08:35 UTC from 4 task record(s) in `docs/checkpoints/`._
 
-**3/3 task records complete.**
+**4/4 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
 | ✅ | repository Copilot instructions | 1 | complete |
 | ✅ | reviewer-ready repository documentation | 1 | complete |
 | ✅ | Phase 2 repository upgrade | 5 | complete |
+| ✅ | README architecture refresh | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -219,4 +220,35 @@ the deterministic investigation path.
 - CI has not run on GitHub in this session; the workflow is validated against the same
   local commands.
 - Evaluation results remain synthetic and are not real-world accuracy claims.
+
+### ✅ README architecture refresh
+
+**What was built**
+
+- Replaced the README with a fresh-machine setup guide and implementation-accurate
+  project overview.
+- Added an architecture diagram showing the numerical pipeline, EvidencePacket boundary,
+  decision-support tools, and human handoff.
+- Added a decision-flow diagram showing persistence, attribution, peer, confidence, and
+  escalation gates.
+- Added a code-walkthrough narrative, configuration reference, evaluation instructions,
+  repository map, and explicit non-claims.
+
+**How it was verified**
+
+- README relative-link checker — no missing relative links.
+- `Set-Location web; npm run lint` — passed.
+- `git diff --check -- README.md` — no content errors after the final edit.
+
+**Measured results**
+
+- README contains the current Windows setup path, deterministic demo commands, CI
+  commands, architecture flow, and API/frontend status.
+- No new numerical claims were introduced; evaluation claims point to generated artifacts.
+
+**Limitations**
+
+- The FastAPI route layer and browser-to-API integration remain incomplete.
+- Full Ruff output is currently affected by unrelated uncommitted files under `rai/eval/`
+  and `tests/test_environment_solar.py`; those files were not changed by this task.
 
