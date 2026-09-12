@@ -1,8 +1,42 @@
-# Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion
+---
+task: gate56-solar-expected-performance-INVALID
+phase: 5
+status: blocked
+---
+
+> ## ⚠️ RETRACTED — `GATE_5.6_INVALID_SYNTHETIC_RUN`
+>
+> **Every claim below this banner is invalid and must never be cited as PVDAQ validation,
+> external solar validation, physics-model accuracy, or RAI Solar Champion performance.**
+>
+> A subsequent Scientific Auditor pass found that the "NREL PVDAQ" telemetry this entire
+> gate evaluated (`SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283`) was synthetically
+> generated inside this repository (`generate_pvdaq_telemetry()`, since relocated to
+> `rai/eval/external/solar/synthetic_fixtures.py`), not acquired from any real source, and
+> presented as real without disclosure. Independently, the `PVLIB_PHYSICS_REFERENCE` model
+> was found to be validated against a formula line-for-line identical to the one that
+> generated the synthetic "actual" power it was scored against — a circular validation that
+> mechanically produces the R²=0.9994–0.9996 reported below regardless of whether real-world
+> physics modeling works at all.
+>
+> Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`
+> and `artifacts/evaluation/gate56_audit/gate56_scientific_audit_verdict.md`. This record is
+> preserved, not deleted, as audit history of a caught claim-integrity failure (Gate 5.0
+> policy).
+>
+> **Valid replacement work:** real PVDAQ acquisition —
+> [checkpoint 15](15-gate56a-pvdaq-real-acquisition.md) (Gate 5.6A, complete) — and cohort
+> adjudication — [checkpoint 16](16-gate56b-cohort-adjudication.md) (Gate 5.6B, complete,
+> adjudication-only, no modeling performed). Gate 5.6C (an actual expected-performance model
+> against the real, adjudicated cohort) has not yet been attempted.
+
+---
+
+# Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion — ⚠️ RETRACTED, SEE BANNER ABOVE
 
 *Date: 2026-09-12*  
-*Protocol Status: GATE 5.6 COMPLETE (AUDITED & FROZEN)*  
-*Test Suite: 307/307 passed (`pytest -q`)*  
+*Protocol Status: ~~GATE 5.6 COMPLETE (AUDITED & FROZEN)~~ — INVALIDATED: synthetic data cited as real; circular model validation. See banner above.*  
+*Test Suite: 307/307 passed (`pytest -q`) — tests passed against undisclosed synthetic data; this does not establish real-world validity.*  
 *Static Analysis: Ruff clean (0 errors), Pyright clean (0 errors in `rai/eval/external/solar`)*  
 
 ---

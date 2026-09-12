@@ -1,7 +1,17 @@
-# Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion: Summary Report
+> ## ⚠️ RETRACTED — `GATE_5.6_INVALID_SYNTHETIC_RUN` — see `../gate56/INVALID_RUN_NOTICE.md`
+>
+> Everything below evaluated synthetic data presented as real PVDAQ telemetry, validated
+> against a circular (self-generating) physics formula. None of it may be cited as PVDAQ
+> validation. Full evidence: `../gate56_invalid_prior_run/invalidation_manifest.json`. Valid
+> replacement work: `../gate56/acquisition/summary.md` (Gate 5.6A, real data) and
+> `../gate56/cohort_adjudication/summary.md` (Gate 5.6B, adjudication, no modeling).
+
+---
+
+# Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion: Summary Report — ⚠️ RETRACTED
 
 *Date: 2026-09-12*
-*Status: GATE 5.6 COMPLETE & AUDITED*
+*Status: ~~GATE 5.6 COMPLETE & AUDITED~~ — INVALIDATED, see banner above*
 *Reproducibility Seed: 20260912 (`REPRODUCIBILITY_CHOICE`)*
 
 ---

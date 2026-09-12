@@ -6,6 +6,8 @@
     "irradiance_status": "REAL_MEASURED_POA_PRESENT",
     "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
     "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "target_missingness_fraction": -0.0006,
+    "notable_context_signal_missingness": "no context signal exceeds 15% missingness",
     "empirical_ready": true,
     "physics_ready": true,
     "validation_ready": true,
@@ -19,6 +21,8 @@
     "irradiance_status": "REAL_MEASURED_POA_PRESENT",
     "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
     "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "target_missingness_fraction": 0.027,
+    "notable_context_signal_missingness": "no context signal exceeds 15% missingness",
     "empirical_ready": true,
     "physics_ready": true,
     "validation_ready": true,
@@ -30,13 +34,15 @@
     "timestamp_status": "UTC_AVAILABLE_GROUND_TRUTH",
     "power_status": "VALID_SIGNED_POWER",
     "irradiance_status": "REAL_MEASURED_POA_PRESENT",
-    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "temperature_status": "REAL_MEASURED_PRESENT_WITH_PARTIAL_GAPS: ambient_temp 30.2% missing (6,027/8,640 expected records); module_temp available as a near-complete redundant source (0.02% missing) -- not disqualifying, recorded as a limitation.",
     "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "target_missingness_fraction": 0.0,
+    "notable_context_signal_missingness": "ambient_temp=30.2%",
     "empirical_ready": true,
     "physics_ready": true,
     "validation_ready": true,
     "final_role": "DEVELOPMENT",
-    "reason": "timestamp=UTC_AVAILABLE_GROUND_TRUTH; power=VALID_SIGNED_POWER; physics_ready=True"
+    "reason": "timestamp=UTC_AVAILABLE_GROUND_TRUTH; power=VALID_SIGNED_POWER; physics_ready=True; notable_context_missingness=[ambient_temp=30.2%]"
   },
   {
     "system_id": 1430,
@@ -45,6 +51,8 @@
     "irradiance_status": "REAL_MEASURED_POA_PRESENT",
     "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
     "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "target_missingness_fraction": 0.036,
+    "notable_context_signal_missingness": "no context signal exceeds 15% missingness",
     "empirical_ready": true,
     "physics_ready": false,
     "validation_ready": false,
@@ -55,13 +63,15 @@
     "system_id": 1433,
     "timestamp_status": "TIMESTAMP_AMBIGUOUS",
     "power_status": "VALID_SIGNED_POWER",
-    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT_WITH_GAPS: poa 9.3% missing (7,837/8,640 expected records) -- same missingness fraction as this system's ambient_temp/module_temp, consistent with shared data-logger downtime rather than a sensor-specific fault.",
     "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
     "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
-    "empirical_ready": true,
+    "target_missingness_fraction": 0.747,
+    "notable_context_signal_missingness": "no context signal exceeds 15% missingness",
+    "empirical_ready": false,
     "physics_ready": false,
     "validation_ready": false,
     "final_role": "SECONDARY_ONLY",
-    "reason": "timestamp=TIMESTAMP_AMBIGUOUS; power=VALID_SIGNED_POWER; physics_ready=False"
+    "reason": "timestamp=TIMESTAMP_AMBIGUOUS; power=VALID_SIGNED_POWER; physics_ready=False; target_missingness=74.7% (EXCEEDS 50% severe threshold)"
   }
 ]

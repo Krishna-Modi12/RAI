@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { searchKnowledge } from "../../lib/api";
+import { KnowledgeSearchResult, searchKnowledge } from "../../lib/api";
 import { BookOpen, Search, FileText, ArrowRight, ExternalLink } from "lucide-react";
 
 export default function KnowledgePage() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<unknown[]>([]);
+  const [results, setResults] = useState<KnowledgeSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const sampleQueries = [

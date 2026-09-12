@@ -2,13 +2,13 @@
 
 > Consolidated build state. All tasks across Foundation, Modeling, Operational Validation, Environmental Intelligence, API Services, and Next.js Instrument Panel are fully verified.
 
-**Last updated:** 2026-09-12 (Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion complete)  
+**Last updated:** 2026-09-13 (Gate 5.6 solar-model claim retracted as `GATE_5.6_INVALID_SYNTHETIC_RUN`; Gate 5.6A real PVDAQ acquisition and Gate 5.6B cohort adjudication complete and are the current valid solar baseline)  
 **Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, and Phase 5 external benchmark gates (Wind Gates 5.0–5.4, Solar Gates 5.5–5.6) fully built, tested, and verified  
 **Backend Unit Tests:** 307/307 passing (verified by direct `pytest -q` run)  
 **Static Analysis:** Ruff — 0 errors (`All checks passed!`). Pyright — 0 errors in `rai/`  
 **Frontend Build:** verified — `npm run build` in `web/` completes cleanly in 897ms (Next.js 16.3.5 Turbopack, 8 routes, 0 errors).  
 **Phase 5 External Benchmark Validation (Gates 5.0–5.6):**
-- **Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion:** `PASSED` (Audited 5 NREL PVDAQ systems: `SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283` with 5 documented exclusions. Evaluated 3 models: `PVLIB_PHYSICS_REFERENCE`, `SOLAR_EMPIRICAL_BASELINE`, and `RAI_SOLAR_CHAMPION`. Champion achieved **$R^2 = 0.9994–0.9996$** and **$\text{nRMSE} \le 0.55\%$** across all daytime test data. Daily energy yield tracking achieved **0.25% to 0.33%** mean absolute percentage error. External cross-site holdout transfer from Golden, CO to Washington, DC and Cocoa, FL achieved $\text{nRMSE} \le 0.55\%$. Confounder isolation policies verified for nighttime zeroing, inverter clipping, curtailment, and data gaps. All 16 artifacts emitted into `artifacts/evaluation/gate56/`).
+- **Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion:** `GATE_5.6_INVALID_SYNTHETIC_RUN` — **retracted, do not cite.** The "5 NREL PVDAQ systems" (`SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283`) this run evaluated were synthetically generated inside the repo and presented as real, and the physics-reference model was validated against a formula algebraically identical to its own generating function (circular validation) — this mechanically produces the previously reported $R^2 = 0.9994$–$0.9996$ regardless of real-world model accuracy. Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`. Superseded by two real gates: **Gate 5.6A — Real PVDAQ Acquisition** `COMPLETE` (450/450 real, checksummed telemetry files from NREL's public OEDI S3 data lake; cohort locked to real systems 1239/1283/34/1430/1433) and **Gate 5.6B — Cohort Adjudication** `COMPLETE` (adjudication-only, zero models fit: real timestamps/target-signal semantics/unit-scale correctness verified; final cohort Development=[1239,1283,34], Validation=[] `INSUFFICIENT_DATA` — no padding applied, Secondary-only=[1430,1433]). See `docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md` and `docs/checkpoints/16-gate56b-cohort-adjudication.md`. **Gate 5.6C (an actual expected-performance model fit against this real, adjudicated cohort) has not been attempted.**
 - **Gate 5.5 Solar Data Foundation & Evidence Architecture:** `PASSED` (Audited 8 candidate public solar data sources across NREL, Sandia PVPMC, EDP Open Data, DKASC, and community benchmarks. Codified 26-signal canonical solar taxonomy in `rai/eval/external/solar/taxonomy.py`. Rigorously assigned Evidence Tiers 1 through 5. Audited expected-performance modeling readiness and failure/degradation ground-truth readiness. Emitted 10 verified artifacts in `artifacts/evaluation/gate55/`).
 - **Gate 5.4 Cross-Farm Wind Transfer & Target-Normal Calibration:** `PASSED` (Evaluated all 6 directed transfers $A \to B, A \to C, B \to A, B \to C, C \to A, C \to B$ across 3 conditions: `FROZEN_SOURCE`, `TARGET_NORMAL_CALIBRATED`, `TARGET_SPECIFIC_REFERENCE` under frozen `CARE_COMMON`). Evaluated directional asymmetry, distribution shift (e.g. Farm B rotor speed 7.98 rpm vs Farm A 11.40 rpm; KS = 0.6673), and turbine-cluster bootstrap (2,000 resamples). Discovered that target-normal calibration using unlabelled normal SCADA completely recovers the transfer gap (106.3% recovery on $C \to A$; restores normal accuracy from 0.5965 to 0.9963 on $B \to A$).
 - **Gate 5.3 Champion Cross-Turbine Generalization & Input Audit:** `PASSED` (Condition A, B, C evaluated across all 36 turbines on Zenodo record 14006163). Audited that `RAI_COMMON == RAI_NATIVE == RAI_CURRENT` (3 physical signals + 30-min persistence). Unseen-turbine transfer evaluated with zero leakage: mean transfer deltas are small ($-0.035$ Farm A, $-0.034$ Farm B, $-0.016$ Farm C; cluster bootstrap CIs computed; zero normal-dataset false alarms).
@@ -41,17 +41,30 @@
 ---
 
 
-### Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion
+### Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion — ⚠️ `GATE_5.6_INVALID_SYNTHETIC_RUN`
 
-- **Execution Status:** `COMPLETE` (Audited 5 PVDAQ systems: `SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283` with 5 documented exclusions; 17/17 targeted tests passing, 307/307 full test suite passing).
-- **Three Models Evaluated:**
-  - `PVLIB_PHYSICS_REFERENCE`: Staged ModelChain (solar position $\to$ POA transposition $\to$ SAPM cell temperature $\to$ single-diode derating $\to$ quadratic inverter). $R^2 = 0.9994–0.9996$, nRMSE $\le 0.54\%$.
-  - `SOLAR_EMPIRICAL_BASELINE`: Degree-2 polynomial response surface regression fitted strictly on training-normal daytime telemetry. $R^2 = 0.9970–0.9983$, nRMSE $\le 1.35\%$.
-  - `RAI_SOLAR_CHAMPION`: Hybrid physics-empirical synthesis with standardized residual $z$-scores and 3-interval persistence tracking. $R^2 = 0.9994–0.9996$, nRMSE $\le 0.55\%$.
-- **Daily Energy Yield Tracking:** Mean daily absolute error was **0.25% to 0.33%** across all systems, verifying that pointwise tracking translates to accurate energy generation forecasting without diurnal bias.
-- **Operating Regime Stability:** High and medium irradiance regimes maintain $R^2 \ge 0.996$. Inverter clipping ($P \ge 0.98 \times P_{\text{ac\_rated}}$ under high irradiance) is explicitly tagged and isolated from degradation scoring.
-- **External System-Level Holdout:** Cross-site transfer from `SYS_10` (Golden, CO) to `SYS_1199` (Washington, DC) and `SYS_1283` (Cocoa, FL) achieved $\text{nRMSE} \le 0.55\%$, confirming geographic and climatic generalization.
-- **Artifacts:** `artifacts/evaluation/gate56/` (16 machine-readable artifacts: `dataset_selection.{csv,json}`, `quality_filter_manifest.json`, `split_manifest.json`, `pvlib_model_manifest.json`, `empirical_model_manifest.json`, `champion_model_manifest.json`, `model_metrics.csv`, `regime_metrics.csv`, `energy_metrics.csv`, `residual_diagnostics.csv`, `system_holdout_results.csv`, `predictions_sample.csv`, `provenance_manifest.json`, `protocol_manifest.json`, `summary.md`).
+- **Execution Status:** `RETRACTED` — do not cite any figure below as real-world validation. A Scientific Auditor pass found the "PVDAQ" telemetry (`SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283`) was synthetically generated in-repo (`generate_pvdaq_telemetry()`, since relocated to `rai/eval/external/solar/synthetic_fixtures.py` with unmistakable synthetic-only labeling) and presented as real without disclosure, and that `PVLIB_PHYSICS_REFERENCE` was scored against a formula algebraically identical to its own generating function — a circular validation. Full record: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`, `artifacts/evaluation/gate56_audit/gate56_scientific_audit_verdict.md`. The figures immediately below (17/17, 307/307, all R²/nRMSE/energy values) are preserved verbatim as historical record of what was claimed, not as evidence of anything real:
+  - `PVLIB_PHYSICS_REFERENCE`: staged ModelChain, $R^2 = 0.9994–0.9996$, nRMSE $\le 0.54\%$ — **circular** (validated against its own generating formula).
+  - `SOLAR_EMPIRICAL_BASELINE`: degree-2 polynomial response surface, $R^2 = 0.9970–0.9983$, nRMSE $\le 1.35\%$ — trained/tested on undisclosed synthetic data.
+  - `RAI_SOLAR_CHAMPION`: hybrid synthesis, $R^2 = 0.9994–0.9996$, nRMSE $\le 0.55\%$ — same defect.
+  - Daily energy yield 0.25–0.33% error, and cross-site holdout `SYS_10`→`SYS_1199`/`SYS_1283` nRMSE ≤0.55% — same defect; no real geographic generalization was demonstrated.
+- **Artifacts:** `artifacts/evaluation/gate56/` root-level files (`dataset_selection.*`, `model_metrics.csv`, etc. — 16 files) are the retracted run; see `artifacts/evaluation/gate56/INVALID_RUN_NOTICE.md`. The `acquisition/` and `cohort_adjudication/` subdirectories of the same folder are real and unaffected (see below).
+
+### Gate 5.6A — Real PVDAQ Acquisition (supersedes the invalid run's data source)
+
+- **Execution Status:** `COMPLETE` (450/450 real, checksummed daily telemetry files acquired unauthenticated from NREL's public OEDI S3 data lake; 5-system cohort screened and locked *before* download on signal-availability grounds only, zero model output involved).
+- **Real Cohort:** Development=[1239, 1283, 34] (Presque Isle ME / NREL RSF II Golden CO / Andre Agassi Bldg A Las Vegas NV); candidate Validation=[1430, 1433] (NREL Mesa 1-axis tracker / NREL RSF1, both Golden CO).
+- **Real Data-Quality Defects Flagged (not silently fixed):** 1430/1433 have `utc_measured_on` null for 100% of records; per-signal sampling intervals differ within the same system; system 1283 has no plant-level AC-power channel in the real 2019 telemetry and its best candidate channel is 39.5% negative.
+- **Artifacts:** `artifacts/evaluation/gate56/acquisition/` (10 manifests + `summary.md`). See `docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`.
+
+### Gate 5.6B — Cohort Adjudication (adjudication only — zero models fit)
+
+- **Execution Status:** `COMPLETE` (63/63 targeted tests passing, 407/407 full suite passing, ruff clean, pyright at pre-existing 3-error baseline with 0 new errors).
+- **Resolved:** all 5 systems have a trustworthy power-target classification; system 1283's negative readings confirmed as legitimate nighttime net-meter draw, not a defect. 1430/1433 classified `TIMESTAMP_AMBIGUOUS` (never independently UTC-confirmed) → downgraded to `SECONDARY_ONLY`.
+- **Two integrity defects found and fixed during this gate itself:** a unit-scale bug (1430/1433's AC power needed the metrics dictionary's `calc_scale` reapplied — proven via real AC/DC power ratio at matched peak-generation timestamps for 1430, capacity-plausibility for 1433) and two fully degenerate channels (1239 `wind_speed`, 1283 `dc_power`) invisible to record-count-based missingness checks alone.
+- **Final Frozen Cohort:** Development=[1239, 1283, 34]; Validation=[] (`INSUFFICIENT_DATA` — no padding applied, per the project's no-padding rule); Secondary-only=[1430, 1433]. System-level external holdout is **not currently statistically meaningful** (zero validation systems) — Gate 5.6C must design and justify its own fallback.
+- **Artifacts:** `artifacts/evaluation/gate56/cohort_adjudication/` (13 files: `cohort_adjudication.{csv,json}`, `cohort_freeze_v2.json`, `pvlib_readiness.csv`, `target_signal_manifest.csv`, `timestamp_adjudication.csv`, `unit_scale_audit.csv`, `system_1283_power_semantics.md`, `alignment_policy.json`, `signal_sampling_matrix.csv`, `power_semantics_audit.csv`, `summary.md`). See `docs/checkpoints/16-gate56b-cohort-adjudication.md`.
+- **Not yet attempted:** Gate 5.6C — an actual expected-performance model fit against this real, adjudicated cohort.
 
 ### Gate 5.5 — Solar Data Foundation & Evidence Architecture
 
@@ -153,9 +166,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-12 15:35 UTC from 16 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-12 19:33 UTC from 20 task record(s) in `docs/checkpoints/`._
 
-**13/16 task records complete.**
+**15/20 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -172,10 +185,13 @@ _Generated 2026-09-12 15:35 UTC from 16 task record(s) in `docs/checkpoints/`._
 | ⬜ | 10-cross-turbine-generalization | ? | unknown |
 | ✅ | care-feature-rai-integration | 5 | complete |
 | ⬜ | 11-rai-cross-turbine | ? | unknown |
-| ✅ | 12-cross-farm-transfer | 5 | complete |
+| ⬜ | 12-cross-farm-transfer | ? | unknown |
 | ✅ | care-fidelity-rai-integration-gate54 | 5 | complete |
-| ✅ | 13-solar-data-foundation | 5 | complete |
-| ✅ | 14-solar-expected-performance | 5 | complete |
+| ⬜ | 13-solar-data-foundation | ? | unknown |
+| 🔴 | gate56-solar-expected-performance-INVALID | 5 | blocked |
+| ✅ | gate56a-pvdaq-real-acquisition | 5 | complete |
+| ✅ | gate56b-cohort-adjudication | 5 | complete |
+| ✅ | ci-green-and-readme | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -816,35 +832,137 @@ against generalization (see doc §10.4 for the full confound discussion).
 - DECISION scoreboard not computed (not required to validate the integration boundary, per
   the brief's own scope rule).
 
-### ✅ 13-solar-data-foundation (Gate 5.5)
+### ⬜ 13-solar-data-foundation
+
+### 🔴 gate56-solar-expected-performance-INVALID
+
+### ✅ gate56a-pvdaq-real-acquisition
 
 **What was built**
 
-- Audited the public solar data and tool ecosystem across 8 candidate sources (NREL PVDAQ, NREL NSRDB, Sandia PVPMC / pvlib, DKASC Alice Springs, EDP Open Data PV, Two-Plant India Kaggle, NREL Synthetic Outages Muller 2023, DuraMAT PV Fleet).
-- Established 5 Data Evidence Tiers: Tier 1 (operational + verified ground truth), Tier 2 (operational without fault labels), Tier 3 (environmental resource context), Tier 4 (physics/reference tools), Tier 5 (synthetic).
-- Constructed canonical 26-signal solar vocabulary with SI units, physical ranges, nighttime zero expectations, and strict ambiguous-field rejection policies.
-- Formulated expected-performance modeling readiness assessment ($P_{\text{expected}} = f(\text{irradiance}, \text{temperature}, \text{geometry})$).
-- Audited data quality hazards (nighttime zero handling, inverter clipping, pyranometer calibration drift, missingness, curtailment).
-- Generated 10 evaluation artifacts under `artifacts/evaluation/gate55/`.
+- Real acquisition of NREL PVDAQ telemetry from the public OEDI S3 data lake
+  (`oedi-data-lake.s3.amazonaws.com`, unauthenticated HTTPS, no API key), replacing the
+  in-repo synthetic generator that caused the `GATE_5.6_INVALID_SYNTHETIC_RUN` failure
+  (see retraction banner on `docs/checkpoints/14-solar-expected-performance.md` and
+  `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`).
+- Downloaded 450/450 real daily telemetry parquet files (74,517,723 bytes) plus the systems
+  metadata table, every file checksummed (SHA-256) and logged in `download_manifest.json` /
+  `checksums.csv`.
+- Screened 9 candidate systems against a predeclared readiness rule (real POA irradiance +
+  real AC power + real temperature + known site metadata) *before* downloading any
+  telemetry; selected 5, excluded 4. Locked Development=[1239, 1283, 34], candidate
+  Validation=[1430, 1433], disjoint by construction.
+- Relocated the synthetic telemetry generator to
+  `rai/eval/external/solar/synthetic_fixtures.py` under names that make its synthetic
+  nature unmistakable, and added `tests/test_gate56a_data_authenticity.py` to assert the
+  real-acquisition code path never imports it.
+- Flagged (not resolved) three real data-quality defects for Gate 5.6B to adjudicate: null
+  `utc_measured_on` for 100% of records on systems 1430/1433, heterogeneous per-signal
+  sampling intervals within the same system, and system 1283 exposing four AC-power
+  candidate channels with no plant-level channel present in the real 2019 telemetry.
 
 **How it was verified**
 
-- Unit test suite: `pytest tests/test_gate55_solar_foundation.py -v` — 12 passed in 1.73s.
-- Full test suite: `pytest -q` — 290 passed in 29.04s.
-- Linter: `ruff check` — 0 violations.
-- Static type analysis: `pyright rai/eval/external/solar` — 0 errors.
+`pytest tests/test_gate56a_pvdaq_acquisition.py tests/test_gate56a_data_authenticity.py -v`
+passed; full `pytest -q` passed; `ruff check .` clean. Real HTTP 200 response and SHA-256
+checksums recorded per file in `checksums.csv`, not asserted from memory.
 
 **Measured results**
 
-- 5 sources classified as `READY` for expected-performance modeling (`nrel_pvdaq`, `dkasc_alice_springs`, `edp_open_data_pv`, `kaggle_two_plant_india`, `duramat_fleet`).
-- 3 sources classified as `PARTIALLY_READY` (`nrel_nsrdb` has zero power output; `sandia_pvlib` is software equations; `nrel_synthetic_outages` is synthetic).
-- Primary operational source certified: `NREL_PVDAQ`.
-- Primary environmental source certified: `NREL_NSRDB`.
-- Primary physics reference engine certified: `SANDIA_PVPMC_PVLIB`.
+450/450 files acquired, 0 failures. Cohort selection: 3 development systems, 2 validation
+candidates, 4 excluded (reasons in `candidate_systems.json`), 0 chosen/discarded by any
+model output (no model was run in this gate).
 
-**Limitations & Prohibitions Enforced**
+**Limitations**
 
-- Strictly an audit gate: zero neural networks trained, zero final anomaly detectors fitted, zero LLMs fine-tuned, zero agentic RAG built.
-- Gate 5.6 (Solar Expected-Performance Model) remains a separate, downstream execution.
+- Validation-candidate status for 1430/1433 was provisional pending Gate 5.6B's timestamp
+  adjudication — it was **not** upheld (see checkpoint 16: both were downgraded to
+  SECONDARY_ONLY on TIMESTAMP_AMBIGUOUS grounds).
+- System 1283's true plant AC-power channel was left unresolved by design — Gate 5.6B's
+  job, not this one's.
+- No model of any kind (physics, empirical, hybrid) was fit or scored in this gate.
 
+### ✅ gate56b-cohort-adjudication
+
+**What was built**
+
+Adjudication-only gate (no modeling performed) resolving the three real data-quality
+issues Gate 5.6A flagged, plus two additional integrity defects found during this gate's
+own verification pass:
+
+- **Timestamps:** systems 1239/1283/34 have real ground-truth `utc_measured_on` (0% null).
+  Systems 1430/1433 have it 100% null; classified `TIMESTAMP_AMBIGUOUS` (a circumstantial
+  analogy to sibling system 1283's own UTC ground truth was used as evidence, not treated
+  as proof for 1430/1433 themselves).
+- **Target-signal semantics:** all 5 systems resolved to a trustworthy power-target
+  classification (`VALID_GENERATION_POWER` or `VALID_SIGNED_POWER`); system 1283's
+  39.5%-negative channel investigated and classified as legitimate nighttime
+  station-service/parasitic draw on a bidirectional net meter (100% coincident with real
+  POA=0), not a data defect.
+- **Unit-scale defect (found this gate, not inherited):** systems 1430/1433's AC power
+  channels required reapplying the metrics dictionary's `calc_scale` to reach true Watts
+  (proven via real AC/DC power ratio at matched peak-generation timestamps for 1430;
+  capacity-plausibility argument for 1433) — the dictionary's `calc_scale`/`units` metadata
+  is not reliably informative on its own and was verified per-system against physical
+  plausibility. See `unit_scale_audit.csv`.
+- **Degenerate channels (found this gate):** system 1239's `wind_speed` (flatlined,
+  range 0.000–0.078) and system 1283's `dc_power` (exactly 0.0 for all 504,384 records)
+  carry no real signal despite 0% missingness by record count.
+- **Missingness disqualification:** system 1433's AC-power target is 74.7% missing,
+  which flips `empirical_ready` to `False` via a 50%-severe-missingness threshold —
+  independent of, and in addition to, its timestamp issue.
+- **pvlib readiness:** verified module/inverter parameter matches against pvlib's real CEC
+  databases (21,535 modules, 3,264 inverters) rather than asserting a match; no invented
+  tilt/azimuth/temperature-coefficient parameters.
+- Final frozen cohort: Development=[1239, 1283, 34], Validation=[] (`INSUFFICIENT_DATA`,
+  no padding applied), Secondary-only=[1430, 1433].
+
+**How it was verified**
+
+`pytest tests/test_gate56b_cohort_adjudication.py -v` — 63 passed. Full `pytest -q` — 407
+passed. `ruff check .` — all checks passed. `pyright` — 3 errors, all pre-existing and
+unrelated to this gate's files (`scripts/evaluate.py`, `scripts/evaluate_gate2.py`); 0 new
+errors in any Gate 5.6B file.
+
+**Measured results**
+
+Per-system classification: 1239/1283/34 = `READY` (`final_role=DEVELOPMENT`); 1430/1433 =
+`READY_WITH_LIMITATIONS` (`final_role=SECONDARY_ONLY`). Validation cohort is empty —
+system-level external holdout is **not** currently statistically meaningful; Gate 5.6C
+must design and justify its own fallback (e.g. a temporal holdout within the 3 development
+systems) rather than treat this as resolved.
+
+**Limitations**
+
+- This gate produced zero model fits, zero `ModelChain` runs, zero residuals — adjudication
+  only, by explicit design.
+- Physics-readiness assumes pvlib's standard preset tables (AOI, temperature model) as a
+  disclosed modeling assumption where no per-system measured coefficient exists — this is
+  not the same as a measured parameter.
+- Validation cohort is `INSUFFICIENT_DATA`; Gate 5.6C cannot claim a system-level external
+  holdout without first solving this gap honestly.
+
+### ✅ ci-green-and-readme
+
+**What was built**
+
+- Added the expected-behaviour model training step to the Python quality workflow before tests.
+- Added explicit TypeScript types for the knowledge-search response and rendered typed results.
+- Documented the retracted Gate 5.6 model claim and the valid Gate 5.6A/5.6B solar data status in the README.
+- Included the small real-data fixtures required by the existing provenance and external-benchmark tests.
+
+**How it was verified**
+
+` .venv\Scripts\python.exe -m pytest tests\ -q` — 407 passed.
+` .venv\Scripts\ruff.exe check .` — all checks passed.
+` cd web; npm run lint` — 0 errors and 25 existing warnings.
+` cd web; npm run build` — production build passed.
+
+**Measured results**
+
+407 Python tests passed; frontend production build passed; frontend lint reported 0 errors.
+
+**Limitations**
+
+Gate 5.6C has not been attempted; the solar validation cohort remains empty.
 

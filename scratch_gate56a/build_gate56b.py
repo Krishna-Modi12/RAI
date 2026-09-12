@@ -58,6 +58,84 @@ DECLARED_TZ = {1239: "America/New_York", 1283: "7", 34: "America/Los_Angeles",
                1430: "America/Denver", 1433: "America/Denver"}
 LONGITUDE = {1239: -68.0178, 1283: -105.1855, 34: -115.1582, 1430: -105.1855, 1433: -105.1855}
 
+# ---------------------------------------------------------------------------
+# Unit-scale audit (discovered during Gate 5.6B target-signal integrity work):
+# the metrics dictionary's calc_scale/raw_units/units columns are NOT reliably
+# informative about whether the downloaded parquet "value" column already has
+# scaling applied. This was proven empirically per system, not assumed:
+#   - 1239/1283/34: raw "value" is ALREADY final Watts. Proof: reapplying the
+#     declared calc_scale would inflate max AC power to 23.6 MW / 498.7 MW /
+#     11.58 MW respectively against declared nameplates of 20.16 / 408.24 /
+#     146.64 kW (1000x+ over capacity, physically impossible). Not reapplying
+#     gives 23.6 / 498.7 / 115.8 kW -- all within a plausible band of rated
+#     capacity (34's figure is independently corroborated by an AC/DC power
+#     ratio of 0.947 at peak generation, a sane inverter efficiency).
+#   - 1430: raw "value" is PRE-scale and calc_scale=2000 MUST be applied.
+#     Proof: at real peak-generation timestamps (top 200 by matched DC power,
+#     merge_asof tolerance 10min), the raw (unscaled) AC/DC ratio is 0.0005
+#     (physically impossible -- implies the inverter converts 0.05% of its DC
+#     input to AC), while the calc_scale-applied ratio is 0.953 (a normal
+#     inverter efficiency). Reapplied max = 667.2 kW vs declared nameplate
+#     720.72 kW (0.93x, consistent).
+#   - 1433: raw "value" is PRE-scale and calc_scale=1000 MUST be applied. No
+#     DC power channel is available for this system to cross-check via ratio
+#     (weaker evidence tier than 1430's), but the same raw_units=W/units=W/
+#     nontrivial-scale metadata *pattern* as 1430 holds, and the capacity-
+#     plausibility gap is just as extreme: unscaled max is 0.36 kW against a
+#     449.28 kW nameplate (0.0008x, a "449 kW" system that never exceeds 360 W
+#     across an entire real summer POA record peaking at 1077 W/m^2 is not
+#     physically credible for an operating generation asset); scaled max is
+#     360 kW (0.80x, plausible).
+# Conclusion: there is no single syntactic rule (e.g. "raw_units==units means
+# no reapplication") that holds across all 5 systems -- each was independently
+# verified against physical plausibility. See unit_scale_audit.csv.
+AC_POWER_SCALE_FACTOR = {1239: 1.0, 1283: 1.0, 34: 1.0, 1430: 2000.0, 1433: 1000.0}
+AC_POWER_SCALE_EVIDENCE = {
+    1239: "NO REAPPLY: raw value is already final W. Reapplying calc_scale=1000.0 would give a "
+          "23.6 MW max against a 20.16 kW nameplate (impossible); as-is, max=23.6kW is plausible.",
+    1283: "NO REAPPLY: raw value is already final W. Reapplying calc_scale=1000.0 would give a "
+          "498.7 MW max against a 408.24 kW nameplate (impossible); as-is, max=498.7kW matches the "
+          "site's 2x250kW inverter nameplate almost exactly (see system_1283_power_semantics.md).",
+    34: "NO REAPPLY: raw value is already final W. Reapplying calc_scale=100.0 would give an "
+        "11.58 MW max against a 146.64 kW nameplate (impossible); as-is, max=115.8kW is plausible "
+        "and AC/DC ratio at peak generation is 0.947 (sane inverter efficiency, scale-invariant "
+        "check since both AC and DC channels share the same calc_scale=100.0).",
+    1430: "REAPPLY calc_scale=2000.0: decisive evidence from real AC/DC power ratio at peak "
+          "generation (top-200 real matched samples, merge_asof tolerance 10min) -- unscaled ratio "
+          "0.0005 (impossible), scaled ratio 0.953 (sane). Reapplied max=667.2kW vs 720.72kW "
+          "nameplate (0.93x, consistent).",
+    1433: "REAPPLY calc_scale=1000.0: no DC channel available for a ratio cross-check (weaker "
+          "evidence tier than 1430), but unscaled max=0.36kW vs 449.28kW nameplate (0.0008x) is not "
+          "physically credible for an operating asset across a summer POA record peaking at "
+          "1077 W/m^2; reapplied max=360kW vs nameplate (0.80x) is plausible. Same raw_units=W/"
+          "units=W/nontrivial-scale metadata pattern as the independently-proven 1430 case.",
+}
+
+# Degenerate (dead/near-constant, carries no real information) channels discovered while
+# investigating the unit-scale question above. A channel can have 0% missingness (every expected
+# record present) yet still be unusable -- record COUNT alone (signal_sampling_matrix.csv) does
+# not detect this; it required inspecting the actual value DISTRIBUTION.
+DEGENERATE_CHANNELS = {
+    (1239, "wind_speed"): (
+        "Raw value range is 0.000-0.078 (mean 0.002, std 0.006) across the entire real 90-day "
+        "window -- a flatlined/dead sensor, not real wind data (compare to system 34's wind_speed, "
+        "a healthy 0.00-4.84 m/s range). pvlib's sapm_cell/sapm_module temperature models take "
+        "wind_speed as a REQUIRED positional argument with no default (confirmed via "
+        "inspect.signature against the installed pvlib package) -- feeding this degenerate channel "
+        "in as real wind would silently bias the module-temperature estimate toward zero-convection "
+        "(systematically too hot). faiman/pvsyst_cell instead default wind_speed=1.0 m/s when not "
+        "supplied -- a disclosed standard assumption, NOT real data, must be used for this system "
+        "if a temperature model requiring wind is needed."
+    ),
+    (1283, "dc_power"): (
+        "Raw value is EXACTLY 0.0 for all 504,384 real records (min=max=mean=std=0.0) -- metric_id "
+        "1134 ('inv1_dc_power') is a dead/non-reporting channel in this acquisition window, not a "
+        "real DC power measurement. Does not affect this system's DEVELOPMENT role (DC power was "
+        "never required for empirical-readiness or the pvlib physics-readiness gate here), but must "
+        "not be presented to Gate 5.6C as usable DC telemetry."
+    ),
+}
+
 
 def load_raw(sid: int) -> pd.DataFrame:
     base = RAW_ROOT / "pvdaq" / "parquet" / "pvdata" / f"system_id={sid}"
@@ -416,8 +494,67 @@ def write_alignment_policy():
 # Target-signal manifest
 # ===========================================================================
 
-def build_target_signal_manifest(power_rows: list[dict]) -> list[dict]:
+def build_unit_scale_audit() -> list[dict]:
+    rows = []
+    for sid in COHORT_SYSTEMS:
+        df = RAW[sid]
+        metrics = load_metrics_dict(sid)
+        for signal, mid in SELECTED_SIGNALS[sid].items():
+            if mid is None:
+                continue
+            sub = df[df["metric_id"] == mid]["value"]
+            if len(sub) == 0:
+                continue
+            row_meta = metrics[metrics["metric_id"] == mid]
+            meta = row_meta.iloc[0] if len(row_meta) else None
+            raw_min, raw_max = float(sub.min()), float(sub.max())
+            degenerate_evidence = DEGENERATE_CHANNELS.get((sid, signal))
+            if signal == "ac_power":
+                applied_scale = AC_POWER_SCALE_FACTOR[sid]
+                decision = "ALREADY_SCALED_NO_REAPPLY" if applied_scale == 1.0 else "REAPPLY_CALC_SCALE"
+                evidence = AC_POWER_SCALE_EVIDENCE[sid]
+            elif degenerate_evidence:
+                applied_scale = None
+                decision = "DEGENERATE_CHANNEL_NOT_USABLE"
+                evidence = degenerate_evidence
+            else:
+                applied_scale = 1.0
+                decision = "ALREADY_SCALED_NO_REAPPLY"
+                evidence = (
+                    "Raw value range is physically plausible for this signal type without "
+                    "reapplying calc_scale (e.g. temperature within real-world Celsius bounds, "
+                    "wind speed within a real-world m/s band, POA within a real-world W/m^2 band); "
+                    "not independently cross-validated against a second signal the way ac_power was."
+                )
+            rows.append({
+                "system_id": sid,
+                "signal": signal,
+                "metric_id": mid,
+                "raw_units": str(meta["raw_units"]) if meta is not None else None,
+                "units": str(meta["units"]) if meta is not None else None,
+                "calc_scale": float(meta["calc_scale"]) if meta is not None else None,
+                "raw_value_min": raw_min,
+                "raw_value_max": raw_max,
+                "decision": decision,
+                "evidence": evidence,
+            })
+    return rows
+
+
+TARGET_MISSINGNESS_SEVERE_THRESHOLD = 0.5
+
+
+def _missingness_lookup(sampling_rows: list[dict]) -> dict[tuple[int, str], float | None]:
+    out: dict[tuple[int, str], float | None] = {}
+    for r in sampling_rows:
+        m = r["missingness_fraction"]
+        out[(r["system_id"], r["signal"])] = float(m) if isinstance(m, (int, float)) else None
+    return out
+
+
+def build_target_signal_manifest(power_rows: list[dict], sampling_rows: list[dict]) -> list[dict]:
     power_by_sid = {r["system_id"]: r for r in power_rows}
+    missingness = _missingness_lookup(sampling_rows)
     rows = []
     plant_level = {1239: "PLANT_METERED", 1283: "PLANT_NET_METER", 34: "INVERTER_LEVEL_hW_SUFFIX_HALF_HOURLY_ENERGY_CODE",
                    1430: "PLANT_LEVEL", 1433: "PLANT_LEVEL"}
@@ -425,9 +562,22 @@ def build_target_signal_manifest(power_rows: list[dict]) -> list[dict]:
         mid = SELECTED_SIGNALS[sid]["ac_power"]
         df = RAW[sid]
         sub = df[df["metric_id"] == mid]
-        max_val_kw = float(sub["value"].max()) / 1000.0 if len(sub) else None
+        scale = AC_POWER_SCALE_FACTOR[sid]
+        max_val_kw = float(sub["value"].max()) * scale / 1000.0 if len(sub) else None
         rated = RATED_AC_KW[sid]
         capacity_consistency = "CONSISTENT" if max_val_kw and 0.5 * rated <= max_val_kw <= 1.15 * rated else "REVIEW_NEEDED"
+        target_missingness = missingness.get((sid, "ac_power"))
+        severe_missingness = target_missingness is not None and target_missingness > TARGET_MISSINGNESS_SEVERE_THRESHOLD
+        missingness_note = (
+            f"{target_missingness:.1%} of expected 15-min-cadence records are absent from the "
+            f"real downloaded target channel (metric_id {mid}: {sub.shape[0]} actual records). "
+            + ("This EXCEEDS the 50% severe-missingness threshold -- the target is too sparse "
+               "for reliable empirical baseline fitting, independent of its semantic classification "
+               "above." if severe_missingness else
+               "Below the 50% severe-missingness threshold; usable as a target subject to the "
+               "Gate 5.6C alignment policy's handling of gaps.")
+            if target_missingness is not None else "Missingness could not be computed."
+        )
         rows.append({
             "system_id": sid,
             "native_column": {1239: "ac_power_metered_kW", 1283: "ac_power_metered_kW", 34: "ac_power_hW",
@@ -443,6 +593,9 @@ def build_target_signal_manifest(power_rows: list[dict]) -> list[dict]:
             "rated_capacity_consistency": capacity_consistency,
             "negative_value_semantics": power_by_sid[sid]["evidence_note"][:200] + ("..." if len(power_by_sid[sid]["evidence_note"]) > 200 else ""),
             "ambiguous_disqualifying": power_by_sid[sid]["classification"] == "AMBIGUOUS",
+            "target_missingness_fraction": target_missingness,
+            "target_missingness_note": missingness_note,
+            "target_severe_missingness_disqualifying": severe_missingness,
         })
     return rows
 
@@ -471,6 +624,7 @@ CEC_INVERTER_CANDIDATES = {
 def build_pvlib_readiness(timestamp_rows: list[dict]) -> list[dict]:
     ts_by_sid = {r["system_id"]: r for r in timestamp_rows}
     cec_mods = pvlib.pvsystem.retrieve_sam("CECMod")
+    cec_invs = pvlib.pvsystem.retrieve_sam("CECInverter")
     rows = []
     for sid in COHORT_SYSTEMS:
         meta = load_meta_json(sid)
@@ -497,7 +651,7 @@ def build_pvlib_readiness(timestamp_rows: list[dict]) -> list[dict]:
             module_reason = f"No CEC database entry found for real module '{module_label}' (checked via name-normalization fuzzy match, cutoff 0.5)."
 
         inv_col, inv_label = CEC_INVERTER_CANDIDATES[sid]
-        inverter_ready = inv_col is not None
+        inverter_ready = inv_col is not None and inv_col in cec_invs.columns
         inverter_reason = (
             f"Candidate CEC inverter database match '{inv_col}' for real inverter '{inv_label}' "
             "(name-similarity match; NOT independently cross-validated against a capacity figure "
@@ -521,7 +675,17 @@ def build_pvlib_readiness(timestamp_rows: list[dict]) -> list[dict]:
 
         dc_model_candidate = "cec" if module_ready else ("pvwatts (requires a disclosed, non-measured default gamma_pdc if no CEC match)" if False else "NONE_WITHOUT_INVENTING_PARAMETERS")
         ac_model_candidate = "sandia/cec inverter model (via CEC inverter DB candidate match)" if inverter_ready else "NONE_WITHOUT_INVENTING_PARAMETERS"
-        temperature_model_candidate = "sapm_temp using a pvlib-standard racking-type preset (open_rack_glass_glass / close_mount_glass_glass) -- a disclosed STANDARD ASSUMPTION tied to real racking type, NOT a per-system measured coefficient"
+        if DEGENERATE_CHANNELS.get((sid, "wind_speed")):
+            temperature_model_candidate = (
+                "faiman or pvsyst_cell (NOT sapm_temp) -- this system's real wind_speed channel is "
+                "DEGENERATE (see unit_scale_audit.csv); pvlib's sapm_cell/sapm_module require "
+                "wind_speed as a mandatory argument with no default (confirmed via "
+                "inspect.signature), so they cannot be used with real data here. faiman/pvsyst_cell "
+                "default wind_speed=1.0 m/s when omitted -- a disclosed STANDARD ASSUMPTION "
+                "substituting for real wind, not measured data."
+            )
+        else:
+            temperature_model_candidate = "sapm_temp using a pvlib-standard racking-type preset (open_rack_glass_glass / close_mount_glass_glass) -- a disclosed STANDARD ASSUMPTION tied to real racking type, NOT a per-system measured coefficient"
         aoi_model_candidate = "ashrae (b=0.05 pvlib default) -- a disclosed STANDARD ASSUMPTION, not a per-system measured coefficient"
 
         physics_ready = geometry_ready and module_ready and irradiance_ready and temperature_ready and timestamp_ok
@@ -559,10 +723,14 @@ def build_pvlib_readiness(timestamp_rows: list[dict]) -> list[dict]:
 # Final cohort adjudication
 # ===========================================================================
 
+CONTEXT_SIGNAL_NOTABLE_MISSINGNESS_THRESHOLD = 0.15
+
+
 def build_cohort_adjudication(timestamp_rows, power_rows, pvlib_rows, sampling_rows):
     ts_by_sid = {r["system_id"]: r for r in timestamp_rows}
     power_by_sid = {r["system_id"]: r for r in power_rows}
     phys_by_sid = {r["system_id"]: r for r in pvlib_rows}
+    missingness = _missingness_lookup(sampling_rows)
 
     rows = []
     for sid in COHORT_SYSTEMS:
@@ -572,12 +740,36 @@ def build_cohort_adjudication(timestamp_rows, power_rows, pvlib_rows, sampling_r
 
         timestamp_status = ts["timestamp_status"]
         power_status = pw["classification"]
+
+        target_missingness = missingness.get((sid, "ac_power"))
+        target_severe_missing = target_missingness is not None and target_missingness > TARGET_MISSINGNESS_SEVERE_THRESHOLD
+
+        # Context signals: flag any non-target signal whose real missingness exceeds the notable
+        # threshold, discovered this session from signal_sampling_matrix.csv (e.g. system 34's
+        # ambient_temp at 30.2% missing, system 1433's poa/ambient_temp/module_temp all at 9.3%).
+        context_flags = []
+        for signal in ("poa", "ambient_temp", "module_temp", "wind_speed"):
+            frac = missingness.get((sid, signal))
+            if frac is not None and frac > CONTEXT_SIGNAL_NOTABLE_MISSINGNESS_THRESHOLD:
+                context_flags.append(f"{signal}={frac:.1%}")
+        # System 34 specifically has a redundant temperature source (module_temp, 0.02% missing)
+        # that covers for ambient_temp's 30.2% missingness -- not disqualifying, but recorded.
+        context_missingness_note = (
+            "; ".join(context_flags) if context_flags else "no context signal exceeds 15% missingness"
+        )
+
         empirical_ready = (
             timestamp_status in ("UTC_AVAILABLE_GROUND_TRUTH", "TIMESTAMP_AMBIGUOUS")
             and power_status != "AMBIGUOUS"
-        )  # empirical modeling only needs internally-consistent relative timing, not absolute UTC
+            and not target_severe_missing
+        )  # empirical modeling only needs internally-consistent relative timing, not absolute UTC,
+        # but does require the target itself to be usably complete (<=50% missing).
         physics_ready = phys["physics_ready"]
-        validation_ready = timestamp_status == "UTC_AVAILABLE_GROUND_TRUTH" and power_status != "AMBIGUOUS"
+        validation_ready = (
+            timestamp_status == "UTC_AVAILABLE_GROUND_TRUTH"
+            and power_status != "AMBIGUOUS"
+            and not target_severe_missing
+        )
 
         if sid in DEV_SYSTEMS:
             final_role = "DEVELOPMENT" if empirical_ready else "EXCLUDED"
@@ -585,13 +777,35 @@ def build_cohort_adjudication(timestamp_rows, power_rows, pvlib_rows, sampling_r
             final_role = "VALIDATION" if validation_ready else "SECONDARY_ONLY"
 
         reason_parts = [f"timestamp={timestamp_status}", f"power={power_status}", f"physics_ready={physics_ready}"]
+        if target_severe_missing:
+            reason_parts.append(f"target_missingness={target_missingness:.1%} (EXCEEDS 50% severe threshold)")
+        if context_flags:
+            reason_parts.append(f"notable_context_missingness=[{context_missingness_note}]")
+
+        temperature_status = "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT"
+        if sid == 34:
+            temperature_status = (
+                "REAL_MEASURED_PRESENT_WITH_PARTIAL_GAPS: ambient_temp 30.2% missing "
+                "(6,027/8,640 expected records); module_temp available as a near-complete "
+                "redundant source (0.02% missing) -- not disqualifying, recorded as a limitation."
+            )
+        irradiance_status = "REAL_MEASURED_POA_PRESENT"
+        if sid == 1433:
+            irradiance_status = (
+                "REAL_MEASURED_POA_PRESENT_WITH_GAPS: poa 9.3% missing (7,837/8,640 expected "
+                "records) -- same missingness fraction as this system's ambient_temp/module_temp, "
+                "consistent with shared data-logger downtime rather than a sensor-specific fault."
+            )
+
         rows.append({
             "system_id": sid,
             "timestamp_status": timestamp_status,
             "power_status": power_status,
-            "irradiance_status": "REAL_MEASURED_POA_PRESENT",
-            "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+            "irradiance_status": irradiance_status,
+            "temperature_status": temperature_status,
             "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+            "target_missingness_fraction": target_missingness,
+            "notable_context_signal_missingness": context_missingness_note,
             "empirical_ready": empirical_ready,
             "physics_ready": physics_ready,
             "validation_ready": validation_ready,
@@ -627,12 +841,19 @@ def main():
     write_alignment_policy()
     print("Wrote alignment_policy.json")
 
-    target_rows = build_target_signal_manifest(power_rows)
+    target_rows = build_target_signal_manifest(power_rows, sampling_rows)
     with (OUT_DIR / "target_signal_manifest.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(target_rows[0].keys()))
         w.writeheader()
         w.writerows(target_rows)
     print(f"Wrote target_signal_manifest.csv ({len(target_rows)} rows)")
+
+    scale_rows = build_unit_scale_audit()
+    with (OUT_DIR / "unit_scale_audit.csv").open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(scale_rows[0].keys()))
+        w.writeheader()
+        w.writerows(scale_rows)
+    print(f"Wrote unit_scale_audit.csv ({len(scale_rows)} rows)")
 
     pvlib_rows = build_pvlib_readiness(ts_rows)
     with (OUT_DIR / "pvlib_readiness.csv").open("w", newline="", encoding="utf-8") as f:
@@ -740,6 +961,13 @@ def write_summary(ts_rows, power_rows, pvlib_rows, adj_rows, freeze):
         "",
         "## 4. Which systems are empirical-ready?",
         ", ".join(f"{sid}={adj_by_sid[sid]['empirical_ready']}" for sid in COHORT_SYSTEMS),
+        "System 1433 is EMPIRICAL_READY=False despite a resolved (non-ambiguous) power-semantics "
+        "classification: its selected AC power target channel (metric_id 5069) has only 2,186 "
+        "real records against 8,640 expected at 15-minute cadence -- 74.7% missingness, which "
+        "exceeds the 50% severe-missingness threshold applied here. A target this sparse cannot "
+        "support reliable empirical baseline fitting regardless of its semantic validity. See "
+        "target_signal_manifest.csv (target_missingness_fraction, target_severe_missingness_"
+        "disqualifying) and the data-completeness findings below.",
         "",
         "## 5. Which systems are physics-ready?",
         ", ".join(f"{sid}={phys_by_sid[sid]['physics_ready']} ({phys_by_sid[sid]['reason']})" for sid in COHORT_SYSTEMS),
@@ -775,13 +1003,84 @@ def write_summary(ts_rows, power_rows, pvlib_rows, adj_rows, freeze):
         "For 1239/1283/34 (the only candidates with a matched CEC module): dc_model=cec "
         "(pending explicit inverter-parameter confirmation -- a CEC inverter database name "
         "match exists but was NOT independently capacity-cross-validated in this gate the way "
-        "modules were), temperature_model=sapm_temp using a racking-type-appropriate pvlib "
-        "preset (a disclosed standard assumption), aoi_model=ashrae with pvlib's default "
-        "b=0.05 (also a disclosed standard assumption, not measured). See pvlib_readiness.csv "
-        "for the per-system reason field.",
+        "modules were), aoi_model=ashrae with pvlib's default b=0.05 (a disclosed standard "
+        "assumption, not measured). temperature_model=sapm_temp using a racking-type-appropriate "
+        "pvlib preset for 1283/34, but faiman/pvsyst_cell (NOT sapm_temp) for 1239 specifically, "
+        "because 1239's real wind_speed channel is degenerate and sapm's temperature functions "
+        "require wind_speed with no default -- see the unit-scale/degenerate-channel finding "
+        "below. See pvlib_readiness.csv for the per-system reason field.",
         "",
         "## 10. Is system-level holdout still statistically meaningful?",
         freeze["system_level_holdout_note"],
+        "",
+        "## Additional data-completeness findings (discovered during the sampling-interval audit, "
+        "not among the original 10 required questions but material to honest reporting)",
+        "- **System 1433's AC power target (metric_id 5069): 74.7% missing** relative to the "
+        "expected 15-minute cadence (2,186 of 8,640 expected records). This is independent of, "
+        "and in addition to, its TIMESTAMP_AMBIGUOUS status -- either issue alone would be "
+        "sufficient to keep 1433 out of the primary evaluation. Now factored into "
+        "empirical_ready=False (see Q4) via a 50% severe-missingness threshold. Its POA, "
+        "ambient_temp, and module_temp channels share an identical 9.3% missingness fraction "
+        "(7,837/8,640), consistent with shared data-logger downtime rather than a "
+        "channel-specific fault; only the AC power channel's missingness is severe enough to be "
+        "disqualifying.",
+        "- **System 34's ambient_temp (metric_id 2688): 30.2% missing** (6,027 of 8,640 expected "
+        "records) -- a DEVELOPMENT-cohort system. This is a context/environmental input, not the "
+        "target. It is NOT treated as disqualifying because this system's module_temp channel "
+        "(metric_id 2689) is a near-complete redundant temperature source (0.02% missing) that "
+        "Gate 5.6C's alignment policy can use in ambient_temp's place or as a fallback. Recorded "
+        "as a limitation in cohort_adjudication.csv's temperature_status field, not silently "
+        "dropped.",
+        "- Neither finding changes system 1433's final_role (already SECONDARY_ONLY on timestamp "
+        "grounds) nor system 34's final_role (remains DEVELOPMENT; module_temp redundancy covers "
+        "the gap). Both are recorded so Gate 5.6C inherits the full picture rather than "
+        "rediscovering them mid-modeling.",
+        "",
+        "## Additional data-integrity finding: unit-scale defects and degenerate channels "
+        "(discovered while verifying target-signal unit correctness -- not among the original 10 "
+        "required questions, but squarely inside the master prompt's 'Target variable integrity: "
+        "unit' requirement)",
+        "- **The metrics dictionary's calc_scale/raw_units/units columns are NOT reliably "
+        "informative about whether the downloaded parquet's `value` column already has scaling "
+        "applied.** This was discovered while sanity-checking rated-capacity consistency for the "
+        "target manifest: system 1430's raw AC power values, taken at face value, would imply the "
+        "system produced a maximum of 0.3 kW against a 720.72 kW nameplate across an entire real "
+        "summer window -- physically implausible for an operating asset. Investigation found the "
+        "metrics dictionary's declared calc_scale=2000.0 for that channel has NOT been applied to "
+        "the stored value and MUST be, to reach true physical Watts.",
+        "- **Decisive evidence for system 1430**: real AC power vs. real DC power at matched "
+        "peak-generation timestamps (merge_asof, 10-minute tolerance, top 200 samples by DC power) "
+        "gives an AC/DC ratio of 0.0005 without reapplying calc_scale (implies the inverter "
+        "converts 0.05% of its DC input to AC -- impossible) vs. 0.953 with calc_scale reapplied "
+        "(a normal inverter efficiency). Reapplied max = 667.2 kW vs. the 720.72 kW nameplate "
+        "(0.93x, consistent).",
+        "- **The same defect affects system 1433's AC power channel** (calc_scale=1000.0 not "
+        "applied; no DC channel exists there for an equivalent ratio cross-check, so this is a "
+        "one-tier-weaker capacity-plausibility argument): unscaled max is 0.36 kW against a "
+        "449.28 kW nameplate (0.0008x); with calc_scale reapplied, max is 360 kW (0.80x, "
+        "plausible).",
+        "- **No single syntactic rule explains which systems need reapplication.** Systems "
+        "1239/1283/34 do NOT need their declared calc_scale reapplied (reapplying would inflate "
+        "their AC power maxima to 23.6 MW / 498.7 MW / 11.58 MW respectively -- 1000x+ over "
+        "nameplate, impossible); 1430/1433 DO. This was verified independently per system against "
+        "physical plausibility, not inferred from the raw_units/units/calc_scale metadata pattern "
+        "alone (which looks superficially similar across systems that behave oppositely). "
+        "`target_signal_manifest.csv`'s observed_max_kw/rated_capacity_consistency columns have "
+        "been corrected using the verified scale factor per system. Full evidence and per-signal "
+        "decisions: unit_scale_audit.csv.",
+        "- **Two selected signals are DEGENERATE (dead/near-constant, carry no real information) "
+        "despite 0% missingness by record count**: system 1239's wind_speed (metric 3020; raw "
+        "range 0.000-0.078, essentially flatlined) and system 1283's dc_power (metric 1134; "
+        "exactly 0.0 for all 504,384 records). Record-count-based missingness alone "
+        "(signal_sampling_matrix.csv) cannot detect this -- it required inspecting the value "
+        "distribution. Neither affects final_role (dc_power was never required for 1283's "
+        "empirical/physics readiness; wind_speed is not one of physics_ready's required inputs "
+        "here), but system 1239's temperature_model_candidate in pvlib_readiness.csv has been "
+        "changed from sapm_temp to faiman/pvsyst_cell specifically because pvlib's sapm_cell/"
+        "sapm_module require wind_speed as a mandatory argument with no default (confirmed via "
+        "inspect.signature against the installed pvlib package), while faiman/pvsyst_cell default "
+        "wind_speed=1.0 m/s when omitted -- a disclosed standard assumption Gate 5.6C must use "
+        "in place of this system's real (but degenerate) wind data.",
         "",
         "## Per-system classification",
     ]

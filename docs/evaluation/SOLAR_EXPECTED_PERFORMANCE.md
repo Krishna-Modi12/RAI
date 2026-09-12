@@ -1,8 +1,24 @@
-# Solar Expected-Performance Modeling & RAI Solar Champion (Gate 5.6)
+> ## ⚠️ RETRACTED — `GATE_5.6_INVALID_SYNTHETIC_RUN`
+>
+> This entire document evaluates data that was synthetically generated inside this repository
+> and presented as real NREL PVDAQ telemetry, validated against a physics-reference formula
+> that is algebraically identical to the one that generated the synthetic "actual" power
+> (circular validation). **None of the R²/nRMSE/energy-accuracy figures below may be cited as
+> PVDAQ validation, external solar validation, or RAI Solar Champion performance.**
+>
+> Full evidence: `artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json`
+> and `artifacts/evaluation/gate56_audit/gate56_scientific_audit_verdict.md`. Valid
+> replacement work: Gate 5.6A real acquisition (`docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`)
+> and Gate 5.6B cohort adjudication (`docs/checkpoints/16-gate56b-cohort-adjudication.md`,
+> adjudication only — no expected-performance model has been fit against real data yet).
+
+---
+
+# Solar Expected-Performance Modeling & RAI Solar Champion (Gate 5.6) — ⚠️ RETRACTED, SEE BANNER ABOVE
 
 *Evaluation Protocol: Gate 5.6 — Solar Expected-Performance Baseline & Champion*  
 *Date: 2026-09-12*  
-*Protocol Status: GATE 5.6 COMPLETE (AUDITED & FROZEN)*  
+*Protocol Status: ~~GATE 5.6 COMPLETE (AUDITED & FROZEN)~~ — INVALIDATED, see banner above*  
 *Unit & Regression Tests: 17/17 passed (`tests/test_gate56_solar_expected_performance.py`)*  
 *Total Repository Suite: 307/307 passed (`pytest -q`)*  
 *Static Analysis: Ruff clean (0 errors), Pyright clean (0 errors)*  

@@ -24,6 +24,7 @@ Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric c
 - [Architecture](#architecture)
 - [Champion–Challenger Operational Scorecard](#track-a--championchallenger-operational-scorecard)
 - [Scientific Validation: Five Gates, Not One Number](#scientific-validation-five-gates-not-one-number)
+- [Solar External Data Status](#solar-external-data-status)
 - [Solar Environmental Intelligence & Soiling](#solar-environmental-intelligence--soiling)
 - [Quick Start](#quick-start)
 - [Running Demonstrations](#running-demonstrations)
@@ -209,6 +210,29 @@ exists to catch. Similarly, calibration figures differ slightly between `CHECKPO
 (Brier 0.0439 / ECE 0.0915, naive) and `docs/evaluation/GATE2_FORENSIC_AUDIT.md`
 (Brier 0.0423 / ECE 0.1491, out-of-fold) — cite the source file alongside the number, not the
 number alone.
+
+---
+
+## Solar External Data Status
+
+The original Gate 5.6 solar-model result is **retracted**: it used repository-generated
+synthetic telemetry presented as NREL PVDAQ data and a circular physics comparison. Its
+metrics must not be cited as external validation or RAI Solar Champion performance.
+
+The valid replacement work is deliberately narrower:
+
+- **Gate 5.6A:** 450/450 real PVDAQ daily parquet files were acquired and checksummed; the
+  acquisition is preserved in `artifacts/evaluation/gate56/acquisition/`.
+- **Gate 5.6B:** 3 systems are frozen for development, 2 are secondary-only, and the
+  validation cohort is empty because the remaining systems have ambiguous timestamps or
+  severe missingness. No model was fit in this adjudication gate.
+- **Gate 5.6C:** not yet attempted. Any future solar model must be labeled
+  `MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED` unless a defensible validation route
+  is established.
+
+See [`docs/checkpoints/14-solar-expected-performance.md`](docs/checkpoints/14-solar-expected-performance.md),
+[`docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md`](docs/checkpoints/15-gate56a-pvdaq-real-acquisition.md),
+and [`docs/checkpoints/16-gate56b-cohort-adjudication.md`](docs/checkpoints/16-gate56b-cohort-adjudication.md).
 
 ---
 

@@ -369,7 +369,22 @@ export async function getScenarios(): Promise<ScenarioItem[]> {
   return fetchWithFallback(`${API_BASE}/simulator/scenarios`, fallback);
 }
 
-export async function searchKnowledge(query: string) {
+export interface KnowledgeSearchResult {
+  section_id: string;
+  doc_id: string;
+  title: string;
+  snippet: string;
+  category: string;
+  similarity: number;
+}
+
+export interface KnowledgeSearchResponse {
+  query: string;
+  total_results: number;
+  results: KnowledgeSearchResult[];
+}
+
+export async function searchKnowledge(query: string): Promise<KnowledgeSearchResponse> {
   try {
     const res = await fetch(`${API_BASE}/knowledge/search?q=${encodeURIComponent(query)}`);
     if (res.ok) return await res.json();
@@ -486,4 +501,3 @@ export async function getEvaluationMetrics(): Promise<EvaluationData | null> {
   }
   return null;
 }
-
