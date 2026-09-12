@@ -1,0 +1,33 @@
+{
+  "gate": "Gate 5.4 \u2014 Cross-Farm Wind Transfer & Target-Normal Calibration",
+  "benchmark": "CARE to Compare (G\u00fcck et al., 2024)",
+  "timestamp_utc": "2026-09-12T14:39:53Z",
+  "elapsed_seconds": 509.99,
+  "transfers": [
+    "Wind Farm A -> Wind Farm B",
+    "Wind Farm A -> Wind Farm C",
+    "Wind Farm B -> Wind Farm A",
+    "Wind Farm B -> Wind Farm C",
+    "Wind Farm C -> Wind Farm A",
+    "Wind Farm C -> Wind Farm B"
+  ],
+  "conditions": [
+    "FROZEN_SOURCE",
+    "TARGET_NORMAL_CALIBRATED",
+    "TARGET_SPECIFIC_REFERENCE"
+  ],
+  "criticality_threshold": 72.0,
+  "bootstrap_resamples": 2000,
+  "bootstrap_unit": "turbine_cluster",
+  "random_seed": 20260912,
+  "seed_classification": "REPRODUCIBILITY_CHOICE",
+  "detector_config": {
+    "name": "RAIChampionDetector",
+    "feature_policy": "CARE_COMMON",
+    "expected_power_curve": "Quadratic polynomial P = f(v_wind)",
+    "expected_rotor_curve": "Quadratic polynomial Rotor = f(v_wind)",
+    "residual_z_threshold": 2.5,
+    "persistence_steps": 3,
+    "persistence_window_minutes": 30
+  }
+}

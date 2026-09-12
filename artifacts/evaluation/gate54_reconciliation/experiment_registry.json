@@ -1,0 +1,80 @@
+{
+  "registry_purpose": "Canonical inventory of every distinct CARE-benchmark experiment run found on disk in this shared working directory as of 2026-09-12, across at least two concurrently-operating agent sessions. Built by the Gate 5.4 Reconciliation & Canonicalization audit (Role A / Scientific Auditor). Timestamps are file mtimes, not claimed run dates.",
+  "dataset": {
+    "name": "CARE-to-Compare",
+    "citation": "Guck, Roelofs & Faulstich, 2024, arXiv:2404.10320",
+    "zenodo_record": 14006163,
+    "farms": {
+      "Wind Farm A": {"turbines": 5, "datasets": 22, "raw_columns": 86},
+      "Wind Farm B": {"turbines": 9, "datasets": 15, "raw_columns": 257},
+      "Wind Farm C": {"turbines": 22, "datasets": 58, "raw_columns": 957}
+    },
+    "same_archive_confirmed_used_by_all_experiments_below": true,
+    "note": "Every experiment below reads from the same on-disk data/raw/care/ archive; none re-downloaded or re-anonymised the data, so farm/dataset/column counts are identical across all of them."
+  },
+  "experiments": [
+    {
+      "gate_label_on_disk": "Gate 5.1",
+      "duplicate_of": "scripts/gate5_1_run.py and scripts/gate51_care_multifarm.py were written 6 seconds apart (18:17:31 / 18:17:37) by what were almost certainly two independent concurrent sessions solving the identical task (Farm B/C CARE baseline reuse of farm_a_runner.run_farm).",
+      "scripts": ["scripts/gate51_care_multifarm.py", "scripts/gate5_1_run.py"],
+      "artifact_dirs": ["artifacts/evaluation/gate51/", "artifacts/evaluation/gate5_1/"],
+      "checkpoint_docs": [],
+      "detectors": ["isolation_forest", "zscore_threshold"],
+      "feature_policy": "name-only resolve_columns (2 signals: wind_speed_ms, power_kw)",
+      "reconciliation_status": "CONVERGED - not a live discrepancy: both scripts call the same underlying farm_a_runner.run_farm and, per direct comparison performed earlier in this working session, produced identical headline numbers (Farm B 0.532/0.401, Farm C 0.533/0.439). Flagged here only as a process-hygiene duplicate, not a numeric conflict."
+    },
+    {
+      "gate_label_on_disk": "Gate 5.2 (two independently-titled checkpoint records)",
+      "checkpoint_docs": ["docs/checkpoints/10-cross-turbine-generalization.md (mtime 2026-09-12 13:13, self-titled 'Gate 5.2 - Cross-Turbine Generalization & Benchmark-Fidelity Audit')", "docs/checkpoints/10-care-fidelity-rai.md (mtime 2026-09-12 19:04, frontmatter gate: 5.2, self-titled via its own module docstrings as CARE Scorer Audit + RAI Champion)"],
+      "scripts": ["scripts/gate52_fidelity_and_champion.py"],
+      "artifact_dirs": ["artifacts/evaluation/gate52/"],
+      "detectors": ["CARE_PUBLISHED_IF", "RAI_CHAMPION", "ZSCORE_REFERENCE"],
+      "feature_policy": "care_common (3-signal FARM_COMMON_MAPPING), care_native",
+      "reconciliation_status": "NOT FULLY AUDITED - out of this gate's scope (this reconciliation is scoped to Gate 5.4 specifically, per the task brief). Flagged for a future Gate 5.2R: two checkpoint files self-identify as the same gate number with different content and roughly 6 hours apart in mtime, suggesting either an iterative refinement or a second independent pass. Not resolved here."
+    },
+    {
+      "gate_label_on_disk": "Gate 5.3 (two independently-titled checkpoint records)",
+      "checkpoint_docs": ["docs/checkpoints/11-rai-cross-turbine.md (mtime 19:32, 'Gate 5.3 - RAI Champion Cross-Turbine Generalization & Input Representation Audit', 262 tests)", "docs/checkpoints/11-care-feature-rai-integration.md (mtime 19:36, gate: 5.3, 'RAI Champion Cross-Turbine Generalization & Representation Audit')"],
+      "scripts": ["scripts/gate53_cross_turbine_and_input_audit.py (current, no care_2d path)", "scripts/run_gate53_fast.py (referenced by docs/checkpoints/11-care-feature-rai-integration.md as its producing script; CONFIRMED ABSENT from the current repository - see discrepancy_log.csv item D1)"],
+      "artifact_dirs": ["artifacts/evaluation/gate53/"],
+      "detectors": ["CARE_PAPER_IF", "RAI_COMPAT_IF", "RAI_CHAMPION"],
+      "feature_policy": "care_2d (2-signal, only in the now-deleted producing script), care_common, care_native_semantic",
+      "reconciliation_status": "PARTIALLY AUDITED - the RAI_CHAMPION/care_2d=0.000 anomaly documented in docs/checkpoints/11-care-feature-rai-integration.md was investigated as part of this Gate 5.4 reconciliation because it directly bears on RAI CARE integration trust (see discrepancy_log.csv item D1 and claim_reconciliation.md Q3). The rest of Gate 5.3's content was not re-audited."
+    },
+    {
+      "gate_label_on_disk": "Gate 5.4 - CARE Fidelity Audit + RAI Integration",
+      "owner": "this session (Claude / CLI)",
+      "checkpoint_docs": ["docs/checkpoints/13-care-fidelity-rai-integration-gate54.md"],
+      "code": ["rai/eval/external/care/feature_inventory.py", "rai/eval/external/care/feature_policy.py", "rai/eval/external/care/cross_farm_semantic.py"],
+      "artifact_dirs": ["artifacts/evaluation/external_care/"],
+      "doc_section": "docs/evaluation/EXTERNAL_GENERALIZATION.md, '# Gate 5.4 - CARE Fidelity Audit + RAI Integration' (appears BEFORE the other session's Gate 5.4 section in the same file)",
+      "detectors": ["isolation_forest", "zscore_threshold"],
+      "feature_policy": "CARE_NARROW (sensor_map=None, 2 signals) vs CARE_SEMANTIC (auto-derived per-farm safe sensor_map from feature_description.csv, 9-13 signals depending on farm)",
+      "question_answered": "Why does RAI's CARE ingestion resolve only 2 of 15 canonical signals, and is that CARE's anonymisation or RAI's own ingestion policy? Answer: substantially RAI's own ingestion policy (default sensor_map=None) - wiring feature_description.csv in recovers 9-13 signals per farm.",
+      "reproducibility": "CONFIRMED - CARE_NARROW re-run under this gate reproduced the pre-existing Farm A/B/C numbers exactly (0.5345/0.5062, 0.5324/0.4013, 0.5328/0.4388), a live determinism cross-check, not an assumption.",
+      "status": "COMPLETE, real archive execution, 14 new tests, ruff/pyright clean."
+    },
+    {
+      "gate_label_on_disk": "Gate 5.4 - Cross-Farm Wind Transfer & Target-Normal Calibration",
+      "owner": "the concurrently-running session in this same working directory (referred to by the user as an 'IDE agent')",
+      "checkpoint_docs": ["docs/checkpoints/12-cross-farm-transfer.md"],
+      "code": ["scripts/gate54_cross_farm_transfer.py", "rai/eval/external/care/champion.py::recalibrate_rai_champion_target_normal (new function added for this gate)"],
+      "artifact_dirs": ["artifacts/evaluation/gate54/"],
+      "doc_section": "docs/evaluation/EXTERNAL_GENERALIZATION.md, '# Gate 5.4 - Cross-Farm Wind Transfer & Target-Normal Calibration' (appears AFTER this session's own Gate 5.4 section in the same file)",
+      "detectors": ["RAIChampionDetector (fit_rai_champion / recalibrate_rai_champion_target_normal)"],
+      "feature_policy": "CARE_COMMON (3-signal, hand-curated FARM_COMMON_MAPPING in rai/eval/external/care/features.py)",
+      "question_answered": "Does RAIChampionDetector transfer across all 6 directed farm pairs, and does target-normal calibration (no fault labels) recover lost performance? Answer: 2 of 6 directions (B->A, C->A) fail badly under frozen zero-shot transfer; target-normal calibration recovers most of the gap in both.",
+      "reproducibility": "STRUCTURALLY SOUND BUT NOT LIVE-RE-EXECUTED BY THIS AUDIT - fixed seed (20260912, labelled REPRODUCIBILITY_CHOICE), deterministic math (polyfit + turbine-clustered bootstrap with a seeded RandomState) per code inspection of scripts/gate54_cross_farm_transfer.py. A live re-run was deliberately NOT performed by this audit to avoid writing into the same artifacts/evaluation/gate54/ directory and farm_data_cache.pkl the other session may still be actively using - see claim_reconciliation.md Q8.",
+      "caveat": "Uses a hand-curated 3-signal FARM_COMMON_MAPPING that this audit found contains one materially questionable choice for Wind Farm B - see discrepancy_log.csv item D2.",
+      "status": "COMPLETE per its own checkpoint, 9 targeted tests (synthetic, not full-archive) + 278/278 full suite passing."
+    },
+    {
+      "gate_label_on_disk": "Gate 5.5 - Solar Data Foundation",
+      "owner": "the concurrently-running session (started during this reconciliation audit)",
+      "checkpoint_docs": ["docs/checkpoints/13-solar-data-foundation.md (checkpoint-number collision with this session's own 13-care-fidelity-rai-integration-gate54.md, mtimes 8 minutes apart)"],
+      "code": ["scripts/gate55_solar_foundation.py", "rai/eval/external/solar/"],
+      "artifact_dirs": ["artifacts/evaluation/gate55/"],
+      "reconciliation_status": "OUT OF SCOPE for this audit - this reconciliation is scoped to Gate 5.4 only, per the task brief's own explicit instruction ('Do not start Solar'). Listed here only so the registry is a complete map of what exists on disk; not audited."
+    }
+  ]
+}

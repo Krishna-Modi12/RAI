@@ -1,0 +1,381 @@
+farm,turbine,dataset,condition,model,label,description,detected,first_alarm_ts,first_alarm_care_id,lead_time_days,maximum_criticality,alarm_count,coverage_fbeta,earliness,accuracy
+Wind Farm A,CARE-WT-0,73,target_specific,isolation_forest,anomaly_event,Hydraulic group,False,2023-06-06 13:50:00+00:00,52326.0,9.91,8,161,0.2527,0.0566,
+Wind Farm A,CARE-WT-0,0,target_specific,isolation_forest,anomaly_event,Generator bearing failure,False,2023-08-03 06:20:00+00:00,52149.0,15.993,2,291,0.3763,0.1361,
+Wind Farm A,CARE-WT-0,26,target_specific,isolation_forest,anomaly_event,Hydraulic group,False,2023-10-11 15:00:00+00:00,52289.0,6.806,8,97,0.2625,0.0749,
+Wind Farm A,CARE-WT-0,24,target_specific,isolation_forest,normal_behavior,,False,2023-04-23 16:20:00+00:00,52297.0,0.0,0,111,,,0.9497
+Wind Farm A,CARE-WT-0,71,target_specific,isolation_forest,normal_behavior,,False,2023-12-31 00:30:00+00:00,52298.0,0.0,0,161,,,0.9154
+Wind Farm A,CARE-WT-0,73,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,False,2023-06-06 14:10:00+00:00,52328.0,9.896,5,195,0.2969,0.0706,
+Wind Farm A,CARE-WT-0,0,cross_turbine,isolation_forest,anomaly_event,Generator bearing failure,False,2023-08-03 23:40:00+00:00,52253.0,15.271,2,333,0.4337,0.171,
+Wind Farm A,CARE-WT-0,26,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,False,2023-10-14 12:10:00+00:00,52704.0,3.924,5,75,0.2239,0.0625,
+Wind Farm A,CARE-WT-0,24,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-24 23:40:00+00:00,52485.0,0.0,0,133,,,0.9397
+Wind Farm A,CARE-WT-0,71,cross_turbine,isolation_forest,normal_behavior,,False,2023-12-31 00:20:00+00:00,52297.0,0.0,0,129,,,0.9322
+Wind Farm A,CARE-WT-10,40,target_specific,isolation_forest,anomaly_event,Generator bearing failure,False,2023-12-23 09:10:00+00:00,51274.0,32.16,13,359,0.2733,0.0756,
+Wind Farm A,CARE-WT-10,42,target_specific,isolation_forest,anomaly_event,Hydraulic group,False,2023-09-09 23:20:00+00:00,52492.0,5.688,2,36,0.1077,0.0284,
+Wind Farm A,CARE-WT-10,10,target_specific,isolation_forest,anomaly_event,Gearbox failure,False,2023-10-10 21:20:00+00:00,52399.0,8.472,0,80,0.3038,0.0722,
+Wind Farm A,CARE-WT-10,3,target_specific,isolation_forest,normal_behavior,,False,2023-04-27 04:00:00+00:00,52335.0,0.0,1,178,,,0.9366
+Wind Farm A,CARE-WT-10,17,target_specific,isolation_forest,normal_behavior,,False,2023-11-02 11:30:00+00:00,52430.0,0.0,0,100,,,0.9516
+Wind Farm A,CARE-WT-10,40,cross_turbine,isolation_forest,anomaly_event,Generator bearing failure,False,2023-12-23 09:20:00+00:00,51275.0,32.153,13,253,0.2177,0.0467,
+Wind Farm A,CARE-WT-10,42,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,False,2023-09-08 15:50:00+00:00,52303.0,7.0,2,42,0.1318,0.0361,
+Wind Farm A,CARE-WT-10,10,cross_turbine,isolation_forest,anomaly_event,Gearbox failure,False,2023-10-10 21:20:00+00:00,52399.0,8.472,0,104,0.3582,0.0919,
+Wind Farm A,CARE-WT-10,3,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-27 03:20:00+00:00,52331.0,0.0,0,217,,,0.9205
+Wind Farm A,CARE-WT-10,17,cross_turbine,isolation_forest,normal_behavior,,False,2023-11-01 15:50:00+00:00,52312.0,0.0,0,107,,,0.9483
+Wind Farm A,CARE-WT-11,68,target_specific,isolation_forest,anomaly_event,Transformer failure,False,2023-07-30 00:50:00+00:00,52132.0,13.514,45,275,0.3,0.0495,
+Wind Farm A,CARE-WT-11,25,target_specific,isolation_forest,normal_behavior,,False,2023-05-22 11:10:00+00:00,52315.0,0.0,1,267,,,0.863
+Wind Farm A,CARE-WT-11,69,target_specific,isolation_forest,normal_behavior,,False,2023-09-03 00:50:00+00:00,52364.0,0.0,0,119,,,0.9422
+Wind Farm A,CARE-WT-11,92,target_specific,isolation_forest,normal_behavior,,False,2023-04-05 03:30:00+00:00,52587.0,0.0,0,413,,,0.7274
+Wind Farm A,CARE-WT-11,68,cross_turbine,isolation_forest,anomaly_event,Transformer failure,False,2023-07-30 00:50:00+00:00,52132.0,13.514,57,367,0.3629,0.0633,
+Wind Farm A,CARE-WT-11,25,cross_turbine,isolation_forest,normal_behavior,,False,2023-05-22 11:10:00+00:00,52315.0,0.0,2,349,,,0.8213
+Wind Farm A,CARE-WT-11,69,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-02 01:00:00+00:00,52221.0,0.0,0,143,,,0.9305
+Wind Farm A,CARE-WT-11,92,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-03 19:00:00+00:00,52392.0,0.0,0,286,,,0.8112
+Wind Farm A,CARE-WT-13,45,target_specific,isolation_forest,anomaly_event,Hydraulic group,True,2023-04-16 18:30:00+00:00,52445.0,8.986,406,459,1.0,0.5291,
+Wind Farm A,CARE-WT-13,84,target_specific,isolation_forest,anomaly_event,Hydraulic group,False,2023-09-03 01:20:00+00:00,52394.0,8.59,8,28,1.0,0.0116,
+Wind Farm A,CARE-WT-13,38,target_specific,isolation_forest,normal_behavior,,False,2023-06-30 02:40:00+00:00,52645.0,0.0,0,188,,,0.9114
+Wind Farm A,CARE-WT-13,14,target_specific,isolation_forest,normal_behavior,,False,2023-03-02 14:00:00+00:00,52296.0,0.0,1,272,,,0.8302
+Wind Farm A,CARE-WT-13,45,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,True,2023-04-16 18:30:00+00:00,52445.0,8.986,371,445,1.0,0.5129,
+Wind Farm A,CARE-WT-13,84,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,False,2023-09-03 01:20:00+00:00,52394.0,8.59,8,23,1.0,0.0059,
+Wind Farm A,CARE-WT-13,38,cross_turbine,isolation_forest,normal_behavior,,False,2023-06-28 17:40:00+00:00,52447.0,0.0,1,166,,,0.9227
+Wind Farm A,CARE-WT-13,14,cross_turbine,isolation_forest,normal_behavior,,False,2023-03-02 15:10:00+00:00,52303.0,0.0,0,228,,,0.8571
+Wind Farm A,CARE-WT-21,22,target_specific,isolation_forest,anomaly_event,Hydraulic group,False,2023-08-11 09:50:00+00:00,51888.0,7.007,5,256,0.5881,0.2828,
+Wind Farm A,CARE-WT-21,72,target_specific,isolation_forest,anomaly_event,Gearbox failure,False,2023-10-06 16:20:00+00:00,52111.0,9.681,5,117,0.309,0.059,
+Wind Farm A,CARE-WT-21,13,target_specific,isolation_forest,normal_behavior,,False,2023-04-30 07:40:00+00:00,50537.0,0.0,0,470,,,0.8506
+Wind Farm A,CARE-WT-21,51,target_specific,isolation_forest,normal_behavior,,False,2023-10-05 04:50:00+00:00,52063.0,0.0,7,184,,,0.9139
+Wind Farm A,CARE-WT-21,22,cross_turbine,isolation_forest,anomaly_event,Hydraulic group,False,2023-08-11 10:30:00+00:00,51892.0,6.979,4,205,0.5418,0.2374,
+Wind Farm A,CARE-WT-21,72,cross_turbine,isolation_forest,anomaly_event,Gearbox failure,False,2023-10-06 19:00:00+00:00,52127.0,9.569,4,93,0.228,0.0359,
+Wind Farm A,CARE-WT-21,13,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-30 07:40:00+00:00,50537.0,0.0,3,494,,,0.8455
+Wind Farm A,CARE-WT-21,51,cross_turbine,isolation_forest,normal_behavior,,False,2023-10-05 11:40:00+00:00,52104.0,0.0,4,171,,,0.9201
+Wind Farm A,CARE-WT-0,73,target_specific,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-0,0,target_specific,zscore_threshold,anomaly_event,Generator bearing failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-0,26,target_specific,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-0,24,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-0,71,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-0,73,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-0,0,cross_turbine,zscore_threshold,anomaly_event,Generator bearing failure,False,2023-08-11 12:10:00+00:00,53335.0,7.75,0,9,0.022,0.0057,
+Wind Farm A,CARE-WT-0,26,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-0,24,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-0,71,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-10,40,target_specific,zscore_threshold,anomaly_event,Generator bearing failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,42,target_specific,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,10,target_specific,zscore_threshold,anomaly_event,Gearbox failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,3,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-10,17,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-10,40,cross_turbine,zscore_threshold,anomaly_event,Generator bearing failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,42,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,10,cross_turbine,zscore_threshold,anomaly_event,Gearbox failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-10,3,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-10,17,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-11,68,target_specific,zscore_threshold,anomaly_event,Transformer failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-11,25,target_specific,zscore_threshold,normal_behavior,,False,2023-05-22 13:50:00+00:00,52331.0,0.0,0,17,,,0.9912
+Wind Farm A,CARE-WT-11,69,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-11,92,target_specific,zscore_threshold,normal_behavior,,False,2023-04-06 14:50:00+00:00,52799.0,0.0,0,12,,,0.9921
+Wind Farm A,CARE-WT-11,68,cross_turbine,zscore_threshold,anomaly_event,Transformer failure,False,2023-08-13 12:10:00+00:00,54206.0,0.0,2,4,0.0,0.0,
+Wind Farm A,CARE-WT-11,25,cross_turbine,zscore_threshold,normal_behavior,,False,2023-05-22 13:50:00+00:00,52331.0,0.0,0,34,,,0.9825
+Wind Farm A,CARE-WT-11,69,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-11,92,cross_turbine,zscore_threshold,normal_behavior,,False,2023-04-06 14:50:00+00:00,52799.0,0.0,0,12,,,0.9921
+Wind Farm A,CARE-WT-13,45,target_specific,zscore_threshold,anomaly_event,Hydraulic group,True,2023-04-18 13:00:00+00:00,52700.0,7.215,143,231,1.0,0.2924,
+Wind Farm A,CARE-WT-13,84,target_specific,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,1.0,0.0,
+Wind Farm A,CARE-WT-13,38,target_specific,zscore_threshold,normal_behavior,,False,2023-07-02 14:50:00+00:00,53006.0,0.0,0,5,,,0.9976
+Wind Farm A,CARE-WT-13,14,target_specific,zscore_threshold,normal_behavior,,False,2023-03-02 16:30:00+00:00,52311.0,0.0,0,25,,,0.9843
+Wind Farm A,CARE-WT-13,45,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,2023-04-18 13:10:00+00:00,52701.0,7.208,44,113,1.0,0.1482,
+Wind Farm A,CARE-WT-13,84,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,,,0.0,0,0,1.0,0.0,
+Wind Farm A,CARE-WT-13,38,cross_turbine,zscore_threshold,normal_behavior,,False,2023-07-02 15:00:00+00:00,53007.0,0.0,0,2,,,0.9991
+Wind Farm A,CARE-WT-13,14,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm A,CARE-WT-21,22,target_specific,zscore_threshold,anomaly_event,Hydraulic group,False,2023-08-11 16:20:00+00:00,51927.0,6.736,0,1,0.005,0.0013,
+Wind Farm A,CARE-WT-21,72,target_specific,zscore_threshold,anomaly_event,Gearbox failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-21,13,target_specific,zscore_threshold,normal_behavior,,False,2023-05-19 12:30:00+00:00,53302.0,0.0,0,82,,,0.9739
+Wind Farm A,CARE-WT-21,51,target_specific,zscore_threshold,normal_behavior,,False,2023-10-05 14:00:00+00:00,52118.0,0.0,0,1,,,0.9995
+Wind Farm A,CARE-WT-21,22,cross_turbine,zscore_threshold,anomaly_event,Hydraulic group,False,2023-08-11 12:10:00+00:00,51902.0,6.91,0,10,0.0479,0.0133,
+Wind Farm A,CARE-WT-21,72,cross_turbine,zscore_threshold,anomaly_event,Gearbox failure,False,,,0.0,0,0,0.0,0.0,
+Wind Farm A,CARE-WT-21,13,cross_turbine,zscore_threshold,normal_behavior,,False,2023-05-14 15:50:00+00:00,52602.0,0.0,0,137,,,0.9565
+Wind Farm A,CARE-WT-21,51,cross_turbine,zscore_threshold,normal_behavior,,False,2023-10-05 13:20:00+00:00,52114.0,0.0,0,6,,,0.9969
+Wind Farm B,CARE-WT-0,21,target_specific,isolation_forest,normal_behavior,,False,2023-09-26 00:50:00+00:00,52677.0,0.0,0,259,,,0.7959
+Wind Farm B,CARE-WT-0,21,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-26 00:50:00+00:00,52677.0,0.0,0,279,,,0.7801
+Wind Farm B,CARE-WT-11,19,target_specific,isolation_forest,anomaly_event,high temperature,False,2023-02-01 03:10:00+00:00,52548.0,20.868,11,125,0.1317,0.0357,
+Wind Farm B,CARE-WT-11,74,target_specific,isolation_forest,normal_behavior,,False,2024-01-01 03:30:00+00:00,52556.0,0.0,6,388,,,0.8784
+Wind Farm B,CARE-WT-11,19,cross_turbine,isolation_forest,anomaly_event,high temperature,False,2023-02-01 03:20:00+00:00,52549.0,20.861,11,167,0.1986,0.0488,
+Wind Farm B,CARE-WT-11,74,cross_turbine,isolation_forest,normal_behavior,,False,2024-01-01 03:40:00+00:00,52557.0,0.0,8,485,,,0.848
+Wind Farm B,CARE-WT-12,77,target_specific,isolation_forest,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,False,2023-05-30 15:10:00+00:00,52650.0,62.368,6,706,0.2984,0.0832,
+Wind Farm B,CARE-WT-12,86,target_specific,isolation_forest,normal_behavior,,False,2023-04-26 17:30:00+00:00,52559.0,0.0,4,165,,,0.9471
+Wind Farm B,CARE-WT-12,77,cross_turbine,isolation_forest,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,False,2023-06-04 08:20:00+00:00,53329.0,57.653,6,639,0.2802,0.0762,
+Wind Farm B,CARE-WT-12,86,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-26 17:30:00+00:00,52559.0,0.0,4,168,,,0.9454
+Wind Farm B,CARE-WT-13,7,target_specific,isolation_forest,anomaly_event,high temperature,False,2023-06-29 19:30:00+00:00,52676.0,31.188,12,178,0.0918,0.0271,
+Wind Farm B,CARE-WT-13,2,target_specific,isolation_forest,normal_behavior,,False,2023-08-07 22:10:00+00:00,52576.0,0.0,0,194,,,0.9102
+Wind Farm B,CARE-WT-13,7,cross_turbine,isolation_forest,anomaly_event,high temperature,False,2023-06-29 19:30:00+00:00,52676.0,31.188,8,149,0.0765,0.02,
+Wind Farm B,CARE-WT-13,2,cross_turbine,isolation_forest,normal_behavior,,False,2023-08-07 22:10:00+00:00,52576.0,0.0,0,194,,,0.9102
+Wind Farm B,CARE-WT-14,34,target_specific,isolation_forest,anomaly_event,high temperature,False,2023-08-25 00:00:00+00:00,52531.0,22.0,13,229,0.1449,0.0448,
+Wind Farm B,CARE-WT-14,52,target_specific,isolation_forest,normal_behavior,,False,2023-07-13 10:00:00+00:00,52735.0,0.0,0,57,,,0.9791
+Wind Farm B,CARE-WT-14,34,cross_turbine,isolation_forest,anomaly_event,high temperature,False,2023-08-25 00:00:00+00:00,52531.0,22.0,7,278,0.148,0.047,
+Wind Farm B,CARE-WT-14,52,cross_turbine,isolation_forest,normal_behavior,,False,2023-07-13 10:00:00+00:00,52735.0,0.0,0,65,,,0.9762
+Wind Farm B,CARE-WT-2,83,target_specific,isolation_forest,normal_behavior,,False,2023-06-28 11:40:00+00:00,52111.0,0.0,41,1110,,,0.9321
+Wind Farm B,CARE-WT-2,83,cross_turbine,isolation_forest,normal_behavior,,False,2023-06-28 11:40:00+00:00,52111.0,0.0,43,1179,,,0.9263
+Wind Farm B,CARE-WT-5,82,target_specific,isolation_forest,normal_behavior,,False,2023-09-23 22:20:00+00:00,52827.0,0.0,1,279,,,0.8852
+Wind Farm B,CARE-WT-5,82,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-23 22:20:00+00:00,52827.0,0.0,1,289,,,0.8793
+Wind Farm B,CARE-WT-6,53,target_specific,isolation_forest,anomaly_event,Rotor Bearing 2 - Damage,True,2023-12-27 16:50:00+00:00,52560.0,41.986,111,1120,0.4866,0.198,
+Wind Farm B,CARE-WT-6,23,target_specific,isolation_forest,normal_behavior,,True,2023-09-16 23:10:00+00:00,52593.0,0.0,109,345,,,0.8755
+Wind Farm B,CARE-WT-6,53,cross_turbine,isolation_forest,anomaly_event,Rotor Bearing 2 - Damage,True,2023-12-27 17:20:00+00:00,52563.0,41.965,95,1034,0.4595,0.1833,
+Wind Farm B,CARE-WT-6,23,cross_turbine,isolation_forest,normal_behavior,,True,2023-09-16 23:10:00+00:00,52593.0,0.0,113,357,,,0.8698
+Wind Farm B,CARE-WT-7,27,target_specific,isolation_forest,anomaly_event,Turbine is stopped due to a main bearing damage,True,2023-08-31 19:00:00+00:00,52445.0,62.208,83,981,0.2599,0.0837,
+Wind Farm B,CARE-WT-7,87,target_specific,isolation_forest,normal_behavior,,False,2023-09-12 13:10:00+00:00,52416.0,0.0,18,428,,,0.8606
+Wind Farm B,CARE-WT-7,27,cross_turbine,isolation_forest,anomaly_event,Turbine is stopped due to a main bearing damage,False,2023-08-31 19:00:00+00:00,52445.0,62.208,68,894,0.2482,0.0811,
+Wind Farm B,CARE-WT-7,87,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-12 13:10:00+00:00,52416.0,0.0,18,411,,,0.8664
+Wind Farm B,CARE-WT-0,21,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-0,21,cross_turbine,zscore_threshold,normal_behavior,,False,2023-10-01 01:20:00+00:00,53400.0,0.0,0,1,,,0.9992
+Wind Farm B,CARE-WT-11,19,target_specific,zscore_threshold,anomaly_event,high temperature,False,2023-02-02 06:30:00+00:00,52712.0,19.729,0,2,0.0035,0.0009,
+Wind Farm B,CARE-WT-11,74,target_specific,zscore_threshold,normal_behavior,,False,2024-01-12 10:50:00+00:00,54184.0,0.0,0,36,,,0.9881
+Wind Farm B,CARE-WT-11,19,cross_turbine,zscore_threshold,anomaly_event,high temperature,False,2023-02-02 06:30:00+00:00,52712.0,19.729,0,3,0.0052,0.0012,
+Wind Farm B,CARE-WT-11,74,cross_turbine,zscore_threshold,normal_behavior,,False,2024-01-12 10:50:00+00:00,54184.0,0.0,0,36,,,0.9881
+Wind Farm B,CARE-WT-12,77,target_specific,zscore_threshold,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,False,2023-07-06 16:20:00+00:00,57985.0,25.319,0,6,0.0038,0.0008,
+Wind Farm B,CARE-WT-12,86,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-12,77,cross_turbine,zscore_threshold,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,False,2023-07-06 16:20:00+00:00,57985.0,25.319,0,6,0.0038,0.0008,
+Wind Farm B,CARE-WT-12,86,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-13,7,target_specific,zscore_threshold,anomaly_event,high temperature,False,,,0.0,0,0,0.0,0.0,
+Wind Farm B,CARE-WT-13,2,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-13,7,cross_turbine,zscore_threshold,anomaly_event,high temperature,False,,,0.0,0,0,0.0,0.0,
+Wind Farm B,CARE-WT-13,2,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-14,34,target_specific,zscore_threshold,anomaly_event,high temperature,False,2023-09-19 18:20:00+00:00,56241.0,0.0,0,1,0.0,0.0,
+Wind Farm B,CARE-WT-14,52,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-14,34,cross_turbine,zscore_threshold,anomaly_event,high temperature,False,2023-09-19 18:20:00+00:00,56241.0,0.0,0,1,0.0,0.0,
+Wind Farm B,CARE-WT-14,52,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-2,83,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-2,83,cross_turbine,zscore_threshold,normal_behavior,,False,2023-10-02 00:00:00+00:00,65865.0,0.0,1,1,,,1.0
+Wind Farm B,CARE-WT-5,82,target_specific,zscore_threshold,normal_behavior,,False,2023-09-29 02:10:00+00:00,53570.0,0.0,0,3,,,0.9987
+Wind Farm B,CARE-WT-5,82,cross_turbine,zscore_threshold,normal_behavior,,False,2023-09-29 02:10:00+00:00,53570.0,0.0,0,3,,,0.9987
+Wind Farm B,CARE-WT-6,53,target_specific,zscore_threshold,anomaly_event,Rotor Bearing 2 - Damage,False,2024-01-01 23:30:00+00:00,53320.0,36.708,2,50,0.0382,0.0101,
+Wind Farm B,CARE-WT-6,23,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-6,53,cross_turbine,zscore_threshold,anomaly_event,Rotor Bearing 2 - Damage,False,2024-01-01 23:30:00+00:00,53320.0,36.708,2,47,0.0365,0.0096,
+Wind Farm B,CARE-WT-6,23,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-7,27,target_specific,zscore_threshold,anomaly_event,Turbine is stopped due to a main bearing damage,False,,,0.0,0,0,0.0,0.0,
+Wind Farm B,CARE-WT-7,87,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm B,CARE-WT-7,27,cross_turbine,zscore_threshold,anomaly_event,Turbine is stopped due to a main bearing damage,False,,,0.0,0,0,0.0,0.0,
+Wind Farm B,CARE-WT-7,87,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-12,66,target_specific,isolation_forest,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",False,2023-01-15 00:00:00+00:00,51696.0,6.542,62,463,0.1776,0.2127,
+Wind Farm C,CARE-WT-12,15,target_specific,isolation_forest,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,2023-02-05 02:30:00+00:00,51711.0,18.896,3,622,0.5955,0.2111,
+Wind Farm C,CARE-WT-12,50,target_specific,isolation_forest,normal_behavior,,False,2023-11-01 20:00:00+00:00,51816.0,0.0,0,104,,,0.9695
+Wind Farm C,CARE-WT-12,66,cross_turbine,isolation_forest,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",False,2023-01-15 00:00:00+00:00,51696.0,6.542,34,120,0.1752,0.0896,
+Wind Farm C,CARE-WT-12,15,cross_turbine,isolation_forest,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,2023-02-06 04:50:00+00:00,51869.0,17.799,4,225,0.324,0.071,
+Wind Farm C,CARE-WT-12,50,cross_turbine,isolation_forest,normal_behavior,,False,2023-11-01 15:40:00+00:00,51790.0,0.0,3,350,,,0.9009
+Wind Farm C,CARE-WT-13,29,target_specific,isolation_forest,normal_behavior,,False,2023-03-06 08:10:00+00:00,52597.0,0.0,1,345,,,0.8497
+Wind Farm C,CARE-WT-13,29,cross_turbine,isolation_forest,normal_behavior,,False,2023-03-06 08:10:00+00:00,52597.0,0.0,1,230,,,0.9001
+Wind Farm C,CARE-WT-14,85,target_specific,isolation_forest,normal_behavior,,False,2023-01-10 18:50:00+00:00,50866.0,0.0,4,386,,,0.7598
+Wind Farm C,CARE-WT-14,85,cross_turbine,isolation_forest,normal_behavior,,False,2023-01-10 18:00:00+00:00,50861.0,0.0,4,416,,,0.7386
+Wind Farm C,CARE-WT-15,78,target_specific,isolation_forest,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,2023-07-30 00:10:00+00:00,52627.0,1.597,11,57,0.1795,0.0687,
+Wind Farm C,CARE-WT-15,64,target_specific,isolation_forest,normal_behavior,,False,2023-09-23 00:10:00+00:00,52702.0,0.0,8,335,,,0.8239
+Wind Farm C,CARE-WT-15,78,cross_turbine,isolation_forest,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,2023-07-30 00:10:00+00:00,52627.0,1.597,3,27,0.1331,0.0468,
+Wind Farm C,CARE-WT-15,64,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-25 02:50:00+00:00,53006.0,0.0,8,188,,,0.9036
+Wind Farm C,CARE-WT-16,79,target_specific,isolation_forest,anomaly_event,Communication fault BK1120 in NC300,False,2023-07-23 18:10:00+00:00,52615.0,2.618,5,26,0.0,0.0003,
+Wind Farm C,CARE-WT-16,30,target_specific,isolation_forest,anomaly_event,Pitch failure - defect fan on pitch motor,True,2023-12-14 00:00:00+00:00,52560.0,22.653,221,829,0.2634,0.1727,
+Wind Farm C,CARE-WT-16,46,target_specific,isolation_forest,normal_behavior,,False,2023-05-09 11:40:00+00:00,52589.0,0.0,1,149,,,0.9436
+Wind Farm C,CARE-WT-16,65,target_specific,isolation_forest,normal_behavior,,False,2023-11-03 08:40:00+00:00,52586.0,0.0,2,305,,,0.9102
+Wind Farm C,CARE-WT-16,79,cross_turbine,isolation_forest,anomaly_event,Communication fault BK1120 in NC300,False,2023-07-23 18:40:00+00:00,52618.0,2.597,5,18,0.0,0.0003,
+Wind Farm C,CARE-WT-16,30,cross_turbine,isolation_forest,anomaly_event,Pitch failure - defect fan on pitch motor,True,2023-12-14 04:00:00+00:00,52584.0,22.486,232,731,0.2207,0.1674,
+Wind Farm C,CARE-WT-16,46,cross_turbine,isolation_forest,normal_behavior,,False,2023-05-09 10:20:00+00:00,52581.0,0.0,1,76,,,0.9714
+Wind Farm C,CARE-WT-16,65,cross_turbine,isolation_forest,normal_behavior,,False,2023-11-03 06:40:00+00:00,52574.0,0.0,3,282,,,0.919
+Wind Farm C,CARE-WT-2,12,target_specific,isolation_forest,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,2023-06-25 00:20:00+00:00,52562.0,22.611,20,323,0.2733,0.0725,
+Wind Farm C,CARE-WT-2,36,target_specific,isolation_forest,normal_behavior,,False,2023-08-15 23:00:00+00:00,52579.0,0.0,4,241,,,0.9203
+Wind Farm C,CARE-WT-2,12,cross_turbine,isolation_forest,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,2023-06-25 00:20:00+00:00,52562.0,22.611,13,242,0.2595,0.073,
+Wind Farm C,CARE-WT-2,36,cross_turbine,isolation_forest,normal_behavior,,False,2023-08-15 23:00:00+00:00,52579.0,0.0,1,205,,,0.9301
+Wind Farm C,CARE-WT-21,47,target_specific,isolation_forest,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,2023-12-23 17:00:00+00:00,52428.0,4.861,15,471,0.0664,0.0574,
+Wind Farm C,CARE-WT-21,62,target_specific,isolation_forest,normal_behavior,,False,2023-11-04 17:50:00+00:00,52457.0,0.0,0,42,,,0.9591
+Wind Farm C,CARE-WT-21,47,cross_turbine,isolation_forest,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,2023-12-23 17:00:00+00:00,52428.0,4.861,25,467,0.078,0.0625,
+Wind Farm C,CARE-WT-21,62,cross_turbine,isolation_forest,normal_behavior,,False,2023-11-04 17:00:00+00:00,52452.0,0.0,1,55,,,0.9483
+Wind Farm C,CARE-WT-23,70,target_specific,isolation_forest,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,2023-11-10 03:20:00+00:00,52640.0,19.59,12,211,0.252,0.0737,
+Wind Farm C,CARE-WT-23,80,target_specific,isolation_forest,normal_behavior,,False,2023-10-07 12:50:00+00:00,52624.0,0.0,1,90,,,0.9631
+Wind Farm C,CARE-WT-23,37,target_specific,isolation_forest,normal_behavior,,False,2023-02-26 22:00:00+00:00,51576.0,0.0,7,319,,,0.8724
+Wind Farm C,CARE-WT-23,70,cross_turbine,isolation_forest,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,2023-11-10 21:50:00+00:00,52751.0,18.819,6,198,0.2553,0.0715,
+Wind Farm C,CARE-WT-23,80,cross_turbine,isolation_forest,normal_behavior,,False,2023-10-07 12:50:00+00:00,52624.0,0.0,1,107,,,0.9549
+Wind Farm C,CARE-WT-23,37,cross_turbine,isolation_forest,normal_behavior,,False,2023-02-26 08:30:00+00:00,51495.0,0.0,7,197,,,0.9228
+Wind Farm C,CARE-WT-32,5,target_specific,isolation_forest,anomaly_event,WEC in failure - current measurement own consumption,False,2023-02-02 00:00:00+00:00,52128.0,4.625,56,201,0.1983,0.2209,
+Wind Farm C,CARE-WT-32,59,target_specific,isolation_forest,normal_behavior,,False,2023-02-17 18:00:00+00:00,52236.0,0.0,1,474,,,0.8262
+Wind Farm C,CARE-WT-32,5,cross_turbine,isolation_forest,anomaly_event,WEC in failure - current measurement own consumption,True,2023-02-02 00:00:00+00:00,52128.0,4.625,93,220,0.1239,0.2514,
+Wind Farm C,CARE-WT-32,59,cross_turbine,isolation_forest,normal_behavior,,False,2023-02-18 06:00:00+00:00,52308.0,0.0,1,345,,,0.8733
+Wind Farm C,CARE-WT-33,49,target_specific,isolation_forest,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,2023-03-30 02:00:00+00:00,51564.0,6.062,0,117,0.4139,0.1955,
+Wind Farm C,CARE-WT-33,41,target_specific,isolation_forest,normal_behavior,,False,2023-01-14 05:00:00+00:00,51408.0,0.0,11,568,,,0.8723
+Wind Farm C,CARE-WT-33,49,cross_turbine,isolation_forest,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,2023-03-30 04:20:00+00:00,51578.0,5.965,0,72,0.3001,0.1089,
+Wind Farm C,CARE-WT-33,41,cross_turbine,isolation_forest,normal_behavior,,False,2023-01-14 05:00:00+00:00,51408.0,0.0,11,658,,,0.8508
+Wind Farm C,CARE-WT-34,4,target_specific,isolation_forest,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-07-29 16:00:00+00:00,53028.0,18.75,19,236,0.2283,0.0569,
+Wind Farm C,CARE-WT-34,18,target_specific,isolation_forest,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,False,2023-09-10 02:20:00+00:00,51134.0,5.896,14,114,0.2985,0.0536,
+Wind Farm C,CARE-WT-34,56,target_specific,isolation_forest,normal_behavior,,False,2023-07-27 10:20:00+00:00,51147.0,0.0,10,61,,,0.9832
+Wind Farm C,CARE-WT-34,94,target_specific,isolation_forest,normal_behavior,,False,2023-06-10 19:50:00+00:00,52183.0,0.0,2,61,,,0.9784
+Wind Farm C,CARE-WT-34,4,cross_turbine,isolation_forest,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-07-29 16:20:00+00:00,53030.0,18.736,19,137,0.0864,0.0222,
+Wind Farm C,CARE-WT-34,18,cross_turbine,isolation_forest,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,True,2023-09-10 02:20:00+00:00,51134.0,5.896,90,210,0.3475,0.0483,
+Wind Farm C,CARE-WT-34,56,cross_turbine,isolation_forest,normal_behavior,,False,2023-07-27 10:10:00+00:00,51146.0,0.0,23,74,,,0.9823
+Wind Farm C,CARE-WT-34,94,cross_turbine,isolation_forest,normal_behavior,,False,2023-06-10 19:50:00+00:00,52183.0,0.0,3,35,,,0.9896
+Wind Farm C,CARE-WT-35,31,target_specific,isolation_forest,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,2023-01-15 11:00:00+00:00,52626.0,8.625,26,196,0.0759,0.0644,
+Wind Farm C,CARE-WT-35,67,target_specific,isolation_forest,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,2023-01-31 00:00:00+00:00,52560.0,59.0,39,910,0.3202,0.092,
+Wind Farm C,CARE-WT-35,58,target_specific,isolation_forest,normal_behavior,,False,2023-10-13 18:00:00+00:00,52616.0,0.0,2,61,,,0.9682
+Wind Farm C,CARE-WT-35,48,target_specific,isolation_forest,normal_behavior,,False,2023-04-23 13:40:00+00:00,52570.0,0.0,8,90,,,0.9696
+Wind Farm C,CARE-WT-35,31,cross_turbine,isolation_forest,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,2023-01-15 11:00:00+00:00,52626.0,8.625,41,227,0.0321,0.0677,
+Wind Farm C,CARE-WT-35,67,cross_turbine,isolation_forest,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,2023-01-31 00:00:00+00:00,52560.0,59.0,55,955,0.3277,0.0871,
+Wind Farm C,CARE-WT-35,58,cross_turbine,isolation_forest,normal_behavior,,False,2023-10-13 18:10:00+00:00,52617.0,0.0,1,56,,,0.9704
+Wind Farm C,CARE-WT-35,48,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-23 13:30:00+00:00,52569.0,0.0,8,85,,,0.9715
+Wind Farm C,CARE-WT-38,81,target_specific,isolation_forest,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,2023-11-16 17:40:00+00:00,52657.0,2.847,8,146,0.439,0.2386,
+Wind Farm C,CARE-WT-38,6,target_specific,isolation_forest,normal_behavior,,False,2023-12-01 13:20:00+00:00,52647.0,0.0,2,173,,,0.924
+Wind Farm C,CARE-WT-38,81,cross_turbine,isolation_forest,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,2023-11-17 21:50:00+00:00,52826.0,1.674,11,132,0.5564,0.275,
+Wind Farm C,CARE-WT-38,6,cross_turbine,isolation_forest,normal_behavior,,False,2023-12-01 17:00:00+00:00,52669.0,0.0,2,93,,,0.9594
+Wind Farm C,CARE-WT-42,91,target_specific,isolation_forest,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-10-11 01:20:00+00:00,52655.0,20.444,14,376,0.1871,0.0552,
+Wind Farm C,CARE-WT-42,32,target_specific,isolation_forest,normal_behavior,,False,2023-09-27 10:30:00+00:00,52591.0,0.0,2,53,,,0.9798
+Wind Farm C,CARE-WT-42,91,cross_turbine,isolation_forest,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-10-11 00:20:00+00:00,52649.0,20.486,14,450,0.2601,0.0733,
+Wind Farm C,CARE-WT-42,32,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-27 10:30:00+00:00,52591.0,0.0,2,54,,,0.9794
+Wind Farm C,CARE-WT-43,33,target_specific,isolation_forest,anomaly_event,P20_Blade3_Grease Collector missing,True,2023-08-22 23:10:00+00:00,52621.0,21.576,77,983,0.676,0.3173,
+Wind Farm C,CARE-WT-43,11,target_specific,isolation_forest,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,True,2023-10-16 16:50:00+00:00,52442.0,21.736,220,1540,0.8379,0.4931,
+Wind Farm C,CARE-WT-43,61,target_specific,isolation_forest,normal_behavior,,False,2023-05-05 11:40:00+00:00,52630.0,0.0,2,648,,,0.7801
+Wind Farm C,CARE-WT-43,93,target_specific,isolation_forest,normal_behavior,,False,2023-07-31 21:40:00+00:00,52595.0,0.0,36,567,,,0.8387
+Wind Farm C,CARE-WT-43,33,cross_turbine,isolation_forest,anomaly_event,P20_Blade3_Grease Collector missing,False,2023-08-23 00:50:00+00:00,52631.0,21.507,11,125,0.1529,0.0423,
+Wind Farm C,CARE-WT-43,11,cross_turbine,isolation_forest,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,False,2023-10-17 02:30:00+00:00,52500.0,21.333,26,589,0.5199,0.1836,
+Wind Farm C,CARE-WT-43,61,cross_turbine,isolation_forest,normal_behavior,,False,2023-05-05 00:00:00+00:00,52560.0,0.0,1,84,,,0.9719
+Wind Farm C,CARE-WT-43,93,cross_turbine,isolation_forest,normal_behavior,,False,2023-08-02 01:40:00+00:00,52763.0,0.0,1,78,,,0.9771
+Wind Farm C,CARE-WT-44,44,target_specific,isolation_forest,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,2023-08-03 13:50:00+00:00,52703.0,65.521,17,488,0.1979,0.0495,
+Wind Farm C,CARE-WT-44,75,target_specific,isolation_forest,normal_behavior,,False,2023-04-30 16:50:00+00:00,52594.0,0.0,8,164,,,0.9557
+Wind Farm C,CARE-WT-44,44,cross_turbine,isolation_forest,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,2023-08-03 13:50:00+00:00,52703.0,65.521,3,318,0.1412,0.0319,
+Wind Farm C,CARE-WT-44,75,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-30 16:50:00+00:00,52594.0,0.0,7,84,,,0.9778
+Wind Farm C,CARE-WT-5,89,target_specific,isolation_forest,normal_behavior,,False,2023-03-05 16:00:00+00:00,51929.0,0.0,5,509,,,0.8154
+Wind Farm C,CARE-WT-5,89,cross_turbine,isolation_forest,normal_behavior,,False,2023-03-05 08:50:00+00:00,51886.0,0.0,10,351,,,0.8752
+Wind Farm C,CARE-WT-50,55,target_specific,isolation_forest,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,2023-10-27 14:30:00+00:00,52578.0,19.042,12,363,0.3501,0.1473,
+Wind Farm C,CARE-WT-50,8,target_specific,isolation_forest,normal_behavior,,False,2023-08-21 22:30:00+00:00,52593.0,0.0,3,174,,,0.9264
+Wind Farm C,CARE-WT-50,55,cross_turbine,isolation_forest,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,2023-10-27 11:40:00+00:00,52561.0,19.16,11,553,0.3087,0.1553,
+Wind Farm C,CARE-WT-50,8,cross_turbine,isolation_forest,normal_behavior,,False,2023-08-21 18:40:00+00:00,52570.0,0.0,2,172,,,0.9242
+Wind Farm C,CARE-WT-52,28,target_specific,isolation_forest,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,2023-05-26 15:10:00+00:00,52573.0,21.222,20,217,0.2084,0.045,
+Wind Farm C,CARE-WT-52,39,target_specific,isolation_forest,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,2023-10-16 18:20:00+00:00,52592.0,6.875,13,55,0.0175,0.0358,
+Wind Farm C,CARE-WT-52,54,target_specific,isolation_forest,normal_behavior,,False,2023-01-30 12:20:00+00:00,52578.0,0.0,44,927,,,0.7045
+Wind Farm C,CARE-WT-52,43,target_specific,isolation_forest,normal_behavior,,False,2023-08-12 16:00:00+00:00,52637.0,0.0,4,186,,,0.9344
+Wind Farm C,CARE-WT-52,28,cross_turbine,isolation_forest,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,2023-05-26 15:20:00+00:00,52574.0,21.215,20,176,0.1682,0.0392,
+Wind Farm C,CARE-WT-52,39,cross_turbine,isolation_forest,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,2023-10-16 18:30:00+00:00,52593.0,6.868,13,46,0.0,0.0237,
+Wind Farm C,CARE-WT-52,54,cross_turbine,isolation_forest,normal_behavior,,False,2023-01-30 11:00:00+00:00,52570.0,0.0,40,1186,,,0.6163
+Wind Farm C,CARE-WT-52,43,cross_turbine,isolation_forest,normal_behavior,,False,2023-08-12 16:00:00+00:00,52637.0,0.0,4,206,,,0.9262
+Wind Farm C,CARE-WT-53,35,target_specific,isolation_forest,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,2023-09-22 21:50:00+00:00,51683.0,6.465,2,61,0.2592,0.0725,
+Wind Farm C,CARE-WT-53,16,target_specific,isolation_forest,anomaly_event,WEC in failure - hub battery charger defect,True,2023-12-22 09:40:00+00:00,51322.0,14.59,102,287,0.3365,0.0719,
+Wind Farm C,CARE-WT-53,76,target_specific,isolation_forest,anomaly_event,WEC in failure with pitch battery issues - rewiring,False,2023-01-07 00:00:00+00:00,51264.0,3.701,45,234,0.3634,0.377,
+Wind Farm C,CARE-WT-53,1,target_specific,isolation_forest,normal_behavior,,False,2023-09-30 00:00:00+00:00,51408.0,0.0,3,250,,,0.8873
+Wind Farm C,CARE-WT-53,20,target_specific,isolation_forest,normal_behavior,,False,2023-07-12 02:20:00+00:00,51559.0,0.0,0,39,,,0.9843
+Wind Farm C,CARE-WT-53,60,target_specific,isolation_forest,normal_behavior,,False,2023-02-13 05:30:00+00:00,51984.0,0.0,54,1149,,,0.5421
+Wind Farm C,CARE-WT-53,35,cross_turbine,isolation_forest,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,2023-09-25 02:50:00+00:00,52001.0,4.257,2,71,0.2966,0.0724,
+Wind Farm C,CARE-WT-53,16,cross_turbine,isolation_forest,anomaly_event,WEC in failure - hub battery charger defect,True,2023-12-22 09:40:00+00:00,51322.0,14.59,151,360,0.2745,0.1364,
+Wind Farm C,CARE-WT-53,76,cross_turbine,isolation_forest,anomaly_event,WEC in failure with pitch battery issues - rewiring,False,2023-01-07 02:50:00+00:00,51281.0,3.583,53,96,0.1067,0.0787,
+Wind Farm C,CARE-WT-53,1,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-30 00:00:00+00:00,51408.0,0.0,8,155,,,0.934
+Wind Farm C,CARE-WT-53,20,cross_turbine,isolation_forest,normal_behavior,,False,2023-07-12 02:20:00+00:00,51559.0,0.0,0,24,,,0.9904
+Wind Farm C,CARE-WT-53,60,cross_turbine,isolation_forest,normal_behavior,,False,2023-02-13 06:30:00+00:00,51990.0,0.0,56,681,,,0.7395
+Wind Farm C,CARE-WT-55,9,target_specific,isolation_forest,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,2023-08-02 23:20:00+00:00,52655.0,23.424,10,227,0.218,0.0673,
+Wind Farm C,CARE-WT-55,88,target_specific,isolation_forest,normal_behavior,,False,2023-09-30 04:10:00+00:00,52585.0,0.0,23,132,,,0.9747
+Wind Farm C,CARE-WT-55,57,target_specific,isolation_forest,normal_behavior,,False,2023-04-25 10:40:00+00:00,52734.0,0.0,7,90,,,0.9654
+Wind Farm C,CARE-WT-55,9,cross_turbine,isolation_forest,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,2023-08-02 23:40:00+00:00,52657.0,23.41,1,107,0.1329,0.028,
+Wind Farm C,CARE-WT-55,88,cross_turbine,isolation_forest,normal_behavior,,False,2023-09-30 04:10:00+00:00,52585.0,0.0,19,90,,,0.9798
+Wind Farm C,CARE-WT-55,57,cross_turbine,isolation_forest,normal_behavior,,False,2023-04-25 10:30:00+00:00,52733.0,0.0,7,50,,,0.9821
+Wind Farm C,CARE-WT-56,90,target_specific,isolation_forest,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,2023-08-07 02:10:00+00:00,52627.0,13.639,37,133,0.1261,0.0387,
+Wind Farm C,CARE-WT-56,63,target_specific,isolation_forest,normal_behavior,,False,2023-07-05 23:20:00+00:00,52561.0,0.0,7,203,,,0.9156
+Wind Farm C,CARE-WT-56,90,cross_turbine,isolation_forest,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,2023-08-07 02:20:00+00:00,52628.0,13.632,35,131,0.117,0.0358,
+Wind Farm C,CARE-WT-56,63,cross_turbine,isolation_forest,normal_behavior,,False,2023-07-05 23:20:00+00:00,52561.0,0.0,7,197,,,0.9182
+Wind Farm C,CARE-WT-12,66,target_specific,zscore_threshold,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-12,15,target_specific,zscore_threshold,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-12,50,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-12,66,cross_turbine,zscore_threshold,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",False,2023-01-16 14:30:00+00:00,51927.0,4.938,12,15,0.0,0.0212,
+Wind Farm C,CARE-WT-12,15,cross_turbine,zscore_threshold,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,2023-02-18 11:30:00+00:00,53637.0,5.521,0,9,0.0183,0.0032,
+Wind Farm C,CARE-WT-12,50,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-13,29,target_specific,zscore_threshold,normal_behavior,,False,2023-03-11 05:30:00+00:00,53301.0,0.0,1,79,,,0.9658
+Wind Farm C,CARE-WT-13,29,cross_turbine,zscore_threshold,normal_behavior,,False,2023-03-11 05:30:00+00:00,53301.0,0.0,1,74,,,0.968
+Wind Farm C,CARE-WT-14,85,target_specific,zscore_threshold,normal_behavior,,False,2023-01-11 05:10:00+00:00,50928.0,0.0,0,95,,,0.9391
+Wind Farm C,CARE-WT-14,85,cross_turbine,zscore_threshold,normal_behavior,,False,2023-01-11 04:20:00+00:00,50923.0,0.0,1,116,,,0.927
+Wind Farm C,CARE-WT-15,78,target_specific,zscore_threshold,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-15,64,target_specific,zscore_threshold,normal_behavior,,False,2023-09-30 00:00:00+00:00,53709.0,0.0,1,21,,,0.9892
+Wind Farm C,CARE-WT-15,78,cross_turbine,zscore_threshold,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-15,64,cross_turbine,zscore_threshold,normal_behavior,,False,2023-09-30 00:20:00+00:00,53711.0,0.0,1,10,,,0.9951
+Wind Farm C,CARE-WT-16,79,target_specific,zscore_threshold,anomaly_event,Communication fault BK1120 in NC300,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-16,30,target_specific,zscore_threshold,anomaly_event,Pitch failure - defect fan on pitch motor,True,2023-12-28 01:00:00+00:00,54582.0,8.611,144,331,0.0,0.0524,
+Wind Farm C,CARE-WT-16,46,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-16,65,target_specific,zscore_threshold,normal_behavior,,False,2023-11-07 18:40:00+00:00,53222.0,0.0,2,91,,,0.9735
+Wind Farm C,CARE-WT-16,79,cross_turbine,zscore_threshold,anomaly_event,Communication fault BK1120 in NC300,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-16,30,cross_turbine,zscore_threshold,anomaly_event,Pitch failure - defect fan on pitch motor,True,2023-12-29 18:00:00+00:00,54828.0,6.903,136,317,0.0,0.0498,
+Wind Farm C,CARE-WT-16,46,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-16,65,cross_turbine,zscore_threshold,normal_behavior,,False,2023-11-07 18:40:00+00:00,53222.0,0.0,2,83,,,0.9759
+Wind Farm C,CARE-WT-2,12,target_specific,zscore_threshold,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-2,36,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-2,12,cross_turbine,zscore_threshold,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,2023-07-04 06:00:00+00:00,53892.0,13.375,0,1,0.0017,0.0004,
+Wind Farm C,CARE-WT-2,36,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-21,47,target_specific,zscore_threshold,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,2023-12-30 01:20:00+00:00,53342.0,0.0,0,27,0.0,0.0,
+Wind Farm C,CARE-WT-21,62,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-21,47,cross_turbine,zscore_threshold,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,2023-12-29 03:30:00+00:00,53211.0,0.0,2,44,0.0,0.0,
+Wind Farm C,CARE-WT-21,62,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-23,70,target_specific,zscore_threshold,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-23,80,target_specific,zscore_threshold,normal_behavior,,False,2023-10-22 16:50:00+00:00,54808.0,0.0,1,10,,,0.9961
+Wind Farm C,CARE-WT-23,37,target_specific,zscore_threshold,normal_behavior,,False,2023-03-05 01:50:00+00:00,52463.0,0.0,7,93,,,0.9649
+Wind Farm C,CARE-WT-23,70,cross_turbine,zscore_threshold,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-23,80,cross_turbine,zscore_threshold,normal_behavior,,False,2023-10-22 17:00:00+00:00,54809.0,0.0,0,4,,,0.9983
+Wind Farm C,CARE-WT-23,37,cross_turbine,zscore_threshold,normal_behavior,,False,2023-03-05 02:10:00+00:00,52465.0,0.0,7,79,,,0.9703
+Wind Farm C,CARE-WT-32,5,target_specific,zscore_threshold,anomaly_event,WEC in failure - current measurement own consumption,False,2023-02-02 06:00:00+00:00,52164.0,4.375,22,37,0.0,0.0617,
+Wind Farm C,CARE-WT-32,59,target_specific,zscore_threshold,normal_behavior,,False,2023-02-18 11:40:00+00:00,52342.0,0.0,0,12,,,0.9956
+Wind Farm C,CARE-WT-32,5,cross_turbine,zscore_threshold,anomaly_event,WEC in failure - current measurement own consumption,False,2023-02-02 06:00:00+00:00,52164.0,4.375,22,47,0.0,0.0705,
+Wind Farm C,CARE-WT-32,59,cross_turbine,zscore_threshold,normal_behavior,,False,2023-02-18 11:40:00+00:00,52342.0,0.0,0,12,,,0.9956
+Wind Farm C,CARE-WT-33,49,target_specific,zscore_threshold,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-33,41,target_specific,zscore_threshold,normal_behavior,,False,2023-01-14 06:20:00+00:00,51416.0,0.0,1,49,,,0.9885
+Wind Farm C,CARE-WT-33,49,cross_turbine,zscore_threshold,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-33,41,cross_turbine,zscore_threshold,normal_behavior,,False,2023-01-14 05:20:00+00:00,51410.0,0.0,1,89,,,0.9795
+Wind Farm C,CARE-WT-34,4,target_specific,zscore_threshold,anomaly_event,23020 : Axis 3 not ready-to-operate,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-34,18,target_specific,zscore_threshold,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,False,2023-09-15 17:30:00+00:00,51945.0,0.264,3,10,0.0,0.0006,
+Wind Farm C,CARE-WT-34,56,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-34,94,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-34,4,cross_turbine,zscore_threshold,anomaly_event,23020 : Axis 3 not ready-to-operate,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-34,18,cross_turbine,zscore_threshold,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,False,2023-09-15 17:30:00+00:00,51945.0,0.264,3,10,0.0,0.0006,
+Wind Farm C,CARE-WT-34,56,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-34,94,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-35,31,target_specific,zscore_threshold,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,2023-01-17 14:30:00+00:00,52935.0,6.479,9,13,0.0,0.0157,
+Wind Farm C,CARE-WT-35,67,target_specific,zscore_threshold,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,2023-01-31 03:10:00+00:00,52579.0,58.868,8,105,0.0468,0.0102,
+Wind Farm C,CARE-WT-35,58,target_specific,zscore_threshold,normal_behavior,,False,2023-10-19 18:00:00+00:00,53480.0,0.0,0,1,,,0.9995
+Wind Farm C,CARE-WT-35,48,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-35,31,cross_turbine,zscore_threshold,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,2023-01-17 14:30:00+00:00,52935.0,6.479,14,20,0.0,0.0248,
+Wind Farm C,CARE-WT-35,67,cross_turbine,zscore_threshold,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,2023-01-31 03:10:00+00:00,52579.0,58.868,15,149,0.063,0.0143,
+Wind Farm C,CARE-WT-35,58,cross_turbine,zscore_threshold,normal_behavior,,False,2023-10-19 18:00:00+00:00,53480.0,0.0,0,1,,,0.9995
+Wind Farm C,CARE-WT-35,48,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-38,81,target_specific,zscore_threshold,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,2023-11-18 00:50:00+00:00,52844.0,1.549,2,48,0.6037,0.1732,
+Wind Farm C,CARE-WT-38,6,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-38,81,cross_turbine,zscore_threshold,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,2023-11-18 00:50:00+00:00,52844.0,1.549,2,51,0.6234,0.1839,
+Wind Farm C,CARE-WT-38,6,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-42,91,target_specific,zscore_threshold,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-10-21 17:30:00+00:00,54192.0,9.771,3,59,0.0093,0.0022,
+Wind Farm C,CARE-WT-42,32,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-42,91,cross_turbine,zscore_threshold,anomaly_event,23020 : Axis 3 not ready-to-operate,False,2023-10-21 17:30:00+00:00,54192.0,9.771,1,30,0.0078,0.0018,
+Wind Farm C,CARE-WT-42,32,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-43,33,target_specific,zscore_threshold,anomaly_event,P20_Blade3_Grease Collector missing,False,2023-08-24 14:30:00+00:00,52857.0,19.938,3,76,0.1706,0.0352,
+Wind Farm C,CARE-WT-43,11,target_specific,zscore_threshold,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,False,2023-10-21 16:10:00+00:00,53158.0,16.764,23,205,0.2418,0.0515,
+Wind Farm C,CARE-WT-43,61,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-43,93,target_specific,zscore_threshold,normal_behavior,,False,2023-08-21 20:30:00+00:00,55612.0,0.0,7,7,,,1.0
+Wind Farm C,CARE-WT-43,33,cross_turbine,zscore_threshold,anomaly_event,P20_Blade3_Grease Collector missing,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-43,11,cross_turbine,zscore_threshold,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,False,2023-10-21 16:40:00+00:00,53161.0,16.743,1,31,0.0675,0.0071,
+Wind Farm C,CARE-WT-43,61,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-43,93,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-44,44,target_specific,zscore_threshold,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-44,75,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-44,44,cross_turbine,zscore_threshold,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-44,75,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-5,89,target_specific,zscore_threshold,normal_behavior,,False,2023-03-06 01:40:00+00:00,51987.0,0.0,4,97,,,0.9657
+Wind Farm C,CARE-WT-5,89,cross_turbine,zscore_threshold,normal_behavior,,False,2023-03-06 02:20:00+00:00,51991.0,0.0,4,74,,,0.9742
+Wind Farm C,CARE-WT-50,55,target_specific,zscore_threshold,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,2023-11-02 23:00:00+00:00,53493.0,12.688,1,36,0.0659,0.0194,
+Wind Farm C,CARE-WT-50,8,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-50,55,cross_turbine,zscore_threshold,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,2023-11-02 22:40:00+00:00,53491.0,12.701,2,55,0.0972,0.0297,
+Wind Farm C,CARE-WT-50,8,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-52,28,target_specific,zscore_threshold,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-52,39,target_specific,zscore_threshold,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,2023-10-21 17:00:00+00:00,53304.0,1.931,4,5,0.0,0.0068,
+Wind Farm C,CARE-WT-52,54,target_specific,zscore_threshold,normal_behavior,,False,2023-02-08 05:40:00+00:00,53834.0,0.0,14,320,,,0.9006
+Wind Farm C,CARE-WT-52,43,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-52,28,cross_turbine,zscore_threshold,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-52,39,cross_turbine,zscore_threshold,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,2023-10-21 17:00:00+00:00,53304.0,1.931,4,5,0.0,0.0068,
+Wind Farm C,CARE-WT-52,54,cross_turbine,zscore_threshold,normal_behavior,,False,2023-02-08 05:50:00+00:00,53835.0,0.0,3,227,,,0.927
+Wind Farm C,CARE-WT-52,43,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-53,35,target_specific,zscore_threshold,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-53,16,target_specific,zscore_threshold,anomaly_event,WEC in failure - hub battery charger defect,False,2023-12-30 10:40:00+00:00,52480.0,6.549,56,89,0.0,0.0229,
+Wind Farm C,CARE-WT-53,76,target_specific,zscore_threshold,anomaly_event,WEC in failure with pitch battery issues - rewiring,False,2023-01-11 19:50:00+00:00,51959.0,0.0,16,21,0.0,0.0,
+Wind Farm C,CARE-WT-53,1,target_specific,zscore_threshold,normal_behavior,,False,2023-09-30 00:30:00+00:00,51411.0,0.0,0,7,,,0.9967
+Wind Farm C,CARE-WT-53,20,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-53,60,target_specific,zscore_threshold,normal_behavior,,False,2023-02-15 10:10:00+00:00,52300.0,0.0,30,223,,,0.9217
+Wind Farm C,CARE-WT-53,35,cross_turbine,zscore_threshold,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-53,16,cross_turbine,zscore_threshold,anomaly_event,WEC in failure - hub battery charger defect,False,2023-12-30 10:40:00+00:00,52480.0,6.549,61,93,0.0,0.0238,
+Wind Farm C,CARE-WT-53,76,cross_turbine,zscore_threshold,anomaly_event,WEC in failure with pitch battery issues - rewiring,False,2023-01-11 19:50:00+00:00,51959.0,0.0,16,24,0.0,0.0,
+Wind Farm C,CARE-WT-53,1,cross_turbine,zscore_threshold,normal_behavior,,False,2023-09-30 00:30:00+00:00,51411.0,0.0,0,6,,,0.9972
+Wind Farm C,CARE-WT-53,20,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-53,60,cross_turbine,zscore_threshold,normal_behavior,,False,2023-02-15 09:00:00+00:00,52293.0,0.0,33,317,,,0.8834
+Wind Farm C,CARE-WT-55,9,target_specific,zscore_threshold,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-55,88,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-55,57,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-55,9,cross_turbine,zscore_threshold,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-55,88,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-55,57,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-56,90,target_specific,zscore_threshold,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-56,63,target_specific,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0
+Wind Farm C,CARE-WT-56,90,cross_turbine,zscore_threshold,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,,,0.0,0,0,0.0,0.0,
+Wind Farm C,CARE-WT-56,63,cross_turbine,zscore_threshold,normal_behavior,,False,,,0.0,0,0,,,1.0

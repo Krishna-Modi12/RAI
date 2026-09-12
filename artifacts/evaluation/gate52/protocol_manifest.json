@@ -1,0 +1,233 @@
+{
+  "benchmark": "CARE to Compare (G\u00fcck et al., 2024)",
+  "gate": "Gate 5.2 \u2014 CARE Fidelity & RAI Champion Integration",
+  "timestamp_utc": "2026-09-12T13:34:03Z",
+  "farms_evaluated": [
+    "Wind Farm A",
+    "Wind Farm B",
+    "Wind Farm C"
+  ],
+  "detectors": [
+    "CARE_PUBLISHED_IF",
+    "RAI_CHAMPION",
+    "ZSCORE_REFERENCE"
+  ],
+  "feature_policies": [
+    "care_common",
+    "care_native"
+  ],
+  "criticality_threshold": 72.0,
+  "isolation_forest_published_config": {
+    "n_estimators": 100,
+    "contamination": 0.09,
+    "pca": "retain_99_pct_variance",
+    "seed": 20260912
+  },
+  "rai_champion_config": {
+    "expected_power_curve": "Quadratic polynomial P = f(v_wind)",
+    "rotor_speed_curve": "Quadratic polynomial Rotor = f(v_wind)",
+    "residual_z_threshold": 2.5,
+    "persistence_steps": 3,
+    "persistence_window_minutes": 30
+  },
+  "scorecard_summary": [
+    {
+      "farm": "Wind Farm A",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_common",
+      "care_score": 0.6163,
+      "coverage": 0.4499,
+      "accuracy": 0.9289,
+      "reliability": 0.6522,
+      "earliness": 0.1215,
+      "detection_rate": 0.2727
+    },
+    {
+      "farm": "Wind Farm A",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_native",
+      "care_score": 0.4686,
+      "coverage": 0.4685,
+      "accuracy": 0.8801,
+      "reliability": 0.0,
+      "earliness": 0.1144,
+      "detection_rate": 0.0
+    },
+    {
+      "farm": "Wind Farm A",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_common",
+      "care_score": 0.6008,
+      "coverage": 0.3088,
+      "accuracy": 0.9972,
+      "reliability": 0.6522,
+      "earliness": 0.0487,
+      "detection_rate": 0.2727
+    },
+    {
+      "farm": "Wind Farm A",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_native",
+      "care_score": 0.6008,
+      "coverage": 0.3088,
+      "accuracy": 0.9972,
+      "reliability": 0.6522,
+      "earliness": 0.0487,
+      "detection_rate": 0.2727
+    },
+    {
+      "farm": "Wind Farm A",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_common",
+      "care_score": 0.5103,
+      "coverage": 0.2155,
+      "accuracy": 0.9792,
+      "reliability": 0.3333,
+      "earliness": 0.0443,
+      "detection_rate": 0.0909
+    },
+    {
+      "farm": "Wind Farm A",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_native",
+      "care_score": 0.6348,
+      "coverage": 0.7447,
+      "accuracy": 0.7194,
+      "reliability": 0.5814,
+      "earliness": 0.4091,
+      "detection_rate": 0.4545
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_common",
+      "care_score": 0.5832,
+      "coverage": 0.1486,
+      "accuracy": 0.966,
+      "reliability": 0.7692,
+      "earliness": 0.0663,
+      "detection_rate": 0.6667
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_native",
+      "care_score": 0.4341,
+      "coverage": 0.3122,
+      "accuracy": 0.8746,
+      "reliability": 0.0,
+      "earliness": 0.1089,
+      "detection_rate": 0.0
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_common",
+      "care_score": 0.5599,
+      "coverage": 0.0073,
+      "accuracy": 0.9991,
+      "reliability": 0.7692,
+      "earliness": 0.0248,
+      "detection_rate": 0.6667
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_native",
+      "care_score": 0.5599,
+      "coverage": 0.0073,
+      "accuracy": 0.9991,
+      "reliability": 0.7692,
+      "earliness": 0.0248,
+      "detection_rate": 0.6667
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_common",
+      "care_score": 0.4064,
+      "coverage": 0.0389,
+      "accuracy": 0.9917,
+      "reliability": 0.0,
+      "earliness": 0.0096,
+      "detection_rate": 0.0
+    },
+    {
+      "farm": "Wind Farm B",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_native",
+      "care_score": 0.3826,
+      "coverage": 0.7422,
+      "accuracy": 0.3826,
+      "reliability": 0.6579,
+      "earliness": 0.5179,
+      "detection_rate": 0.8333
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_common",
+      "care_score": 0.6184,
+      "coverage": 0.1653,
+      "accuracy": 0.94,
+      "reliability": 0.8261,
+      "earliness": 0.2204,
+      "detection_rate": 0.7037
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "CARE_PUBLISHED_IF",
+      "feature_policy": "care_native",
+      "care_score": 0.5732,
+      "coverage": 0.2962,
+      "accuracy": 0.8992,
+      "reliability": 0.597,
+      "earliness": 0.1744,
+      "detection_rate": 0.2963
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_common",
+      "care_score": 0.5752,
+      "coverage": 0.0109,
+      "accuracy": 0.9951,
+      "reliability": 0.7282,
+      "earliness": 0.1468,
+      "detection_rate": 0.5556
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "RAI_CHAMPION",
+      "feature_policy": "care_native",
+      "care_score": 0.5752,
+      "coverage": 0.0109,
+      "accuracy": 0.9951,
+      "reliability": 0.7282,
+      "earliness": 0.1468,
+      "detection_rate": 0.5556
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_common",
+      "care_score": 0.4693,
+      "coverage": 0.0818,
+      "accuracy": 0.9717,
+      "reliability": 0.2857,
+      "earliness": 0.0357,
+      "detection_rate": 0.0741
+    },
+    {
+      "farm": "Wind Farm C",
+      "detector": "ZSCORE_REFERENCE",
+      "feature_policy": "care_native",
+      "care_score": 0.0726,
+      "coverage": 0.6875,
+      "accuracy": 0.0726,
+      "reliability": 0.7669,
+      "earliness": 0.9794,
+      "detection_rate": 0.9259
+    }
+  ]
+}

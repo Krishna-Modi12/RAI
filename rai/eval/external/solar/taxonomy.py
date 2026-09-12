@@ -1,0 +1,386 @@
+"""Canonical Solar Signal Taxonomy & Validation Rules.
+
+Defines the standard semantic vocabulary for solar photovoltaic (PV) telemetry,
+environmental resource context, physical validity ranges, unit standardizations,
+and ambiguous field rejection logic.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from enum import Enum
+
+
+class SemanticConfidence(str, Enum):
+    """Confidence level of semantic column mapping."""
+
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+    REJECTED = "REJECTED"
+
+
+class SolarSignalCategory(str, Enum):
+    """Categorization of solar telemetry channels."""
+
+    IRRADIANCE = "IRRADIANCE"
+    TEMPERATURE = "TEMPERATURE"
+    METEOROLOGY = "METEOROLOGY"
+    ELECTRICAL_DC = "ELECTRICAL_DC"
+    ELECTRICAL_AC = "ELECTRICAL_AC"
+    EQUIPMENT_STATUS = "EQUIPMENT_STATUS"
+    PERFORMANCE_METRIC = "PERFORMANCE_METRIC"
+    HEALTH_INDICATOR = "HEALTH_INDICATOR"
+
+
+@dataclass(frozen=True)
+class SolarSignalSpec:
+    """Specification of a canonical solar PV signal."""
+
+    canonical_name: str
+    category: SolarSignalCategory
+    standard_unit: str
+    description: str
+    physical_min: float
+    physical_max: float
+    nighttime_zero_expected: bool = False
+    context_variable: bool = False  # True if environmental/operational context needed for P_expected
+
+
+CANONICAL_SOLAR_SIGNALS: dict[str, SolarSignalSpec] = {
+    # Irradiance Channels (Environmental Context)
+    "irradiance": SolarSignalSpec(
+        canonical_name="irradiance",
+        category=SolarSignalCategory.IRRADIANCE,
+        standard_unit="W/m^2",
+        description="Generic total solar irradiance (horizontal or tilted).",
+        physical_min=0.0,
+        physical_max=1500.0,
+        nighttime_zero_expected=True,
+        context_variable=True,
+    ),
+    "plane_of_array_irradiance": SolarSignalSpec(
+        canonical_name="plane_of_array_irradiance",
+        category=SolarSignalCategory.IRRADIANCE,
+        standard_unit="W/m^2",
+        description="Plane of array (POA) tilted irradiance incident on module surface.",
+        physical_min=0.0,
+        physical_max=1500.0,
+        nighttime_zero_expected=True,
+        context_variable=True,
+    ),
+    "GHI": SolarSignalSpec(
+        canonical_name="GHI",
+        category=SolarSignalCategory.IRRADIANCE,
+        standard_unit="W/m^2",
+        description="Global Horizontal Irradiance.",
+        physical_min=0.0,
+        physical_max=1500.0,
+        nighttime_zero_expected=True,
+        context_variable=True,
+    ),
+    "DNI": SolarSignalSpec(
+        canonical_name="DNI",
+        category=SolarSignalCategory.IRRADIANCE,
+        standard_unit="W/m^2",
+        description="Direct Normal Irradiance from the solar disc.",
+        physical_min=0.0,
+        physical_max=1200.0,
+        nighttime_zero_expected=True,
+        context_variable=True,
+    ),
+    "DHI": SolarSignalSpec(
+        canonical_name="DHI",
+        category=SolarSignalCategory.IRRADIANCE,
+        standard_unit="W/m^2",
+        description="Diffuse Horizontal Irradiance from the sky dome.",
+        physical_min=0.0,
+        physical_max=800.0,
+        nighttime_zero_expected=True,
+        context_variable=True,
+    ),
+    # Temperature Channels (Environmental / Thermal Context)
+    "ambient_temperature": SolarSignalSpec(
+        canonical_name="ambient_temperature",
+        category=SolarSignalCategory.TEMPERATURE,
+        standard_unit="degC",
+        description="Ambient dry-bulb air temperature at the array.",
+        physical_min=-40.0,
+        physical_max=60.0,
+        context_variable=True,
+    ),
+    "module_temperature": SolarSignalSpec(
+        canonical_name="module_temperature",
+        category=SolarSignalCategory.TEMPERATURE,
+        standard_unit="degC",
+        description="Back-of-module surface temperature measured by RTD/thermocouple.",
+        physical_min=-40.0,
+        physical_max=95.0,
+        context_variable=True,
+    ),
+    "cell_temperature": SolarSignalSpec(
+        canonical_name="cell_temperature",
+        category=SolarSignalCategory.TEMPERATURE,
+        standard_unit="degC",
+        description="Photovoltaic semiconductor junction cell operating temperature.",
+        physical_min=-40.0,
+        physical_max=105.0,
+        context_variable=True,
+    ),
+    # Meteorology Channels
+    "wind_speed": SolarSignalSpec(
+        canonical_name="wind_speed",
+        category=SolarSignalCategory.METEOROLOGY,
+        standard_unit="m/s",
+        description="Horizontal wind speed at array height (cooling effect regressor).",
+        physical_min=0.0,
+        physical_max=50.0,
+        context_variable=True,
+    ),
+    # Electrical DC Channels (Direct Module/String Output)
+    "DC_power": SolarSignalSpec(
+        canonical_name="DC_power",
+        category=SolarSignalCategory.ELECTRICAL_DC,
+        standard_unit="kW",
+        description="Total DC power generated by the array or inverter DC input.",
+        physical_min=0.0,
+        physical_max=100000.0,
+        nighttime_zero_expected=True,
+    ),
+    "DC_voltage": SolarSignalSpec(
+        canonical_name="DC_voltage",
+        category=SolarSignalCategory.ELECTRICAL_DC,
+        standard_unit="V",
+        description="Array or inverter DC bus voltage (MPPT tracking operating voltage).",
+        physical_min=0.0,
+        physical_max=1500.0,
+    ),
+    "DC_current": SolarSignalSpec(
+        canonical_name="DC_current",
+        category=SolarSignalCategory.ELECTRICAL_DC,
+        standard_unit="A",
+        description="Array or inverter total DC input current.",
+        physical_min=0.0,
+        physical_max=5000.0,
+        nighttime_zero_expected=True,
+    ),
+    "string_current": SolarSignalSpec(
+        canonical_name="string_current",
+        category=SolarSignalCategory.ELECTRICAL_DC,
+        standard_unit="A",
+        description="Current flowing through an individual PV string.",
+        physical_min=0.0,
+        physical_max=35.0,
+        nighttime_zero_expected=True,
+    ),
+    "string_voltage": SolarSignalSpec(
+        canonical_name="string_voltage",
+        category=SolarSignalCategory.ELECTRICAL_DC,
+        standard_unit="V",
+        description="Voltage across an individual PV string.",
+        physical_min=0.0,
+        physical_max=1500.0,
+    ),
+    # Electrical AC Channels (Inverter Grid Output)
+    "AC_power": SolarSignalSpec(
+        canonical_name="AC_power",
+        category=SolarSignalCategory.ELECTRICAL_AC,
+        standard_unit="kW",
+        description="Active AC electrical power delivered to the collector or grid.",
+        physical_min=0.0,
+        physical_max=100000.0,
+        nighttime_zero_expected=True,
+    ),
+    "AC_voltage": SolarSignalSpec(
+        canonical_name="AC_voltage",
+        category=SolarSignalCategory.ELECTRICAL_AC,
+        standard_unit="V",
+        description="Inverter AC grid terminal voltage.",
+        physical_min=0.0,
+        physical_max=1000.0,
+    ),
+    "AC_current": SolarSignalSpec(
+        canonical_name="AC_current",
+        category=SolarSignalCategory.ELECTRICAL_AC,
+        standard_unit="A",
+        description="Inverter AC line current delivered to grid.",
+        physical_min=0.0,
+        physical_max=5000.0,
+        nighttime_zero_expected=True,
+    ),
+    "inverter_output": SolarSignalSpec(
+        canonical_name="inverter_output",
+        category=SolarSignalCategory.ELECTRICAL_AC,
+        standard_unit="kW",
+        description="Inverter gross real power generation.",
+        physical_min=0.0,
+        physical_max=100000.0,
+        nighttime_zero_expected=True,
+    ),
+    # Equipment Status & Tracking Channels
+    "tracker_angle": SolarSignalSpec(
+        canonical_name="tracker_angle",
+        category=SolarSignalCategory.EQUIPMENT_STATUS,
+        standard_unit="deg",
+        description="Single-axis or dual-axis solar tracker tilt/azimuth rotation angle.",
+        physical_min=-90.0,
+        physical_max=90.0,
+        context_variable=True,
+    ),
+    "tracker_status": SolarSignalSpec(
+        canonical_name="tracker_status",
+        category=SolarSignalCategory.EQUIPMENT_STATUS,
+        standard_unit="status_code",
+        description="Operating mode of the solar tracking controller (tracking, stowed, faulted).",
+        physical_min=0.0,
+        physical_max=255.0,
+    ),
+    "grid_status": SolarSignalSpec(
+        canonical_name="grid_status",
+        category=SolarSignalCategory.EQUIPMENT_STATUS,
+        standard_unit="status_code",
+        description="Status code of the grid connection and interconnection breaker.",
+        physical_min=0.0,
+        physical_max=255.0,
+    ),
+    "curtailment": SolarSignalSpec(
+        canonical_name="curtailment",
+        category=SolarSignalCategory.EQUIPMENT_STATUS,
+        standard_unit="ratio",
+        description="Grid operator or plant master controller active power curtailment command.",
+        physical_min=0.0,
+        physical_max=1.0,
+        context_variable=True,
+    ),
+    # Performance & Energy Production Metrics
+    "energy_yield": SolarSignalSpec(
+        canonical_name="energy_yield",
+        category=SolarSignalCategory.PERFORMANCE_METRIC,
+        standard_unit="kWh",
+        description="Cumulative or interval energy generation delivered to grid.",
+        physical_min=0.0,
+        physical_max=1e9,
+    ),
+    "availability": SolarSignalSpec(
+        canonical_name="availability",
+        category=SolarSignalCategory.PERFORMANCE_METRIC,
+        standard_unit="ratio",
+        description="Operational technical availability fraction (0.0 to 1.0).",
+        physical_min=0.0,
+        physical_max=1.0,
+    ),
+    # Long-Term Degradation & Soiling Indicators
+    "soiling_indicator": SolarSignalSpec(
+        canonical_name="soiling_indicator",
+        category=SolarSignalCategory.HEALTH_INDICATOR,
+        standard_unit="ratio",
+        description="Soiling ratio (actual generation vs clean reference, typically 0.7 to 1.0).",
+        physical_min=0.0,
+        physical_max=1.0,
+    ),
+    "degradation_indicator": SolarSignalSpec(
+        canonical_name="degradation_indicator",
+        category=SolarSignalCategory.HEALTH_INDICATOR,
+        standard_unit="pct_per_year",
+        description="Annual irreversible power degradation rate (%/yr, typically -0.5% to -1.5%/yr).",
+        physical_min=-10.0,
+        physical_max=2.0,
+    ),
+}
+
+# Known ambiguous patterns that must NEVER be silently mapped
+FORBIDDEN_AMBIGUOUS_PATTERNS: list[str] = [
+    "power",  # Ambiguous whether DC or AC power
+    "voltage",  # Ambiguous whether DC bus, string, or AC grid
+    "current",  # Ambiguous whether DC string, inverter DC, or AC grid
+    "temp",  # Ambiguous whether ambient, module, inverter IGBT, or ambient
+    "sensor",  # Unspecified anonymous transducer
+    "value",  # Arbitrary measurement
+    "alarm",  # Unstructured binary flag
+    "status",  # Unspecified status register
+    "irrad",  # Ambiguous whether GHI, POA, DNI, or DHI
+]
+
+
+def resolve_solar_signal(
+    field_name: str,
+    unit: str | None = None,
+    description: str | None = None,
+) -> tuple[str | None, SemanticConfidence, str]:
+    """Map a raw PV telemetry field to a canonical solar signal.
+
+    Returns:
+        (canonical_name, confidence, reason)
+    """
+    raw = field_name.strip().lower()
+    u = (unit or "").strip().lower()
+    desc = (description or "").strip().lower()
+    combined = f"{raw} {u} {desc}"
+
+    # 1. Check for ambiguous single-word names without clarifying context
+    if raw in FORBIDDEN_AMBIGUOUS_PATTERNS and not desc and not u:
+        return None, SemanticConfidence.REJECTED, f"Ambiguous unadorned field '{raw}' lacks clarifying DC/AC/environmental context."
+
+    # 2. POA / Tilted Irradiance
+    if any(k in combined for k in ["poa", "plane_of_array", "tilted_irradiance", "pyranometer_tilted"]):
+        return "plane_of_array_irradiance", SemanticConfidence.HIGH, "Explicit plane-of-array/tilted pyranometer sensor."
+
+    # 3. GHI / DNI / DHI
+    if "ghi" in combined or "global_horizontal" in combined:
+        return "GHI", SemanticConfidence.HIGH, "Explicit global horizontal irradiance (GHI)."
+    if "dni" in combined or "direct_normal" in combined:
+        return "DNI", SemanticConfidence.HIGH, "Explicit direct normal irradiance (DNI)."
+    if "dhi" in combined or "diffuse_horizontal" in combined:
+        return "DHI", SemanticConfidence.HIGH, "Explicit diffuse horizontal irradiance (DHI)."
+    if ("irradiance" in raw or "radiation" in raw or "solar_rad" in raw) and ("w/m2" in u or "w/m^2" in u):
+        return "irradiance", SemanticConfidence.MEDIUM, "Generic solar irradiance measurement."
+
+    # 4. Temperatures
+    if any(k in combined for k in ["module_temp", "mod_temp", "back_temp", "t_mod", "pv_temp"]):
+        return "module_temperature", SemanticConfidence.HIGH, "Back-of-module surface temperature sensor."
+    if any(k in combined for k in ["cell_temp", "t_cell", "junction_temp"]):
+        return "cell_temperature", SemanticConfidence.HIGH, "Photovoltaic cell temperature."
+    if any(k in combined for k in ["ambient_temp", "amb_temp", "air_temp", "t_amb", "weather_temp"]):
+        return "ambient_temperature", SemanticConfidence.HIGH, "Ambient meteorological dry-bulb temperature."
+
+    # 5. Wind Speed
+    if any(k in combined for k in ["wind_speed", "anemometer", "ws_ms", "wind_vel"]):
+        return "wind_speed", SemanticConfidence.HIGH, "Meteorological wind speed sensor."
+
+    # 6. Electrical DC
+    if any(k in combined for k in ["dc_power", "power_dc", "p_dc", "pdc", "dc_kw", "dc_w"]):
+        return "DC_power", SemanticConfidence.HIGH, "Array or inverter DC electrical power."
+    if any(k in combined for k in ["dc_voltage", "voltage_dc", "v_dc", "vdc", "mppt_voltage"]):
+        return "DC_voltage", SemanticConfidence.HIGH, "DC array operating voltage."
+    if any(k in combined for k in ["dc_current", "current_dc", "i_dc", "idc"]):
+        return "DC_current", SemanticConfidence.HIGH, "DC array operating current."
+    if any(k in combined for k in ["string_current", "i_string", "str_curr"]):
+        return "string_current", SemanticConfidence.HIGH, "Individual PV string current."
+    if any(k in combined for k in ["string_voltage", "v_string", "str_volt"]):
+        return "string_voltage", SemanticConfidence.HIGH, "Individual PV string voltage."
+
+    # 7. Electrical AC
+    if any(k in combined for k in ["ac_power", "power_ac", "p_ac", "pac", "ac_kw", "ac_w", "active_power"]):
+        return "AC_power", SemanticConfidence.HIGH, "Inverter AC active power output."
+    if any(k in combined for k in ["inverter_output", "inv_power", "inverter_power"]):
+        return "inverter_output", SemanticConfidence.HIGH, "Gross inverter AC power."
+    if any(k in combined for k in ["ac_voltage", "voltage_ac", "v_ac", "vac", "grid_voltage"]):
+        return "AC_voltage", SemanticConfidence.HIGH, "Inverter AC grid voltage."
+    if any(k in combined for k in ["ac_current", "current_ac", "i_ac", "iac", "grid_current"]):
+        return "AC_current", SemanticConfidence.HIGH, "Inverter AC grid current."
+
+    # 8. Tracker & Operational
+    if any(k in combined for k in ["tracker_angle", "tilt_angle", "azimuth_angle", "tracking_angle"]):
+        return "tracker_angle", SemanticConfidence.HIGH, "Single/dual-axis solar tracker tilt/azimuth angle."
+    if any(k in combined for k in ["tracker_status", "tracking_status", "tracker_fault"]):
+        return "tracker_status", SemanticConfidence.HIGH, "Solar tracking mechanism status code."
+    if any(k in combined for k in ["curtailment", "curtailed_kw", "derating"]):
+        return "curtailment", SemanticConfidence.HIGH, "Active power curtailment status/level."
+    if any(k in combined for k in ["energy_yield", "kwh", "mwh", "daily_yield", "total_yield"]):
+        return "energy_yield", SemanticConfidence.HIGH, "Cumulative electrical energy production."
+    if any(k in combined for k in ["soiling_ratio", "soiling_index", "soiling_loss"]):
+        return "soiling_indicator", SemanticConfidence.HIGH, "Soiling ratio / loss metric."
+    if any(k in combined for k in ["degradation_rate", "pr_degradation", "capacity_loss"]):
+        return "degradation_indicator", SemanticConfidence.HIGH, "Annual PV degradation rate."
+
+    return None, SemanticConfidence.REJECTED, f"Field '{field_name}' could not be unambiguously resolved to a canonical solar signal."

@@ -1,0 +1,51 @@
+{
+  "manifest_version": "1.0",
+  "benchmark": "CARE to Compare (Zenodo 10958775)",
+  "policies": {
+    "CARE_2D": {
+      "description": "Narrow 2-feature baseline representation (wind speed and active power).",
+      "features_per_farm": {
+        "Wind Farm A": {
+          "wind_speed": "wind_speed_3_avg",
+          "power": "power_29_avg"
+        },
+        "Wind Farm B": {
+          "wind_speed": "wind_speed_59_avg",
+          "power": "power_58_avg"
+        },
+        "Wind Farm C": {
+          "wind_speed": "wind_speed_235_avg",
+          "power": "power_17_avg"
+        }
+      }
+    },
+    "CARE_COMMON": {
+      "description": "Cross-farm aligned semantic representation matching WindADBench Track 4 (wind speed, active power, rotor speed).",
+      "features_per_farm": {
+        "Wind Farm A": {
+          "wind_speed": "wind_speed_3_avg",
+          "active_power": "power_29_avg",
+          "rotor_speed": "sensor_52_avg"
+        },
+        "Wind Farm B": {
+          "wind_speed": "wind_speed_59_avg",
+          "active_power": "power_58_avg",
+          "rotor_speed": "sensor_25_avg"
+        },
+        "Wind Farm C": {
+          "wind_speed": "wind_speed_235_avg",
+          "active_power": "power_17_avg",
+          "rotor_speed": "sensor_144_avg"
+        }
+      }
+    },
+    "CARE_NATIVE_SEMANTIC": {
+      "description": "All safely recoverable numeric sensor channels per farm, excluding metadata and non-stationary counters.",
+      "features_count_per_farm": {
+        "Wind Farm A": 81,
+        "Wind Farm B": 252,
+        "Wind Farm C": 952
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+farm,event_id,label,description,n_rows,n_train,n_prediction,n_event_window_rows,n_predicted_anomalous,coverage_fbeta,accuracy,earliness,max_criticality,event_detected,model
+Wind Farm A,68,anomaly_event,Transformer failure,54358,52063,2295,2014,275,0.3,,0.04947941422299616,45,False,isolation_forest
+Wind Farm A,22,anomaly_event,Hydraulic group,53036,51888,1148,1005,256,0.5880801687763713,,0.2827812836246256,5,False,isolation_forest
+Wind Farm A,72,anomaly_event,Gearbox failure,54082,52065,2017,1009,117,0.3089887640449438,,0.05902023730840651,5,False,isolation_forest
+Wind Farm A,73,anomaly_event,Hydraulic group,54042,52313,1729,1009,161,0.2526595744680851,,0.05655220889854069,8,False,isolation_forest
+Wind Farm A,0,anomaly_event,Generator bearing failure,54986,52148,2838,2012,291,0.3762755102040816,,0.13614467043890505,2,False,isolation_forest
+Wind Farm A,26,anomaly_event,Hydraulic group,53702,52261,1441,1009,97,0.26253918495297807,,0.07493521753270596,8,False,isolation_forest
+Wind Farm A,40,anomaly_event,Generator bearing failure,56158,51219,4939,4508,359,0.27330587794833394,,0.0756220368260502,13,False,isolation_forest
+Wind Farm A,42,anomaly_event,Hydraulic group,53886,52303,1583,1007,36,0.10771992818671454,,0.028359643463720986,2,False,isolation_forest
+Wind Farm A,10,anomaly_event,Gearbox failure,53592,52323,1269,981,80,0.3038461538461538,,0.07218191151375573,0,False,isolation_forest
+Wind Farm A,45,anomaly_event,Hydraulic group,53739,52299,1440,1008,459,1.0,,0.5290681173131505,406,True,isolation_forest
+Wind Farm A,84,anomaly_event,Hydraulic group,53772,52335,1437,1005,28,1.0,,0.011592647327081852,8,False,isolation_forest
+Wind Farm A,25,normal_behavior,,54712,52289,2423,0,267,,0.86302780638517,,1,False,isolation_forest
+Wind Farm A,69,normal_behavior,,54813,52220,2593,0,119,,0.9421768707482994,,0,False,isolation_forest
+Wind Farm A,13,normal_behavior,,54010,50427,3583,0,470,,0.8506039415130324,,0,False,isolation_forest
+Wind Farm A,24,normal_behavior,,55003,52289,2714,0,111,,0.9496826835902086,,0,False,isolation_forest
+Wind Farm A,3,normal_behavior,,55487,52185,3302,0,178,,0.9366068156834005,,1,False,isolation_forest
+Wind Farm A,17,normal_behavior,,55090,52309,2781,0,100,,0.9516441005802708,,0,False,isolation_forest
+Wind Farm A,38,normal_behavior,,54835,52291,2544,0,188,,0.9114043355325165,,0,False,isolation_forest
+Wind Farm A,71,normal_behavior,,54744,52295,2449,0,161,,0.9153967419863374,,0,False,isolation_forest
+Wind Farm A,14,normal_behavior,,54197,52296,1901,0,272,,0.8302005012531328,,1,False,isolation_forest
+Wind Farm A,92,normal_behavior,,54067,52293,1774,0,413,,0.7273927392739274,,0,False,isolation_forest
+Wind Farm A,51,normal_behavior,,54436,52043,2393,0,184,,0.9138731304796287,,7,False,isolation_forest
+Wind Farm A,68,anomaly_event,Transformer failure,54358,52063,2295,2014,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,22,anomaly_event,Hydraulic group,53036,51888,1148,1005,1,0.00496031746031746,,0.0013271400132714001,0,False,zscore_threshold
+Wind Farm A,72,anomaly_event,Gearbox failure,54082,52065,2017,1009,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,73,anomaly_event,Hydraulic group,54042,52313,1729,1009,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,0,anomaly_event,Generator bearing failure,54986,52148,2838,2012,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,26,anomaly_event,Hydraulic group,53702,52261,1441,1009,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,40,anomaly_event,Generator bearing failure,56158,51219,4939,4508,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,42,anomaly_event,Hydraulic group,53886,52303,1583,1007,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,10,anomaly_event,Gearbox failure,53592,52323,1269,981,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm A,45,anomaly_event,Hydraulic group,53739,52299,1440,1008,231,1.0,,0.2924248396930516,143,True,zscore_threshold
+Wind Farm A,84,anomaly_event,Hydraulic group,53772,52335,1437,1005,0,1.0,,0.0,0,False,zscore_threshold
+Wind Farm A,25,normal_behavior,,54712,52289,2423,0,17,,0.9912461380020597,,0,False,zscore_threshold
+Wind Farm A,69,normal_behavior,,54813,52220,2593,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm A,13,normal_behavior,,54010,50427,3583,0,82,,0.9739351557533376,,0,False,zscore_threshold
+Wind Farm A,24,normal_behavior,,55003,52289,2714,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm A,3,normal_behavior,,55487,52185,3302,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm A,17,normal_behavior,,55090,52309,2781,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm A,38,normal_behavior,,54835,52291,2544,0,5,,0.9976437323279924,,0,False,zscore_threshold
+Wind Farm A,71,normal_behavior,,54744,52295,2449,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm A,14,normal_behavior,,54197,52296,1901,0,25,,0.9843358395989975,,0,False,zscore_threshold
+Wind Farm A,92,normal_behavior,,54067,52293,1774,0,12,,0.9920792079207921,,0,False,zscore_threshold
+Wind Farm A,51,normal_behavior,,54436,52043,2393,0,1,,0.999484270242393,,0,False,zscore_threshold
+Wind Farm B,34,anomaly_event,high temperature,56564,52531,4033,3169,229,0.14490861618798956,,0.04482495903703562,13,False,isolation_forest
+Wind Farm B,7,anomaly_event,high temperature,57888,52559,5329,4465,178,0.09176269739650021,,0.027065427573358423,12,False,isolation_forest
+Wind Farm B,53,anomaly_event,Rotor Bearing 2 - Damage,58607,52559,6048,6048,1120,0.48657897551064055,,0.19797471021974883,111,True,isolation_forest
+Wind Farm B,27,anomaly_event,Turbine is stopped due to a main bearing damage,62268,52331,9937,8785,981,0.2598870056497175,,0.0836545863639147,83,True,isolation_forest
+Wind Farm B,19,anomaly_event,high temperature,56274,52529,3745,2881,125,0.13169845594913715,,0.03566529095631155,11,False,isolation_forest
+Wind Farm B,77,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,61776,52559,9217,8641,706,0.2984136196556394,,0.0832381403469668,6,False,isolation_forest
+Wind Farm B,83,normal_behavior,,66154,52041,14113,0,1110,,0.9321098063613034,,41,False,isolation_forest
+Wind Farm B,52,normal_behavior,,55268,52531,2737,0,57,,0.9791208791208791,,0,False,isolation_forest
+Wind Farm B,21,normal_behavior,,53514,52217,1297,0,259,,0.7959022852639874,,0,False,isolation_forest
+Wind Farm B,2,normal_behavior,,54774,52559,2215,0,194,,0.9101851851851852,,0,False,isolation_forest
+Wind Farm B,23,normal_behavior,,54542,52559,1983,0,345,,0.8755020080321285,,109,True,isolation_forest
+Wind Farm B,87,normal_behavior,,55356,52331,3025,0,428,,0.8605998636673483,,18,False,isolation_forest
+Wind Farm B,74,normal_behavior,,55602,52529,3073,0,388,,0.8784365684001325,,6,False,isolation_forest
+Wind Farm B,86,normal_behavior,,55486,52559,2927,0,165,,0.9471288515406162,,4,False,isolation_forest
+Wind Farm B,82,normal_behavior,,54992,52543,2449,0,279,,0.8852115626309175,,1,False,isolation_forest
+Wind Farm B,34,anomaly_event,high temperature,56564,52531,4033,3169,1,0.0,,0.0,0,False,zscore_threshold
+Wind Farm B,7,anomaly_event,high temperature,57888,52559,5329,4465,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm B,53,anomaly_event,Rotor Bearing 2 - Damage,58607,52559,6048,6048,50,0.03819385503310134,,0.010118354888200535,2,False,zscore_threshold
+Wind Farm B,27,anomaly_event,Turbine is stopped due to a main bearing damage,62268,52331,9937,8785,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm B,19,anomaly_event,high temperature,56274,52529,3745,2881,2,0.0034928396786587496,,0.0009257116408238834,0,False,zscore_threshold
+Wind Farm B,77,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,61776,52559,9217,8641,6,0.00380420999239158,,0.0007808682457629297,0,False,zscore_threshold
+Wind Farm B,83,normal_behavior,,66154,52041,14113,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,52,normal_behavior,,55268,52531,2737,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,21,normal_behavior,,53514,52217,1297,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,2,normal_behavior,,54774,52559,2215,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,23,normal_behavior,,54542,52559,1983,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,87,normal_behavior,,55356,52331,3025,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,74,normal_behavior,,55602,52529,3073,0,36,,0.9880755216959258,,0,False,zscore_threshold
+Wind Farm B,86,normal_behavior,,55486,52559,2927,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm B,82,normal_behavior,,54992,52543,2449,0,3,,0.9987431922915794,,0,False,zscore_threshold
+Wind Farm C,55,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,55753,52560,3193,2473,363,0.3500946201676129,,0.14730939610725594,12,False,isolation_forest
+Wind Farm C,81,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",53932,52560,1372,364,146,0.438957475994513,,0.23864738202973498,8,False,isolation_forest
+Wind Farm C,47,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",53993,52416,1577,713,471,0.06642512077294686,,0.05737799686780673,15,False,isolation_forest
+Wind Farm C,12,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",56107,52560,3547,3259,323,0.2732514414640261,,0.07253805061492849,20,False,isolation_forest
+Wind Farm C,4,anomaly_event,23020 : Axis 3 not ready-to-operate,56449,52560,3889,2737,236,0.2283174992338339,,0.056917822367530686,19,False,isolation_forest
+Wind Farm C,18,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,52848,51120,1728,576,114,0.29850746268656714,,0.05358178654292343,14,False,isolation_forest
+Wind Farm C,28,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,55918,52560,3358,2926,217,0.20840509817430244,,0.04504173378718986,20,False,isolation_forest
+Wind Farm C,39,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,53727,52560,1167,735,55,0.017482517482517484,,0.03581795793627638,13,False,isolation_forest
+Wind Farm C,66,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",53503,51696,1807,943,463,0.17759562841530055,,0.21272263714087514,62,False,isolation_forest
+Wind Farm C,15,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),54433,51696,2737,2449,622,0.5955309553095531,,0.21111662742962692,3,False,isolation_forest
+Wind Farm C,78,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,53146,52560,586,298,57,0.1794871794871795,,0.06872784857853857,11,False,isolation_forest
+Wind Farm C,79,anomaly_event,Communication fault BK1120 in NC300,53281,52560,721,289,26,0.0,,0.00032075955863484617,5,False,isolation_forest
+Wind Farm C,30,anomaly_event,Pitch failure - defect fan on pitch motor,56111,52560,3551,3263,829,0.2633969118982743,,0.1727111389288602,221,True,isolation_forest
+Wind Farm C,33,anomaly_event,P20_Blade3_Grease Collector missing,55873,52560,3313,2881,983,0.675990675990676,,0.31732270050657,77,True,isolation_forest
+Wind Farm C,11,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,56437,52416,4021,3157,1540,0.8379099325278518,,0.49314665885064296,220,True,isolation_forest
+Wind Farm C,44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,63003,52560,10443,9435,488,0.19792064097672643,,0.049526249605572524,17,False,isolation_forest
+Wind Farm C,49,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,53014,51408,1606,598,117,0.4139228598306679,,0.19549709459838194,0,False,isolation_forest
+Wind Farm C,31,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,54589,52560,2029,1021,196,0.07593457943925233,,0.06436649120784826,26,False,isolation_forest
+Wind Farm C,67,anomaly_event,Turbine has some issues with overpressure on the main transformer,61489,52560,8929,8353,910,0.3202122954444936,,0.09202259952312931,39,False,isolation_forest
+Wind Farm C,9,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,56029,52560,3469,3037,227,0.21804717498628634,,0.06734379542092042,10,False,isolation_forest
+Wind Farm C,91,anomaly_event,23020 : Axis 3 not ready-to-operate,56608,52560,4048,2896,376,0.18706574024585784,,0.05523462212845876,14,False,isolation_forest
+Wind Farm C,5,anomaly_event,WEC in failure - current measurement own consumption,52795,52128,667,523,201,0.19834710743801653,,0.22089295488310265,56,False,isolation_forest
+Wind Farm C,90,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,54880,52560,2320,1744,133,0.12605042016806722,,0.038692063904312,37,False,isolation_forest
+Wind Farm C,70,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",56038,52560,3478,2902,211,0.252025202520252,,0.07366035612748387,12,False,isolation_forest
+Wind Farm C,35,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",52615,51408,1207,919,61,0.25915996425379806,,0.07250253754138328,2,False,isolation_forest
+Wind Farm C,16,anomaly_event,WEC in failure - hub battery charger defect,53568,51264,2304,2160,287,0.3364632237871675,,0.07193369249422368,102,True,isolation_forest
+Wind Farm C,76,anomaly_event,WEC in failure with pitch battery issues - rewiring,52086,51264,822,246,234,0.3634361233480176,,0.3769522163886489,45,False,isolation_forest
+Wind Farm C,8,normal_behavior,,54802,52560,2242,0,174,,0.9264440433212996,,3,False,isolation_forest
+Wind Farm C,85,normal_behavior,,52417,50832,1585,0,386,,0.7597693786034593,,4,False,isolation_forest
+Wind Farm C,6,normal_behavior,,54865,52560,2305,0,173,,0.9239848914069877,,2,False,isolation_forest
+Wind Farm C,62,normal_behavior,,53448,52416,1032,0,42,,0.9590643274853801,,0,False,isolation_forest
+Wind Farm C,36,normal_behavior,,55448,52560,2888,0,241,,0.9202669476642079,,4,False,isolation_forest
+Wind Farm C,56,normal_behavior,,53416,51120,2296,0,61,,0.9831932773109243,,10,False,isolation_forest
+Wind Farm C,94,normal_behavior,,54865,52128,2737,0,61,,0.9784232365145228,,2,False,isolation_forest
+Wind Farm C,54,normal_behavior,,55585,52560,3025,0,927,,0.7045300878972278,,44,False,isolation_forest
+Wind Farm C,43,normal_behavior,,55153,52560,2593,0,186,,0.9344326658814291,,4,False,isolation_forest
+Wind Farm C,50,normal_behavior,,55153,51696,3457,0,104,,0.9695014662756598,,0,False,isolation_forest
+Wind Farm C,64,normal_behavior,,54433,52560,1873,0,335,,0.823943661971831,,8,False,isolation_forest
+Wind Farm C,46,normal_behavior,,55133,52560,2573,0,149,,0.9436178543461238,,1,False,isolation_forest
+Wind Farm C,65,normal_behavior,,55918,52560,3358,0,305,,0.9102409638554216,,2,False,isolation_forest
+Wind Farm C,61,normal_behavior,,55585,52560,3025,0,648,,0.7800616649537513,,2,False,isolation_forest
+Wind Farm C,93,normal_behavior,,55873,52560,3313,0,567,,0.8387395736793327,,36,False,isolation_forest
+Wind Farm C,75,normal_behavior,,56161,52560,3601,0,164,,0.9556962025316456,,8,False,isolation_forest
+Wind Farm C,41,normal_behavior,,55666,51408,4258,0,568,,0.8723150357995226,,11,False,isolation_forest
+Wind Farm C,58,normal_behavior,,54433,52560,1873,0,61,,0.968228325255789,,2,False,isolation_forest
+Wind Farm C,48,normal_behavior,,55297,52560,2737,0,90,,0.9696408737504628,,8,False,isolation_forest
+Wind Farm C,88,normal_behavior,,55441,52560,2881,0,132,,0.9747135519557487,,23,False,isolation_forest
+Wind Farm C,57,normal_behavior,,55009,52560,2449,0,90,,0.9654454621149042,,7,False,isolation_forest
+Wind Farm C,32,normal_behavior,,55009,52560,2449,0,53,,0.9797854785478548,,2,False,isolation_forest
+Wind Farm C,89,normal_behavior,,54577,51840,2737,0,509,,0.8153618906942393,,5,False,isolation_forest
+Wind Farm C,59,normal_behavior,,54865,52128,2737,0,474,,0.8262150220913107,,1,False,isolation_forest
+Wind Farm C,63,normal_behavior,,54865,52560,2305,0,203,,0.915573053368329,,7,False,isolation_forest
+Wind Farm C,80,normal_behavior,,54913,52560,2353,0,90,,0.9630584192439863,,1,False,isolation_forest
+Wind Farm C,37,normal_behavior,,53713,51264,2449,0,319,,0.872366790582404,,7,False,isolation_forest
+Wind Farm C,29,normal_behavior,,54865,52560,2305,0,345,,0.8496932515337423,,1,False,isolation_forest
+Wind Farm C,1,normal_behavior,,53569,51408,2161,0,250,,0.8873173031588873,,3,False,isolation_forest
+Wind Farm C,20,normal_behavior,,54001,51408,2593,0,39,,0.9843499197431782,,0,False,isolation_forest
+Wind Farm C,60,normal_behavior,,54433,51984,2449,0,1149,,0.5420875420875421,,54,False,isolation_forest
+Wind Farm C,55,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,55753,52560,3193,2473,36,0.0659208949260887,,0.01941224049609059,1,False,zscore_threshold
+Wind Farm C,81,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",53932,52560,1372,364,48,0.6036745406824147,,0.17316782482223658,2,False,zscore_threshold
+Wind Farm C,47,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",53993,52416,1577,713,27,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,12,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",56107,52560,3547,3259,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,4,anomaly_event,23020 : Axis 3 not ready-to-operate,56449,52560,3889,2737,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,18,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,52848,51120,1728,576,10,0.0,,0.0005881026037638566,3,False,zscore_threshold
+Wind Farm C,28,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,55918,52560,3358,2926,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,39,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,53727,52560,1167,735,5,0.0,,0.006809516509492278,4,False,zscore_threshold
+Wind Farm C,66,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",53503,51696,1807,943,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,15,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),54433,51696,2737,2449,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,78,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,53146,52560,586,298,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,79,anomaly_event,Communication fault BK1120 in NC300,53281,52560,721,289,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,30,anomaly_event,Pitch failure - defect fan on pitch motor,56111,52560,3551,3263,331,0.0,,0.052445003917508566,144,True,zscore_threshold
+Wind Farm C,33,anomaly_event,P20_Blade3_Grease Collector missing,55873,52560,3313,2881,76,0.17061611374407584,,0.035177042351307565,3,False,zscore_threshold
+Wind Farm C,11,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,56437,52416,4021,3157,205,0.2418426103646833,,0.051500904062324764,23,False,zscore_threshold
+Wind Farm C,44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,63003,52560,10443,9435,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,49,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,53014,51408,1606,598,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,31,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,54589,52560,2029,1021,13,0.0,,0.015676028739386023,9,False,zscore_threshold
+Wind Farm C,67,anomaly_event,Turbine has some issues with overpressure on the main transformer,61489,52560,8929,8353,105,0.046751094804118834,,0.01016297362532717,8,False,zscore_threshold
+Wind Farm C,9,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,56029,52560,3469,3037,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,91,anomaly_event,23020 : Axis 3 not ready-to-operate,56608,52560,4048,2896,59,0.009307520476545048,,0.002234693384162402,3,False,zscore_threshold
+Wind Farm C,5,anomaly_event,WEC in failure - current measurement own consumption,52795,52128,667,523,37,0.0,,0.06173273907264055,22,False,zscore_threshold
+Wind Farm C,90,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,54880,52560,2320,1744,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,70,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",56038,52560,3478,2902,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,35,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",52615,51408,1207,919,0,0.0,,0.0,0,False,zscore_threshold
+Wind Farm C,16,anomaly_event,WEC in failure - hub battery charger defect,53568,51264,2304,2160,89,0.0,,0.022911948390638943,56,False,zscore_threshold
+Wind Farm C,76,anomaly_event,WEC in failure with pitch battery issues - rewiring,52086,51264,822,246,21,0.0,,0.0,16,False,zscore_threshold
+Wind Farm C,8,normal_behavior,,54802,52560,2242,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,85,normal_behavior,,52417,50832,1585,0,95,,0.9391415759128764,,0,False,zscore_threshold
+Wind Farm C,6,normal_behavior,,54865,52560,2305,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,62,normal_behavior,,53448,52416,1032,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,36,normal_behavior,,55448,52560,2888,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,56,normal_behavior,,53416,51120,2296,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,94,normal_behavior,,54865,52128,2737,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,54,normal_behavior,,55585,52560,3025,0,320,,0.9006085192697769,,14,False,zscore_threshold
+Wind Farm C,43,normal_behavior,,55153,52560,2593,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,50,normal_behavior,,55153,51696,3457,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,64,normal_behavior,,54433,52560,1873,0,21,,0.9891657638136512,,1,False,zscore_threshold
+Wind Farm C,46,normal_behavior,,55133,52560,2573,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,65,normal_behavior,,55918,52560,3358,0,91,,0.9734939759036144,,2,False,zscore_threshold
+Wind Farm C,61,normal_behavior,,55585,52560,3025,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,93,normal_behavior,,55873,52560,3313,0,7,,1.0,,7,False,zscore_threshold
+Wind Farm C,75,normal_behavior,,56161,52560,3601,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,41,normal_behavior,,55666,51408,4258,0,49,,0.98854415274463,,1,False,zscore_threshold
+Wind Farm C,58,normal_behavior,,54433,52560,1873,0,1,,0.9994614970382337,,0,False,zscore_threshold
+Wind Farm C,48,normal_behavior,,55297,52560,2737,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,88,normal_behavior,,55441,52560,2881,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,57,normal_behavior,,55009,52560,2449,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,32,normal_behavior,,55009,52560,2449,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,89,normal_behavior,,54577,51840,2737,0,97,,0.9656573116691285,,4,False,zscore_threshold
+Wind Farm C,59,normal_behavior,,54865,52128,2737,0,12,,0.9955817378497791,,0,False,zscore_threshold
+Wind Farm C,63,normal_behavior,,54865,52560,2305,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,80,normal_behavior,,54913,52560,2353,0,10,,0.9961340206185567,,1,False,zscore_threshold
+Wind Farm C,37,normal_behavior,,53713,51264,2449,0,93,,0.9648905410987195,,7,False,zscore_threshold
+Wind Farm C,29,normal_behavior,,54865,52560,2305,0,79,,0.9658194566170026,,1,False,zscore_threshold
+Wind Farm C,1,normal_behavior,,53569,51408,2161,0,7,,0.9966996699669967,,0,False,zscore_threshold
+Wind Farm C,20,normal_behavior,,54001,51408,2593,0,0,,1.0,,0,False,zscore_threshold
+Wind Farm C,60,normal_behavior,,54433,51984,2449,0,223,,0.9217171717171717,,30,False,zscore_threshold

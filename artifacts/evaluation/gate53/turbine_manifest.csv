@@ -1,0 +1,37 @@
+farm,turbine_id,evaluation_status,total_datasets,anomaly_sequences,normal_sequences,total_observations,duration_hours,feature_policy,actual_rai_input_count,dataset_files
+Wind Farm A,CARE-WT-0,VALID_SUPPORT,5,3,2,272477,45412.8,care_common,3,"0.csv, 24.csv, 26.csv, 71.csv, 73.csv"
+Wind Farm A,CARE-WT-10,VALID_SUPPORT,5,3,2,274213,45702.2,care_common,3,"10.csv, 17.csv, 3.csv, 40.csv, 42.csv"
+Wind Farm A,CARE-WT-11,VALID_SUPPORT,4,1,3,217950,36325.0,care_common,3,"25.csv, 68.csv, 69.csv, 92.csv"
+Wind Farm A,CARE-WT-13,VALID_SUPPORT,4,2,2,216543,36090.5,care_common,3,"14.csv, 38.csv, 45.csv, 84.csv"
+Wind Farm A,CARE-WT-21,VALID_SUPPORT,4,2,2,215564,35927.3,care_common,3,"13.csv, 22.csv, 51.csv, 72.csv"
+Wind Farm B,CARE-WT-0,INSUFFICIENT_DATA,1,0,1,53514,8919.0,care_common,3,21.csv
+Wind Farm B,CARE-WT-11,VALID_SUPPORT,2,1,1,111876,18646.0,care_common,3,"19.csv, 74.csv"
+Wind Farm B,CARE-WT-12,VALID_SUPPORT,2,1,1,117262,19543.7,care_common,3,"77.csv, 86.csv"
+Wind Farm B,CARE-WT-13,VALID_SUPPORT,2,1,1,112662,18777.0,care_common,3,"2.csv, 7.csv"
+Wind Farm B,CARE-WT-14,VALID_SUPPORT,2,1,1,111832,18638.7,care_common,3,"34.csv, 52.csv"
+Wind Farm B,CARE-WT-2,INSUFFICIENT_DATA,1,0,1,66154,11025.7,care_common,3,83.csv
+Wind Farm B,CARE-WT-5,INSUFFICIENT_DATA,1,0,1,54992,9165.3,care_common,3,82.csv
+Wind Farm B,CARE-WT-6,VALID_SUPPORT,2,1,1,113149,18858.2,care_common,3,"23.csv, 53.csv"
+Wind Farm B,CARE-WT-7,VALID_SUPPORT,2,1,1,117624,19604.0,care_common,3,"27.csv, 87.csv"
+Wind Farm C,CARE-WT-12,VALID_SUPPORT,3,2,1,163089,27181.5,care_common,3,"15.csv, 50.csv, 66.csv"
+Wind Farm C,CARE-WT-13,INSUFFICIENT_DATA,1,0,1,54865,9144.2,care_common,3,29.csv
+Wind Farm C,CARE-WT-14,INSUFFICIENT_DATA,1,0,1,52417,8736.2,care_common,3,85.csv
+Wind Farm C,CARE-WT-15,VALID_SUPPORT,2,1,1,107579,17929.8,care_common,3,"64.csv, 78.csv"
+Wind Farm C,CARE-WT-16,VALID_SUPPORT,4,2,2,220443,36740.5,care_common,3,"30.csv, 46.csv, 65.csv, 79.csv"
+Wind Farm C,CARE-WT-2,VALID_SUPPORT,2,1,1,111555,18592.5,care_common,3,"12.csv, 36.csv"
+Wind Farm C,CARE-WT-21,VALID_SUPPORT,2,1,1,107441,17906.8,care_common,3,"47.csv, 62.csv"
+Wind Farm C,CARE-WT-23,VALID_SUPPORT,3,1,2,164664,27444.0,care_common,3,"37.csv, 70.csv, 80.csv"
+Wind Farm C,CARE-WT-32,VALID_SUPPORT,2,1,1,107660,17943.3,care_common,3,"5.csv, 59.csv"
+Wind Farm C,CARE-WT-33,VALID_SUPPORT,2,1,1,108680,18113.3,care_common,3,"41.csv, 49.csv"
+Wind Farm C,CARE-WT-34,VALID_SUPPORT,4,2,2,217578,36263.0,care_common,3,"18.csv, 4.csv, 56.csv, 94.csv"
+Wind Farm C,CARE-WT-35,VALID_SUPPORT,4,2,2,225808,37634.7,care_common,3,"31.csv, 48.csv, 58.csv, 67.csv"
+Wind Farm C,CARE-WT-38,VALID_SUPPORT,2,1,1,108797,18132.8,care_common,3,"6.csv, 81.csv"
+Wind Farm C,CARE-WT-42,VALID_SUPPORT,2,1,1,111617,18602.8,care_common,3,"32.csv, 91.csv"
+Wind Farm C,CARE-WT-43,VALID_SUPPORT,4,2,2,223768,37294.7,care_common,3,"11.csv, 33.csv, 61.csv, 93.csv"
+Wind Farm C,CARE-WT-44,VALID_SUPPORT,2,1,1,119164,19860.7,care_common,3,"44.csv, 75.csv"
+Wind Farm C,CARE-WT-5,INSUFFICIENT_DATA,1,0,1,54577,9096.2,care_common,3,89.csv
+Wind Farm C,CARE-WT-50,VALID_SUPPORT,2,1,1,110555,18425.8,care_common,3,"55.csv, 8.csv"
+Wind Farm C,CARE-WT-52,VALID_SUPPORT,4,2,2,220383,36730.5,care_common,3,"28.csv, 39.csv, 43.csv, 54.csv"
+Wind Farm C,CARE-WT-53,VALID_SUPPORT,6,3,3,320272,53378.7,care_common,3,"1.csv, 16.csv, 20.csv, 35.csv, 60.csv, 76.csv"
+Wind Farm C,CARE-WT-55,VALID_SUPPORT,3,1,2,166479,27746.5,care_common,3,"57.csv, 88.csv, 9.csv"
+Wind Farm C,CARE-WT-56,VALID_SUPPORT,2,1,1,109745,18290.8,care_common,3,"63.csv, 90.csv"

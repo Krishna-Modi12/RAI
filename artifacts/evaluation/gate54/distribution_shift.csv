@@ -1,0 +1,19 @@
+source_farm,target_farm,signal,source_column,target_column,source_mean,source_std,target_mean,target_std,cohens_d,ks_statistic,ks_pvalue,source_p10,source_p50,source_p90,target_p10,target_p50,target_p90
+Wind Farm A,Wind Farm B,wind_speed,wind_speed_3_avg,wind_speed_59_avg,6.19,3.73,8.93,4.67,0.648,0.2712,0.0,2.0,5.4,11.5,3.02,8.41,15.35
+Wind Farm A,Wind Farm B,active_power,power_29_avg,power_58_avg,0.29,0.33,0.49,0.41,0.536,0.2677,0.0,0.0,0.13,0.91,0.02,0.38,1.03
+Wind Farm A,Wind Farm B,rotor_speed,sensor_52_avg,sensor_25_avg,9.4,5.56,6.87,3.6,-0.539,0.6673,0.0,0.0,11.4,14.8,0.0,7.98,10.11
+Wind Farm A,Wind Farm C,wind_speed,wind_speed_3_avg,wind_speed_235_avg,6.19,3.73,5.53,7.72,-0.109,0.1223,0.0,2.0,5.4,11.5,0.46,6.38,13.26
+Wind Farm A,Wind Farm C,active_power,power_29_avg,power_17_avg,0.29,0.33,0.34,0.32,0.156,0.1338,0.0,0.0,0.13,0.91,0.0,0.25,0.85
+Wind Farm A,Wind Farm C,rotor_speed,sensor_52_avg,sensor_144_avg,9.4,5.56,8.72,5.07,-0.128,0.2408,0.0,0.0,11.4,14.8,0.03,9.77,14.57
+Wind Farm B,Wind Farm A,wind_speed,wind_speed_59_avg,wind_speed_3_avg,8.93,4.67,6.19,3.73,-0.648,0.2712,0.0,3.02,8.41,15.35,2.0,5.4,11.5
+Wind Farm B,Wind Farm A,active_power,power_58_avg,power_29_avg,0.49,0.41,0.29,0.33,-0.536,0.2677,0.0,0.02,0.38,1.03,0.0,0.13,0.91
+Wind Farm B,Wind Farm A,rotor_speed,sensor_25_avg,sensor_52_avg,6.87,3.6,9.4,5.56,0.539,0.6673,0.0,0.0,7.98,10.11,0.0,11.4,14.8
+Wind Farm B,Wind Farm C,wind_speed,wind_speed_59_avg,wind_speed_235_avg,8.93,4.67,5.53,7.72,-0.533,0.1936,0.0,3.02,8.41,15.35,0.46,6.38,13.26
+Wind Farm B,Wind Farm C,active_power,power_58_avg,power_17_avg,0.49,0.41,0.34,0.32,-0.405,0.2167,0.0,0.02,0.38,1.03,0.0,0.25,0.85
+Wind Farm B,Wind Farm C,rotor_speed,sensor_25_avg,sensor_144_avg,6.87,3.6,8.72,5.07,0.419,0.4767,0.0,0.0,7.98,10.11,0.03,9.77,14.57
+Wind Farm C,Wind Farm A,wind_speed,wind_speed_235_avg,wind_speed_3_avg,5.53,7.72,6.19,3.73,0.109,0.1223,0.0,0.46,6.38,13.26,2.0,5.4,11.5
+Wind Farm C,Wind Farm A,active_power,power_17_avg,power_29_avg,0.34,0.32,0.29,0.33,-0.156,0.1338,0.0,0.0,0.25,0.85,0.0,0.13,0.91
+Wind Farm C,Wind Farm A,rotor_speed,sensor_144_avg,sensor_52_avg,8.72,5.07,9.4,5.56,0.128,0.2408,0.0,0.03,9.77,14.57,0.0,11.4,14.8
+Wind Farm C,Wind Farm B,wind_speed,wind_speed_235_avg,wind_speed_59_avg,5.53,7.72,8.93,4.67,0.533,0.1936,0.0,0.46,6.38,13.26,3.02,8.41,15.35
+Wind Farm C,Wind Farm B,active_power,power_17_avg,power_58_avg,0.34,0.32,0.49,0.41,0.405,0.2167,0.0,0.0,0.25,0.85,0.02,0.38,1.03
+Wind Farm C,Wind Farm B,rotor_speed,sensor_144_avg,sensor_25_avg,8.72,5.07,6.87,3.6,-0.419,0.4767,0.0,0.03,9.77,14.57,0.0,7.98,10.11

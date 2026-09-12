@@ -1,0 +1,7 @@
+source_farm,target_farm,care_frozen,care_calibrated,care_reference,delta_transfer,delta_calibration_recovery,residual_gap_after_cal,fraction_gap_recovered,detected_frozen,detected_calibrated,detected_reference,accuracy_frozen,accuracy_calibrated,accuracy_reference
+Wind Farm A,Wind Farm B,0.5705,0.565,0.5417,0.0288,-0.0055,-0.0233,19.1%,4/6,4/6,3/6,0.9884,0.9958,0.9993
+Wind Farm A,Wind Farm C,0.5927,0.594,0.5521,0.0406,0.0013,-0.0419,-3.2%,20/27,17/27,8/27,0.9563,0.9902,0.9913
+Wind Farm B,Wind Farm A,0.5906,0.5806,0.5722,0.0184,-0.01,-0.0084,54.3%,4/11,2/11,2/11,0.5965,0.9963,0.9981
+Wind Farm B,Wind Farm C,0.5977,0.594,0.5521,0.0456,-0.0037,-0.0419,8.1%,17/27,17/27,8/27,0.9471,0.9902,0.9913
+Wind Farm C,Wind Farm A,0.4392,0.5806,0.5722,-0.133,0.1414,-0.0084,106.3%,0/11,2/11,2/11,1.0,0.9963,0.9981
+Wind Farm C,Wind Farm B,0.5452,0.565,0.5417,0.0035,0.0198,-0.0233,-565.7%,2/6,4/6,3/6,0.9994,0.9958,0.9993

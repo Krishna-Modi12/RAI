@@ -1,0 +1,4 @@
+farm,evaluated_turbines_with_anomaly_support,target_specific_mean_care,cross_turbine_mean_care,frozen_champion_mean_care,mean_transfer_delta_care,bootstrap_unit,cross_turbine_bootstrap_ci_95,normal_operation_accuracy_mean,total_detected_events,total_anomaly_events
+Wind Farm A,5,0.5553,0.5198,0.5198,-0.0354,turbine_cluster,"[0.4338, 0.6059]",0.9974,2,11
+Wind Farm B,6,0.5393,0.5055,0.5055,-0.0338,turbine_cluster,"[0.4353, 0.5762]",0.9997,3,6
+Wind Farm C,19,0.4988,0.4825,0.4824,-0.0163,turbine_cluster,"[0.4389, 0.5275]",0.9956,8,27

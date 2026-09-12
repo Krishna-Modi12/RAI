@@ -1,0 +1,1301 @@
+farm,column_name,base_sensor,statistics_type,is_numeric,is_included_native,is_included_common,common_signal_name,exclusion_reason,unit,description,is_angle,is_counter
+Wind Farm A,time_stamp,time_stamp,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm A,asset_id,asset_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm A,id,id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm A,train_test,train_test,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm A,status_type_id,status_type_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm A,sensor_0_avg,sensor_0,avg,True,True,False,,,�C,Ambient temperature,False,False
+Wind Farm A,sensor_1_avg,sensor_1,avg,True,True,False,,,�,Wind absolute direction,True,False
+Wind Farm A,sensor_2_avg,sensor_2,avg,True,True,False,,,�,Wind relative direction,True,False
+Wind Farm A,wind_speed_3_avg,wind_speed_3,avg,True,True,True,wind_speed,,m/s,Windspeed,False,False
+Wind Farm A,wind_speed_4_avg,wind_speed_4,avg,True,True,False,,,m/s,Estimated windspeed,False,False
+Wind Farm A,wind_speed_3_max,wind_speed_3,max,True,True,False,,,m/s,Windspeed,False,False
+Wind Farm A,wind_speed_3_min,wind_speed_3,min,True,True,False,,,m/s,Windspeed,False,False
+Wind Farm A,wind_speed_3_std,wind_speed_3,std,True,True,False,,,m/s,Windspeed,False,False
+Wind Farm A,sensor_5_avg,sensor_5,avg,True,True,False,,,�,Pitch angle,True,False
+Wind Farm A,sensor_5_max,sensor_5,max,True,True,False,,,�,Pitch angle,True,False
+Wind Farm A,sensor_5_min,sensor_5,min,True,True,False,,,�,Pitch angle,True,False
+Wind Farm A,sensor_5_std,sensor_5,std,True,True,False,,,�,Pitch angle,True,False
+Wind Farm A,sensor_6_avg,sensor_6,avg,True,True,False,,,�C,Temperature in the hub controller,False,False
+Wind Farm A,sensor_7_avg,sensor_7,avg,True,True,False,,,�C,Temperature in the top nacelle controller,False,False
+Wind Farm A,sensor_8_avg,sensor_8,avg,True,True,False,,,�C,Temperature in the choke coils on the VCS-section,False,False
+Wind Farm A,sensor_9_avg,sensor_9,avg,True,True,False,,,�C,Temperature on the VCP-board,False,False
+Wind Farm A,sensor_10_avg,sensor_10,avg,True,True,False,,,�C,Temperature in the VCS cooling water,False,False
+Wind Farm A,sensor_11_avg,sensor_11,avg,True,True,False,,,�C,Temperature in gearbox bearing on high speed shaft,False,False
+Wind Farm A,sensor_12_avg,sensor_12,avg,True,True,False,,,�C,Temperature oil in gearbox,False,False
+Wind Farm A,sensor_13_avg,sensor_13,avg,True,True,False,,,�C,Temperature in generator bearing 2 (Drive End),False,False
+Wind Farm A,sensor_14_avg,sensor_14,avg,True,True,False,,,�C,Temperature in generator bearing 1 (Non-Drive End),False,False
+Wind Farm A,sensor_15_avg,sensor_15,avg,True,True,False,,,�C,Temperature inside generator in stator windings phase 1,False,False
+Wind Farm A,sensor_16_avg,sensor_16,avg,True,True,False,,,�C,Temperature inside generator in stator windings phase 2,False,False
+Wind Farm A,sensor_17_avg,sensor_17,avg,True,True,False,,,�C,Temperature inside generator in stator windings phase 3,False,False
+Wind Farm A,sensor_18_avg,sensor_18,avg,True,True,False,,,rpm,Generator rpm in latest period,False,False
+Wind Farm A,sensor_18_max,sensor_18,max,True,True,False,,,rpm,Generator rpm in latest period,False,False
+Wind Farm A,sensor_18_min,sensor_18,min,True,True,False,,,rpm,Generator rpm in latest period,False,False
+Wind Farm A,sensor_18_std,sensor_18,std,True,True,False,,,rpm,Generator rpm in latest period,False,False
+Wind Farm A,sensor_19_avg,sensor_19,avg,True,True,False,,,�C,Temperature in the split ring chamber,False,False
+Wind Farm A,sensor_20_avg,sensor_20,avg,True,True,False,,,�C,Temperature in the busbar section,False,False
+Wind Farm A,sensor_21_avg,sensor_21,avg,True,True,False,,,�C,Temperature measured by the IGBT-driver on the grid side inverter,False,False
+Wind Farm A,sensor_22_avg,sensor_22,avg,True,True,False,,,nan,Actual phase displacement,False,False
+Wind Farm A,sensor_23_avg,sensor_23,avg,True,True,False,,,A,Averaged current in phase 1,False,False
+Wind Farm A,sensor_24_avg,sensor_24,avg,True,True,False,,,A,Averaged current in phase 2,False,False
+Wind Farm A,sensor_25_avg,sensor_25,avg,True,True,False,,,A,Averaged current in phase 3,False,False
+Wind Farm A,sensor_26_avg,sensor_26,avg,True,True,False,,,Hz,Grid frequency,False,False
+Wind Farm A,reactive_power_27_avg,reactive_power_27,avg,True,True,False,,,kVAr,Possible grid capacitive reactive power,False,False
+Wind Farm A,reactive_power_27_max,reactive_power_27,max,True,True,False,,,kVAr,Possible grid capacitive reactive power,False,False
+Wind Farm A,reactive_power_27_min,reactive_power_27,min,True,True,False,,,kVAr,Possible grid capacitive reactive power,False,False
+Wind Farm A,reactive_power_27_std,reactive_power_27,std,True,True,False,,,kVAr,Possible grid capacitive reactive power,False,False
+Wind Farm A,reactive_power_28_avg,reactive_power_28,avg,True,True,False,,,kVAr,Possible grid inductive reactive power,False,False
+Wind Farm A,reactive_power_28_max,reactive_power_28,max,True,True,False,,,kVAr,Possible grid inductive reactive power,False,False
+Wind Farm A,reactive_power_28_min,reactive_power_28,min,True,True,False,,,kVAr,Possible grid inductive reactive power,False,False
+Wind Farm A,reactive_power_28_std,reactive_power_28,std,True,True,False,,,kVAr,Possible grid inductive reactive power,False,False
+Wind Farm A,power_29_avg,power_29,avg,True,True,True,active_power,,kW,Possible grid active power,False,False
+Wind Farm A,power_29_max,power_29,max,True,True,False,,,kW,Possible grid active power,False,False
+Wind Farm A,power_29_min,power_29,min,True,True,False,,,kW,Possible grid active power,False,False
+Wind Farm A,power_29_std,power_29,std,True,True,False,,,kW,Possible grid active power,False,False
+Wind Farm A,power_30_avg,power_30,avg,True,True,False,,,kW,Grid power,False,False
+Wind Farm A,power_30_max,power_30,max,True,True,False,,,kW,Grid power,False,False
+Wind Farm A,power_30_min,power_30,min,True,True,False,,,kW,Grid power,False,False
+Wind Farm A,power_30_std,power_30,std,True,True,False,,,kW,Grid power,False,False
+Wind Farm A,sensor_31_avg,sensor_31,avg,True,True,False,,,kVAr,Grid reactive power,False,False
+Wind Farm A,sensor_31_max,sensor_31,max,True,True,False,,,kVAr,Grid reactive power,False,False
+Wind Farm A,sensor_31_min,sensor_31,min,True,True,False,,,kVAr,Grid reactive power,False,False
+Wind Farm A,sensor_31_std,sensor_31,std,True,True,False,,,kVAr,Grid reactive power,False,False
+Wind Farm A,sensor_32_avg,sensor_32,avg,True,True,False,,,V,Averaged voltage in phase 1,False,False
+Wind Farm A,sensor_33_avg,sensor_33,avg,True,True,False,,,V,Averaged voltage in phase 2,False,False
+Wind Farm A,sensor_34_avg,sensor_34,avg,True,True,False,,,V,Averaged voltage in phase 3,False,False
+Wind Farm A,sensor_35_avg,sensor_35,avg,True,True,False,,,�C,Temperature measured by the IGBT-driver on the rotor side inverter phase1,False,False
+Wind Farm A,sensor_36_avg,sensor_36,avg,True,True,False,,,�C,Temperature measured by the IGBT-driver on the rotor side inverter phase2,False,False
+Wind Farm A,sensor_37_avg,sensor_37,avg,True,True,False,,,�C,Temperature measured by the IGBT-driver on the rotor side inverter phase3,False,False
+Wind Farm A,sensor_38_avg,sensor_38,avg,True,True,False,,,�C,Temperature in HV transformer phase L1,False,False
+Wind Farm A,sensor_39_avg,sensor_39,avg,True,True,False,,,�C,Temperature in HV transformer phase L2,False,False
+Wind Farm A,sensor_40_avg,sensor_40,avg,True,True,False,,,�C,Temperature in HV transformer phase L3,False,False
+Wind Farm A,sensor_41_avg,sensor_41,avg,True,True,False,,,�C,Temperature oil in hydraulic group,False,False
+Wind Farm A,sensor_42_avg,sensor_42,avg,True,True,False,,,�,Nacelle direction,True,False
+Wind Farm A,sensor_43_avg,sensor_43,avg,True,True,False,,,�C,Nacelle temperature,False,False
+Wind Farm A,sensor_44,sensor_44,,True,True,False,,,Wh,Active power - generator disconnected,False,False
+Wind Farm A,sensor_45,sensor_45,,True,True,False,,,Wh,Active power - generator connected in delta,False,False
+Wind Farm A,sensor_46,sensor_46,,True,True,False,,,Wh,Active power - generator connected in star,False,False
+Wind Farm A,sensor_47,sensor_47,,True,True,False,,,VArh,Reactive power - generator disconnected,False,False
+Wind Farm A,sensor_48,sensor_48,,True,True,False,,,VArh,Reactive power - generator connected in delta,False,False
+Wind Farm A,sensor_49,sensor_49,,True,True,False,,,VArh,Reactive power - generator connected in star,False,False
+Wind Farm A,sensor_50,sensor_50,,True,True,False,,,Wh,Total active power,False,False
+Wind Farm A,sensor_51,sensor_51,,True,True,False,,,VArh,Total reactive power,False,False
+Wind Farm A,sensor_52_avg,sensor_52,avg,True,True,True,rotor_speed,,rpm,Rotor rpm,False,False
+Wind Farm A,sensor_52_max,sensor_52,max,True,True,False,,,rpm,Rotor rpm,False,False
+Wind Farm A,sensor_52_min,sensor_52,min,True,True,False,,,rpm,Rotor rpm,False,False
+Wind Farm A,sensor_52_std,sensor_52,std,True,True,False,,,rpm,Rotor rpm,False,False
+Wind Farm A,sensor_53_avg,sensor_53,avg,True,True,False,,,�C,Temperature in the nose cone,False,False
+Wind Farm B,time_stamp,time_stamp,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm B,asset_id,asset_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm B,id,id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm B,train_test,train_test,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm B,status_type_id,status_type_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm B,sensor_0_avg,sensor_0,avg,True,True,False,,,kvarh,Total negative reactive power,False,True
+Wind Farm B,sensor_0_max,sensor_0,max,True,True,False,,,kvarh,Total negative reactive power,False,True
+Wind Farm B,sensor_0_min,sensor_0,min,True,True,False,,,kvarh,Total negative reactive power,False,True
+Wind Farm B,sensor_0_std,sensor_0,std,True,True,False,,,kvarh,Total negative reactive power,False,True
+Wind Farm B,sensor_1_avg,sensor_1,avg,True,True,False,,,kWh,Total negative active power,False,True
+Wind Farm B,sensor_1_max,sensor_1,max,True,True,False,,,kWh,Total negative active power,False,True
+Wind Farm B,sensor_1_min,sensor_1,min,True,True,False,,,kWh,Total negative active power,False,True
+Wind Farm B,sensor_1_std,sensor_1,std,True,True,False,,,kWh,Total negative active power,False,True
+Wind Farm B,sensor_2_avg,sensor_2,avg,True,True,False,,,kvarh,Total positive reactive power,False,True
+Wind Farm B,sensor_2_max,sensor_2,max,True,True,False,,,kvarh,Total positive reactive power,False,True
+Wind Farm B,sensor_2_min,sensor_2,min,True,True,False,,,kvarh,Total positive reactive power,False,True
+Wind Farm B,sensor_2_std,sensor_2,std,True,True,False,,,kvarh,Total positive reactive power,False,True
+Wind Farm B,sensor_3_avg,sensor_3,avg,True,True,False,,,kWh,Total positive active power,False,True
+Wind Farm B,sensor_3_max,sensor_3,max,True,True,False,,,kWh,Total positive active power,False,True
+Wind Farm B,sensor_3_min,sensor_3,min,True,True,False,,,kWh,Total positive active power,False,True
+Wind Farm B,sensor_3_std,sensor_3,std,True,True,False,,,kWh,Total positive active power,False,True
+Wind Farm B,sensor_4_avg,sensor_4,avg,True,True,False,,,�,Absolute wind direction,True,False
+Wind Farm B,sensor_4_max,sensor_4,max,True,True,False,,,�,Absolute wind direction,True,False
+Wind Farm B,sensor_4_min,sensor_4,min,True,True,False,,,�,Absolute wind direction,True,False
+Wind Farm B,sensor_4_std,sensor_4,std,True,True,False,,,�,Absolute wind direction,True,False
+Wind Farm B,sensor_5_avg,sensor_5,avg,True,True,False,,,kNm,Torque delta calculated,False,False
+Wind Farm B,sensor_5_max,sensor_5,max,True,True,False,,,kNm,Torque delta calculated,False,False
+Wind Farm B,sensor_5_min,sensor_5,min,True,True,False,,,kNm,Torque delta calculated,False,False
+Wind Farm B,sensor_5_std,sensor_5,std,True,True,False,,,kNm,Torque delta calculated,False,False
+Wind Farm B,sensor_6_avg,sensor_6,avg,True,True,False,,,m/s,Wind speed anemometer 2 calculated,False,False
+Wind Farm B,sensor_6_max,sensor_6,max,True,True,False,,,m/s,Wind speed anemometer 2 calculated,False,False
+Wind Farm B,sensor_6_min,sensor_6,min,True,True,False,,,m/s,Wind speed anemometer 2 calculated,False,False
+Wind Farm B,sensor_6_std,sensor_6,std,True,True,False,,,m/s,Wind speed anemometer 2 calculated,False,False
+Wind Farm B,sensor_7_avg,sensor_7,avg,True,True,False,,,%,Cable load,False,False
+Wind Farm B,sensor_7_max,sensor_7,max,True,True,False,,,%,Cable load,False,False
+Wind Farm B,sensor_7_min,sensor_7,min,True,True,False,,,%,Cable load,False,False
+Wind Farm B,sensor_7_std,sensor_7,std,True,True,False,,,%,Cable load,False,False
+Wind Farm B,sensor_8_avg,sensor_8,avg,True,True,False,,,�C,Outside temperature,False,False
+Wind Farm B,sensor_8_max,sensor_8,max,True,True,False,,,�C,Outside temperature,False,False
+Wind Farm B,sensor_8_min,sensor_8,min,True,True,False,,,�C,Outside temperature,False,False
+Wind Farm B,sensor_8_std,sensor_8,std,True,True,False,,,�C,Outside temperature,False,False
+Wind Farm B,sensor_9_avg,sensor_9,avg,True,True,False,,,mHz,Estimated tower natural frequency,False,False
+Wind Farm B,sensor_9_max,sensor_9,max,True,True,False,,,mHz,Estimated tower natural frequency,False,False
+Wind Farm B,sensor_9_min,sensor_9,min,True,True,False,,,mHz,Estimated tower natural frequency,False,False
+Wind Farm B,sensor_9_std,sensor_9,std,True,True,False,,,mHz,Estimated tower natural frequency,False,False
+Wind Farm B,sensor_10_avg,sensor_10,avg,True,True,False,,,�,Pitch angle,True,False
+Wind Farm B,sensor_10_max,sensor_10,max,True,True,False,,,�,Pitch angle,True,False
+Wind Farm B,sensor_10_min,sensor_10,min,True,True,False,,,�,Pitch angle,True,False
+Wind Farm B,sensor_10_std,sensor_10,std,True,True,False,,,�,Pitch angle,True,False
+Wind Farm B,reactive_power_11_avg,reactive_power_11,avg,True,True,False,,,kvar,Reactive power,False,False
+Wind Farm B,reactive_power_11_max,reactive_power_11,max,True,True,False,,,kvar,Reactive power,False,False
+Wind Farm B,reactive_power_11_min,reactive_power_11,min,True,True,False,,,kvar,Reactive power,False,False
+Wind Farm B,reactive_power_11_std,reactive_power_11,std,True,True,False,,,kvar,Reactive power,False,False
+Wind Farm B,sensor_12_avg,sensor_12,avg,True,True,False,,,Nm,Torque estimated,False,False
+Wind Farm B,sensor_12_max,sensor_12,max,True,True,False,,,Nm,Torque estimated,False,False
+Wind Farm B,sensor_12_min,sensor_12,min,True,True,False,,,Nm,Torque estimated,False,False
+Wind Farm B,sensor_12_std,sensor_12,std,True,True,False,,,Nm,Torque estimated,False,False
+Wind Farm B,sensor_13_avg,sensor_13,avg,True,True,False,,,V,RMS voltage L1,False,False
+Wind Farm B,sensor_13_max,sensor_13,max,True,True,False,,,V,RMS voltage L1,False,False
+Wind Farm B,sensor_13_min,sensor_13,min,True,True,False,,,V,RMS voltage L1,False,False
+Wind Farm B,sensor_13_std,sensor_13,std,True,True,False,,,V,RMS voltage L1,False,False
+Wind Farm B,sensor_14_avg,sensor_14,avg,True,True,False,,,V,RMS voltage L2,False,False
+Wind Farm B,sensor_14_max,sensor_14,max,True,True,False,,,V,RMS voltage L2,False,False
+Wind Farm B,sensor_14_min,sensor_14,min,True,True,False,,,V,RMS voltage L2,False,False
+Wind Farm B,sensor_14_std,sensor_14,std,True,True,False,,,V,RMS voltage L2,False,False
+Wind Farm B,sensor_15_avg,sensor_15,avg,True,True,False,,,V,RMS voltage L3,False,False
+Wind Farm B,sensor_15_max,sensor_15,max,True,True,False,,,V,RMS voltage L3,False,False
+Wind Farm B,sensor_15_min,sensor_15,min,True,True,False,,,V,RMS voltage L3,False,False
+Wind Farm B,sensor_15_std,sensor_15,std,True,True,False,,,V,RMS voltage L3,False,False
+Wind Farm B,sensor_16_avg,sensor_16,avg,True,True,False,,,A,RMS current L1,False,False
+Wind Farm B,sensor_16_max,sensor_16,max,True,True,False,,,A,RMS current L1,False,False
+Wind Farm B,sensor_16_min,sensor_16,min,True,True,False,,,A,RMS current L1,False,False
+Wind Farm B,sensor_16_std,sensor_16,std,True,True,False,,,A,RMS current L1,False,False
+Wind Farm B,sensor_17_avg,sensor_17,avg,True,True,False,,,A,RMS current L2,False,False
+Wind Farm B,sensor_17_max,sensor_17,max,True,True,False,,,A,RMS current L2,False,False
+Wind Farm B,sensor_17_min,sensor_17,min,True,True,False,,,A,RMS current L2,False,False
+Wind Farm B,sensor_17_std,sensor_17,std,True,True,False,,,A,RMS current L2,False,False
+Wind Farm B,sensor_18_avg,sensor_18,avg,True,True,False,,,A,RMS current L3,False,False
+Wind Farm B,sensor_18_max,sensor_18,max,True,True,False,,,A,RMS current L3,False,False
+Wind Farm B,sensor_18_min,sensor_18,min,True,True,False,,,A,RMS current L3,False,False
+Wind Farm B,sensor_18_std,sensor_18,std,True,True,False,,,A,RMS current L3,False,False
+Wind Farm B,sensor_19_avg,sensor_19,avg,True,True,False,,,rpm,Generator converter rotational peed,False,False
+Wind Farm B,sensor_19_max,sensor_19,max,True,True,False,,,rpm,Generator converter rotational peed,False,False
+Wind Farm B,sensor_19_min,sensor_19,min,True,True,False,,,rpm,Generator converter rotational peed,False,False
+Wind Farm B,sensor_19_std,sensor_19,std,True,True,False,,,rpm,Generator converter rotational peed,False,False
+Wind Farm B,sensor_20_avg,sensor_20,avg,True,True,False,,,rpm,Gearbox rotational speed,False,False
+Wind Farm B,sensor_20_max,sensor_20,max,True,True,False,,,rpm,Gearbox rotational speed,False,False
+Wind Farm B,sensor_20_min,sensor_20,min,True,True,False,,,rpm,Gearbox rotational speed,False,False
+Wind Farm B,sensor_20_std,sensor_20,std,True,True,False,,,rpm,Gearbox rotational speed,False,False
+Wind Farm B,sensor_21_avg,sensor_21,avg,True,True,False,,,�,Nacelle direction,True,False
+Wind Farm B,sensor_21_max,sensor_21,max,True,True,False,,,�,Nacelle direction,True,False
+Wind Farm B,sensor_21_min,sensor_21,min,True,True,False,,,�,Nacelle direction,True,False
+Wind Farm B,sensor_21_std,sensor_21,std,True,True,False,,,�,Nacelle direction,True,False
+Wind Farm B,sensor_22_avg,sensor_22,avg,True,True,False,,,�C,Hub temperature,False,False
+Wind Farm B,sensor_22_max,sensor_22,max,True,True,False,,,�C,Hub temperature,False,False
+Wind Farm B,sensor_22_min,sensor_22,min,True,True,False,,,�C,Hub temperature,False,False
+Wind Farm B,sensor_22_std,sensor_22,std,True,True,False,,,�C,Hub temperature,False,False
+Wind Farm B,sensor_23_avg,sensor_23,avg,True,True,False,,,Hz,Grid frequency,False,False
+Wind Farm B,sensor_23_max,sensor_23,max,True,True,False,,,Hz,Grid frequency,False,False
+Wind Farm B,sensor_23_min,sensor_23,min,True,True,False,,,Hz,Grid frequency,False,False
+Wind Farm B,sensor_23_std,sensor_23,std,True,True,False,,,Hz,Grid frequency,False,False
+Wind Farm B,sensor_24_avg,sensor_24,avg,True,True,False,,,V,Grid voltage,False,False
+Wind Farm B,sensor_24_max,sensor_24,max,True,True,False,,,V,Grid voltage,False,False
+Wind Farm B,sensor_24_min,sensor_24,min,True,True,False,,,V,Grid voltage,False,False
+Wind Farm B,sensor_24_std,sensor_24,std,True,True,False,,,V,Grid voltage,False,False
+Wind Farm B,sensor_25_avg,sensor_25,avg,True,True,True,rotor_speed,,rpm,Rotor speed,False,False
+Wind Farm B,sensor_25_max,sensor_25,max,True,True,False,,,rpm,Rotor speed,False,False
+Wind Farm B,sensor_25_min,sensor_25,min,True,True,False,,,rpm,Rotor speed,False,False
+Wind Farm B,sensor_25_std,sensor_25,std,True,True,False,,,rpm,Rotor speed,False,False
+Wind Farm B,sensor_26_avg,sensor_26,avg,True,True,False,,,kVA,Apparent power,False,False
+Wind Farm B,sensor_26_max,sensor_26,max,True,True,False,,,kVA,Apparent power,False,False
+Wind Farm B,sensor_26_min,sensor_26,min,True,True,False,,,kVA,Apparent power,False,False
+Wind Farm B,sensor_26_std,sensor_26,std,True,True,False,,,kVA,Apparent power,False,False
+Wind Farm B,sensor_27_avg,sensor_27,avg,True,True,False,,,A,Current,False,False
+Wind Farm B,sensor_27_max,sensor_27,max,True,True,False,,,A,Current,False,False
+Wind Farm B,sensor_27_min,sensor_27,min,True,True,False,,,A,Current,False,False
+Wind Farm B,sensor_27_std,sensor_27,std,True,True,False,,,A,Current,False,False
+Wind Farm B,sensor_28_avg,sensor_28,avg,True,True,False,,,A,Motor current axis 1,False,False
+Wind Farm B,sensor_28_max,sensor_28,max,True,True,False,,,A,Motor current axis 1,False,False
+Wind Farm B,sensor_28_min,sensor_28,min,True,True,False,,,A,Motor current axis 1,False,False
+Wind Farm B,sensor_28_std,sensor_28,std,True,True,False,,,A,Motor current axis 1,False,False
+Wind Farm B,sensor_29_avg,sensor_29,avg,True,True,False,,,A,Motor current axis 2,False,False
+Wind Farm B,sensor_29_max,sensor_29,max,True,True,False,,,A,Motor current axis 2,False,False
+Wind Farm B,sensor_29_min,sensor_29,min,True,True,False,,,A,Motor current axis 2,False,False
+Wind Farm B,sensor_29_std,sensor_29,std,True,True,False,,,A,Motor current axis 2,False,False
+Wind Farm B,sensor_30_avg,sensor_30,avg,True,True,False,,,A,Motor current axis 3,False,False
+Wind Farm B,sensor_30_max,sensor_30,max,True,True,False,,,A,Motor current axis 3,False,False
+Wind Farm B,sensor_30_min,sensor_30,min,True,True,False,,,A,Motor current axis 3,False,False
+Wind Farm B,sensor_30_std,sensor_30,std,True,True,False,,,A,Motor current axis 3,False,False
+Wind Farm B,sensor_31_avg,sensor_31,avg,True,True,False,,,�C,Temperature internal consumption transformer,False,False
+Wind Farm B,sensor_31_max,sensor_31,max,True,True,False,,,�C,Temperature internal consumption transformer,False,False
+Wind Farm B,sensor_31_min,sensor_31,min,True,True,False,,,�C,Temperature internal consumption transformer,False,False
+Wind Farm B,sensor_31_std,sensor_31,std,True,True,False,,,�C,Temperature internal consumption transformer,False,False
+Wind Farm B,sensor_32_avg,sensor_32,avg,True,True,False,,,�C,Generator bearing temperature 1,False,False
+Wind Farm B,sensor_32_max,sensor_32,max,True,True,False,,,�C,Generator bearing temperature 1,False,False
+Wind Farm B,sensor_32_min,sensor_32,min,True,True,False,,,�C,Generator bearing temperature 1,False,False
+Wind Farm B,sensor_32_std,sensor_32,std,True,True,False,,,�C,Generator bearing temperature 1,False,False
+Wind Farm B,sensor_33_avg,sensor_33,avg,True,True,False,,,�C,Generator bearing temperature 2,False,False
+Wind Farm B,sensor_33_max,sensor_33,max,True,True,False,,,�C,Generator bearing temperature 2,False,False
+Wind Farm B,sensor_33_min,sensor_33,min,True,True,False,,,�C,Generator bearing temperature 2,False,False
+Wind Farm B,sensor_33_std,sensor_33,std,True,True,False,,,�C,Generator bearing temperature 2,False,False
+Wind Farm B,sensor_34_avg,sensor_34,avg,True,True,False,,,�C,Gearbox bearing temperature 1,False,False
+Wind Farm B,sensor_34_max,sensor_34,max,True,True,False,,,�C,Gearbox bearing temperature 1,False,False
+Wind Farm B,sensor_34_min,sensor_34,min,True,True,False,,,�C,Gearbox bearing temperature 1,False,False
+Wind Farm B,sensor_34_std,sensor_34,std,True,True,False,,,�C,Gearbox bearing temperature 1,False,False
+Wind Farm B,sensor_35_avg,sensor_35,avg,True,True,False,,,�C,Gearbox bearing temperature 2,False,False
+Wind Farm B,sensor_35_max,sensor_35,max,True,True,False,,,�C,Gearbox bearing temperature 2,False,False
+Wind Farm B,sensor_35_min,sensor_35,min,True,True,False,,,�C,Gearbox bearing temperature 2,False,False
+Wind Farm B,sensor_35_std,sensor_35,std,True,True,False,,,�C,Gearbox bearing temperature 2,False,False
+Wind Farm B,sensor_36_avg,sensor_36,avg,True,True,False,,,�C,Gearbox bearing temperature 3,False,False
+Wind Farm B,sensor_36_max,sensor_36,max,True,True,False,,,�C,Gearbox bearing temperature 3,False,False
+Wind Farm B,sensor_36_min,sensor_36,min,True,True,False,,,�C,Gearbox bearing temperature 3,False,False
+Wind Farm B,sensor_36_std,sensor_36,std,True,True,False,,,�C,Gearbox bearing temperature 3,False,False
+Wind Farm B,sensor_37_avg,sensor_37,avg,True,True,False,,,�C,Gearbox bearing temperature 4,False,False
+Wind Farm B,sensor_37_max,sensor_37,max,True,True,False,,,�C,Gearbox bearing temperature 4,False,False
+Wind Farm B,sensor_37_min,sensor_37,min,True,True,False,,,�C,Gearbox bearing temperature 4,False,False
+Wind Farm B,sensor_37_std,sensor_37,std,True,True,False,,,�C,Gearbox bearing temperature 4,False,False
+Wind Farm B,sensor_38_avg,sensor_38,avg,True,True,False,,,�C,Gearbox oil inlet temperature,False,False
+Wind Farm B,sensor_38_max,sensor_38,max,True,True,False,,,�C,Gearbox oil inlet temperature,False,False
+Wind Farm B,sensor_38_min,sensor_38,min,True,True,False,,,�C,Gearbox oil inlet temperature,False,False
+Wind Farm B,sensor_38_std,sensor_38,std,True,True,False,,,�C,Gearbox oil inlet temperature,False,False
+Wind Farm B,sensor_39_avg,sensor_39,avg,True,True,False,,,�C,Gearbox oil tank temperature,False,False
+Wind Farm B,sensor_39_max,sensor_39,max,True,True,False,,,�C,Gearbox oil tank temperature,False,False
+Wind Farm B,sensor_39_min,sensor_39,min,True,True,False,,,�C,Gearbox oil tank temperature,False,False
+Wind Farm B,sensor_39_std,sensor_39,std,True,True,False,,,�C,Gearbox oil tank temperature,False,False
+Wind Farm B,sensor_40_avg,sensor_40,avg,True,True,False,,,�C,Transformator core temperature,False,False
+Wind Farm B,sensor_40_max,sensor_40,max,True,True,False,,,�C,Transformator core temperature,False,False
+Wind Farm B,sensor_40_min,sensor_40,min,True,True,False,,,�C,Transformator core temperature,False,False
+Wind Farm B,sensor_40_std,sensor_40,std,True,True,False,,,�C,Transformator core temperature,False,False
+Wind Farm B,sensor_41_avg,sensor_41,avg,True,True,False,,,�C,Transformer L1 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_41_max,sensor_41,max,True,True,False,,,�C,Transformer L1 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_41_min,sensor_41,min,True,True,False,,,�C,Transformer L1 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_41_std,sensor_41,std,True,True,False,,,�C,Transformer L1 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_42_avg,sensor_42,avg,True,True,False,,,�C,Transformer L1 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_42_max,sensor_42,max,True,True,False,,,�C,Transformer L1 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_42_min,sensor_42,min,True,True,False,,,�C,Transformer L1 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_42_std,sensor_42,std,True,True,False,,,�C,Transformer L1 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_43_avg,sensor_43,avg,True,True,False,,,�C,Transformer L2 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_43_max,sensor_43,max,True,True,False,,,�C,Transformer L2 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_43_min,sensor_43,min,True,True,False,,,�C,Transformer L2 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_43_std,sensor_43,std,True,True,False,,,�C,Transformer L2 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_44_avg,sensor_44,avg,True,True,False,,,�C,Transformer L2 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_44_max,sensor_44,max,True,True,False,,,�C,Transformer L2 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_44_min,sensor_44,min,True,True,False,,,�C,Transformer L2 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_44_std,sensor_44,std,True,True,False,,,�C,Transformer L2 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_45_avg,sensor_45,avg,True,True,False,,,�C,Transformer L3 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_45_max,sensor_45,max,True,True,False,,,�C,Transformer L3 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_45_min,sensor_45,min,True,True,False,,,�C,Transformer L3 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_45_std,sensor_45,std,True,True,False,,,�C,Transformer L3 (mid-voltage) temperature ,False,False
+Wind Farm B,sensor_46_avg,sensor_46,avg,True,True,False,,,�C,Transformer L3 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_46_max,sensor_46,max,True,True,False,,,�C,Transformer L3 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_46_min,sensor_46,min,True,True,False,,,�C,Transformer L3 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_46_std,sensor_46,std,True,True,False,,,�C,Transformer L3 (undervoltage) temperature ,False,False
+Wind Farm B,sensor_47_avg,sensor_47,avg,True,True,False,,,�C,Transformer cell temperature,False,False
+Wind Farm B,sensor_47_max,sensor_47,max,True,True,False,,,�C,Transformer cell temperature,False,False
+Wind Farm B,sensor_47_min,sensor_47,min,True,True,False,,,�C,Transformer cell temperature,False,False
+Wind Farm B,sensor_47_std,sensor_47,std,True,True,False,,,�C,Transformer cell temperature,False,False
+Wind Farm B,sensor_48_avg,sensor_48,avg,True,True,False,,,�C,Motor temperature axis 1,False,False
+Wind Farm B,sensor_48_max,sensor_48,max,True,True,False,,,�C,Motor temperature axis 1,False,False
+Wind Farm B,sensor_48_min,sensor_48,min,True,True,False,,,�C,Motor temperature axis 1,False,False
+Wind Farm B,sensor_48_std,sensor_48,std,True,True,False,,,�C,Motor temperature axis 1,False,False
+Wind Farm B,sensor_49_avg,sensor_49,avg,True,True,False,,,�C,Motor temperature axis 2,False,False
+Wind Farm B,sensor_49_max,sensor_49,max,True,True,False,,,�C,Motor temperature axis 2,False,False
+Wind Farm B,sensor_49_min,sensor_49,min,True,True,False,,,�C,Motor temperature axis 2,False,False
+Wind Farm B,sensor_49_std,sensor_49,std,True,True,False,,,�C,Motor temperature axis 2,False,False
+Wind Farm B,sensor_50_avg,sensor_50,avg,True,True,False,,,�C,Motor temperature axis 3,False,False
+Wind Farm B,sensor_50_max,sensor_50,max,True,True,False,,,�C,Motor temperature axis 3,False,False
+Wind Farm B,sensor_50_min,sensor_50,min,True,True,False,,,�C,Motor temperature axis 3,False,False
+Wind Farm B,sensor_50_std,sensor_50,std,True,True,False,,,�C,Motor temperature axis 3,False,False
+Wind Farm B,sensor_51_avg,sensor_51,avg,True,True,False,,,�C,Rotor bearing temperature 1,False,False
+Wind Farm B,sensor_51_max,sensor_51,max,True,True,False,,,�C,Rotor bearing temperature 1,False,False
+Wind Farm B,sensor_51_min,sensor_51,min,True,True,False,,,�C,Rotor bearing temperature 1,False,False
+Wind Farm B,sensor_51_std,sensor_51,std,True,True,False,,,�C,Rotor bearing temperature 1,False,False
+Wind Farm B,sensor_52_avg,sensor_52,avg,True,True,False,,,�C,Rotor bearing temperature 2,False,False
+Wind Farm B,sensor_52_max,sensor_52,max,True,True,False,,,�C,Rotor bearing temperature 2,False,False
+Wind Farm B,sensor_52_min,sensor_52,min,True,True,False,,,�C,Rotor bearing temperature 2,False,False
+Wind Farm B,sensor_52_std,sensor_52,std,True,True,False,,,�C,Rotor bearing temperature 2,False,False
+Wind Farm B,sensor_53_avg,sensor_53,avg,True,True,False,,,�C,Slip ring temperature Generator,False,False
+Wind Farm B,sensor_53_max,sensor_53,max,True,True,False,,,�C,Slip ring temperature Generator,False,False
+Wind Farm B,sensor_53_min,sensor_53,min,True,True,False,,,�C,Slip ring temperature Generator,False,False
+Wind Farm B,sensor_53_std,sensor_53,std,True,True,False,,,�C,Slip ring temperature Generator,False,False
+Wind Farm B,sensor_54_avg,sensor_54,avg,True,True,False,,,mG,Drive train vibration axis Z,False,False
+Wind Farm B,sensor_54_max,sensor_54,max,True,True,False,,,mG,Drive train vibration axis Z,False,False
+Wind Farm B,sensor_54_min,sensor_54,min,True,True,False,,,mG,Drive train vibration axis Z,False,False
+Wind Farm B,sensor_54_std,sensor_54,std,True,True,False,,,mG,Drive train vibration axis Z,False,False
+Wind Farm B,sensor_55_avg,sensor_55,avg,True,True,False,,,mG,Tower vibration axis X,False,False
+Wind Farm B,sensor_55_max,sensor_55,max,True,True,False,,,mG,Tower vibration axis X,False,False
+Wind Farm B,sensor_55_min,sensor_55,min,True,True,False,,,mG,Tower vibration axis X,False,False
+Wind Farm B,sensor_55_std,sensor_55,std,True,True,False,,,mG,Tower vibration axis X,False,False
+Wind Farm B,sensor_56_avg,sensor_56,avg,True,True,False,,,mG,Tower vibration axis Y,False,False
+Wind Farm B,sensor_56_max,sensor_56,max,True,True,False,,,mG,Tower vibration axis Y,False,False
+Wind Farm B,sensor_56_min,sensor_56,min,True,True,False,,,mG,Tower vibration axis Y,False,False
+Wind Farm B,sensor_56_std,sensor_56,std,True,True,False,,,mG,Tower vibration axis Y,False,False
+Wind Farm B,sensor_57_avg,sensor_57,avg,True,True,False,,,Nm,Inverter torque,False,False
+Wind Farm B,sensor_57_max,sensor_57,max,True,True,False,,,Nm,Inverter torque,False,False
+Wind Farm B,sensor_57_min,sensor_57,min,True,True,False,,,Nm,Inverter torque,False,False
+Wind Farm B,sensor_57_std,sensor_57,std,True,True,False,,,Nm,Inverter torque,False,False
+Wind Farm B,power_58_avg,power_58,avg,True,True,True,active_power,,kW,Available power,False,False
+Wind Farm B,power_58_max,power_58,max,True,True,False,,,kW,Available power,False,False
+Wind Farm B,power_58_min,power_58,min,True,True,False,,,kW,Available power,False,False
+Wind Farm B,power_58_std,power_58,std,True,True,False,,,kW,Available power,False,False
+Wind Farm B,wind_speed_59_avg,wind_speed_59,avg,True,True,True,wind_speed,,m/s,Wind speed 1,False,False
+Wind Farm B,wind_speed_59_max,wind_speed_59,max,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm B,wind_speed_59_min,wind_speed_59,min,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm B,wind_speed_59_std,wind_speed_59,std,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm B,wind_speed_60_avg,wind_speed_60,avg,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm B,wind_speed_60_max,wind_speed_60,max,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm B,wind_speed_60_min,wind_speed_60,min,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm B,wind_speed_60_std,wind_speed_60,std,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm B,wind_speed_61_avg,wind_speed_61,avg,True,True,False,,,m/s,Wind speed,False,False
+Wind Farm B,wind_speed_61_max,wind_speed_61,max,True,True,False,,,m/s,Wind speed,False,False
+Wind Farm B,wind_speed_61_min,wind_speed_61,min,True,True,False,,,m/s,Wind speed,False,False
+Wind Farm B,wind_speed_61_std,wind_speed_61,std,True,True,False,,,m/s,Wind speed,False,False
+Wind Farm B,power_62_avg,power_62,avg,True,True,False,,,kW,Active power,False,False
+Wind Farm B,power_62_max,power_62,max,True,True,False,,,kW,Active power,False,False
+Wind Farm B,power_62_min,power_62,min,True,True,False,,,kW,Active power,False,False
+Wind Farm B,power_62_std,power_62,std,True,True,False,,,kW,Active power,False,False
+Wind Farm C,time_stamp,time_stamp,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm C,asset_id,asset_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm C,id,id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm C,train_test,train_test,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm C,status_type_id,status_type_id,,False,False,False,,metadata / identifier / split flag,,,False,False
+Wind Farm C,sensor_0_avg,sensor_0,avg,True,True,False,,,A,"ABB-LS Input K1, IL1",False,False
+Wind Farm C,sensor_0_max,sensor_0,max,True,True,False,,,A,"ABB-LS Input K1, IL1",False,False
+Wind Farm C,sensor_0_min,sensor_0,min,True,True,False,,,A,"ABB-LS Input K1, IL1",False,False
+Wind Farm C,sensor_0_std,sensor_0,std,True,True,False,,,A,"ABB-LS Input K1, IL1",False,False
+Wind Farm C,sensor_1_avg,sensor_1,avg,True,True,False,,,rpm/s,Generator acceleration,False,False
+Wind Farm C,sensor_1_max,sensor_1,max,True,True,False,,,rpm/s,Generator acceleration,False,False
+Wind Farm C,sensor_1_min,sensor_1,min,True,True,False,,,rpm/s,Generator acceleration,False,False
+Wind Farm C,sensor_1_std,sensor_1,std,True,True,False,,,rpm/s,Generator acceleration,False,False
+Wind Farm C,power_2_avg,power_2,avg,True,True,False,,,kW,ABB-LS Active Power,False,False
+Wind Farm C,power_2_max,power_2,max,True,True,False,,,kW,ABB-LS Active Power,False,False
+Wind Farm C,power_2_min,power_2,min,True,True,False,,,kW,ABB-LS Active Power,False,False
+Wind Farm C,power_2_std,power_2,std,True,True,False,,,kW,ABB-LS Active Power,False,False
+Wind Farm C,sensor_3_avg,sensor_3,avg,True,True,False,,,%,Active power aeration motor A,False,False
+Wind Farm C,sensor_3_max,sensor_3,max,True,True,False,,,%,Active power aeration motor A,False,False
+Wind Farm C,sensor_3_min,sensor_3,min,True,True,False,,,%,Active power aeration motor A,False,False
+Wind Farm C,sensor_3_std,sensor_3,std,True,True,False,,,%,Active power aeration motor A,False,False
+Wind Farm C,sensor_4_avg,sensor_4,avg,True,True,False,,,%,Active power aeration motor B,False,False
+Wind Farm C,sensor_4_max,sensor_4,max,True,True,False,,,%,Active power aeration motor B,False,False
+Wind Farm C,sensor_4_min,sensor_4,min,True,True,False,,,%,Active power aeration motor B,False,False
+Wind Farm C,sensor_4_std,sensor_4,std,True,True,False,,,%,Active power aeration motor B,False,False
+Wind Farm C,power_5_avg,power_5,avg,True,True,False,,,kW,Active power grid side converter,False,False
+Wind Farm C,power_5_max,power_5,max,True,True,False,,,kW,Active power grid side converter,False,False
+Wind Farm C,power_5_min,power_5,min,True,True,False,,,kW,Active power grid side converter,False,False
+Wind Farm C,power_5_std,power_5,std,True,True,False,,,kW,Active power grid side converter,False,False
+Wind Farm C,power_6_avg,power_6,avg,True,True,False,,,kW,Active power HV grid,False,False
+Wind Farm C,power_6_max,power_6,max,True,True,False,,,kW,Active power HV grid,False,False
+Wind Farm C,power_6_min,power_6,min,True,True,False,,,kW,Active power HV grid,False,False
+Wind Farm C,power_6_std,power_6,std,True,True,False,,,kW,Active power HV grid,False,False
+Wind Farm C,sensor_7_avg,sensor_7,avg,True,True,False,,,Celsius,Ambient temperature,False,False
+Wind Farm C,sensor_7_max,sensor_7,max,True,True,False,,,Celsius,Ambient temperature,False,False
+Wind Farm C,sensor_7_min,sensor_7,min,True,True,False,,,Celsius,Ambient temperature,False,False
+Wind Farm C,sensor_7_std,sensor_7,std,True,True,False,,,Celsius,Ambient temperature,False,False
+Wind Farm C,sensor_8_avg,sensor_8,avg,True,True,False,,,rad/s,Generator angle speed,False,False
+Wind Farm C,sensor_8_max,sensor_8,max,True,True,False,,,rad/s,Generator angle speed,False,False
+Wind Farm C,sensor_8_min,sensor_8,min,True,True,False,,,rad/s,Generator angle speed,False,False
+Wind Farm C,sensor_8_std,sensor_8,std,True,True,False,,,rad/s,Generator angle speed,False,False
+Wind Farm C,sensor_9_avg,sensor_9,avg,True,True,False,,,A,Battery charge 1,False,False
+Wind Farm C,sensor_9_max,sensor_9,max,True,True,False,,,A,Battery charge 1,False,False
+Wind Farm C,sensor_9_min,sensor_9,min,True,True,False,,,A,Battery charge 1,False,False
+Wind Farm C,sensor_9_std,sensor_9,std,True,True,False,,,A,Battery charge 1,False,False
+Wind Farm C,sensor_10_avg,sensor_10,avg,True,True,False,,,A,Battery charge 2,False,False
+Wind Farm C,sensor_10_max,sensor_10,max,True,True,False,,,A,Battery charge 2,False,False
+Wind Farm C,sensor_10_min,sensor_10,min,True,True,False,,,A,Battery charge 2,False,False
+Wind Farm C,sensor_10_std,sensor_10,std,True,True,False,,,A,Battery charge 2,False,False
+Wind Farm C,sensor_11_avg,sensor_11,avg,True,True,False,,,A,Battery charge 3,False,False
+Wind Farm C,sensor_11_max,sensor_11,max,True,True,False,,,A,Battery charge 3,False,False
+Wind Farm C,sensor_11_min,sensor_11,min,True,True,False,,,A,Battery charge 3,False,False
+Wind Farm C,sensor_11_std,sensor_11,std,True,True,False,,,A,Battery charge 3,False,False
+Wind Farm C,sensor_12_avg,sensor_12,avg,True,True,False,,,A,Battery discharge current axis 1,False,False
+Wind Farm C,sensor_12_max,sensor_12,max,True,True,False,,,A,Battery discharge current axis 1,False,False
+Wind Farm C,sensor_12_min,sensor_12,min,True,True,False,,,A,Battery discharge current axis 1,False,False
+Wind Farm C,sensor_12_std,sensor_12,std,True,True,False,,,A,Battery discharge current axis 1,False,False
+Wind Farm C,sensor_13_avg,sensor_13,avg,True,True,False,,,A,Battery discharge current axis 2,False,False
+Wind Farm C,sensor_13_max,sensor_13,max,True,True,False,,,A,Battery discharge current axis 2,False,False
+Wind Farm C,sensor_13_min,sensor_13,min,True,True,False,,,A,Battery discharge current axis 2,False,False
+Wind Farm C,sensor_13_std,sensor_13,std,True,True,False,,,A,Battery discharge current axis 2,False,False
+Wind Farm C,sensor_14_avg,sensor_14,avg,True,True,False,,,A,Battery discharge current axis 3,False,False
+Wind Farm C,sensor_14_max,sensor_14,max,True,True,False,,,A,Battery discharge current axis 3,False,False
+Wind Farm C,sensor_14_min,sensor_14,min,True,True,False,,,A,Battery discharge current axis 3,False,False
+Wind Farm C,sensor_14_std,sensor_14,std,True,True,False,,,A,Battery discharge current axis 3,False,False
+Wind Farm C,sensor_15_avg,sensor_15,avg,True,True,False,,,Celsius,Board temperature,False,False
+Wind Farm C,sensor_15_max,sensor_15,max,True,True,False,,,Celsius,Board temperature,False,False
+Wind Farm C,sensor_15_min,sensor_15,min,True,True,False,,,Celsius,Board temperature,False,False
+Wind Farm C,sensor_15_std,sensor_15,std,True,True,False,,,Celsius,Board temperature,False,False
+Wind Farm C,sensor_16_avg,sensor_16,avg,True,True,False,,,deg,Compensation angle I/U converter,True,False
+Wind Farm C,sensor_16_max,sensor_16,max,True,True,False,,,deg,Compensation angle I/U converter,True,False
+Wind Farm C,sensor_16_min,sensor_16,min,True,True,False,,,deg,Compensation angle I/U converter,True,False
+Wind Farm C,sensor_16_std,sensor_16,std,True,True,False,,,deg,Compensation angle I/U converter,True,False
+Wind Farm C,power_17_avg,power_17,avg,True,True,True,active_power,,kW,Active power converter,False,False
+Wind Farm C,power_17_max,power_17,max,True,True,False,,,kW,Active power converter,False,False
+Wind Farm C,power_17_min,power_17,min,True,True,False,,,kW,Active power converter,False,False
+Wind Farm C,power_17_std,power_17,std,True,True,False,,,kW,Active power converter,False,False
+Wind Farm C,sensor_18_avg,sensor_18,avg,True,True,False,,,Celsius,Generator cooling air temperature A,False,False
+Wind Farm C,sensor_18_max,sensor_18,max,True,True,False,,,Celsius,Generator cooling air temperature A,False,False
+Wind Farm C,sensor_18_min,sensor_18,min,True,True,False,,,Celsius,Generator cooling air temperature A,False,False
+Wind Farm C,sensor_18_std,sensor_18,std,True,True,False,,,Celsius,Generator cooling air temperature A,False,False
+Wind Farm C,sensor_19_avg,sensor_19,avg,True,True,False,,,Celsius,Generator cooling air temperature B,False,False
+Wind Farm C,sensor_19_max,sensor_19,max,True,True,False,,,Celsius,Generator cooling air temperature B,False,False
+Wind Farm C,sensor_19_min,sensor_19,min,True,True,False,,,Celsius,Generator cooling air temperature B,False,False
+Wind Farm C,sensor_19_std,sensor_19,std,True,True,False,,,Celsius,Generator cooling air temperature B,False,False
+Wind Farm C,sensor_20_avg,sensor_20,avg,True,True,False,,,Celsius,Generator cooling air temperature C,False,False
+Wind Farm C,sensor_20_max,sensor_20,max,True,True,False,,,Celsius,Generator cooling air temperature C,False,False
+Wind Farm C,sensor_20_min,sensor_20,min,True,True,False,,,Celsius,Generator cooling air temperature C,False,False
+Wind Farm C,sensor_20_std,sensor_20,std,True,True,False,,,Celsius,Generator cooling air temperature C,False,False
+Wind Farm C,sensor_21_avg,sensor_21,avg,True,True,False,,,Celsius,Generator cooling air temperature D,False,False
+Wind Farm C,sensor_21_max,sensor_21,max,True,True,False,,,Celsius,Generator cooling air temperature D,False,False
+Wind Farm C,sensor_21_min,sensor_21,min,True,True,False,,,Celsius,Generator cooling air temperature D,False,False
+Wind Farm C,sensor_21_std,sensor_21,std,True,True,False,,,Celsius,Generator cooling air temperature D,False,False
+Wind Farm C,sensor_22_avg,sensor_22,avg,True,True,False,,,A,Current hydraulic tank heating,False,False
+Wind Farm C,sensor_22_max,sensor_22,max,True,True,False,,,A,Current hydraulic tank heating,False,False
+Wind Farm C,sensor_22_min,sensor_22,min,True,True,False,,,A,Current hydraulic tank heating,False,False
+Wind Farm C,sensor_22_std,sensor_22,std,True,True,False,,,A,Current hydraulic tank heating,False,False
+Wind Farm C,sensor_23_avg,sensor_23,avg,True,True,False,,,A,Current water cooler pump 1,False,False
+Wind Farm C,sensor_23_max,sensor_23,max,True,True,False,,,A,Current water cooler pump 1,False,False
+Wind Farm C,sensor_23_min,sensor_23,min,True,True,False,,,A,Current water cooler pump 1,False,False
+Wind Farm C,sensor_23_std,sensor_23,std,True,True,False,,,A,Current water cooler pump 1,False,False
+Wind Farm C,sensor_24_avg,sensor_24,avg,True,True,False,,,A,Current water cooler pump 2,False,False
+Wind Farm C,sensor_24_max,sensor_24,max,True,True,False,,,A,Current water cooler pump 2,False,False
+Wind Farm C,sensor_24_min,sensor_24,min,True,True,False,,,A,Current water cooler pump 2,False,False
+Wind Farm C,sensor_24_std,sensor_24,std,True,True,False,,,A,Current water cooler pump 2,False,False
+Wind Farm C,sensor_25_avg,sensor_25,avg,True,True,False,,,A,Current drain 24V nacelle,False,False
+Wind Farm C,sensor_25_max,sensor_25,max,True,True,False,,,A,Current drain 24V nacelle,False,False
+Wind Farm C,sensor_25_min,sensor_25,min,True,True,False,,,A,Current drain 24V nacelle,False,False
+Wind Farm C,sensor_25_std,sensor_25,std,True,True,False,,,A,Current drain 24V nacelle,False,False
+Wind Farm C,sensor_26_avg,sensor_26,avg,True,True,False,,,A,Current drain pitch L1,False,False
+Wind Farm C,sensor_26_max,sensor_26,max,True,True,False,,,A,Current drain pitch L1,False,False
+Wind Farm C,sensor_26_min,sensor_26,min,True,True,False,,,A,Current drain pitch L1,False,False
+Wind Farm C,sensor_26_std,sensor_26,std,True,True,False,,,A,Current drain pitch L1,False,False
+Wind Farm C,sensor_27_avg,sensor_27,avg,True,True,False,,,A,Current yaw motor A,False,False
+Wind Farm C,sensor_27_max,sensor_27,max,True,True,False,,,A,Current yaw motor A,False,False
+Wind Farm C,sensor_27_min,sensor_27,min,True,True,False,,,A,Current yaw motor A,False,False
+Wind Farm C,sensor_27_std,sensor_27,std,True,True,False,,,A,Current yaw motor A,False,False
+Wind Farm C,sensor_28_avg,sensor_28,avg,True,True,False,,,A,Current yaw motor B,False,False
+Wind Farm C,sensor_28_max,sensor_28,max,True,True,False,,,A,Current yaw motor B,False,False
+Wind Farm C,sensor_28_min,sensor_28,min,True,True,False,,,A,Current yaw motor B,False,False
+Wind Farm C,sensor_28_std,sensor_28,std,True,True,False,,,A,Current yaw motor B,False,False
+Wind Farm C,sensor_29_avg,sensor_29,avg,True,True,False,,,A,Current yaw motor C,False,False
+Wind Farm C,sensor_29_max,sensor_29,max,True,True,False,,,A,Current yaw motor C,False,False
+Wind Farm C,sensor_29_min,sensor_29,min,True,True,False,,,A,Current yaw motor C,False,False
+Wind Farm C,sensor_29_std,sensor_29,std,True,True,False,,,A,Current yaw motor C,False,False
+Wind Farm C,sensor_30_avg,sensor_30,avg,True,True,False,,,A,Current yaw motor D,False,False
+Wind Farm C,sensor_30_max,sensor_30,max,True,True,False,,,A,Current yaw motor D,False,False
+Wind Farm C,sensor_30_min,sensor_30,min,True,True,False,,,A,Current yaw motor D,False,False
+Wind Farm C,sensor_30_std,sensor_30,std,True,True,False,,,A,Current yaw motor D,False,False
+Wind Farm C,sensor_31_avg,sensor_31,avg,True,True,False,,,A,Current yaw motor E,False,False
+Wind Farm C,sensor_31_max,sensor_31,max,True,True,False,,,A,Current yaw motor E,False,False
+Wind Farm C,sensor_31_min,sensor_31,min,True,True,False,,,A,Current yaw motor E,False,False
+Wind Farm C,sensor_31_std,sensor_31,std,True,True,False,,,A,Current yaw motor E,False,False
+Wind Farm C,sensor_32_avg,sensor_32,avg,True,True,False,,,A,Current yaw motor F,False,False
+Wind Farm C,sensor_32_max,sensor_32,max,True,True,False,,,A,Current yaw motor F,False,False
+Wind Farm C,sensor_32_min,sensor_32,min,True,True,False,,,A,Current yaw motor F,False,False
+Wind Farm C,sensor_32_std,sensor_32,std,True,True,False,,,A,Current yaw motor F,False,False
+Wind Farm C,sensor_33_avg,sensor_33,avg,True,True,False,,,A,Current yaw motor G,False,False
+Wind Farm C,sensor_33_max,sensor_33,max,True,True,False,,,A,Current yaw motor G,False,False
+Wind Farm C,sensor_33_min,sensor_33,min,True,True,False,,,A,Current yaw motor G,False,False
+Wind Farm C,sensor_33_std,sensor_33,std,True,True,False,,,A,Current yaw motor G,False,False
+Wind Farm C,sensor_34_avg,sensor_34,avg,True,True,False,,,A,Current yaw motor H,False,False
+Wind Farm C,sensor_34_max,sensor_34,max,True,True,False,,,A,Current yaw motor H,False,False
+Wind Farm C,sensor_34_min,sensor_34,min,True,True,False,,,A,Current yaw motor H,False,False
+Wind Farm C,sensor_34_std,sensor_34,std,True,True,False,,,A,Current yaw motor H,False,False
+Wind Farm C,sensor_35_avg,sensor_35,avg,True,True,False,,,V,DC link voltage converter,False,False
+Wind Farm C,sensor_35_max,sensor_35,max,True,True,False,,,V,DC link voltage converter,False,False
+Wind Farm C,sensor_35_min,sensor_35,min,True,True,False,,,V,DC link voltage converter,False,False
+Wind Farm C,sensor_35_std,sensor_35,std,True,True,False,,,V,DC link voltage converter,False,False
+Wind Farm C,sensor_36_avg,sensor_36,avg,True,True,False,,,V,Direct current link volt axis 1,False,False
+Wind Farm C,sensor_36_max,sensor_36,max,True,True,False,,,V,Direct current link volt axis 1,False,False
+Wind Farm C,sensor_36_min,sensor_36,min,True,True,False,,,V,Direct current link volt axis 1,False,False
+Wind Farm C,sensor_36_std,sensor_36,std,True,True,False,,,V,Direct current link volt axis 1,False,False
+Wind Farm C,sensor_37_avg,sensor_37,avg,True,True,False,,,V,Direct current link volt axis 2,False,False
+Wind Farm C,sensor_37_max,sensor_37,max,True,True,False,,,V,Direct current link volt axis 2,False,False
+Wind Farm C,sensor_37_min,sensor_37,min,True,True,False,,,V,Direct current link volt axis 2,False,False
+Wind Farm C,sensor_37_std,sensor_37,std,True,True,False,,,V,Direct current link volt axis 2,False,False
+Wind Farm C,sensor_38_avg,sensor_38,avg,True,True,False,,,V,Direct current link volt axis 3,False,False
+Wind Farm C,sensor_38_max,sensor_38,max,True,True,False,,,V,Direct current link volt axis 3,False,False
+Wind Farm C,sensor_38_min,sensor_38,min,True,True,False,,,V,Direct current link volt axis 3,False,False
+Wind Farm C,sensor_38_std,sensor_38,std,True,True,False,,,V,Direct current link volt axis 3,False,False
+Wind Farm C,sensor_39_avg,sensor_39,avg,True,True,False,,,Celsius,Electrical cabinet ambient temperature,False,False
+Wind Farm C,sensor_39_max,sensor_39,max,True,True,False,,,Celsius,Electrical cabinet ambient temperature,False,False
+Wind Farm C,sensor_39_min,sensor_39,min,True,True,False,,,Celsius,Electrical cabinet ambient temperature,False,False
+Wind Farm C,sensor_39_std,sensor_39,std,True,True,False,,,Celsius,Electrical cabinet ambient temperature,False,False
+Wind Farm C,sensor_40_avg,sensor_40,avg,True,True,False,,,bar,Nacelle external air pressure,False,False
+Wind Farm C,sensor_40_max,sensor_40,max,True,True,False,,,bar,Nacelle external air pressure,False,False
+Wind Farm C,sensor_40_min,sensor_40,min,True,True,False,,,bar,Nacelle external air pressure,False,False
+Wind Farm C,sensor_40_std,sensor_40,std,True,True,False,,,bar,Nacelle external air pressure,False,False
+Wind Farm C,sensor_41_avg,sensor_41,avg,True,True,False,,,Celsius,Nacelle outside temperature,False,False
+Wind Farm C,sensor_41_max,sensor_41,max,True,True,False,,,Celsius,Nacelle outside temperature,False,False
+Wind Farm C,sensor_41_min,sensor_41,min,True,True,False,,,Celsius,Nacelle outside temperature,False,False
+Wind Farm C,sensor_41_std,sensor_41,std,True,True,False,,,Celsius,Nacelle outside temperature,False,False
+Wind Farm C,sensor_42_avg,sensor_42,avg,True,True,False,,,L/min,Rotor bearing flow rate,False,False
+Wind Farm C,sensor_42_max,sensor_42,max,True,True,False,,,L/min,Rotor bearing flow rate,False,False
+Wind Farm C,sensor_42_min,sensor_42,min,True,True,False,,,L/min,Rotor bearing flow rate,False,False
+Wind Farm C,sensor_42_std,sensor_42,std,True,True,False,,,L/min,Rotor bearing flow rate,False,False
+Wind Farm C,sensor_43_avg,sensor_43,avg,True,True,False,,,l/h,Flow meter stator cooler,False,False
+Wind Farm C,sensor_43_max,sensor_43,max,True,True,False,,,l/h,Flow meter stator cooler,False,False
+Wind Farm C,sensor_43_min,sensor_43,min,True,True,False,,,l/h,Flow meter stator cooler,False,False
+Wind Farm C,sensor_43_std,sensor_43,std,True,True,False,,,l/h,Flow meter stator cooler,False,False
+Wind Farm C,sensor_44_avg,sensor_44,avg,True,True,False,,,%,Fluid level oil container A1,False,False
+Wind Farm C,sensor_44_max,sensor_44,max,True,True,False,,,%,Fluid level oil container A1,False,False
+Wind Farm C,sensor_44_min,sensor_44,min,True,True,False,,,%,Fluid level oil container A1,False,False
+Wind Farm C,sensor_44_std,sensor_44,std,True,True,False,,,%,Fluid level oil container A1,False,False
+Wind Farm C,sensor_45_avg,sensor_45,avg,True,True,False,,,%,Fluid level oil container A2,False,False
+Wind Farm C,sensor_45_max,sensor_45,max,True,True,False,,,%,Fluid level oil container A2,False,False
+Wind Farm C,sensor_45_min,sensor_45,min,True,True,False,,,%,Fluid level oil container A2,False,False
+Wind Farm C,sensor_45_std,sensor_45,std,True,True,False,,,%,Fluid level oil container A2,False,False
+Wind Farm C,sensor_46_avg,sensor_46,avg,True,True,False,,,Celsius,Water temperature flow TT1,False,False
+Wind Farm C,sensor_46_max,sensor_46,max,True,True,False,,,Celsius,Water temperature flow TT1,False,False
+Wind Farm C,sensor_46_min,sensor_46,min,True,True,False,,,Celsius,Water temperature flow TT1,False,False
+Wind Farm C,sensor_46_std,sensor_46,std,True,True,False,,,Celsius,Water temperature flow TT1,False,False
+Wind Farm C,sensor_47_avg,sensor_47,avg,True,True,False,,,Hz,Mains frequency OS-side,False,False
+Wind Farm C,sensor_47_max,sensor_47,max,True,True,False,,,Hz,Mains frequency OS-side,False,False
+Wind Farm C,sensor_47_min,sensor_47,min,True,True,False,,,Hz,Mains frequency OS-side,False,False
+Wind Farm C,sensor_47_std,sensor_47,std,True,True,False,,,Hz,Mains frequency OS-side,False,False
+Wind Farm C,sensor_48_avg,sensor_48,avg,True,True,False,,,bar,Hydraulic pressure Aggregate System pressure,False,False
+Wind Farm C,sensor_48_max,sensor_48,max,True,True,False,,,bar,Hydraulic pressure Aggregate System pressure,False,False
+Wind Farm C,sensor_48_min,sensor_48,min,True,True,False,,,bar,Hydraulic pressure Aggregate System pressure,False,False
+Wind Farm C,sensor_48_std,sensor_48,std,True,True,False,,,bar,Hydraulic pressure Aggregate System pressure,False,False
+Wind Farm C,sensor_49_avg,sensor_49,avg,True,True,False,,,bar,Hydraulic pressure azimuth circuit A,False,False
+Wind Farm C,sensor_49_max,sensor_49,max,True,True,False,,,bar,Hydraulic pressure azimuth circuit A,False,False
+Wind Farm C,sensor_49_min,sensor_49,min,True,True,False,,,bar,Hydraulic pressure azimuth circuit A,False,False
+Wind Farm C,sensor_49_std,sensor_49,std,True,True,False,,,bar,Hydraulic pressure azimuth circuit A,False,False
+Wind Farm C,sensor_50_avg,sensor_50,avg,True,True,False,,,bar,Hydraulic pressure azimuth circuit B,False,False
+Wind Farm C,sensor_50_max,sensor_50,max,True,True,False,,,bar,Hydraulic pressure azimuth circuit B,False,False
+Wind Farm C,sensor_50_min,sensor_50,min,True,True,False,,,bar,Hydraulic pressure azimuth circuit B,False,False
+Wind Farm C,sensor_50_std,sensor_50,std,True,True,False,,,bar,Hydraulic pressure azimuth circuit B,False,False
+Wind Farm C,sensor_51_avg,sensor_51,avg,True,True,False,,,bar,Hydraulic pressure azimuth memory A,False,False
+Wind Farm C,sensor_51_max,sensor_51,max,True,True,False,,,bar,Hydraulic pressure azimuth memory A,False,False
+Wind Farm C,sensor_51_min,sensor_51,min,True,True,False,,,bar,Hydraulic pressure azimuth memory A,False,False
+Wind Farm C,sensor_51_std,sensor_51,std,True,True,False,,,bar,Hydraulic pressure azimuth memory A,False,False
+Wind Farm C,sensor_52_avg,sensor_52,avg,True,True,False,,,bar,Hydraulic pressure azimuth memory B,False,False
+Wind Farm C,sensor_52_max,sensor_52,max,True,True,False,,,bar,Hydraulic pressure azimuth memory B,False,False
+Wind Farm C,sensor_52_min,sensor_52,min,True,True,False,,,bar,Hydraulic pressure azimuth memory B,False,False
+Wind Farm C,sensor_52_std,sensor_52,std,True,True,False,,,bar,Hydraulic pressure azimuth memory B,False,False
+Wind Farm C,sensor_53_avg,sensor_53,avg,True,True,False,,,bar,Hydraulic pressure locking memory ,False,False
+Wind Farm C,sensor_53_max,sensor_53,max,True,True,False,,,bar,Hydraulic pressure locking memory ,False,False
+Wind Farm C,sensor_53_min,sensor_53,min,True,True,False,,,bar,Hydraulic pressure locking memory ,False,False
+Wind Farm C,sensor_53_std,sensor_53,std,True,True,False,,,bar,Hydraulic pressure locking memory ,False,False
+Wind Farm C,sensor_54_avg,sensor_54,avg,True,True,False,,,bar,Hydraulic pressure rotor brake B,False,False
+Wind Farm C,sensor_54_max,sensor_54,max,True,True,False,,,bar,Hydraulic pressure rotor brake B,False,False
+Wind Farm C,sensor_54_min,sensor_54,min,True,True,False,,,bar,Hydraulic pressure rotor brake B,False,False
+Wind Farm C,sensor_54_std,sensor_54,std,True,True,False,,,bar,Hydraulic pressure rotor brake B,False,False
+Wind Farm C,sensor_55_avg,sensor_55,avg,True,True,False,,,bar,Hydraulic pressure rotor brake A,False,False
+Wind Farm C,sensor_55_max,sensor_55,max,True,True,False,,,bar,Hydraulic pressure rotor brake A,False,False
+Wind Farm C,sensor_55_min,sensor_55,min,True,True,False,,,bar,Hydraulic pressure rotor brake A,False,False
+Wind Farm C,sensor_55_std,sensor_55,std,True,True,False,,,bar,Hydraulic pressure rotor brake A,False,False
+Wind Farm C,sensor_56_avg,sensor_56,avg,True,True,False,,,A,"ABB-LS Input K1, IL2",False,False
+Wind Farm C,sensor_56_max,sensor_56,max,True,True,False,,,A,"ABB-LS Input K1, IL2",False,False
+Wind Farm C,sensor_56_min,sensor_56,min,True,True,False,,,A,"ABB-LS Input K1, IL2",False,False
+Wind Farm C,sensor_56_std,sensor_56,std,True,True,False,,,A,"ABB-LS Input K1, IL2",False,False
+Wind Farm C,sensor_57_avg,sensor_57,avg,True,True,False,,,A,"ABB-LS Input K1, IL3",False,False
+Wind Farm C,sensor_57_max,sensor_57,max,True,True,False,,,A,"ABB-LS Input K1, IL3",False,False
+Wind Farm C,sensor_57_min,sensor_57,min,True,True,False,,,A,"ABB-LS Input K1, IL3",False,False
+Wind Farm C,sensor_57_std,sensor_57,std,True,True,False,,,A,"ABB-LS Input K1, IL3",False,False
+Wind Farm C,sensor_58_avg,sensor_58,avg,True,True,False,,,V,"ABB-LS Input K4, UL1",False,False
+Wind Farm C,sensor_58_max,sensor_58,max,True,True,False,,,V,"ABB-LS Input K4, UL1",False,False
+Wind Farm C,sensor_58_min,sensor_58,min,True,True,False,,,V,"ABB-LS Input K4, UL1",False,False
+Wind Farm C,sensor_58_std,sensor_58,std,True,True,False,,,V,"ABB-LS Input K4, UL1",False,False
+Wind Farm C,sensor_59_avg,sensor_59,avg,True,True,False,,,V,"ABB-LS Input K4, UL2",False,False
+Wind Farm C,sensor_59_max,sensor_59,max,True,True,False,,,V,"ABB-LS Input K4, UL2",False,False
+Wind Farm C,sensor_59_min,sensor_59,min,True,True,False,,,V,"ABB-LS Input K4, UL2",False,False
+Wind Farm C,sensor_59_std,sensor_59,std,True,True,False,,,V,"ABB-LS Input K4, UL2",False,False
+Wind Farm C,sensor_60_avg,sensor_60,avg,True,True,False,,,V,"ABB-LS Input K4, UL3",False,False
+Wind Farm C,sensor_60_max,sensor_60,max,True,True,False,,,V,"ABB-LS Input K4, UL3",False,False
+Wind Farm C,sensor_60_min,sensor_60,min,True,True,False,,,V,"ABB-LS Input K4, UL3",False,False
+Wind Farm C,sensor_60_std,sensor_60,std,True,True,False,,,V,"ABB-LS Input K4, UL3",False,False
+Wind Farm C,sensor_61_avg,sensor_61,avg,True,True,False,,,bar,Nacelle air pressure,False,False
+Wind Farm C,sensor_61_max,sensor_61,max,True,True,False,,,bar,Nacelle air pressure,False,False
+Wind Farm C,sensor_61_min,sensor_61,min,True,True,False,,,bar,Nacelle air pressure,False,False
+Wind Farm C,sensor_61_std,sensor_61,std,True,True,False,,,bar,Nacelle air pressure,False,False
+Wind Farm C,sensor_62_avg,sensor_62,avg,True,True,False,,,Celsius,Temperature Axis 1,False,False
+Wind Farm C,sensor_62_max,sensor_62,max,True,True,False,,,Celsius,Temperature Axis 1,False,False
+Wind Farm C,sensor_62_min,sensor_62,min,True,True,False,,,Celsius,Temperature Axis 1,False,False
+Wind Farm C,sensor_62_std,sensor_62,std,True,True,False,,,Celsius,Temperature Axis 1,False,False
+Wind Farm C,sensor_63_avg,sensor_63,avg,True,True,False,,,Celsius,Temperature Axis 2,False,False
+Wind Farm C,sensor_63_max,sensor_63,max,True,True,False,,,Celsius,Temperature Axis 2,False,False
+Wind Farm C,sensor_63_min,sensor_63,min,True,True,False,,,Celsius,Temperature Axis 2,False,False
+Wind Farm C,sensor_63_std,sensor_63,std,True,True,False,,,Celsius,Temperature Axis 2,False,False
+Wind Farm C,sensor_64_avg,sensor_64,avg,True,True,False,,,Celsius,Temperature Axis 3,False,False
+Wind Farm C,sensor_64_max,sensor_64,max,True,True,False,,,Celsius,Temperature Axis 3,False,False
+Wind Farm C,sensor_64_min,sensor_64,min,True,True,False,,,Celsius,Temperature Axis 3,False,False
+Wind Farm C,sensor_64_std,sensor_64,std,True,True,False,,,Celsius,Temperature Axis 3,False,False
+Wind Farm C,sensor_65_avg,sensor_65,avg,True,True,False,,,Celsius,Hub temperature,False,False
+Wind Farm C,sensor_65_max,sensor_65,max,True,True,False,,,Celsius,Hub temperature,False,False
+Wind Farm C,sensor_65_min,sensor_65,min,True,True,False,,,Celsius,Hub temperature,False,False
+Wind Farm C,sensor_65_std,sensor_65,std,True,True,False,,,Celsius,Hub temperature,False,False
+Wind Farm C,sensor_66_avg,sensor_66,avg,True,True,False,,,A,Internal consumption current L1,False,False
+Wind Farm C,sensor_66_max,sensor_66,max,True,True,False,,,A,Internal consumption current L1,False,False
+Wind Farm C,sensor_66_min,sensor_66,min,True,True,False,,,A,Internal consumption current L1,False,False
+Wind Farm C,sensor_66_std,sensor_66,std,True,True,False,,,A,Internal consumption current L1,False,False
+Wind Farm C,sensor_67_avg,sensor_67,avg,True,True,False,,,A,Internal consumption current L2,False,False
+Wind Farm C,sensor_67_max,sensor_67,max,True,True,False,,,A,Internal consumption current L2,False,False
+Wind Farm C,sensor_67_min,sensor_67,min,True,True,False,,,A,Internal consumption current L2,False,False
+Wind Farm C,sensor_67_std,sensor_67,std,True,True,False,,,A,Internal consumption current L2,False,False
+Wind Farm C,sensor_68_avg,sensor_68,avg,True,True,False,,,A,Internal consumption current L3,False,False
+Wind Farm C,sensor_68_max,sensor_68,max,True,True,False,,,A,Internal consumption current L3,False,False
+Wind Farm C,sensor_68_min,sensor_68,min,True,True,False,,,A,Internal consumption current L3,False,False
+Wind Farm C,sensor_68_std,sensor_68,std,True,True,False,,,A,Internal consumption current L3,False,False
+Wind Farm C,sensor_69_avg,sensor_69,avg,True,True,False,,,kW,Internal consumption power L2,False,False
+Wind Farm C,sensor_69_max,sensor_69,max,True,True,False,,,kW,Internal consumption power L2,False,False
+Wind Farm C,sensor_69_min,sensor_69,min,True,True,False,,,kW,Internal consumption power L2,False,False
+Wind Farm C,sensor_69_std,sensor_69,std,True,True,False,,,kW,Internal consumption power L2,False,False
+Wind Farm C,sensor_70_avg,sensor_70,avg,True,True,False,,,kW,Internal consumption power L3,False,False
+Wind Farm C,sensor_70_max,sensor_70,max,True,True,False,,,kW,Internal consumption power L3,False,False
+Wind Farm C,sensor_70_min,sensor_70,min,True,True,False,,,kW,Internal consumption power L3,False,False
+Wind Farm C,sensor_70_std,sensor_70,std,True,True,False,,,kW,Internal consumption power L3,False,False
+Wind Farm C,sensor_71_avg,sensor_71,avg,True,True,False,,,V,Internal consumption voltage L1,False,False
+Wind Farm C,sensor_71_max,sensor_71,max,True,True,False,,,V,Internal consumption voltage L1,False,False
+Wind Farm C,sensor_71_min,sensor_71,min,True,True,False,,,V,Internal consumption voltage L1,False,False
+Wind Farm C,sensor_71_std,sensor_71,std,True,True,False,,,V,Internal consumption voltage L1,False,False
+Wind Farm C,sensor_72_avg,sensor_72,avg,True,True,False,,,V,Internal consumption voltage L2,False,False
+Wind Farm C,sensor_72_max,sensor_72,max,True,True,False,,,V,Internal consumption voltage L2,False,False
+Wind Farm C,sensor_72_min,sensor_72,min,True,True,False,,,V,Internal consumption voltage L2,False,False
+Wind Farm C,sensor_72_std,sensor_72,std,True,True,False,,,V,Internal consumption voltage L2,False,False
+Wind Farm C,sensor_73_avg,sensor_73,avg,True,True,False,,,V,Internal consumption voltage L3,False,False
+Wind Farm C,sensor_73_max,sensor_73,max,True,True,False,,,V,Internal consumption voltage L3,False,False
+Wind Farm C,sensor_73_min,sensor_73,min,True,True,False,,,V,Internal consumption voltage L3,False,False
+Wind Farm C,sensor_73_std,sensor_73,std,True,True,False,,,V,Internal consumption voltage L3,False,False
+Wind Farm C,sensor_74_avg,sensor_74,avg,True,True,False,,,L,Hydraulic oil tank level,False,False
+Wind Farm C,sensor_74_max,sensor_74,max,True,True,False,,,L,Hydraulic oil tank level,False,False
+Wind Farm C,sensor_74_min,sensor_74,min,True,True,False,,,L,Hydraulic oil tank level,False,False
+Wind Farm C,sensor_74_std,sensor_74,std,True,True,False,,,L,Hydraulic oil tank level,False,False
+Wind Farm C,sensor_75_avg,sensor_75,avg,True,True,False,,,kvar,Maximum reactive power HV converter,False,False
+Wind Farm C,sensor_75_max,sensor_75,max,True,True,False,,,kvar,Maximum reactive power HV converter,False,False
+Wind Farm C,sensor_75_min,sensor_75,min,True,True,False,,,kvar,Maximum reactive power HV converter,False,False
+Wind Farm C,sensor_75_std,sensor_75,std,True,True,False,,,kvar,Maximum reactive power HV converter,False,False
+Wind Farm C,sensor_76_avg,sensor_76,avg,True,True,False,,,deg,Min pitch angle,True,False
+Wind Farm C,sensor_76_max,sensor_76,max,True,True,False,,,deg,Min pitch angle,True,False
+Wind Farm C,sensor_76_min,sensor_76,min,True,True,False,,,deg,Min pitch angle,True,False
+Wind Farm C,sensor_76_std,sensor_76,std,True,True,False,,,deg,Min pitch angle,True,False
+Wind Farm C,sensor_77_avg,sensor_77,avg,True,True,False,,,A,Motor current generator cooler 1,False,False
+Wind Farm C,sensor_77_max,sensor_77,max,True,True,False,,,A,Motor current generator cooler 1,False,False
+Wind Farm C,sensor_77_min,sensor_77,min,True,True,False,,,A,Motor current generator cooler 1,False,False
+Wind Farm C,sensor_77_std,sensor_77,std,True,True,False,,,A,Motor current generator cooler 1,False,False
+Wind Farm C,sensor_78_avg,sensor_78,avg,True,True,False,,,A,Motor current generator cooler 2,False,False
+Wind Farm C,sensor_78_max,sensor_78,max,True,True,False,,,A,Motor current generator cooler 2,False,False
+Wind Farm C,sensor_78_min,sensor_78,min,True,True,False,,,A,Motor current generator cooler 2,False,False
+Wind Farm C,sensor_78_std,sensor_78,std,True,True,False,,,A,Motor current generator cooler 2,False,False
+Wind Farm C,sensor_79_avg,sensor_79,avg,True,True,False,,,A,Motor current generator cooler 3,False,False
+Wind Farm C,sensor_79_max,sensor_79,max,True,True,False,,,A,Motor current generator cooler 3,False,False
+Wind Farm C,sensor_79_min,sensor_79,min,True,True,False,,,A,Motor current generator cooler 3,False,False
+Wind Farm C,sensor_79_std,sensor_79,std,True,True,False,,,A,Motor current generator cooler 3,False,False
+Wind Farm C,sensor_80_avg,sensor_80,avg,True,True,False,,,A,Motor current generator cooler 4,False,False
+Wind Farm C,sensor_80_max,sensor_80,max,True,True,False,,,A,Motor current generator cooler 4,False,False
+Wind Farm C,sensor_80_min,sensor_80,min,True,True,False,,,A,Motor current generator cooler 4,False,False
+Wind Farm C,sensor_80_std,sensor_80,std,True,True,False,,,A,Motor current generator cooler 4,False,False
+Wind Farm C,sensor_81_avg,sensor_81,avg,True,True,False,,,A,Motor current hydraulic pump A,False,False
+Wind Farm C,sensor_81_max,sensor_81,max,True,True,False,,,A,Motor current hydraulic pump A,False,False
+Wind Farm C,sensor_81_min,sensor_81,min,True,True,False,,,A,Motor current hydraulic pump A,False,False
+Wind Farm C,sensor_81_std,sensor_81,std,True,True,False,,,A,Motor current hydraulic pump A,False,False
+Wind Farm C,sensor_82_avg,sensor_82,avg,True,True,False,,,A,Motor current hydraulic pump B,False,False
+Wind Farm C,sensor_82_max,sensor_82,max,True,True,False,,,A,Motor current hydraulic pump B,False,False
+Wind Farm C,sensor_82_min,sensor_82,min,True,True,False,,,A,Motor current hydraulic pump B,False,False
+Wind Farm C,sensor_82_std,sensor_82,std,True,True,False,,,A,Motor current hydraulic pump B,False,False
+Wind Farm C,sensor_83_avg,sensor_83,avg,True,True,False,,,A,Motor current water cooler fan 1,False,False
+Wind Farm C,sensor_83_max,sensor_83,max,True,True,False,,,A,Motor current water cooler fan 1,False,False
+Wind Farm C,sensor_83_min,sensor_83,min,True,True,False,,,A,Motor current water cooler fan 1,False,False
+Wind Farm C,sensor_83_std,sensor_83,std,True,True,False,,,A,Motor current water cooler fan 1,False,False
+Wind Farm C,sensor_84_avg,sensor_84,avg,True,True,False,,,A,Motor current water cooler fan 2,False,False
+Wind Farm C,sensor_84_max,sensor_84,max,True,True,False,,,A,Motor current water cooler fan 2,False,False
+Wind Farm C,sensor_84_min,sensor_84,min,True,True,False,,,A,Motor current water cooler fan 2,False,False
+Wind Farm C,sensor_84_std,sensor_84,std,True,True,False,,,A,Motor current water cooler fan 2,False,False
+Wind Farm C,sensor_85_avg,sensor_85,avg,True,True,False,,,A,Motor current water cooler fan 3,False,False
+Wind Farm C,sensor_85_max,sensor_85,max,True,True,False,,,A,Motor current water cooler fan 3,False,False
+Wind Farm C,sensor_85_min,sensor_85,min,True,True,False,,,A,Motor current water cooler fan 3,False,False
+Wind Farm C,sensor_85_std,sensor_85,std,True,True,False,,,A,Motor current water cooler fan 3,False,False
+Wind Farm C,sensor_86_avg,sensor_86,avg,True,True,False,,,A,Motor current water cooler fan 4,False,False
+Wind Farm C,sensor_86_max,sensor_86,max,True,True,False,,,A,Motor current water cooler fan 4,False,False
+Wind Farm C,sensor_86_min,sensor_86,min,True,True,False,,,A,Motor current water cooler fan 4,False,False
+Wind Farm C,sensor_86_std,sensor_86,std,True,True,False,,,A,Motor current water cooler fan 4,False,False
+Wind Farm C,sensor_87_avg,sensor_87,avg,True,True,False,,,A,Motor current gear oil pump A,False,False
+Wind Farm C,sensor_87_max,sensor_87,max,True,True,False,,,A,Motor current gear oil pump A,False,False
+Wind Farm C,sensor_87_min,sensor_87,min,True,True,False,,,A,Motor current gear oil pump A,False,False
+Wind Farm C,sensor_87_std,sensor_87,std,True,True,False,,,A,Motor current gear oil pump A,False,False
+Wind Farm C,sensor_88_avg,sensor_88,avg,True,True,False,,,A,Motor current gear oil pump B,False,False
+Wind Farm C,sensor_88_max,sensor_88,max,True,True,False,,,A,Motor current gear oil pump B,False,False
+Wind Farm C,sensor_88_min,sensor_88,min,True,True,False,,,A,Motor current gear oil pump B,False,False
+Wind Farm C,sensor_88_std,sensor_88,std,True,True,False,,,A,Motor current gear oil pump B,False,False
+Wind Farm C,sensor_89_avg,sensor_89,avg,True,True,False,,,A,Motor current gear oil pump C,False,False
+Wind Farm C,sensor_89_max,sensor_89,max,True,True,False,,,A,Motor current gear oil pump C,False,False
+Wind Farm C,sensor_89_min,sensor_89,min,True,True,False,,,A,Motor current gear oil pump C,False,False
+Wind Farm C,sensor_89_std,sensor_89,std,True,True,False,,,A,Motor current gear oil pump C,False,False
+Wind Farm C,sensor_90_avg,sensor_90,avg,True,True,False,,,m/s^2,Nacelle vibration longitudinal 1,False,False
+Wind Farm C,sensor_90_max,sensor_90,max,True,True,False,,,m/s^2,Nacelle vibration longitudinal 1,False,False
+Wind Farm C,sensor_90_min,sensor_90,min,True,True,False,,,m/s^2,Nacelle vibration longitudinal 1,False,False
+Wind Farm C,sensor_90_std,sensor_90,std,True,True,False,,,m/s^2,Nacelle vibration longitudinal 1,False,False
+Wind Farm C,sensor_91_avg,sensor_91,avg,True,True,False,,,m/s^2,Nacelle vibration longitudinal 2,False,False
+Wind Farm C,sensor_91_max,sensor_91,max,True,True,False,,,m/s^2,Nacelle vibration longitudinal 2,False,False
+Wind Farm C,sensor_91_min,sensor_91,min,True,True,False,,,m/s^2,Nacelle vibration longitudinal 2,False,False
+Wind Farm C,sensor_91_std,sensor_91,std,True,True,False,,,m/s^2,Nacelle vibration longitudinal 2,False,False
+Wind Farm C,sensor_92_avg,sensor_92,avg,True,True,False,,,m/s^2,Nacelle vibration transverse 1,False,False
+Wind Farm C,sensor_92_max,sensor_92,max,True,True,False,,,m/s^2,Nacelle vibration transverse 1,False,False
+Wind Farm C,sensor_92_min,sensor_92,min,True,True,False,,,m/s^2,Nacelle vibration transverse 1,False,False
+Wind Farm C,sensor_92_std,sensor_92,std,True,True,False,,,m/s^2,Nacelle vibration transverse 1,False,False
+Wind Farm C,sensor_93_avg,sensor_93,avg,True,True,False,,,m/s^2,Nacelle vibration transverse 2,False,False
+Wind Farm C,sensor_93_max,sensor_93,max,True,True,False,,,m/s^2,Nacelle vibration transverse 2,False,False
+Wind Farm C,sensor_93_min,sensor_93,min,True,True,False,,,m/s^2,Nacelle vibration transverse 2,False,False
+Wind Farm C,sensor_93_std,sensor_93,std,True,True,False,,,m/s^2,Nacelle vibration transverse 2,False,False
+Wind Farm C,sensor_94_avg,sensor_94,avg,True,True,False,,,L,gearbox oil level,False,False
+Wind Farm C,sensor_94_max,sensor_94,max,True,True,False,,,L,gearbox oil level,False,False
+Wind Farm C,sensor_94_min,sensor_94,min,True,True,False,,,L,gearbox oil level,False,False
+Wind Farm C,sensor_94_std,sensor_94,std,True,True,False,,,L,gearbox oil level,False,False
+Wind Farm C,sensor_95_avg,sensor_95,avg,True,True,False,,,bar,Pollution indicator filter pump 1,False,False
+Wind Farm C,sensor_95_max,sensor_95,max,True,True,False,,,bar,Pollution indicator filter pump 1,False,False
+Wind Farm C,sensor_95_min,sensor_95,min,True,True,False,,,bar,Pollution indicator filter pump 1,False,False
+Wind Farm C,sensor_95_std,sensor_95,std,True,True,False,,,bar,Pollution indicator filter pump 1,False,False
+Wind Farm C,sensor_96_avg,sensor_96,avg,True,True,False,,,bar,Pollution indicator filter pump 2,False,False
+Wind Farm C,sensor_96_max,sensor_96,max,True,True,False,,,bar,Pollution indicator filter pump 2,False,False
+Wind Farm C,sensor_96_min,sensor_96,min,True,True,False,,,bar,Pollution indicator filter pump 2,False,False
+Wind Farm C,sensor_96_std,sensor_96,std,True,True,False,,,bar,Pollution indicator filter pump 2,False,False
+Wind Farm C,sensor_97_avg,sensor_97,avg,True,True,False,,,bar,Pollution indicator gearbox filter A,False,False
+Wind Farm C,sensor_97_max,sensor_97,max,True,True,False,,,bar,Pollution indicator gearbox filter A,False,False
+Wind Farm C,sensor_97_min,sensor_97,min,True,True,False,,,bar,Pollution indicator gearbox filter A,False,False
+Wind Farm C,sensor_97_std,sensor_97,std,True,True,False,,,bar,Pollution indicator gearbox filter A,False,False
+Wind Farm C,sensor_98_avg,sensor_98,avg,True,True,False,,,bar,Pollution indicator gearbox filter B,False,False
+Wind Farm C,sensor_98_max,sensor_98,max,True,True,False,,,bar,Pollution indicator gearbox filter B,False,False
+Wind Farm C,sensor_98_min,sensor_98,min,True,True,False,,,bar,Pollution indicator gearbox filter B,False,False
+Wind Farm C,sensor_98_std,sensor_98,std,True,True,False,,,bar,Pollution indicator gearbox filter B,False,False
+Wind Farm C,sensor_99_avg,sensor_99,avg,True,True,False,,,bar,Pollution indicator gearbox filter C,False,False
+Wind Farm C,sensor_99_max,sensor_99,max,True,True,False,,,bar,Pollution indicator gearbox filter C,False,False
+Wind Farm C,sensor_99_min,sensor_99,min,True,True,False,,,bar,Pollution indicator gearbox filter C,False,False
+Wind Farm C,sensor_99_std,sensor_99,std,True,True,False,,,bar,Pollution indicator gearbox filter C,False,False
+Wind Farm C,sensor_100_avg,sensor_100,avg,True,True,False,,,deg,Position motor axis 1,True,False
+Wind Farm C,sensor_100_max,sensor_100,max,True,True,False,,,deg,Position motor axis 1,True,False
+Wind Farm C,sensor_100_min,sensor_100,min,True,True,False,,,deg,Position motor axis 1,True,False
+Wind Farm C,sensor_100_std,sensor_100,std,True,True,False,,,deg,Position motor axis 1,True,False
+Wind Farm C,sensor_101_avg,sensor_101,avg,True,True,False,,,deg,Position motor axis 2,True,False
+Wind Farm C,sensor_101_max,sensor_101,max,True,True,False,,,deg,Position motor axis 2,True,False
+Wind Farm C,sensor_101_min,sensor_101,min,True,True,False,,,deg,Position motor axis 2,True,False
+Wind Farm C,sensor_101_std,sensor_101,std,True,True,False,,,deg,Position motor axis 2,True,False
+Wind Farm C,sensor_102_avg,sensor_102,avg,True,True,False,,,deg,Position motor axis 3,True,False
+Wind Farm C,sensor_102_max,sensor_102,max,True,True,False,,,deg,Position motor axis 3,True,False
+Wind Farm C,sensor_102_min,sensor_102,min,True,True,False,,,deg,Position motor axis 3,True,False
+Wind Farm C,sensor_102_std,sensor_102,std,True,True,False,,,deg,Position motor axis 3,True,False
+Wind Farm C,sensor_103_avg,sensor_103,avg,True,True,False,,,deg,Position rotor blade axis 1,True,False
+Wind Farm C,sensor_103_max,sensor_103,max,True,True,False,,,deg,Position rotor blade axis 1,True,False
+Wind Farm C,sensor_103_min,sensor_103,min,True,True,False,,,deg,Position rotor blade axis 1,True,False
+Wind Farm C,sensor_103_std,sensor_103,std,True,True,False,,,deg,Position rotor blade axis 1,True,False
+Wind Farm C,sensor_104_avg,sensor_104,avg,True,True,False,,,deg,Position rotor blade axis 2,True,False
+Wind Farm C,sensor_104_max,sensor_104,max,True,True,False,,,deg,Position rotor blade axis 2,True,False
+Wind Farm C,sensor_104_min,sensor_104,min,True,True,False,,,deg,Position rotor blade axis 2,True,False
+Wind Farm C,sensor_104_std,sensor_104,std,True,True,False,,,deg,Position rotor blade axis 2,True,False
+Wind Farm C,sensor_105_avg,sensor_105,avg,True,True,False,,,deg,Position rotor blade axis 3,True,False
+Wind Farm C,sensor_105_max,sensor_105,max,True,True,False,,,deg,Position rotor blade axis 3,True,False
+Wind Farm C,sensor_105_min,sensor_105,min,True,True,False,,,deg,Position rotor blade axis 3,True,False
+Wind Farm C,sensor_105_std,sensor_105,std,True,True,False,,,deg,Position rotor blade axis 3,True,False
+Wind Farm C,sensor_106_avg,sensor_106,avg,True,True,False,,,%,RM position bypass valve gearbox radiator,False,False
+Wind Farm C,sensor_106_max,sensor_106,max,True,True,False,,,%,RM position bypass valve gearbox radiator,False,False
+Wind Farm C,sensor_106_min,sensor_106,min,True,True,False,,,%,RM position bypass valve gearbox radiator,False,False
+Wind Farm C,sensor_106_std,sensor_106,std,True,True,False,,,%,RM position bypass valve gearbox radiator,False,False
+Wind Farm C,sensor_107_avg,sensor_107,avg,True,True,False,,,kW,Internal consumption,False,False
+Wind Farm C,sensor_108_avg,sensor_108,avg,True,True,False,,,kW,Internal consumption power L1,False,False
+Wind Farm C,sensor_108_max,sensor_108,max,True,True,False,,,kW,Internal consumption power L1,False,False
+Wind Farm C,sensor_108_min,sensor_108,min,True,True,False,,,kW,Internal consumption power L1,False,False
+Wind Farm C,sensor_108_std,sensor_108,std,True,True,False,,,kW,Internal consumption power L1,False,False
+Wind Farm C,sensor_107_max,sensor_107,max,True,True,False,,,kW,Internal consumption,False,False
+Wind Farm C,sensor_107_min,sensor_107,min,True,True,False,,,kW,Internal consumption,False,False
+Wind Farm C,sensor_107_std,sensor_107,std,True,True,False,,,kW,Internal consumption,False,False
+Wind Farm C,sensor_109_avg,sensor_109,avg,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 1,False,False
+Wind Farm C,sensor_109_max,sensor_109,max,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 1,False,False
+Wind Farm C,sensor_109_min,sensor_109,min,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 1,False,False
+Wind Farm C,sensor_109_std,sensor_109,std,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 1,False,False
+Wind Farm C,sensor_110_avg,sensor_110,avg,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 2,False,False
+Wind Farm C,sensor_110_max,sensor_110,max,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 2,False,False
+Wind Farm C,sensor_110_min,sensor_110,min,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 2,False,False
+Wind Farm C,sensor_110_std,sensor_110,std,True,True,False,,,Pa,Pressure difference aeration 1st filter stage 2,False,False
+Wind Farm C,sensor_111_avg,sensor_111,avg,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 1,False,False
+Wind Farm C,sensor_111_max,sensor_111,max,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 1,False,False
+Wind Farm C,sensor_111_min,sensor_111,min,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 1,False,False
+Wind Farm C,sensor_111_std,sensor_111,std,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 1,False,False
+Wind Farm C,sensor_112_avg,sensor_112,avg,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 2,False,False
+Wind Farm C,sensor_112_max,sensor_112,max,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 2,False,False
+Wind Farm C,sensor_112_min,sensor_112,min,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 2,False,False
+Wind Farm C,sensor_112_std,sensor_112,std,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage A 2,False,False
+Wind Farm C,sensor_113_avg,sensor_113,avg,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 1,False,False
+Wind Farm C,sensor_113_max,sensor_113,max,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 1,False,False
+Wind Farm C,sensor_113_min,sensor_113,min,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 1,False,False
+Wind Farm C,sensor_113_std,sensor_113,std,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 1,False,False
+Wind Farm C,sensor_114_avg,sensor_114,avg,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 2,False,False
+Wind Farm C,sensor_114_max,sensor_114,max,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 2,False,False
+Wind Farm C,sensor_114_min,sensor_114,min,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 2,False,False
+Wind Farm C,sensor_114_std,sensor_114,std,True,True,False,,,Pa,Pressure difference aeration 2nd filter stage B 2,False,False
+Wind Farm C,sensor_115_avg,sensor_115,avg,True,True,False,,,Pa,Pressure difference spinner 1,False,False
+Wind Farm C,sensor_115_max,sensor_115,max,True,True,False,,,Pa,Pressure difference spinner 1,False,False
+Wind Farm C,sensor_115_min,sensor_115,min,True,True,False,,,Pa,Pressure difference spinner 1,False,False
+Wind Farm C,sensor_115_std,sensor_115,std,True,True,False,,,Pa,Pressure difference spinner 1,False,False
+Wind Farm C,sensor_116_avg,sensor_116,avg,True,True,False,,,Pa,Pressure difference spinner 2,False,False
+Wind Farm C,sensor_116_max,sensor_116,max,True,True,False,,,Pa,Pressure difference spinner 2,False,False
+Wind Farm C,sensor_116_min,sensor_116,min,True,True,False,,,Pa,Pressure difference spinner 2,False,False
+Wind Farm C,sensor_116_std,sensor_116,std,True,True,False,,,Pa,Pressure difference spinner 2,False,False
+Wind Farm C,sensor_117_avg,sensor_117,avg,True,True,False,,,bar,Gearbox oil pressure input 1,False,False
+Wind Farm C,sensor_117_max,sensor_117,max,True,True,False,,,bar,Gearbox oil pressure input 1,False,False
+Wind Farm C,sensor_117_min,sensor_117,min,True,True,False,,,bar,Gearbox oil pressure input 1,False,False
+Wind Farm C,sensor_117_std,sensor_117,std,True,True,False,,,bar,Gearbox oil pressure input 1,False,False
+Wind Farm C,sensor_118_avg,sensor_118,avg,True,True,False,,,bar,Gearbox oil pressure input 2,False,False
+Wind Farm C,sensor_118_max,sensor_118,max,True,True,False,,,bar,Gearbox oil pressure input 2,False,False
+Wind Farm C,sensor_118_min,sensor_118,min,True,True,False,,,bar,Gearbox oil pressure input 2,False,False
+Wind Farm C,sensor_118_std,sensor_118,std,True,True,False,,,bar,Gearbox oil pressure input 2,False,False
+Wind Farm C,reactive_power_119_avg,reactive_power_119,avg,True,True,False,,,kvar,ABB-LS Reactive Power,False,False
+Wind Farm C,reactive_power_119_max,reactive_power_119,max,True,True,False,,,kvar,ABB-LS Reactive Power,False,False
+Wind Farm C,reactive_power_119_min,reactive_power_119,min,True,True,False,,,kvar,ABB-LS Reactive Power,False,False
+Wind Farm C,reactive_power_119_std,reactive_power_119,std,True,True,False,,,kvar,ABB-LS Reactive Power,False,False
+Wind Farm C,reactive_power_120_avg,reactive_power_120,avg,True,True,False,,,kvar,Reactive power converter,False,False
+Wind Farm C,reactive_power_120_max,reactive_power_120,max,True,True,False,,,kvar,Reactive power converter,False,False
+Wind Farm C,reactive_power_120_min,reactive_power_120,min,True,True,False,,,kvar,Reactive power converter,False,False
+Wind Farm C,reactive_power_120_std,reactive_power_120,std,True,True,False,,,kvar,Reactive power converter,False,False
+Wind Farm C,reactive_power_121_avg,reactive_power_121,avg,True,True,False,,,kvar,Reactive power GS converter,False,False
+Wind Farm C,reactive_power_121_max,reactive_power_121,max,True,True,False,,,kvar,Reactive power GS converter,False,False
+Wind Farm C,reactive_power_121_min,reactive_power_121,min,True,True,False,,,kvar,Reactive power GS converter,False,False
+Wind Farm C,reactive_power_121_std,reactive_power_121,std,True,True,False,,,kvar,Reactive power GS converter,False,False
+Wind Farm C,reactive_power_122_avg,reactive_power_122,avg,True,True,False,,,kvar,Reactive power HV grid,False,False
+Wind Farm C,reactive_power_122_max,reactive_power_122,max,True,True,False,,,kvar,Reactive power HV grid,False,False
+Wind Farm C,reactive_power_122_min,reactive_power_122,min,True,True,False,,,kvar,Reactive power HV grid,False,False
+Wind Farm C,reactive_power_122_std,reactive_power_122,std,True,True,False,,,kvar,Reactive power HV grid,False,False
+Wind Farm C,sensor_123_avg,sensor_123,avg,True,True,False,,,deg,Relative wind direction 1+2,True,False
+Wind Farm C,sensor_123_max,sensor_123,max,True,True,False,,,deg,Relative wind direction 1+2,True,False
+Wind Farm C,sensor_123_min,sensor_123,min,True,True,False,,,deg,Relative wind direction 1+2,True,False
+Wind Farm C,sensor_123_std,sensor_123,std,True,True,False,,,deg,Relative wind direction 1+2,True,False
+Wind Farm C,sensor_124_avg,sensor_124,avg,True,True,False,,,deg,Relative wind direction Yaw,True,False
+Wind Farm C,sensor_124_max,sensor_124,max,True,True,False,,,deg,Relative wind direction Yaw,True,False
+Wind Farm C,sensor_124_min,sensor_124,min,True,True,False,,,deg,Relative wind direction Yaw,True,False
+Wind Farm C,sensor_124_std,sensor_124,std,True,True,False,,,deg,Relative wind direction Yaw,True,False
+Wind Farm C,sensor_125_avg,sensor_125,avg,True,True,False,,,deg,Relative wind direction 1,True,False
+Wind Farm C,sensor_125_max,sensor_125,max,True,True,False,,,deg,Relative wind direction 1,True,False
+Wind Farm C,sensor_125_min,sensor_125,min,True,True,False,,,deg,Relative wind direction 1,True,False
+Wind Farm C,sensor_125_std,sensor_125,std,True,True,False,,,deg,Relative wind direction 1,True,False
+Wind Farm C,sensor_126_avg,sensor_126,avg,True,True,False,,,deg,Relative wind direction 2,True,False
+Wind Farm C,sensor_126_max,sensor_126,max,True,True,False,,,deg,Relative wind direction 2,True,False
+Wind Farm C,sensor_126_min,sensor_126,min,True,True,False,,,deg,Relative wind direction 2,True,False
+Wind Farm C,sensor_126_std,sensor_126,std,True,True,False,,,deg,Relative wind direction 2,True,False
+Wind Farm C,sensor_127_avg,sensor_127,avg,True,True,False,,,A,RMS current phase 1 HV grid,False,False
+Wind Farm C,sensor_127_max,sensor_127,max,True,True,False,,,A,RMS current phase 1 HV grid,False,False
+Wind Farm C,sensor_127_min,sensor_127,min,True,True,False,,,A,RMS current phase 1 HV grid,False,False
+Wind Farm C,sensor_127_std,sensor_127,std,True,True,False,,,A,RMS current phase 1 HV grid,False,False
+Wind Farm C,sensor_128_avg,sensor_128,avg,True,True,False,,,A,RMS current phase 2 HV grid,False,False
+Wind Farm C,sensor_128_max,sensor_128,max,True,True,False,,,A,RMS current phase 2 HV grid,False,False
+Wind Farm C,sensor_128_min,sensor_128,min,True,True,False,,,A,RMS current phase 2 HV grid,False,False
+Wind Farm C,sensor_128_std,sensor_128,std,True,True,False,,,A,RMS current phase 2 HV grid,False,False
+Wind Farm C,sensor_129_avg,sensor_129,avg,True,True,False,,,A,RMS current phase 3 HV grid,False,False
+Wind Farm C,sensor_129_max,sensor_129,max,True,True,False,,,A,RMS current phase 3 HV grid,False,False
+Wind Farm C,sensor_129_min,sensor_129,min,True,True,False,,,A,RMS current phase 3 HV grid,False,False
+Wind Farm C,sensor_129_std,sensor_129,std,True,True,False,,,A,RMS current phase 3 HV grid,False,False
+Wind Farm C,sensor_130_avg,sensor_130,avg,True,True,False,,,A,Generator RMS current L1,False,False
+Wind Farm C,sensor_130_max,sensor_130,max,True,True,False,,,A,Generator RMS current L1,False,False
+Wind Farm C,sensor_130_min,sensor_130,min,True,True,False,,,A,Generator RMS current L1,False,False
+Wind Farm C,sensor_130_std,sensor_130,std,True,True,False,,,A,Generator RMS current L1,False,False
+Wind Farm C,sensor_131_avg,sensor_131,avg,True,True,False,,,A,Generator RMS current L2,False,False
+Wind Farm C,sensor_131_max,sensor_131,max,True,True,False,,,A,Generator RMS current L2,False,False
+Wind Farm C,sensor_131_min,sensor_131,min,True,True,False,,,A,Generator RMS current L2,False,False
+Wind Farm C,sensor_131_std,sensor_131,std,True,True,False,,,A,Generator RMS current L2,False,False
+Wind Farm C,sensor_132_avg,sensor_132,avg,True,True,False,,,A,Generator RMS current L3,False,False
+Wind Farm C,sensor_132_max,sensor_132,max,True,True,False,,,A,Generator RMS current L3,False,False
+Wind Farm C,sensor_132_min,sensor_132,min,True,True,False,,,A,Generator RMS current L3,False,False
+Wind Farm C,sensor_132_std,sensor_132,std,True,True,False,,,A,Generator RMS current L3,False,False
+Wind Farm C,sensor_133_avg,sensor_133,avg,True,True,False,,,A,RMS line to line current axis 1,False,False
+Wind Farm C,sensor_133_max,sensor_133,max,True,True,False,,,A,RMS line to line current axis 1,False,False
+Wind Farm C,sensor_133_min,sensor_133,min,True,True,False,,,A,RMS line to line current axis 1,False,False
+Wind Farm C,sensor_133_std,sensor_133,std,True,True,False,,,A,RMS line to line current axis 1,False,False
+Wind Farm C,sensor_134_avg,sensor_134,avg,True,True,False,,,A,RMS line to line current axis 2,False,False
+Wind Farm C,sensor_134_max,sensor_134,max,True,True,False,,,A,RMS line to line current axis 2,False,False
+Wind Farm C,sensor_134_min,sensor_134,min,True,True,False,,,A,RMS line to line current axis 2,False,False
+Wind Farm C,sensor_134_std,sensor_134,std,True,True,False,,,A,RMS line to line current axis 2,False,False
+Wind Farm C,sensor_135_avg,sensor_135,avg,True,True,False,,,A,RMS line to line current axis 3,False,False
+Wind Farm C,sensor_135_max,sensor_135,max,True,True,False,,,A,RMS line to line current axis 3,False,False
+Wind Farm C,sensor_135_min,sensor_135,min,True,True,False,,,A,RMS line to line current axis 3,False,False
+Wind Farm C,sensor_135_std,sensor_135,std,True,True,False,,,A,RMS line to line current axis 3,False,False
+Wind Farm C,sensor_136_avg,sensor_136,avg,True,True,False,,,V,Generator RMS voltage L1-L2,False,False
+Wind Farm C,sensor_136_max,sensor_136,max,True,True,False,,,V,Generator RMS voltage L1-L2,False,False
+Wind Farm C,sensor_136_min,sensor_136,min,True,True,False,,,V,Generator RMS voltage L1-L2,False,False
+Wind Farm C,sensor_136_std,sensor_136,std,True,True,False,,,V,Generator RMS voltage L1-L2,False,False
+Wind Farm C,sensor_137_avg,sensor_137,avg,True,True,False,,,V,Generator RMS voltage L2-L3,False,False
+Wind Farm C,sensor_137_max,sensor_137,max,True,True,False,,,V,Generator RMS voltage L2-L3,False,False
+Wind Farm C,sensor_137_min,sensor_137,min,True,True,False,,,V,Generator RMS voltage L2-L3,False,False
+Wind Farm C,sensor_137_std,sensor_137,std,True,True,False,,,V,Generator RMS voltage L2-L3,False,False
+Wind Farm C,sensor_138_avg,sensor_138,avg,True,True,False,,,V,Generator RMS voltage L3-L1,False,False
+Wind Farm C,sensor_138_max,sensor_138,max,True,True,False,,,V,Generator RMS voltage L3-L1,False,False
+Wind Farm C,sensor_138_min,sensor_138,min,True,True,False,,,V,Generator RMS voltage L3-L1,False,False
+Wind Farm C,sensor_138_std,sensor_138,std,True,True,False,,,V,Generator RMS voltage L3-L1,False,False
+Wind Farm C,sensor_139_avg,sensor_139,avg,True,True,False,,,V,RMS voltage phase 1 HV grid,False,False
+Wind Farm C,sensor_139_max,sensor_139,max,True,True,False,,,V,RMS voltage phase 1 HV grid,False,False
+Wind Farm C,sensor_139_min,sensor_139,min,True,True,False,,,V,RMS voltage phase 1 HV grid,False,False
+Wind Farm C,sensor_139_std,sensor_139,std,True,True,False,,,V,RMS voltage phase 1 HV grid,False,False
+Wind Farm C,sensor_140_avg,sensor_140,avg,True,True,False,,,V,RMS voltage phase 2 HV grid,False,False
+Wind Farm C,sensor_140_max,sensor_140,max,True,True,False,,,V,RMS voltage phase 2 HV grid,False,False
+Wind Farm C,sensor_140_min,sensor_140,min,True,True,False,,,V,RMS voltage phase 2 HV grid,False,False
+Wind Farm C,sensor_140_std,sensor_140,std,True,True,False,,,V,RMS voltage phase 2 HV grid,False,False
+Wind Farm C,sensor_141_avg,sensor_141,avg,True,True,False,,,V,RMS voltage phase 3 HV grid,False,False
+Wind Farm C,sensor_141_max,sensor_141,max,True,True,False,,,V,RMS voltage phase 3 HV grid,False,False
+Wind Farm C,sensor_141_min,sensor_141,min,True,True,False,,,V,RMS voltage phase 3 HV grid,False,False
+Wind Farm C,sensor_141_std,sensor_141,std,True,True,False,,,V,RMS voltage phase 3 HV grid,False,False
+Wind Farm C,sensor_142_avg,sensor_142,avg,True,True,False,,,Hz,Rotational speed aerator A,False,False
+Wind Farm C,sensor_142_max,sensor_142,max,True,True,False,,,Hz,Rotational speed aerator A,False,False
+Wind Farm C,sensor_142_min,sensor_142,min,True,True,False,,,Hz,Rotational speed aerator A,False,False
+Wind Farm C,sensor_142_std,sensor_142,std,True,True,False,,,Hz,Rotational speed aerator A,False,False
+Wind Farm C,sensor_143_avg,sensor_143,avg,True,True,False,,,Hz,Rotational speed aerator B,False,False
+Wind Farm C,sensor_143_max,sensor_143,max,True,True,False,,,Hz,Rotational speed aerator B,False,False
+Wind Farm C,sensor_143_min,sensor_143,min,True,True,False,,,Hz,Rotational speed aerator B,False,False
+Wind Farm C,sensor_143_std,sensor_143,std,True,True,False,,,Hz,Rotational speed aerator B,False,False
+Wind Farm C,sensor_144_avg,sensor_144,avg,True,True,True,rotor_speed,,1/min,Rotor speed 1,False,False
+Wind Farm C,sensor_144_max,sensor_144,max,True,True,False,,,1/min,Rotor speed 1,False,False
+Wind Farm C,sensor_144_min,sensor_144,min,True,True,False,,,1/min,Rotor speed 1,False,False
+Wind Farm C,sensor_144_std,sensor_144,std,True,True,False,,,1/min,Rotor speed 1,False,False
+Wind Farm C,sensor_145_avg,sensor_145,avg,True,True,False,,,1/min,Rotor speed 2,False,False
+Wind Farm C,sensor_145_max,sensor_145,max,True,True,False,,,1/min,Rotor speed 2,False,False
+Wind Farm C,sensor_145_min,sensor_145,min,True,True,False,,,1/min,Rotor speed 2,False,False
+Wind Farm C,sensor_145_std,sensor_145,std,True,True,False,,,1/min,Rotor speed 2,False,False
+Wind Farm C,sensor_146_avg,sensor_146,avg,True,True,False,,,1/min,Rotor speed gearbox main shaft 1,False,False
+Wind Farm C,sensor_146_max,sensor_146,max,True,True,False,,,1/min,Rotor speed gearbox main shaft 1,False,False
+Wind Farm C,sensor_146_min,sensor_146,min,True,True,False,,,1/min,Rotor speed gearbox main shaft 1,False,False
+Wind Farm C,sensor_146_std,sensor_146,std,True,True,False,,,1/min,Rotor speed gearbox main shaft 1,False,False
+Wind Farm C,sensor_147_avg,sensor_147,avg,True,True,False,,,1/min,Rotor speed gearbox main shaft 2,False,False
+Wind Farm C,sensor_147_max,sensor_147,max,True,True,False,,,1/min,Rotor speed gearbox main shaft 2,False,False
+Wind Farm C,sensor_147_min,sensor_147,min,True,True,False,,,1/min,Rotor speed gearbox main shaft 2,False,False
+Wind Farm C,sensor_147_std,sensor_147,std,True,True,False,,,1/min,Rotor speed gearbox main shaft 2,False,False
+Wind Farm C,sensor_148_avg,sensor_148,avg,True,True,False,,,1/min,RPM motor axis 1,False,False
+Wind Farm C,sensor_148_max,sensor_148,max,True,True,False,,,1/min,RPM motor axis 1,False,False
+Wind Farm C,sensor_148_min,sensor_148,min,True,True,False,,,1/min,RPM motor axis 1,False,False
+Wind Farm C,sensor_148_std,sensor_148,std,True,True,False,,,1/min,RPM motor axis 1,False,False
+Wind Farm C,sensor_149_avg,sensor_149,avg,True,True,False,,,1/min,RPM motor axis 2,False,False
+Wind Farm C,sensor_149_max,sensor_149,max,True,True,False,,,1/min,RPM motor axis 2,False,False
+Wind Farm C,sensor_149_min,sensor_149,min,True,True,False,,,1/min,RPM motor axis 2,False,False
+Wind Farm C,sensor_149_std,sensor_149,std,True,True,False,,,1/min,RPM motor axis 2,False,False
+Wind Farm C,sensor_150_avg,sensor_150,avg,True,True,False,,,1/min,RPM motor axis 3,False,False
+Wind Farm C,sensor_150_max,sensor_150,max,True,True,False,,,1/min,RPM motor axis 3,False,False
+Wind Farm C,sensor_150_min,sensor_150,min,True,True,False,,,1/min,RPM motor axis 3,False,False
+Wind Farm C,sensor_150_std,sensor_150,std,True,True,False,,,1/min,RPM motor axis 3,False,False
+Wind Farm C,sensor_151_avg,sensor_151,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing A1,False,False
+Wind Farm C,sensor_151_max,sensor_151,max,True,True,False,,,Celsius,Temperature 1 planetary bearing A1,False,False
+Wind Farm C,sensor_151_min,sensor_151,min,True,True,False,,,Celsius,Temperature 1 planetary bearing A1,False,False
+Wind Farm C,sensor_151_std,sensor_151,std,True,True,False,,,Celsius,Temperature 1 planetary bearing A1,False,False
+Wind Farm C,sensor_152_avg,sensor_152,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing A2,False,False
+Wind Farm C,sensor_152_max,sensor_152,max,True,True,False,,,Celsius,Temperature 1 planetary bearing A2,False,False
+Wind Farm C,sensor_152_min,sensor_152,min,True,True,False,,,Celsius,Temperature 1 planetary bearing A2,False,False
+Wind Farm C,sensor_152_std,sensor_152,std,True,True,False,,,Celsius,Temperature 1 planetary bearing A2,False,False
+Wind Farm C,sensor_153_avg,sensor_153,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing B1,False,False
+Wind Farm C,sensor_153_max,sensor_153,max,True,True,False,,,Celsius,Temperature 1 planetary bearing B1,False,False
+Wind Farm C,sensor_153_min,sensor_153,min,True,True,False,,,Celsius,Temperature 1 planetary bearing B1,False,False
+Wind Farm C,sensor_153_std,sensor_153,std,True,True,False,,,Celsius,Temperature 1 planetary bearing B1,False,False
+Wind Farm C,sensor_154_avg,sensor_154,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing B2,False,False
+Wind Farm C,sensor_154_max,sensor_154,max,True,True,False,,,Celsius,Temperature 1 planetary bearing B2,False,False
+Wind Farm C,sensor_154_min,sensor_154,min,True,True,False,,,Celsius,Temperature 1 planetary bearing B2,False,False
+Wind Farm C,sensor_154_std,sensor_154,std,True,True,False,,,Celsius,Temperature 1 planetary bearing B2,False,False
+Wind Farm C,sensor_155_avg,sensor_155,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing C1,False,False
+Wind Farm C,sensor_155_max,sensor_155,max,True,True,False,,,Celsius,Temperature 1 planetary bearing C1,False,False
+Wind Farm C,sensor_155_min,sensor_155,min,True,True,False,,,Celsius,Temperature 1 planetary bearing C1,False,False
+Wind Farm C,sensor_155_std,sensor_155,std,True,True,False,,,Celsius,Temperature 1 planetary bearing C1,False,False
+Wind Farm C,sensor_156_avg,sensor_156,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing C2,False,False
+Wind Farm C,sensor_156_max,sensor_156,max,True,True,False,,,Celsius,Temperature 1 planetary bearing C2,False,False
+Wind Farm C,sensor_156_min,sensor_156,min,True,True,False,,,Celsius,Temperature 1 planetary bearing C2,False,False
+Wind Farm C,sensor_156_std,sensor_156,std,True,True,False,,,Celsius,Temperature 1 planetary bearing C2,False,False
+Wind Farm C,sensor_157_avg,sensor_157,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing D1,False,False
+Wind Farm C,sensor_157_max,sensor_157,max,True,True,False,,,Celsius,Temperature 1 planetary bearing D1,False,False
+Wind Farm C,sensor_157_min,sensor_157,min,True,True,False,,,Celsius,Temperature 1 planetary bearing D1,False,False
+Wind Farm C,sensor_157_std,sensor_157,std,True,True,False,,,Celsius,Temperature 1 planetary bearing D1,False,False
+Wind Farm C,sensor_158_avg,sensor_158,avg,True,True,False,,,Celsius,Temperature 1 planetary bearing D2,False,False
+Wind Farm C,sensor_158_max,sensor_158,max,True,True,False,,,Celsius,Temperature 1 planetary bearing D2,False,False
+Wind Farm C,sensor_158_min,sensor_158,min,True,True,False,,,Celsius,Temperature 1 planetary bearing D2,False,False
+Wind Farm C,sensor_158_std,sensor_158,std,True,True,False,,,Celsius,Temperature 1 planetary bearing D2,False,False
+Wind Farm C,sensor_159_avg,sensor_159,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing A1,False,False
+Wind Farm C,sensor_159_max,sensor_159,max,True,True,False,,,Celsius,Temperature 2 planetary bearing A1,False,False
+Wind Farm C,sensor_159_min,sensor_159,min,True,True,False,,,Celsius,Temperature 2 planetary bearing A1,False,False
+Wind Farm C,sensor_159_std,sensor_159,std,True,True,False,,,Celsius,Temperature 2 planetary bearing A1,False,False
+Wind Farm C,sensor_160_avg,sensor_160,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing A2,False,False
+Wind Farm C,sensor_160_max,sensor_160,max,True,True,False,,,Celsius,Temperature 2 planetary bearing A2,False,False
+Wind Farm C,sensor_160_min,sensor_160,min,True,True,False,,,Celsius,Temperature 2 planetary bearing A2,False,False
+Wind Farm C,sensor_160_std,sensor_160,std,True,True,False,,,Celsius,Temperature 2 planetary bearing A2,False,False
+Wind Farm C,sensor_161_avg,sensor_161,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing B1,False,False
+Wind Farm C,sensor_161_max,sensor_161,max,True,True,False,,,Celsius,Temperature 2 planetary bearing B1,False,False
+Wind Farm C,sensor_161_min,sensor_161,min,True,True,False,,,Celsius,Temperature 2 planetary bearing B1,False,False
+Wind Farm C,sensor_161_std,sensor_161,std,True,True,False,,,Celsius,Temperature 2 planetary bearing B1,False,False
+Wind Farm C,sensor_162_avg,sensor_162,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing B2,False,False
+Wind Farm C,sensor_162_max,sensor_162,max,True,True,False,,,Celsius,Temperature 2 planetary bearing B2,False,False
+Wind Farm C,sensor_162_min,sensor_162,min,True,True,False,,,Celsius,Temperature 2 planetary bearing B2,False,False
+Wind Farm C,sensor_162_std,sensor_162,std,True,True,False,,,Celsius,Temperature 2 planetary bearing B2,False,False
+Wind Farm C,sensor_163_avg,sensor_163,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing C1,False,False
+Wind Farm C,sensor_163_max,sensor_163,max,True,True,False,,,Celsius,Temperature 2 planetary bearing C1,False,False
+Wind Farm C,sensor_163_min,sensor_163,min,True,True,False,,,Celsius,Temperature 2 planetary bearing C1,False,False
+Wind Farm C,sensor_163_std,sensor_163,std,True,True,False,,,Celsius,Temperature 2 planetary bearing C1,False,False
+Wind Farm C,sensor_164_avg,sensor_164,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing C2,False,False
+Wind Farm C,sensor_164_max,sensor_164,max,True,True,False,,,Celsius,Temperature 2 planetary bearing C2,False,False
+Wind Farm C,sensor_164_min,sensor_164,min,True,True,False,,,Celsius,Temperature 2 planetary bearing C2,False,False
+Wind Farm C,sensor_164_std,sensor_164,std,True,True,False,,,Celsius,Temperature 2 planetary bearing C2,False,False
+Wind Farm C,sensor_165_avg,sensor_165,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing D1,False,False
+Wind Farm C,sensor_165_max,sensor_165,max,True,True,False,,,Celsius,Temperature 2 planetary bearing D1,False,False
+Wind Farm C,sensor_165_min,sensor_165,min,True,True,False,,,Celsius,Temperature 2 planetary bearing D1,False,False
+Wind Farm C,sensor_165_std,sensor_165,std,True,True,False,,,Celsius,Temperature 2 planetary bearing D1,False,False
+Wind Farm C,sensor_166_avg,sensor_166,avg,True,True,False,,,Celsius,Temperature 2 planetary bearing D2,False,False
+Wind Farm C,sensor_166_max,sensor_166,max,True,True,False,,,Celsius,Temperature 2 planetary bearing D2,False,False
+Wind Farm C,sensor_166_min,sensor_166,min,True,True,False,,,Celsius,Temperature 2 planetary bearing D2,False,False
+Wind Farm C,sensor_166_std,sensor_166,std,True,True,False,,,Celsius,Temperature 2 planetary bearing D2,False,False
+Wind Farm C,sensor_167_avg,sensor_167,avg,True,True,False,,,Celsius,Air temp. transformer container,False,False
+Wind Farm C,sensor_167_max,sensor_167,max,True,True,False,,,Celsius,Air temp. transformer container,False,False
+Wind Farm C,sensor_167_min,sensor_167,min,True,True,False,,,Celsius,Air temp. transformer container,False,False
+Wind Farm C,sensor_167_std,sensor_167,std,True,True,False,,,Celsius,Air temp. transformer container,False,False
+Wind Farm C,sensor_168_avg,sensor_168,avg,True,True,False,,,Celsius,Temperature of axial bearing 1,False,False
+Wind Farm C,sensor_168_max,sensor_168,max,True,True,False,,,Celsius,Temperature of axial bearing 1,False,False
+Wind Farm C,sensor_168_min,sensor_168,min,True,True,False,,,Celsius,Temperature of axial bearing 1,False,False
+Wind Farm C,sensor_168_std,sensor_168,std,True,True,False,,,Celsius,Temperature of axial bearing 1,False,False
+Wind Farm C,sensor_169_avg,sensor_169,avg,True,True,False,,,Celsius,Temperature of axial bearing 2,False,False
+Wind Farm C,sensor_169_max,sensor_169,max,True,True,False,,,Celsius,Temperature of axial bearing 2,False,False
+Wind Farm C,sensor_169_min,sensor_169,min,True,True,False,,,Celsius,Temperature of axial bearing 2,False,False
+Wind Farm C,sensor_169_std,sensor_169,std,True,True,False,,,Celsius,Temperature of axial bearing 2,False,False
+Wind Farm C,sensor_170_avg,sensor_170,avg,True,True,False,,,Celsius,Control box temperature,False,False
+Wind Farm C,sensor_170_max,sensor_170,max,True,True,False,,,Celsius,Control box temperature,False,False
+Wind Farm C,sensor_170_min,sensor_170,min,True,True,False,,,Celsius,Control box temperature,False,False
+Wind Farm C,sensor_170_std,sensor_170,std,True,True,False,,,Celsius,Control box temperature,False,False
+Wind Farm C,sensor_171_avg,sensor_171,avg,True,True,False,,,Celsius,Temperature converter room,False,False
+Wind Farm C,sensor_171_max,sensor_171,max,True,True,False,,,Celsius,Temperature converter room,False,False
+Wind Farm C,sensor_171_min,sensor_171,min,True,True,False,,,Celsius,Temperature converter room,False,False
+Wind Farm C,sensor_171_std,sensor_171,std,True,True,False,,,Celsius,Temperature converter room,False,False
+Wind Farm C,sensor_172_avg,sensor_172,avg,True,True,False,,,Celsius,Converter cabinet temperature,False,False
+Wind Farm C,sensor_172_max,sensor_172,max,True,True,False,,,Celsius,Converter cabinet temperature,False,False
+Wind Farm C,sensor_172_min,sensor_172,min,True,True,False,,,Celsius,Converter cabinet temperature,False,False
+Wind Farm C,sensor_172_std,sensor_172,std,True,True,False,,,Celsius,Converter cabinet temperature,False,False
+Wind Farm C,sensor_173_avg,sensor_173,avg,True,True,False,,,Celsius,Generator temperature 1 cooling air inlet,False,False
+Wind Farm C,sensor_173_max,sensor_173,max,True,True,False,,,Celsius,Generator temperature 1 cooling air inlet,False,False
+Wind Farm C,sensor_173_min,sensor_173,min,True,True,False,,,Celsius,Generator temperature 1 cooling air inlet,False,False
+Wind Farm C,sensor_173_std,sensor_173,std,True,True,False,,,Celsius,Generator temperature 1 cooling air inlet,False,False
+Wind Farm C,sensor_174_avg,sensor_174,avg,True,True,False,,,Celsius,Generator temperature 2 cooling air inlet,False,False
+Wind Farm C,sensor_174_max,sensor_174,max,True,True,False,,,Celsius,Generator temperature 2 cooling air inlet,False,False
+Wind Farm C,sensor_174_min,sensor_174,min,True,True,False,,,Celsius,Generator temperature 2 cooling air inlet,False,False
+Wind Farm C,sensor_174_std,sensor_174,std,True,True,False,,,Celsius,Generator temperature 2 cooling air inlet,False,False
+Wind Farm C,sensor_175_avg,sensor_175,avg,True,True,False,,,Celsius,Axis 3 cooling element temperature,False,False
+Wind Farm C,sensor_175_max,sensor_175,max,True,True,False,,,Celsius,Axis 3 cooling element temperature,False,False
+Wind Farm C,sensor_175_min,sensor_175,min,True,True,False,,,Celsius,Axis 3 cooling element temperature,False,False
+Wind Farm C,sensor_175_std,sensor_175,std,True,True,False,,,Celsius,Axis 3 cooling element temperature,False,False
+Wind Farm C,sensor_176_avg,sensor_176,avg,True,True,False,,,Celsius,Temperature cooling air exit,False,False
+Wind Farm C,sensor_176_max,sensor_176,max,True,True,False,,,Celsius,Temperature cooling air exit,False,False
+Wind Farm C,sensor_176_min,sensor_176,min,True,True,False,,,Celsius,Temperature cooling air exit,False,False
+Wind Farm C,sensor_176_std,sensor_176,std,True,True,False,,,Celsius,Temperature cooling air exit,False,False
+Wind Farm C,sensor_177_avg,sensor_177,avg,True,True,False,,,Celsius,Outside temperature,False,False
+Wind Farm C,sensor_177_max,sensor_177,max,True,True,False,,,Celsius,Outside temperature,False,False
+Wind Farm C,sensor_177_min,sensor_177,min,True,True,False,,,Celsius,Outside temperature,False,False
+Wind Farm C,sensor_177_std,sensor_177,std,True,True,False,,,Celsius,Outside temperature,False,False
+Wind Farm C,sensor_178_avg,sensor_178,avg,True,True,False,,,Celsius,Hydraulic oil tank temperature 1,False,False
+Wind Farm C,sensor_178_max,sensor_178,max,True,True,False,,,Celsius,Hydraulic oil tank temperature 1,False,False
+Wind Farm C,sensor_178_min,sensor_178,min,True,True,False,,,Celsius,Hydraulic oil tank temperature 1,False,False
+Wind Farm C,sensor_178_std,sensor_178,std,True,True,False,,,Celsius,Hydraulic oil tank temperature 1,False,False
+Wind Farm C,sensor_179_avg,sensor_179,avg,True,True,False,,,Celsius,Hydraulic oil tank temperature 2,False,False
+Wind Farm C,sensor_179_max,sensor_179,max,True,True,False,,,Celsius,Hydraulic oil tank temperature 2,False,False
+Wind Farm C,sensor_179_min,sensor_179,min,True,True,False,,,Celsius,Hydraulic oil tank temperature 2,False,False
+Wind Farm C,sensor_179_std,sensor_179,std,True,True,False,,,Celsius,Hydraulic oil tank temperature 2,False,False
+Wind Farm C,sensor_180_avg,sensor_180,avg,True,True,False,,,Celsius,Axis1 Motor temperature KTY84,False,False
+Wind Farm C,sensor_180_max,sensor_180,max,True,True,False,,,Celsius,Axis1 Motor temperature KTY84,False,False
+Wind Farm C,sensor_180_min,sensor_180,min,True,True,False,,,Celsius,Axis1 Motor temperature KTY84,False,False
+Wind Farm C,sensor_180_std,sensor_180,std,True,True,False,,,Celsius,Axis1 Motor temperature KTY84,False,False
+Wind Farm C,sensor_181_avg,sensor_181,avg,True,True,False,,,Celsius,Axis2 Motor temperature KTY84,False,False
+Wind Farm C,sensor_181_max,sensor_181,max,True,True,False,,,Celsius,Axis2 Motor temperature KTY84,False,False
+Wind Farm C,sensor_181_min,sensor_181,min,True,True,False,,,Celsius,Axis2 Motor temperature KTY84,False,False
+Wind Farm C,sensor_181_std,sensor_181,std,True,True,False,,,Celsius,Axis2 Motor temperature KTY84,False,False
+Wind Farm C,sensor_182_avg,sensor_182,avg,True,True,False,,,Celsius,Axis3 Motor temperature KTY84,False,False
+Wind Farm C,sensor_182_max,sensor_182,max,True,True,False,,,Celsius,Axis3 Motor temperature KTY84,False,False
+Wind Farm C,sensor_182_min,sensor_182,min,True,True,False,,,Celsius,Axis3 Motor temperature KTY84,False,False
+Wind Farm C,sensor_182_std,sensor_182,std,True,True,False,,,Celsius,Axis3 Motor temperature KTY84,False,False
+Wind Farm C,sensor_183_avg,sensor_183,avg,True,True,False,,,Celsius,Axis 1 Motor temperature PT100,False,False
+Wind Farm C,sensor_183_max,sensor_183,max,True,True,False,,,Celsius,Axis 1 Motor temperature PT100,False,False
+Wind Farm C,sensor_183_min,sensor_183,min,True,True,False,,,Celsius,Axis 1 Motor temperature PT100,False,False
+Wind Farm C,sensor_183_std,sensor_183,std,True,True,False,,,Celsius,Axis 1 Motor temperature PT100,False,False
+Wind Farm C,sensor_184_avg,sensor_184,avg,True,True,False,,,Celsius,Axis 2 Motor temperature PT100,False,False
+Wind Farm C,sensor_184_max,sensor_184,max,True,True,False,,,Celsius,Axis 2 Motor temperature PT100,False,False
+Wind Farm C,sensor_184_min,sensor_184,min,True,True,False,,,Celsius,Axis 2 Motor temperature PT100,False,False
+Wind Farm C,sensor_184_std,sensor_184,std,True,True,False,,,Celsius,Axis 2 Motor temperature PT100,False,False
+Wind Farm C,sensor_185_avg,sensor_185,avg,True,True,False,,,Celsius,Axis 3 Motor temperature PT100,False,False
+Wind Farm C,sensor_185_max,sensor_185,max,True,True,False,,,Celsius,Axis 3 Motor temperature PT100,False,False
+Wind Farm C,sensor_185_min,sensor_185,min,True,True,False,,,Celsius,Axis 3 Motor temperature PT100,False,False
+Wind Farm C,sensor_185_std,sensor_185,std,True,True,False,,,Celsius,Axis 3 Motor temperature PT100,False,False
+Wind Farm C,sensor_186_avg,sensor_186,avg,True,True,False,,,Celsius,Gearbox oil temperature 1 ,False,False
+Wind Farm C,sensor_186_max,sensor_186,max,True,True,False,,,Celsius,Gearbox oil temperature 1 ,False,False
+Wind Farm C,sensor_186_min,sensor_186,min,True,True,False,,,Celsius,Gearbox oil temperature 1 ,False,False
+Wind Farm C,sensor_186_std,sensor_186,std,True,True,False,,,Celsius,Gearbox oil temperature 1 ,False,False
+Wind Farm C,sensor_187_avg,sensor_187,avg,True,True,False,,,Celsius,Gearbox oil temperature 2,False,False
+Wind Farm C,sensor_187_max,sensor_187,max,True,True,False,,,Celsius,Gearbox oil temperature 2,False,False
+Wind Farm C,sensor_187_min,sensor_187,min,True,True,False,,,Celsius,Gearbox oil temperature 2,False,False
+Wind Farm C,sensor_187_std,sensor_187,std,True,True,False,,,Celsius,Gearbox oil temperature 2,False,False
+Wind Farm C,sensor_188_avg,sensor_188,avg,True,True,False,,,Celsius,Oil temperature EB transformer,False,False
+Wind Farm C,sensor_188_max,sensor_188,max,True,True,False,,,Celsius,Oil temperature EB transformer,False,False
+Wind Farm C,sensor_188_min,sensor_188,min,True,True,False,,,Celsius,Oil temperature EB transformer,False,False
+Wind Farm C,sensor_188_std,sensor_188,std,True,True,False,,,Celsius,Oil temperature EB transformer,False,False
+Wind Farm C,sensor_189_avg,sensor_189,avg,True,True,False,,,Celsius,Gearbox oil inlet temperature 1,False,False
+Wind Farm C,sensor_189_max,sensor_189,max,True,True,False,,,Celsius,Gearbox oil inlet temperature 1,False,False
+Wind Farm C,sensor_189_min,sensor_189,min,True,True,False,,,Celsius,Gearbox oil inlet temperature 1,False,False
+Wind Farm C,sensor_189_std,sensor_189,std,True,True,False,,,Celsius,Gearbox oil inlet temperature 1,False,False
+Wind Farm C,sensor_190_avg,sensor_190,avg,True,True,False,,,Celsius,Gearbox oil inlet temperature 2,False,False
+Wind Farm C,sensor_190_max,sensor_190,max,True,True,False,,,Celsius,Gearbox oil inlet temperature 2,False,False
+Wind Farm C,sensor_190_min,sensor_190,min,True,True,False,,,Celsius,Gearbox oil inlet temperature 2,False,False
+Wind Farm C,sensor_190_std,sensor_190,std,True,True,False,,,Celsius,Gearbox oil inlet temperature 2,False,False
+Wind Farm C,sensor_191_avg,sensor_191,avg,True,True,False,,,Celsius,Oil temperature 1 main transformer,False,False
+Wind Farm C,sensor_191_max,sensor_191,max,True,True,False,,,Celsius,Oil temperature 1 main transformer,False,False
+Wind Farm C,sensor_191_min,sensor_191,min,True,True,False,,,Celsius,Oil temperature 1 main transformer,False,False
+Wind Farm C,sensor_191_std,sensor_191,std,True,True,False,,,Celsius,Oil temperature 1 main transformer,False,False
+Wind Farm C,sensor_192_avg,sensor_192,avg,True,True,False,,,Celsius,Oil temperature 2 main transformer,False,False
+Wind Farm C,sensor_192_max,sensor_192,max,True,True,False,,,Celsius,Oil temperature 2 main transformer,False,False
+Wind Farm C,sensor_192_min,sensor_192,min,True,True,False,,,Celsius,Oil temperature 2 main transformer,False,False
+Wind Farm C,sensor_192_std,sensor_192,std,True,True,False,,,Celsius,Oil temperature 2 main transformer,False,False
+Wind Farm C,sensor_193_avg,sensor_193,avg,True,True,False,,,Celsius,Temperature platform TBC200,False,False
+Wind Farm C,sensor_193_max,sensor_193,max,True,True,False,,,Celsius,Temperature platform TBC200,False,False
+Wind Farm C,sensor_193_min,sensor_193,min,True,True,False,,,Celsius,Temperature platform TBC200,False,False
+Wind Farm C,sensor_193_std,sensor_193,std,True,True,False,,,Celsius,Temperature platform TBC200,False,False
+Wind Farm C,sensor_194_avg,sensor_194,avg,True,True,False,,,Celsius,Axis 1 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_194_max,sensor_194,max,True,True,False,,,Celsius,Axis 1 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_194_min,sensor_194,min,True,True,False,,,Celsius,Axis 1 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_194_std,sensor_194,std,True,True,False,,,Celsius,Axis 1 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_195_avg,sensor_195,avg,True,True,False,,,Celsius,Axis 2 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_195_max,sensor_195,max,True,True,False,,,Celsius,Axis 2 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_195_min,sensor_195,min,True,True,False,,,Celsius,Axis 2 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_195_std,sensor_195,std,True,True,False,,,Celsius,Axis 2 Rotor bearing inner ring temperature,False,False
+Wind Farm C,sensor_196_avg,sensor_196,avg,True,True,False,,,Celsius,Rotor bearing temperature 1,False,False
+Wind Farm C,sensor_196_max,sensor_196,max,True,True,False,,,Celsius,Rotor bearing temperature 1,False,False
+Wind Farm C,sensor_196_min,sensor_196,min,True,True,False,,,Celsius,Rotor bearing temperature 1,False,False
+Wind Farm C,sensor_196_std,sensor_196,std,True,True,False,,,Celsius,Rotor bearing temperature 1,False,False
+Wind Farm C,sensor_197_avg,sensor_197,avg,True,True,False,,,Celsius,Rotor bearing temperature 2,False,False
+Wind Farm C,sensor_197_max,sensor_197,max,True,True,False,,,Celsius,Rotor bearing temperature 2,False,False
+Wind Farm C,sensor_197_min,sensor_197,min,True,True,False,,,Celsius,Rotor bearing temperature 2,False,False
+Wind Farm C,sensor_197_std,sensor_197,std,True,True,False,,,Celsius,Rotor bearing temperature 2,False,False
+Wind Farm C,sensor_198_avg,sensor_198,avg,True,True,False,,,Celsius,Rotor bearing temperature 3,False,False
+Wind Farm C,sensor_198_max,sensor_198,max,True,True,False,,,Celsius,Rotor bearing temperature 3,False,False
+Wind Farm C,sensor_198_min,sensor_198,min,True,True,False,,,Celsius,Rotor bearing temperature 3,False,False
+Wind Farm C,sensor_198_std,sensor_198,std,True,True,False,,,Celsius,Rotor bearing temperature 3,False,False
+Wind Farm C,sensor_199_avg,sensor_199,avg,True,True,False,,,Celsius,Temperature of stator winding U1,False,False
+Wind Farm C,sensor_199_max,sensor_199,max,True,True,False,,,Celsius,Temperature of stator winding U1,False,False
+Wind Farm C,sensor_199_min,sensor_199,min,True,True,False,,,Celsius,Temperature of stator winding U1,False,False
+Wind Farm C,sensor_199_std,sensor_199,std,True,True,False,,,Celsius,Temperature of stator winding U1,False,False
+Wind Farm C,sensor_200_avg,sensor_200,avg,True,True,False,,,Celsius,Temperature of stator winding U2,False,False
+Wind Farm C,sensor_200_max,sensor_200,max,True,True,False,,,Celsius,Temperature of stator winding U2,False,False
+Wind Farm C,sensor_200_min,sensor_200,min,True,True,False,,,Celsius,Temperature of stator winding U2,False,False
+Wind Farm C,sensor_200_std,sensor_200,std,True,True,False,,,Celsius,Temperature of stator winding U2,False,False
+Wind Farm C,sensor_201_avg,sensor_201,avg,True,True,False,,,Celsius,Temperature of stator winding V1,False,False
+Wind Farm C,sensor_201_max,sensor_201,max,True,True,False,,,Celsius,Temperature of stator winding V1,False,False
+Wind Farm C,sensor_201_min,sensor_201,min,True,True,False,,,Celsius,Temperature of stator winding V1,False,False
+Wind Farm C,sensor_201_std,sensor_201,std,True,True,False,,,Celsius,Temperature of stator winding V1,False,False
+Wind Farm C,sensor_202_avg,sensor_202,avg,True,True,False,,,Celsius,Temperature of stator winding V2,False,False
+Wind Farm C,sensor_202_max,sensor_202,max,True,True,False,,,Celsius,Temperature of stator winding V2,False,False
+Wind Farm C,sensor_202_min,sensor_202,min,True,True,False,,,Celsius,Temperature of stator winding V2,False,False
+Wind Farm C,sensor_202_std,sensor_202,std,True,True,False,,,Celsius,Temperature of stator winding V2,False,False
+Wind Farm C,sensor_203_avg,sensor_203,avg,True,True,False,,,Celsius,Temperature of stator winding W1,False,False
+Wind Farm C,sensor_203_max,sensor_203,max,True,True,False,,,Celsius,Temperature of stator winding W1,False,False
+Wind Farm C,sensor_203_min,sensor_203,min,True,True,False,,,Celsius,Temperature of stator winding W1,False,False
+Wind Farm C,sensor_203_std,sensor_203,std,True,True,False,,,Celsius,Temperature of stator winding W1,False,False
+Wind Farm C,sensor_204_avg,sensor_204,avg,True,True,False,,,Celsius,Temperature of stator winding W2,False,False
+Wind Farm C,sensor_204_max,sensor_204,max,True,True,False,,,Celsius,Temperature of stator winding W2,False,False
+Wind Farm C,sensor_204_min,sensor_204,min,True,True,False,,,Celsius,Temperature of stator winding W2,False,False
+Wind Farm C,sensor_204_std,sensor_204,std,True,True,False,,,Celsius,Temperature of stator winding W2,False,False
+Wind Farm C,sensor_205_avg,sensor_205,avg,True,True,False,,,Celsius,Temperature electrical cabinet ,False,False
+Wind Farm C,sensor_205_max,sensor_205,max,True,True,False,,,Celsius,Temperature electrical cabinet ,False,False
+Wind Farm C,sensor_205_min,sensor_205,min,True,True,False,,,Celsius,Temperature electrical cabinet ,False,False
+Wind Farm C,sensor_205_std,sensor_205,std,True,True,False,,,Celsius,Temperature electrical cabinet ,False,False
+Wind Farm C,sensor_206_avg,sensor_206,avg,True,True,False,,,Celsius,Temperature electrical cabinet 1,False,False
+Wind Farm C,sensor_206_max,sensor_206,max,True,True,False,,,Celsius,Temperature electrical cabinet 1,False,False
+Wind Farm C,sensor_206_min,sensor_206,min,True,True,False,,,Celsius,Temperature electrical cabinet 1,False,False
+Wind Farm C,sensor_206_std,sensor_206,std,True,True,False,,,Celsius,Temperature electrical cabinet 1,False,False
+Wind Farm C,sensor_207_avg,sensor_207,avg,True,True,False,,,Celsius,Temperature electrical cabinet 2,False,False
+Wind Farm C,sensor_207_max,sensor_207,max,True,True,False,,,Celsius,Temperature electrical cabinet 2,False,False
+Wind Farm C,sensor_207_min,sensor_207,min,True,True,False,,,Celsius,Temperature electrical cabinet 2,False,False
+Wind Farm C,sensor_207_std,sensor_207,std,True,True,False,,,Celsius,Temperature electrical cabinet 2,False,False
+Wind Farm C,sensor_208_avg,sensor_208,avg,True,True,False,,,Celsius,Axis 1 cooling element temperature,False,False
+Wind Farm C,sensor_208_max,sensor_208,max,True,True,False,,,Celsius,Axis 1 cooling element temperature,False,False
+Wind Farm C,sensor_208_min,sensor_208,min,True,True,False,,,Celsius,Axis 1 cooling element temperature,False,False
+Wind Farm C,sensor_208_std,sensor_208,std,True,True,False,,,Celsius,Axis 1 cooling element temperature,False,False
+Wind Farm C,sensor_209_avg,sensor_209,avg,True,True,False,,,Celsius,Axis 2 cooling element temperature,False,False
+Wind Farm C,sensor_209_max,sensor_209,max,True,True,False,,,Celsius,Axis 2 cooling element temperature,False,False
+Wind Farm C,sensor_209_min,sensor_209,min,True,True,False,,,Celsius,Axis 2 cooling element temperature,False,False
+Wind Farm C,sensor_209_std,sensor_209,std,True,True,False,,,Celsius,Axis 2 cooling element temperature,False,False
+Wind Farm C,sensor_210_avg,sensor_210,avg,True,True,False,,,Celsius,Electrical cabinet temperature 3/4,False,False
+Wind Farm C,sensor_210_max,sensor_210,max,True,True,False,,,Celsius,Electrical cabinet temperature 3/4,False,False
+Wind Farm C,sensor_210_min,sensor_210,min,True,True,False,,,Celsius,Electrical cabinet temperature 3/4,False,False
+Wind Farm C,sensor_210_std,sensor_210,std,True,True,False,,,Celsius,Electrical cabinet temperature 3/4,False,False
+Wind Farm C,sensor_211_avg,sensor_211,avg,True,True,False,,,%,Trigger bypass valve gearbox,False,False
+Wind Farm C,sensor_211_max,sensor_211,max,True,True,False,,,%,Trigger bypass valve gearbox,False,False
+Wind Farm C,sensor_211_min,sensor_211,min,True,True,False,,,%,Trigger bypass valve gearbox,False,False
+Wind Farm C,sensor_211_std,sensor_211,std,True,True,False,,,%,Trigger bypass valve gearbox,False,False
+Wind Farm C,sensor_212_avg,sensor_212,avg,True,True,False,,,V,24VDC power pack 1,False,False
+Wind Farm C,sensor_212_max,sensor_212,max,True,True,False,,,V,24VDC power pack 1,False,False
+Wind Farm C,sensor_212_min,sensor_212,min,True,True,False,,,V,24VDC power pack 1,False,False
+Wind Farm C,sensor_212_std,sensor_212,std,True,True,False,,,V,24VDC power pack 1,False,False
+Wind Farm C,sensor_213_avg,sensor_213,avg,True,True,False,,,V,24VDC power pack 2,False,False
+Wind Farm C,sensor_213_max,sensor_213,max,True,True,False,,,V,24VDC power pack 2,False,False
+Wind Farm C,sensor_213_min,sensor_213,min,True,True,False,,,V,24VDC power pack 2,False,False
+Wind Farm C,sensor_213_std,sensor_213,std,True,True,False,,,V,24VDC power pack 2,False,False
+Wind Farm C,sensor_214_avg,sensor_214,avg,True,True,False,,,V,Axis 1 voltage 1 battery 100%,False,False
+Wind Farm C,sensor_214_max,sensor_214,max,True,True,False,,,V,Axis 1 voltage 1 battery 100%,False,False
+Wind Farm C,sensor_214_min,sensor_214,min,True,True,False,,,V,Axis 1 voltage 1 battery 100%,False,False
+Wind Farm C,sensor_214_std,sensor_214,std,True,True,False,,,V,Axis 1 voltage 1 battery 100%,False,False
+Wind Farm C,sensor_215_avg,sensor_215,avg,True,True,False,,,V,Axis 2 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_215_max,sensor_215,max,True,True,False,,,V,Axis 2 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_215_min,sensor_215,min,True,True,False,,,V,Axis 2 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_215_std,sensor_215,std,True,True,False,,,V,Axis 2 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_216_avg,sensor_216,avg,True,True,False,,,V,Axis 3 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_216_max,sensor_216,max,True,True,False,,,V,Axis 3 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_216_min,sensor_216,min,True,True,False,,,V,Axis 3 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_216_std,sensor_216,std,True,True,False,,,V,Axis 3 Voltage 1 battery 100%,False,False
+Wind Farm C,sensor_217_avg,sensor_217,avg,True,True,False,,,V,Voltage 24 VDC hub,False,False
+Wind Farm C,sensor_217_max,sensor_217,max,True,True,False,,,V,Voltage 24 VDC hub,False,False
+Wind Farm C,sensor_217_min,sensor_217,min,True,True,False,,,V,Voltage 24 VDC hub,False,False
+Wind Farm C,sensor_217_std,sensor_217,std,True,True,False,,,V,Voltage 24 VDC hub,False,False
+Wind Farm C,sensor_218_avg,sensor_218,avg,True,True,False,,,V,Voltage 24 VDC nacelle,False,False
+Wind Farm C,sensor_218_max,sensor_218,max,True,True,False,,,V,Voltage 24 VDC nacelle,False,False
+Wind Farm C,sensor_218_min,sensor_218,min,True,True,False,,,V,Voltage 24 VDC nacelle,False,False
+Wind Farm C,sensor_218_std,sensor_218,std,True,True,False,,,V,Voltage 24 VDC nacelle,False,False
+Wind Farm C,sensor_219_avg,sensor_219,avg,True,True,False,,,V,Axis 1 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_219_max,sensor_219,max,True,True,False,,,V,Axis 1 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_219_min,sensor_219,min,True,True,False,,,V,Axis 1 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_219_std,sensor_219,std,True,True,False,,,V,Axis 1 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_220_avg,sensor_220,avg,True,True,False,,,V,Axis 2 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_220_max,sensor_220,max,True,True,False,,,V,Axis 2 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_220_min,sensor_220,min,True,True,False,,,V,Axis 2 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_220_std,sensor_220,std,True,True,False,,,V,Axis 2 Voltage 2 Battery 100%,False,False
+Wind Farm C,sensor_221_avg,sensor_221,avg,True,True,False,,,V,Axis 3 voltage 2 battery 100%,False,False
+Wind Farm C,sensor_221_max,sensor_221,max,True,True,False,,,V,Axis 3 voltage 2 battery 100%,False,False
+Wind Farm C,sensor_221_min,sensor_221,min,True,True,False,,,V,Axis 3 voltage 2 battery 100%,False,False
+Wind Farm C,sensor_221_std,sensor_221,std,True,True,False,,,V,Axis 3 voltage 2 battery 100%,False,False
+Wind Farm C,sensor_222_avg,sensor_222,avg,True,True,False,,,V,Axis 1 Voltage battery 50%,False,False
+Wind Farm C,sensor_222_max,sensor_222,max,True,True,False,,,V,Axis 1 Voltage battery 50%,False,False
+Wind Farm C,sensor_222_min,sensor_222,min,True,True,False,,,V,Axis 1 Voltage battery 50%,False,False
+Wind Farm C,sensor_222_std,sensor_222,std,True,True,False,,,V,Axis 1 Voltage battery 50%,False,False
+Wind Farm C,sensor_223_avg,sensor_223,avg,True,True,False,,,V,Axis 2 Voltage battery 50%,False,False
+Wind Farm C,sensor_223_max,sensor_223,max,True,True,False,,,V,Axis 2 Voltage battery 50%,False,False
+Wind Farm C,sensor_223_min,sensor_223,min,True,True,False,,,V,Axis 2 Voltage battery 50%,False,False
+Wind Farm C,sensor_223_std,sensor_223,std,True,True,False,,,V,Axis 2 Voltage battery 50%,False,False
+Wind Farm C,sensor_224_avg,sensor_224,avg,True,True,False,,,V,Axis 3 Voltage battery 50%,False,False
+Wind Farm C,sensor_224_max,sensor_224,max,True,True,False,,,V,Axis 3 Voltage battery 50%,False,False
+Wind Farm C,sensor_224_min,sensor_224,min,True,True,False,,,V,Axis 3 Voltage battery 50%,False,False
+Wind Farm C,sensor_224_std,sensor_224,std,True,True,False,,,V,Axis 3 Voltage battery 50%,False,False
+Wind Farm C,sensor_225_avg,sensor_225,avg,True,True,False,,,DL,Water conductivity QIT1,False,False
+Wind Farm C,sensor_225_max,sensor_225,max,True,True,False,,,DL,Water conductivity QIT1,False,False
+Wind Farm C,sensor_225_min,sensor_225,min,True,True,False,,,DL,Water conductivity QIT1,False,False
+Wind Farm C,sensor_225_std,sensor_225,std,True,True,False,,,DL,Water conductivity QIT1,False,False
+Wind Farm C,sensor_226_avg,sensor_226,avg,True,True,False,,,bar,Water pressure PT1,False,False
+Wind Farm C,sensor_226_max,sensor_226,max,True,True,False,,,bar,Water pressure PT1,False,False
+Wind Farm C,sensor_226_min,sensor_226,min,True,True,False,,,bar,Water pressure PT1,False,False
+Wind Farm C,sensor_226_std,sensor_226,std,True,True,False,,,bar,Water pressure PT1,False,False
+Wind Farm C,sensor_227_avg,sensor_227,avg,True,True,False,,,bar,Water pressure PT2,False,False
+Wind Farm C,sensor_227_max,sensor_227,max,True,True,False,,,bar,Water pressure PT2,False,False
+Wind Farm C,sensor_227_min,sensor_227,min,True,True,False,,,bar,Water pressure PT2,False,False
+Wind Farm C,sensor_227_std,sensor_227,std,True,True,False,,,bar,Water pressure PT2,False,False
+Wind Farm C,sensor_228_avg,sensor_228,avg,True,True,False,,,Celsius,Cooling water temp. generator inlet 1,False,False
+Wind Farm C,sensor_228_max,sensor_228,max,True,True,False,,,Celsius,Cooling water temp. generator inlet 1,False,False
+Wind Farm C,sensor_228_min,sensor_228,min,True,True,False,,,Celsius,Cooling water temp. generator inlet 1,False,False
+Wind Farm C,sensor_228_std,sensor_228,std,True,True,False,,,Celsius,Cooling water temp. generator inlet 1,False,False
+Wind Farm C,sensor_229_avg,sensor_229,avg,True,True,False,,,Celsius,Cooling water temp. generator inlet 2,False,False
+Wind Farm C,sensor_229_max,sensor_229,max,True,True,False,,,Celsius,Cooling water temp. generator inlet 2,False,False
+Wind Farm C,sensor_229_min,sensor_229,min,True,True,False,,,Celsius,Cooling water temp. generator inlet 2,False,False
+Wind Farm C,sensor_229_std,sensor_229,std,True,True,False,,,Celsius,Cooling water temp. generator inlet 2,False,False
+Wind Farm C,sensor_230_avg,sensor_230,avg,True,True,False,,,DL,Water flow,False,False
+Wind Farm C,sensor_230_max,sensor_230,max,True,True,False,,,DL,Water flow,False,False
+Wind Farm C,sensor_230_min,sensor_230,min,True,True,False,,,DL,Water flow,False,False
+Wind Farm C,sensor_230_std,sensor_230,std,True,True,False,,,DL,Water flow,False,False
+Wind Farm C,sensor_231_avg,sensor_231,avg,True,True,False,,,bar,Water pressure 1 cooling system,False,False
+Wind Farm C,sensor_231_max,sensor_231,max,True,True,False,,,bar,Water pressure 1 cooling system,False,False
+Wind Farm C,sensor_231_min,sensor_231,min,True,True,False,,,bar,Water pressure 1 cooling system,False,False
+Wind Farm C,sensor_231_std,sensor_231,std,True,True,False,,,bar,Water pressure 1 cooling system,False,False
+Wind Farm C,sensor_232_avg,sensor_232,avg,True,True,False,,,bar,Water pressure 2 cooling system,False,False
+Wind Farm C,sensor_232_max,sensor_232,max,True,True,False,,,bar,Water pressure 2 cooling system,False,False
+Wind Farm C,sensor_232_min,sensor_232,min,True,True,False,,,bar,Water pressure 2 cooling system,False,False
+Wind Farm C,sensor_232_std,sensor_232,std,True,True,False,,,bar,Water pressure 2 cooling system,False,False
+Wind Farm C,sensor_233_avg,sensor_233,avg,True,True,False,,,Celsius,Cooling water temp. generator outlet 1,False,False
+Wind Farm C,sensor_233_max,sensor_233,max,True,True,False,,,Celsius,Cooling water temp. generator outlet 1,False,False
+Wind Farm C,sensor_233_min,sensor_233,min,True,True,False,,,Celsius,Cooling water temp. generator outlet 1,False,False
+Wind Farm C,sensor_233_std,sensor_233,std,True,True,False,,,Celsius,Cooling water temp. generator outlet 1,False,False
+Wind Farm C,sensor_234_avg,sensor_234,avg,True,True,False,,,Celsius,Cooling water temp. generator outlet 2,False,False
+Wind Farm C,sensor_234_max,sensor_234,max,True,True,False,,,Celsius,Cooling water temp. generator outlet 2,False,False
+Wind Farm C,sensor_234_min,sensor_234,min,True,True,False,,,Celsius,Cooling water temp. generator outlet 2,False,False
+Wind Farm C,sensor_234_std,sensor_234,std,True,True,False,,,Celsius,Cooling water temp. generator outlet 2,False,False
+Wind Farm C,wind_speed_236_avg,wind_speed_236,avg,True,True,False,,,m/s,Wind speed 1+2,False,False
+Wind Farm C,wind_speed_236_max,wind_speed_236,max,True,True,False,,,m/s,Wind speed 1+2,False,False
+Wind Farm C,wind_speed_236_min,wind_speed_236,min,True,True,False,,,m/s,Wind speed 1+2,False,False
+Wind Farm C,wind_speed_236_std,wind_speed_236,std,True,True,False,,,m/s,Wind speed 1+2,False,False
+Wind Farm C,wind_speed_235_avg,wind_speed_235,avg,True,True,True,wind_speed,,m/s,Wind speed 1,False,False
+Wind Farm C,wind_speed_235_max,wind_speed_235,max,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm C,wind_speed_235_min,wind_speed_235,min,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm C,wind_speed_235_std,wind_speed_235,std,True,True,False,,,m/s,Wind speed 1,False,False
+Wind Farm C,wind_speed_237_avg,wind_speed_237,avg,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm C,wind_speed_237_max,wind_speed_237,max,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm C,wind_speed_237_min,wind_speed_237,min,True,True,False,,,m/s,Wind speed 2,False,False
+Wind Farm C,wind_speed_237_std,wind_speed_237,std,True,True,False,,,m/s,Wind speed 2,False,False

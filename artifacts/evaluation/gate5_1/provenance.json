@@ -1,0 +1,21 @@
+{
+  "gate": "5.1",
+  "timestamp_utc": "2026-09-12T12:29:16.499009+00:00",
+  "git_hash": "a68c06d",
+  "care_root": "C:\\Users\\krish\\OneDrive\\Desktop\\DAIICT\\data\\raw\\care",
+  "farms": [
+    "Wind Farm A",
+    "Wind Farm B",
+    "Wind Farm C"
+  ],
+  "models": [
+    "isolation_forest",
+    "zscore_threshold"
+  ],
+  "dataset_counts": {
+    "Wind Farm A": 22,
+    "Wind Farm B": 15,
+    "Wind Farm C": 58
+  },
+  "scoring_note": "CARE components match G\u00fcck, Roelofs & Faulstich (2024) paper equations. Baselines mirror paper \u00a74.2.1-4.2.2. No internal RAI model is used."
+}

@@ -1,0 +1,37 @@
+{
+  "purpose": "Which artifact directory is authoritative for which claim, so a future reader never has to guess which of several similarly-named directories to cite.",
+  "authoritative_directories": [
+    {
+      "directory": "artifacts/evaluation/external_care/",
+      "authoritative_for": "CARE_NARROW vs CARE_SEMANTIC feature-policy comparison (all 3 farms, isolation_forest + zscore_threshold); the feature inventory (per-farm raw-column classification); the A->B/A->C cross-farm transfer re-check under CARE_SEMANTIC.",
+      "produced_by": "rai/eval/external/care/{feature_inventory,feature_policy,cross_farm_semantic}.py",
+      "owner_session": "this session (Claude / CLI), Gate 5.4 - CARE Fidelity Audit + RAI Integration"
+    },
+    {
+      "directory": "artifacts/evaluation/gate54/",
+      "authoritative_for": "The six directed cross-farm transfers (A<->B, A<->C, B<->C) under RAIChampionDetector, all 3 conditions (FROZEN_SOURCE, TARGET_NORMAL_CALIBRATED, TARGET_SPECIFIC_REFERENCE), turbine-clustered bootstrap CIs, distribution-shift diagnostics.",
+      "produced_by": "scripts/gate54_cross_farm_transfer.py",
+      "owner_session": "the concurrently-running session, Gate 5.4 - Cross-Farm Wind Transfer & Target-Normal Calibration",
+      "caveat": "Contains a 388MB farm_data_cache.pkl not currently excluded by .gitignore - see discrepancy_log.csv D5. Uses FARM_COMMON_MAPPING, which has one questioned Farm-B column choice - see D2."
+    },
+    {
+      "directory": "artifacts/evaluation/gate52/ and gate53/",
+      "authoritative_for": "RAI_CHAMPION CARE scores under care_common/care_native(_semantic) feature policies for all 3 farms (0.601/0.560/0.575), and the published-Isolation-Forest fidelity reproduction (PCA 99% variance, n=100, contamination=0.09).",
+      "produced_by": "scripts/gate52_fidelity_and_champion.py, scripts/gate53_cross_turbine_and_input_audit.py",
+      "owner_session": "the concurrently-running session, Gates 5.2/5.3",
+      "caveat": "The care_2d row cited in docs/checkpoints/11-care-feature-rai-integration.md is NOT backed by any artifact directory that still exists (see D1) - do not treat any 'care_2d' number as authoritative from any current directory."
+    },
+    {
+      "directory": "artifacts/evaluation/gate2/external_care/, gate51/, gate5_1/",
+      "authoritative_for": "The original single-farm (A) and multi-farm (A/B/C) narrow-policy CARE baseline (2 signals, isolation_forest/zscore_threshold) - these three directories agree with each other and are treated as one converged result, not three competing ones (see discrepancy_log.csv D7).",
+      "produced_by": "rai/eval/external/care/farm_a_runner.py (both gate51_care_multifarm.py and gate5_1_run.py call this unmodified)",
+      "owner_session": "mixed - farm_a_runner.py by this session originally (Gate 2), Farm B/C extension duplicated independently by both sessions (Gate 5.1)"
+    }
+  ],
+  "non_authoritative_or_stale": [
+    {
+      "reference": "scripts/run_gate53_fast.py",
+      "status": "DOES NOT EXIST on disk. Referenced only by docs/checkpoints/11-care-feature-rai-integration.md's 'Files' section. Any number attributed to this script (specifically the care_2d row) cannot currently be reproduced or audited from the repository as it stands."
+    }
+  ]
+}

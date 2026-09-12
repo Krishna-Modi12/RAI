@@ -1,0 +1,58 @@
+{
+  "gate": "Gate 5.5 — Solar Data Foundation & Evidence Architecture",
+  "timestamp_utc": "2026-09-12T14:52:51Z",
+  "total_sources_audited": 8,
+  "evidence_tiers": {
+    "TIER_1": {
+      "description": "Tier 1 — Real operational PV telemetry + verified failure/degradation evidence",
+      "sources": [
+        "dkasc_alice_springs",
+        "duramat_pv_degradation"
+      ]
+    },
+    "TIER_2": {
+      "description": "Tier 2 — Real operational PV telemetry without verified failure labels",
+      "sources": [
+        "nrel_pvdaq",
+        "edp_open_data_pv",
+        "kaggle_two_plant_india"
+      ]
+    },
+    "TIER_3": {
+      "description": "Tier 3 — Real environmental/resource/weather data",
+      "sources": [
+        "nrel_nsrdb"
+      ]
+    },
+    "TIER_4": {
+      "description": "Tier 4 — Physics/reference/modeling tools",
+      "sources": [
+        "sandia_pvpmc_pvlib"
+      ]
+    },
+    "TIER_5": {
+      "description": "Tier 5 — Synthetic or simulated operational/failure data",
+      "sources": [
+        "nrel_synthetic_outage_muller2023"
+      ]
+    }
+  },
+  "evidence_categories": {
+    "EXTERNAL_REAL": [
+      "nrel_pvdaq",
+      "dkasc_alice_springs",
+      "edp_open_data_pv",
+      "kaggle_two_plant_india",
+      "duramat_pv_degradation"
+    ],
+    "REAL_ENVIRONMENT": [
+      "nrel_nsrdb"
+    ],
+    "PHYSICS_REFERENCE": [
+      "sandia_pvpmc_pvlib"
+    ],
+    "SIMULATED_OUTCOME": [
+      "nrel_synthetic_outage_muller2023"
+    ]
+  }
+}

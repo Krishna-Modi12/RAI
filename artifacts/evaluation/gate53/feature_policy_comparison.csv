@@ -1,0 +1,10 @@
+farm,detector,care_2d,care_common,care_native_semantic,delta_2d_to_common_care,delta_2d_to_common_cov,delta_2d_to_common_rel,delta_2d_to_common_acc,delta_2d_to_common_ear,delta_common_to_native_care,delta_common_to_native_cov,delta_common_to_native_rel,delta_common_to_native_acc,delta_common_to_native_ear,total_delta_2d_to_native_care,events_detected_2d,events_detected_common,events_detected_native
+Wind Farm A,CARE_PAPER_IF,0.5278,0.6163,0.4686,0.0885,0.0427,0.3189,0.0368,0.0072,-0.1477,0.0186,-0.6522,-0.0488,-0.0071,-0.0592,1/11,3/11,0/11
+Wind Farm A,RAI_COMPAT_IF,0.5408,0.6229,0.6408,0.0821,0.0201,0.3189,0.0398,-0.0077,0.0179,0.0513,0.0,0.0063,0.0254,0.1,1/11,3/11,3/11
+Wind Farm A,RAI_CHAMPION,0.0,0.6008,0.6008,0.6008,0.127,0.6522,-0.0028,0.0487,0.0,0.0,0.0,0.0,0.0,0.6008,0/11,3/11,3/11
+Wind Farm B,CARE_PAPER_IF,0.425,0.5832,0.4341,0.1582,-0.1295,0.7692,0.0856,-0.0196,-0.1491,0.1636,-0.7692,-0.0914,0.0426,0.0091,0/6,4/6,0/6
+Wind Farm B,RAI_COMPAT_IF,0.4323,0.5864,0.6026,0.1541,-0.1237,0.7692,0.074,-0.0231,0.0162,0.0543,0.0641,-0.0202,0.0029,0.1703,0/6,4/6,3/6
+Wind Farm B,RAI_CHAMPION,0.0,0.5599,0.5599,0.5599,0.0073,0.7692,-0.0009,0.0248,0.0,0.0,0.0,0.0,0.0,0.5599,0/6,4/6,4/6
+Wind Farm C,CARE_PAPER_IF,0.553,0.6184,0.5732,0.0654,-0.102,0.2379,0.042,0.1072,-0.0452,0.1309,-0.2291,-0.0408,-0.046,0.0202,6/27,19/27,8/27
+Wind Farm C,RAI_COMPAT_IF,0.5865,0.6029,0.6352,0.0164,-0.0134,0.0452,0.0076,0.0349,0.0323,0.0165,0.0826,0.0081,0.0462,0.0487,9/27,12/27,16/27
+Wind Farm C,RAI_CHAMPION,0.0,0.5752,0.5752,0.5752,0.0109,0.7282,-0.0049,0.1468,0.0,0.0,0.0,0.0,0.0,0.5752,0/27,15/27,15/27

@@ -1,0 +1,26 @@
+{
+  "feature_policy": "CARE_COMMON",
+  "description": "Cross-farm aligned semantic triad matching WindADBench Track 4",
+  "signals": [
+    "wind_speed",
+    "active_power",
+    "rotor_speed"
+  ],
+  "farm_mappings": {
+    "Wind Farm A": {
+      "wind_speed": "wind_speed_3_avg",
+      "active_power": "power_29_avg",
+      "rotor_speed": "sensor_52_avg"
+    },
+    "Wind Farm B": {
+      "wind_speed": "wind_speed_59_avg",
+      "active_power": "power_58_avg",
+      "rotor_speed": "sensor_25_avg"
+    },
+    "Wind Farm C": {
+      "wind_speed": "wind_speed_235_avg",
+      "active_power": "power_17_avg",
+      "rotor_speed": "sensor_144_avg"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+source_id,source_name,ground_truth_type,has_failure_labels,has_degradation_labels,has_maintenance_logs,veracity_classification,recommended_handling
+nrel_pvdaq,NREL PVDAQ (PV Data Acquisition),DEGRADATION_ONLY,False,True,False,HIGH_STATISTICAL,Use for long-term health degradation modeling and soiling loss estimation; not for acute component trip detection.
+nrel_nsrdb,NREL NSRDB (National Solar Radiation Database),NO_FAILURE_LABELS,False,False,False,NONE,Use strictly for normal-operation expected-performance modeling and false-alarm rate calibration.
+sandia_pvpmc_pvlib,PVPMC & pvlib Ecosystem (Sandia / PVLIB),NO_FAILURE_LABELS,False,False,False,NONE,Use strictly for normal-operation expected-performance modeling and false-alarm rate calibration.
+dkasc_alice_springs,DKASC Alice Springs (Desert Knowledge Australia),MAINTENANCE_LOGS,False,True,True,MEDIUM_QUALITATIVE,Use for semi-supervised validation; requires NLP/heuristic extraction of work order dates.
+edp_open_data_pv,EDP Open Data Solar PV Fleet,MAINTENANCE_LOGS,False,False,True,MEDIUM_QUALITATIVE,Use for semi-supervised validation; requires NLP/heuristic extraction of work order dates.
+kaggle_two_plant_india,Solar Power Generation Dataset (Two Indian Plants),NO_FAILURE_LABELS,False,False,False,NONE,Use strictly for normal-operation expected-performance modeling and false-alarm rate calibration.
+nrel_synthetic_outage_muller2023,NREL Synthetic PV Time-Series with Injected Outages,VERIFIED_FAILURE_TIMELINES,True,False,False,HIGH_SYNTHETIC,Use for quantitative precision-recall and lead-time evaluation against exact failure timestamps.
+duramat_pv_degradation,DuraMAT / NREL PV Fleet Performance Data Initiative,DEGRADATION_ONLY,False,True,False,HIGH_STATISTICAL,Use for long-term health degradation modeling and soiling loss estimation; not for acute component trip detection.

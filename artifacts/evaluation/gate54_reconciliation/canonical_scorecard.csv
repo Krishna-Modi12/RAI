@@ -1,0 +1,34 @@
+gate_id,question,detector,feature_policy,farm_or_pair,condition,metric,value,source_artifact,status
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_NARROW,Farm A,n/a,recognized_signals,2,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_SEMANTIC,Farm A,n/a,recognized_signals,10,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_NARROW,Farm B,n/a,recognized_signals,2,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_SEMANTIC,Farm B,n/a,recognized_signals,9,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_NARROW,Farm C,n/a,recognized_signals,2,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"How many of 15 canonical signals resolve per farm?",n/a,CARE_SEMANTIC,Farm C,n/a,recognized_signals,13,artifacts/evaluation/external_care/feature_inventory.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_NARROW,Farm A,in-farm,CARE,0.5345,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_SEMANTIC,Farm A,in-farm,CARE,0.6022,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_NARROW,Farm A,in-farm,CARE,0.5062,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_SEMANTIC,Farm A,in-farm,CARE,0.5308,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_NARROW,Farm B,in-farm,CARE,0.5324,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_SEMANTIC,Farm B,in-farm,CARE,0.5554,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_NARROW,Farm B,in-farm,CARE,0.4013,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_SEMANTIC,Farm B,in-farm,CARE,0.5349,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_NARROW,Farm C,in-farm,CARE,0.5328,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",isolation_forest,CARE_SEMANTIC,Farm C,in-farm,CARE,0.6023,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_NARROW,Farm C,in-farm,CARE,0.4388,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Does the richer feature policy improve CARE?",zscore_threshold,CARE_SEMANTIC,Farm C,in-farm,CARE,0.5725,artifacts/evaluation/external_care/feature_policy_comparison.csv,COMPUTED
+5.4-fidelity,"Cross-farm transfer under CARE_SEMANTIC",isolation_forest,CARE_SEMANTIC,A->B,transfer,CARE,0.574,artifacts/evaluation/external_care/cross_farm_semantic_results.json,COMPUTED
+5.4-fidelity,"Cross-farm transfer under CARE_SEMANTIC",zscore_threshold,CARE_SEMANTIC,A->B,transfer,CARE,0.557,artifacts/evaluation/external_care/cross_farm_semantic_results.json,COMPUTED
+5.4-fidelity,"Cross-farm transfer under CARE_SEMANTIC",isolation_forest,CARE_SEMANTIC,A->C,transfer,CARE,0.627,artifacts/evaluation/external_care/cross_farm_semantic_results.json,COMPUTED
+5.4-fidelity,"Cross-farm transfer under CARE_SEMANTIC",zscore_threshold,CARE_SEMANTIC,A->C,transfer,CARE,0.295,artifacts/evaluation/external_care/cross_farm_semantic_results.json,COMPUTED
+5.4-fidelity,"RAI CARE integration (referenced, not re-derived)",RAI_CHAMPION,care_common,Farm A,in-farm,CARE,0.601,artifacts/evaluation/gate52/rai_results.json,COMPUTED
+5.4-fidelity,"RAI CARE integration (referenced, not re-derived)",RAI_CHAMPION,care_common,Farm B,in-farm,CARE,0.560,artifacts/evaluation/gate52/rai_results.json,COMPUTED
+5.4-fidelity,"RAI CARE integration (referenced, not re-derived)",RAI_CHAMPION,care_common,Farm C,in-farm,CARE,0.575,artifacts/evaluation/gate52/rai_results.json,COMPUTED
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,A->B,FROZEN_SOURCE,CARE,0.5705,artifacts/evaluation/gate54/cross_farm_results.csv,COMPUTED
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,A->C,FROZEN_SOURCE,CARE,0.5927,artifacts/evaluation/gate54/cross_farm_results.csv,COMPUTED
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,B->A,FROZEN_SOURCE,CARE,0.5906,artifacts/evaluation/gate54/cross_farm_results.csv,"COMPUTED, but see D2 (B's active_power column choice questioned)"
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,B->C,FROZEN_SOURCE,CARE,0.5977,artifacts/evaluation/gate54/cross_farm_results.csv,"COMPUTED, but see D2"
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,C->A,FROZEN_SOURCE,CARE,0.4392,artifacts/evaluation/gate54/cross_farm_results.csv,COMPUTED
+5.4-transfer,"Six-way directed transfer",RAIChampionDetector,CARE_COMMON,C->B,FROZEN_SOURCE,CARE,0.5452,artifacts/evaluation/gate54/cross_farm_results.csv,"COMPUTED, but see D2"
+5.4-transfer,"Six-way directed transfer, target-normal calibrated",RAIChampionDetector,CARE_COMMON,C->A,TARGET_NORMAL_CALIBRATED,CARE,0.5806,artifacts/evaluation/gate54/cross_farm_results.csv,COMPUTED
+5.4-integration,"care_2d + RAI_CHAMPION (all farms)",RAI_CHAMPION,care_2d,"Farm A / B / C",in-farm,CARE,0.000,docs/checkpoints/11-care-feature-rai-integration.md (script absent),NOT_REPRODUCIBLE

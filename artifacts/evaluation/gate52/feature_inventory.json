@@ -1,0 +1,50 @@
+{
+  "Wind Farm A": {
+    "raw_feature_count": 86,
+    "metadata_count": 5,
+    "recognized_numeric_features": 81,
+    "excluded_features": 5,
+    "exclusion_breakdown": {
+      "metadata / identifier / split flag": 5
+    },
+    "care_common_feature_count": 3,
+    "care_common_features": {
+      "wind_speed": "wind_speed_3_avg",
+      "active_power": "power_29_avg",
+      "rotor_speed": "sensor_52_avg"
+    },
+    "care_native_feature_count": 81
+  },
+  "Wind Farm B": {
+    "raw_feature_count": 257,
+    "metadata_count": 5,
+    "recognized_numeric_features": 252,
+    "excluded_features": 5,
+    "exclusion_breakdown": {
+      "metadata / identifier / split flag": 5
+    },
+    "care_common_feature_count": 3,
+    "care_common_features": {
+      "wind_speed": "wind_speed_59_avg",
+      "active_power": "power_58_avg",
+      "rotor_speed": "sensor_25_avg"
+    },
+    "care_native_feature_count": 252
+  },
+  "Wind Farm C": {
+    "raw_feature_count": 957,
+    "metadata_count": 5,
+    "recognized_numeric_features": 952,
+    "excluded_features": 5,
+    "exclusion_breakdown": {
+      "metadata / identifier / split flag": 5
+    },
+    "care_common_feature_count": 3,
+    "care_common_features": {
+      "wind_speed": "wind_speed_235_avg",
+      "active_power": "power_17_avg",
+      "rotor_speed": "sensor_144_avg"
+    },
+    "care_native_feature_count": 952
+  }
+}

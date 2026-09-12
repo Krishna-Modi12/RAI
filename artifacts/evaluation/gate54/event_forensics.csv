@@ -1,0 +1,177 @@
+dataset_file,event_id,turbine_id,label,description,detected,max_criticality,alarm_count,lead_time_hours,coverage_fbeta,earliness_ws,failure_classification,source_farm,target_farm,condition
+19.csv,19,CARE-WT-11,anomaly_event,high temperature,False,23,53,,0.0373,0.0104,insufficient_persistence,Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+27.csv,27,CARE-WT-7,anomaly_event,Turbine is stopped due to a main bearing damage,True,1085,1234,1568.67,0.0409,0.0323,NONE (DETECTED),Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+34.csv,34,CARE-WT-14,anomaly_event,high temperature,False,39,89,,0.0241,0.028,insufficient_persistence,Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+53.csv,53,CARE-WT-6,anomaly_event,Rotor Bearing 2 - Damage,True,157,429,994.83,0.1489,0.0867,NONE (DETECTED),Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+7.csv,7,CARE-WT-13,anomaly_event,high temperature,True,261,414,886.5,0.071,0.0529,NONE (DETECTED),Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+77.csv,77,CARE-WT-12,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,True,742,942,1451.0,0.0453,0.061,NONE (DETECTED),Wind Farm A,Wind Farm B,STRICT_ZERO_SHOT
+19.csv,19,CARE-WT-11,anomaly_event,high temperature,False,7,12,,0.0,0.0018,insufficient_persistence,Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+27.csv,27,CARE-WT-7,anomaly_event,Turbine is stopped due to a main bearing damage,True,814,984,802.5,0.0018,0.0106,NONE (DETECTED),Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+34.csv,34,CARE-WT-14,anomaly_event,high temperature,False,17,40,,0.0016,0.0097,insufficient_persistence,Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+53.csv,53,CARE-WT-6,anomaly_event,Rotor Bearing 2 - Damage,True,247,286,994.83,0.0078,0.0622,NONE (DETECTED),Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+7.csv,7,CARE-WT-13,anomaly_event,high temperature,False,53,168,,0.0047,0.0248,insufficient_persistence,Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+77.csv,77,CARE-WT-12,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,True,184,600,1184.67,0.0076,0.032,NONE (DETECTED),Wind Farm A,Wind Farm B,TARGET_NORMAL_CALIBRATED
+11.csv,11,CARE-WT-43,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,True,894,1425,622.5,0.1204,0.2555,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+12.csv,12,CARE-WT-2,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",True,130,215,494.17,0.0101,0.0682,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+15.csv,15,CARE-WT-12,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,3,15,,0.0223,0.0054,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+16.csv,16,CARE-WT-53,anomaly_event,WEC in failure - hub battery charger defect,True,1421,1640,363.17,0.0476,0.8416,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+18.csv,18,CARE-WT-34,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,True,506,642,10.0,0.0,0.0005,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+28.csv,28,CARE-WT-52,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,True,220,323,364.0,0.0042,0.1276,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+30.csv,30,CARE-WT-16,anomaly_event,Pitch failure - defect fan on pitch motor,True,2155,2495,574.33,0.0853,0.7643,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+31.csv,31,CARE-WT-35,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,True,486,606,,0.0,0.6915,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+33.csv,33,CARE-WT-43,anomaly_event,P20_Blade3_Grease Collector missing,True,757,949,283.33,0.0242,0.2336,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+35.csv,35,CARE-WT-53,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",True,202,218,76.33,0.0056,0.0029,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+39.csv,39,CARE-WT-52,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,True,470,483,105.0,0.04,0.5774,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+4.csv,4,CARE-WT-34,anomaly_event,23020 : Axis 3 not ready-to-operate,True,261,310,116.0,0.0,0.0234,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+44.csv,44,CARE-WT-44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,True,455,726,1701.33,0.0034,0.036,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+47.csv,47,CARE-WT-21,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,17,61,,0.0124,0.0282,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+49.csv,49,CARE-WT-33,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,True,441,472,14.0,0.0,0.0,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+5.csv,5,CARE-WT-32,anomaly_event,WEC in failure - current measurement own consumption,True,153,253,39.33,0.0395,0.2722,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+55.csv,55,CARE-WT-50,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,50,135,,0.1112,0.0511,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+66.csv,66,CARE-WT-12,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",True,550,663,69.33,0.0,0.6352,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+67.csv,67,CARE-WT-35,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,57,245,,0.0535,0.0271,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+70.csv,70,CARE-WT-23,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",True,207,234,573.0,0.0057,0.0291,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+76.csv,76,CARE-WT-53,anomaly_event,WEC in failure with pitch battery issues - rewiring,False,61,106,,0.025,0.2067,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+78.csv,78,CARE-WT-15,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,70,79,,0.0197,0.0418,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+79.csv,79,CARE-WT-16,anomaly_event,Communication fault BK1120 in NC300,True,115,119,44.83,0.0,0.2247,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+81.csv,81,CARE-WT-38,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",True,167,176,181.17,0.131,0.2997,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+9.csv,9,CARE-WT-55,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,29,65,,0.0,0.0027,insufficient_persistence,Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+90.csv,90,CARE-WT-56,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,True,288,343,225.83,0.02,0.1456,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+91.csv,91,CARE-WT-42,anomaly_event,23020 : Axis 3 not ready-to-operate,True,268,414,519.33,0.0187,0.0304,NONE (DETECTED),Wind Farm A,Wind Farm C,STRICT_ZERO_SHOT
+11.csv,11,CARE-WT-43,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,False,36,200,,0.0256,0.0581,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+12.csv,12,CARE-WT-2,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,4,4,,0.0,0.0016,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+15.csv,15,CARE-WT-12,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+16.csv,16,CARE-WT-53,anomaly_event,WEC in failure - hub battery charger defect,True,401,806,,0.0,0.3987,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+18.csv,18,CARE-WT-34,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,True,277,340,149.5,0.009,0.0025,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+28.csv,28,CARE-WT-52,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,6,16,,0.0021,0.0073,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+30.csv,30,CARE-WT-16,anomaly_event,Pitch failure - defect fan on pitch motor,True,622,1338,527.17,0.0227,0.3418,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+31.csv,31,CARE-WT-35,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,69,90,,0.0219,0.1176,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+33.csv,33,CARE-WT-43,anomaly_event,P20_Blade3_Grease Collector missing,False,12,14,,0.0,0.0064,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+35.csv,35,CARE-WT-53,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+39.csv,39,CARE-WT-52,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,63,124,,0.0,0.1225,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+4.csv,4,CARE-WT-34,anomaly_event,23020 : Axis 3 not ready-to-operate,False,38,71,,0.0,0.0,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+44.csv,44,CARE-WT-44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,27,62,,0.0,0.001,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+47.csv,47,CARE-WT-21,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,6,19,,0.0,0.0,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+49.csv,49,CARE-WT-33,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+5.csv,5,CARE-WT-32,anomaly_event,WEC in failure - current measurement own consumption,True,124,197,97.33,0.0,0.2227,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+55.csv,55,CARE-WT-50,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,18,43,,0.0329,0.0232,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+66.csv,66,CARE-WT-12,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",True,78,101,,0.0,0.1429,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+67.csv,67,CARE-WT-35,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,67,177,,0.0259,0.013,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+70.csv,70,CARE-WT-23,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+76.csv,76,CARE-WT-53,anomaly_event,WEC in failure with pitch battery issues - rewiring,True,81,87,,0.0,0.0,NONE (DETECTED),Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+78.csv,78,CARE-WT-15,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+79.csv,79,CARE-WT-16,anomaly_event,Communication fault BK1120 in NC300,False,3,3,,0.0,0.0113,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+81.csv,81,CARE-WT-38,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,26,119,,0.6357,0.2977,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+9.csv,9,CARE-WT-55,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+90.csv,90,CARE-WT-56,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,11,41,,0.0,0.0042,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+91.csv,91,CARE-WT-42,anomaly_event,23020 : Axis 3 not ready-to-operate,False,25,77,,0.004,0.0067,insufficient_persistence,Wind Farm A,Wind Farm C,TARGET_NORMAL_CALIBRATED
+0.csv,0,CARE-WT-0,anomaly_event,Generator bearing failure,True,136,986,464.83,0.5313,0.238,NONE (DETECTED),Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+10.csv,10,CARE-WT-10,anomaly_event,Gearbox failure,False,0,507,,0.6582,0.4191,no_threshold_crossing,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+22.csv,22,CARE-WT-21,anomaly_event,Hydraulic group,False,19,324,,0.6489,0.2142,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+26.csv,26,CARE-WT-0,anomaly_event,Hydraulic group,False,40,555,,0.7868,0.4257,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+40.csv,40,CARE-WT-10,anomaly_event,Generator bearing failure,True,95,1442,823.17,0.6473,0.3555,NONE (DETECTED),Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+42.csv,42,CARE-WT-10,anomaly_event,Hydraulic group,False,30,494,,0.6825,0.3581,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+45.csv,45,CARE-WT-13,anomaly_event,Hydraulic group,True,83,481,,1.0,0.2335,NONE (DETECTED),Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+68.csv,68,CARE-WT-11,anomaly_event,Transformer failure,False,18,365,,0.5082,0.1675,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+72.csv,72,CARE-WT-21,anomaly_event,Gearbox failure,False,60,911,,0.629,0.4646,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+73.csv,73,CARE-WT-0,anomaly_event,Hydraulic group,False,23,500,,0.5736,0.2326,insufficient_persistence,Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+84.csv,84,CARE-WT-13,anomaly_event,Hydraulic group,True,73,554,,1.0,0.4403,NONE (DETECTED),Wind Farm B,Wind Farm A,STRICT_ZERO_SHOT
+0.csv,0,CARE-WT-0,anomaly_event,Generator bearing failure,True,286,534,403.83,0.0581,0.0225,NONE (DETECTED),Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+10.csv,10,CARE-WT-10,anomaly_event,Gearbox failure,False,0,70,,0.2341,0.0802,no_threshold_crossing,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+22.csv,22,CARE-WT-21,anomaly_event,Hydraulic group,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+26.csv,26,CARE-WT-0,anomaly_event,Hydraulic group,False,0,12,,0.0568,0.0003,no_threshold_crossing,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+40.csv,40,CARE-WT-10,anomaly_event,Generator bearing failure,True,153,795,691.17,0.4001,0.0958,NONE (DETECTED),Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+42.csv,42,CARE-WT-10,anomaly_event,Hydraulic group,False,6,75,,0.2691,0.0516,insufficient_persistence,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+45.csv,45,CARE-WT-13,anomaly_event,Hydraulic group,False,46,105,,1.0,0.0808,insufficient_persistence,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+68.csv,68,CARE-WT-11,anomaly_event,Transformer failure,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+72.csv,72,CARE-WT-21,anomaly_event,Gearbox failure,False,27,37,,0.0,0.0,insufficient_persistence,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+73.csv,73,CARE-WT-0,anomaly_event,Hydraulic group,False,26,139,,0.3726,0.0152,insufficient_persistence,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+84.csv,84,CARE-WT-13,anomaly_event,Hydraulic group,False,16,36,,1.0,0.0029,insufficient_persistence,Wind Farm B,Wind Farm A,TARGET_NORMAL_CALIBRATED
+11.csv,11,CARE-WT-43,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,True,371,968,582.5,0.251,0.2457,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+12.csv,12,CARE-WT-2,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,38,151,,0.1333,0.0597,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+15.csv,15,CARE-WT-12,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,0,8,,0.0163,0.0032,no_threshold_crossing,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+16.csv,16,CARE-WT-53,anomaly_event,WEC in failure - hub battery charger defect,True,1036,1420,275.5,0.057,0.7134,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+18.csv,18,CARE-WT-34,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,True,484,518,149.5,0.009,0.0025,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+28.csv,28,CARE-WT-52,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,True,145,345,437.5,0.2588,0.1279,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+30.csv,30,CARE-WT-16,anomaly_event,Pitch failure - defect fan on pitch motor,True,1721,2288,527.17,0.1032,0.6813,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+31.csv,31,CARE-WT-35,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,True,253,379,315.0,0.0212,0.4753,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+33.csv,33,CARE-WT-43,anomaly_event,P20_Blade3_Grease Collector missing,True,338,623,507.33,0.0741,0.1655,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+35.csv,35,CARE-WT-53,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,26,29,,0.0,0.0,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+39.csv,39,CARE-WT-52,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,True,393,485,158.83,0.1077,0.538,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+4.csv,4,CARE-WT-34,anomaly_event,23020 : Axis 3 not ready-to-operate,True,155,214,536.67,0.0207,0.0091,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+44.csv,44,CARE-WT-44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,True,208,585,1659.67,0.0748,0.0265,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+47.csv,47,CARE-WT-21,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,6,84,,0.2249,0.0881,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+49.csv,49,CARE-WT-33,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,True,88,183,266.0,0.0,0.0,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+5.csv,5,CARE-WT-32,anomaly_event,WEC in failure - current measurement own consumption,True,128,236,97.33,0.0755,0.2386,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+55.csv,55,CARE-WT-50,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,46,198,,0.2072,0.0713,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+66.csv,66,CARE-WT-12,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",True,304,386,,0.0,0.4899,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+67.csv,67,CARE-WT-35,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,67,198,,0.017,0.0163,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+70.csv,70,CARE-WT-23,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,51,203,,0.1078,0.0295,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+76.csv,76,CARE-WT-53,anomaly_event,WEC in failure with pitch battery issues - rewiring,True,108,152,117.17,0.2113,0.2635,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+78.csv,78,CARE-WT-15,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,6,13,,0.0,0.0134,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+79.csv,79,CARE-WT-16,anomaly_event,Communication fault BK1120 in NC300,False,54,87,,0.2392,0.2193,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+81.csv,81,CARE-WT-38,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",True,167,236,180.5,0.4017,0.4135,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+9.csv,9,CARE-WT-55,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,24,80,,0.0885,0.0237,insufficient_persistence,Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+90.csv,90,CARE-WT-56,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,True,153,270,279.67,0.0135,0.0987,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+91.csv,91,CARE-WT-42,anomaly_event,23020 : Axis 3 not ready-to-operate,True,262,554,661.5,0.275,0.0943,NONE (DETECTED),Wind Farm B,Wind Farm C,STRICT_ZERO_SHOT
+11.csv,11,CARE-WT-43,anomaly_event,P20_DGUV-v3 RCD 28F1 NC310 defective + 0 : P20_Blades_Cabinet Caps missing,False,36,200,,0.0256,0.0581,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+12.csv,12,CARE-WT-2,anomaly_event,"10115 : Oil level error, two-pump mode + Oil Leakage Gear Oil Supply + 12019: Rotor brake B cannot be closed + P20_yaw carbon brush damaged",False,4,4,,0.0,0.0016,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+15.csv,15,CARE-WT-12,anomaly_event,Randomn small failures regarding pitch resulting in a longer standstill due to a defect pitch encoder (26/02),False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+16.csv,16,CARE-WT-53,anomaly_event,WEC in failure - hub battery charger defect,True,401,806,,0.0,0.3987,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+18.csv,18,CARE-WT-34,anomaly_event,We had some failures (störung 24VAC Versorgung Rotorbremse) on the 16th in the afternoon. From 17th onwards a longer standstill where we don't know the root cause to. ,True,277,340,149.5,0.009,0.0025,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+28.csv,28,CARE-WT-52,anomaly_event,P20_spinner_carbonbrush defekt + P20_Accumulators_hydraulic system,False,6,16,,0.0021,0.0073,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+30.csv,30,CARE-WT-16,anomaly_event,Pitch failure - defect fan on pitch motor,True,622,1338,527.17,0.0227,0.3418,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+31.csv,31,CARE-WT-35,anomaly_event,Communication and Pitchfailure - slip ring and Beckhoff card,False,69,90,,0.0219,0.1176,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+33.csv,33,CARE-WT-43,anomaly_event,P20_Blade3_Grease Collector missing,False,12,14,,0.0,0.0064,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+35.csv,35,CARE-WT-53,anomaly_event,"Turbine had several short standstills (max 8min) with failure ""Schwingungen Umrichter Drehmomenten Level 1""",False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+39.csv,39,CARE-WT-52,anomaly_event,15004 : Safety chain relay open + 93005 : Gear oil cooler bypass valve,False,63,124,,0.0,0.1225,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+4.csv,4,CARE-WT-34,anomaly_event,23020 : Axis 3 not ready-to-operate,False,38,71,,0.0,0.0,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+44.csv,44,CARE-WT-44,anomaly_event,Valve in water cooling system was left in wrong position after maintenance actions on 05-08-2020,False,27,62,,0.0,0.001,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+47.csv,47,CARE-WT-21,anomaly_event,"Failure due to Rotorbrake and Hydraulic problemes - Hydraulic pump A disabeld, 2h later turbine back in production - Data shows anomaly in temp_hydraulic_oil_tank_1_average until 15.01.2023",False,6,19,,0.0,0.0,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+49.csv,49,CARE-WT-33,anomaly_event,Failure 2023-04-05 03:30 - defective coupling between gear oil pump and motor,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+5.csv,5,CARE-WT-32,anomaly_event,WEC in failure - current measurement own consumption,True,124,197,97.33,0.0,0.2227,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+55.csv,55,CARE-WT-50,anomaly_event,Harting plug Nacelle/HUB damaged + NCR20_HUB: Wiring blade control system,False,18,43,,0.0329,0.0232,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+66.csv,66,CARE-WT-12,anomaly_event,"Pitchfailure - defect Beckhoffcard, Axis 2, rectified on 23/01 - Anomalie liegt aber länger an als der Fehler, Batterien waren ok",True,78,101,,0.0,0.1429,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+67.csv,67,CARE-WT-35,anomaly_event,Turbine has some issues with overpressure on the main transformer,False,67,177,,0.0259,0.013,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+70.csv,70,CARE-WT-23,anomaly_event,"21002 : Axis 1 DC-link voltage low, batt",False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+76.csv,76,CARE-WT-53,anomaly_event,WEC in failure with pitch battery issues - rewiring,True,81,87,,0.0,0.0,NONE (DETECTED),Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+78.csv,78,CARE-WT-15,anomaly_event,P20_Grounding role brake disc + P20_cover-lightning-main-cabinet-hub,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+79.csv,79,CARE-WT-16,anomaly_event,Communication fault BK1120 in NC300,False,3,3,,0.0,0.0113,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+81.csv,81,CARE-WT-38,anomaly_event,"Converter Failure from 17.11 12:30 - 18.11. 13:57, Fuse Filter Supply ",False,26,119,,0.6357,0.2977,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+9.csv,9,CARE-WT-55,anomaly_event,PENDING19_PREV_YAW_Grease pump defective,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+90.csv,90,CARE-WT-56,anomaly_event,COMMUNICATION FAULT BK1120 IN NC300 A2,False,11,41,,0.0,0.0042,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+91.csv,91,CARE-WT-42,anomaly_event,23020 : Axis 3 not ready-to-operate,False,25,77,,0.004,0.0067,insufficient_persistence,Wind Farm B,Wind Farm C,TARGET_NORMAL_CALIBRATED
+0.csv,0,CARE-WT-0,anomaly_event,Generator bearing failure,False,0,9,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+10.csv,10,CARE-WT-10,anomaly_event,Gearbox failure,False,0,2,,0.0101,0.0027,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+22.csv,22,CARE-WT-21,anomaly_event,Hydraulic group,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+26.csv,26,CARE-WT-0,anomaly_event,Hydraulic group,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+40.csv,40,CARE-WT-10,anomaly_event,Generator bearing failure,False,7,12,,0.0,0.0009,insufficient_persistence,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+42.csv,42,CARE-WT-10,anomaly_event,Hydraulic group,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+45.csv,45,CARE-WT-13,anomaly_event,Hydraulic group,False,0,0,,1.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+68.csv,68,CARE-WT-11,anomaly_event,Transformer failure,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+72.csv,72,CARE-WT-21,anomaly_event,Gearbox failure,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+73.csv,73,CARE-WT-0,anomaly_event,Hydraulic group,False,2,32,,0.133,0.0068,insufficient_persistence,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+84.csv,84,CARE-WT-13,anomaly_event,Hydraulic group,False,0,0,,1.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,STRICT_ZERO_SHOT
+0.csv,0,CARE-WT-0,anomaly_event,Generator bearing failure,True,286,534,403.83,0.0581,0.0225,NONE (DETECTED),Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+10.csv,10,CARE-WT-10,anomaly_event,Gearbox failure,False,0,70,,0.2341,0.0802,no_threshold_crossing,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+22.csv,22,CARE-WT-21,anomaly_event,Hydraulic group,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+26.csv,26,CARE-WT-0,anomaly_event,Hydraulic group,False,0,12,,0.0568,0.0003,no_threshold_crossing,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+40.csv,40,CARE-WT-10,anomaly_event,Generator bearing failure,True,153,795,691.17,0.4001,0.0958,NONE (DETECTED),Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+42.csv,42,CARE-WT-10,anomaly_event,Hydraulic group,False,6,75,,0.2691,0.0516,insufficient_persistence,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+45.csv,45,CARE-WT-13,anomaly_event,Hydraulic group,False,46,105,,1.0,0.0808,insufficient_persistence,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+68.csv,68,CARE-WT-11,anomaly_event,Transformer failure,False,0,0,,0.0,0.0,no_threshold_crossing,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+72.csv,72,CARE-WT-21,anomaly_event,Gearbox failure,False,27,37,,0.0,0.0,insufficient_persistence,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+73.csv,73,CARE-WT-0,anomaly_event,Hydraulic group,False,26,139,,0.3726,0.0152,insufficient_persistence,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+84.csv,84,CARE-WT-13,anomaly_event,Hydraulic group,False,16,36,,1.0,0.0029,insufficient_persistence,Wind Farm C,Wind Farm A,TARGET_NORMAL_CALIBRATED
+19.csv,19,CARE-WT-11,anomaly_event,high temperature,False,7,7,,0.0,0.0018,insufficient_persistence,Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+27.csv,27,CARE-WT-7,anomaly_event,Turbine is stopped due to a main bearing damage,True,114,370,,0.0,0.0032,NONE (DETECTED),Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+34.csv,34,CARE-WT-14,anomaly_event,high temperature,False,17,17,,0.0,0.0,insufficient_persistence,Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+53.csv,53,CARE-WT-6,anomaly_event,Rotor Bearing 2 - Damage,True,146,243,953.0,0.0164,0.0533,NONE (DETECTED),Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+7.csv,7,CARE-WT-13,anomaly_event,high temperature,False,8,10,,0.0,0.0,insufficient_persistence,Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+77.csv,77,CARE-WT-12,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,False,5,21,,0.0019,0.0022,insufficient_persistence,Wind Farm C,Wind Farm B,STRICT_ZERO_SHOT
+19.csv,19,CARE-WT-11,anomaly_event,high temperature,False,7,12,,0.0,0.0018,insufficient_persistence,Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED
+27.csv,27,CARE-WT-7,anomaly_event,Turbine is stopped due to a main bearing damage,True,814,984,802.5,0.0018,0.0106,NONE (DETECTED),Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED
+34.csv,34,CARE-WT-14,anomaly_event,high temperature,False,17,40,,0.0016,0.0097,insufficient_persistence,Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED
+53.csv,53,CARE-WT-6,anomaly_event,Rotor Bearing 2 - Damage,True,247,286,994.83,0.0078,0.0622,NONE (DETECTED),Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED
+7.csv,7,CARE-WT-13,anomaly_event,high temperature,False,53,168,,0.0047,0.0248,insufficient_persistence,Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED
+77.csv,77,CARE-WT-12,anomaly_event,Turbine is in standstill since 01.08 due to rotorbearing damage.,True,184,600,1184.67,0.0076,0.032,NONE (DETECTED),Wind Farm C,Wind Farm B,TARGET_NORMAL_CALIBRATED

@@ -1,0 +1,32 @@
+{
+  "gate": "Gate 5.5",
+  "title": "Solar Data Foundation & Evidence Architecture",
+  "timestamp_utc": "2026-09-12T14:52:51Z",
+  "elapsed_seconds": 0.01,
+  "primary_recommendations": {
+    "PRIMARY_OPERATIONAL_SOURCE": "NREL PVDAQ (OEDI submission 4568, DOI 10.25984/1846021) for diverse real operational PV time series.",
+    "PRIMARY_ENVIRONMENT_SOURCE": "NREL NSRDB (Sengupta et al. 2018) for satellite irradiance and environmental reference context.",
+    "PRIMARY_PHYSICS_REFERENCE": "Sandia PVPMC & pvlib-python ecosystem (Holmgren et al. 2018) for deterministic expected-power models P_expected = f(G, T, theta).",
+    "PRIMARY_DEGRADATION_SOURCE": "DuraMAT / NREL PV Fleet Performance Data Initiative for empirical fleet-wide degradation priors.",
+    "PRIMARY_FAILURE_SOURCE": "NREL Synthetic PV Outage Injections (Muller et al. 2023) and DKASC Alice Springs maintenance logs for verified failure recall benchmarking.",
+    "KNOWN_DATA_GAPS": [
+      "String-level electrical current/voltage channels are missing from primary utility-scale open releases (inverter-level only).",
+      "Binary failure ground-truth timestamps are absent from real commercial PV operational datasets; maintenance is recorded as unstructured work orders.",
+      "Real soiling measurements require paired clean/soiled pyranometers or regular washing schedules."
+    ],
+    "RECOMMENDED_GATE_5_6_INPUT": "Combine NREL PVDAQ real operational time series with pvlib physical expected-power twin and NSRDB satellite irradiance cross-check."
+  },
+  "audited_sources_count": 8,
+  "canonical_signals_count": 26,
+  "forbidden_ambiguous_tokens": [
+    "power",
+    "voltage",
+    "current",
+    "temp",
+    "sensor",
+    "value",
+    "alarm",
+    "status",
+    "irrad"
+  ]
+}

@@ -1,0 +1,203 @@
+[
+  {
+    "farm": "Wind Farm A",
+    "feature_policy": "care_common",
+    "semantic_name": "wind_speed",
+    "source_raw_column": "wind_speed_3_avg",
+    "unit": "m/s",
+    "transformation": "degree-2 polynomial independent variable (aerodynamic driver)",
+    "training_rows": 1146154,
+    "training_only_statistics": {
+      "has_power_curve": true,
+      "has_rotor_curve": true
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 83,
+    "farm_raw_columns_count": 86,
+    "farm_native_sensors_count": 81,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm A",
+    "feature_policy": "care_common",
+    "semantic_name": "active_power",
+    "source_raw_column": "power_29_avg",
+    "unit": "kW",
+    "transformation": "degree-2 expected curve underproduction residual: max((P_exp - P_act - mu)/sigma, 0)",
+    "training_rows": 1146154,
+    "training_only_statistics": {
+      "mu": 0.0,
+      "sigma": 0.1001,
+      "poly_coefficients": [
+        -0.00025,
+        0.089507,
+        -0.253689
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 83,
+    "farm_raw_columns_count": 86,
+    "farm_native_sensors_count": 81,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm A",
+    "feature_policy": "care_common",
+    "semantic_name": "rotor_speed",
+    "source_raw_column": "sensor_52_avg",
+    "unit": "rpm",
+    "transformation": "degree-2 expected curve absolute residual: abs(R_act - R_exp - mu)/sigma",
+    "training_rows": 1146154,
+    "training_only_statistics": {
+      "mu": 1.7749,
+      "sigma": 2.1701,
+      "poly_coefficients": [
+        -0.14734,
+        3.389512,
+        -3.887456
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 83,
+    "farm_raw_columns_count": 86,
+    "farm_native_sensors_count": 81,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm B",
+    "feature_policy": "care_common",
+    "semantic_name": "wind_speed",
+    "source_raw_column": "wind_speed_59_avg",
+    "unit": "m/s",
+    "transformation": "degree-2 polynomial independent variable (aerodynamic driver)",
+    "training_rows": 786937,
+    "training_only_statistics": {
+      "has_power_curve": true,
+      "has_rotor_curve": true
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 254,
+    "farm_raw_columns_count": 257,
+    "farm_native_sensors_count": 252,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm B",
+    "feature_policy": "care_common",
+    "semantic_name": "active_power",
+    "source_raw_column": "power_58_avg",
+    "unit": "kW",
+    "transformation": "degree-2 expected curve underproduction residual: max((P_exp - P_act - mu)/sigma, 0)",
+    "training_rows": 786937,
+    "training_only_statistics": {
+      "mu": -0.0,
+      "sigma": 0.143,
+      "poly_coefficients": [
+        -0.002364,
+        0.12851,
+        -0.420629
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 254,
+    "farm_raw_columns_count": 257,
+    "farm_native_sensors_count": 252,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm B",
+    "feature_policy": "care_common",
+    "semantic_name": "rotor_speed",
+    "source_raw_column": "sensor_25_avg",
+    "unit": "rpm",
+    "transformation": "degree-2 expected curve absolute residual: abs(R_act - R_exp - mu)/sigma",
+    "training_rows": 786937,
+    "training_only_statistics": {
+      "mu": 1.6028,
+      "sigma": 1.9153,
+      "poly_coefficients": [
+        -0.050947,
+        1.498786,
+        -1.33756
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 254,
+    "farm_raw_columns_count": 257,
+    "farm_native_sensors_count": 252,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm C",
+    "feature_policy": "care_common",
+    "semantic_name": "wind_speed",
+    "source_raw_column": "wind_speed_235_avg",
+    "unit": "m/s",
+    "transformation": "degree-2 polynomial independent variable (aerodynamic driver)",
+    "training_rows": 3028608,
+    "training_only_statistics": {
+      "has_power_curve": true,
+      "has_rotor_curve": true
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 954,
+    "farm_raw_columns_count": 957,
+    "farm_native_sensors_count": 952,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm C",
+    "feature_policy": "care_common",
+    "semantic_name": "active_power",
+    "source_raw_column": "power_17_avg",
+    "unit": "kW",
+    "transformation": "degree-2 expected curve underproduction residual: max((P_exp - P_act - mu)/sigma, 0)",
+    "training_rows": 3028608,
+    "training_only_statistics": {
+      "mu": -0.0001,
+      "sigma": 0.2787,
+      "poly_coefficients": [
+        0.001438,
+        0.011376,
+        0.146061
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 954,
+    "farm_raw_columns_count": 957,
+    "farm_native_sensors_count": 952,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  },
+  {
+    "farm": "Wind Farm C",
+    "feature_policy": "care_common",
+    "semantic_name": "rotor_speed",
+    "source_raw_column": "sensor_144_avg",
+    "unit": "rpm",
+    "transformation": "degree-2 expected curve absolute residual: abs(R_act - R_exp - mu)/sigma",
+    "training_rows": 3028608,
+    "training_only_statistics": {
+      "mu": 3.6266,
+      "sigma": 2.9362,
+      "poly_coefficients": [
+        0.016965,
+        0.155992,
+        6.322916
+      ]
+    },
+    "threshold_source": "z_threshold>=2.5, persistence>=3 steps",
+    "bypassed_native_extras": 954,
+    "farm_raw_columns_count": 957,
+    "farm_native_sensors_count": 952,
+    "feature_policy_classification": "RAI_COMMON == RAI_NATIVE == RAI_CURRENT",
+    "architectural_rationale": "RAIChampionDetector strictly grounds anomaly detection in canonical aerodynamic power curve underproduction residuals and rotor curve residuals with rolling persistence gating. High-dimensional uncurated native sensors (81 in A, 252 in B, 952 in C) are bypassed by architectural design to prevent high-dimensional contamination, noise overfitting, and catastrophic scale collapse."
+  }
+]

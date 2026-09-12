@@ -1,0 +1,565 @@
+[
+  {
+    "farm": "Wind Farm A",
+    "turbine_id": "CARE-WT-0",
+    "number_of_datasets": 5,
+    "anomaly_sequences": 3,
+    "normal_sequences": 2,
+    "total_rows": 272477,
+    "data_duration_hours": 45412.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 5,
+    "dataset_ids": [
+      0,
+      24,
+      26,
+      71,
+      73
+    ]
+  },
+  {
+    "farm": "Wind Farm A",
+    "turbine_id": "CARE-WT-10",
+    "number_of_datasets": 5,
+    "anomaly_sequences": 3,
+    "normal_sequences": 2,
+    "total_rows": 274213,
+    "data_duration_hours": 45702.2,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 5,
+    "dataset_ids": [
+      3,
+      10,
+      17,
+      40,
+      42
+    ]
+  },
+  {
+    "farm": "Wind Farm A",
+    "turbine_id": "CARE-WT-11",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 1,
+    "normal_sequences": 3,
+    "total_rows": 217950,
+    "data_duration_hours": 36325.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      25,
+      68,
+      69,
+      92
+    ]
+  },
+  {
+    "farm": "Wind Farm A",
+    "turbine_id": "CARE-WT-13",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 216543,
+    "data_duration_hours": 36090.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      14,
+      38,
+      45,
+      84
+    ]
+  },
+  {
+    "farm": "Wind Farm A",
+    "turbine_id": "CARE-WT-21",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 215564,
+    "data_duration_hours": 35927.3,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      13,
+      22,
+      51,
+      72
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-0",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 53514,
+    "data_duration_hours": 8919.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      21
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-11",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 111876,
+    "data_duration_hours": 18646.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      19,
+      74
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-12",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 117262,
+    "data_duration_hours": 19543.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      77,
+      86
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-13",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 112662,
+    "data_duration_hours": 18777.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      2,
+      7
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-14",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 111832,
+    "data_duration_hours": 18638.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      34,
+      52
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-2",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 66154,
+    "data_duration_hours": 11025.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      83
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-5",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 54992,
+    "data_duration_hours": 9165.3,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      82
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-6",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 113149,
+    "data_duration_hours": 18858.2,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      23,
+      53
+    ]
+  },
+  {
+    "farm": "Wind Farm B",
+    "turbine_id": "CARE-WT-7",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 117624,
+    "data_duration_hours": 19604.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      27,
+      87
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-12",
+    "number_of_datasets": 3,
+    "anomaly_sequences": 2,
+    "normal_sequences": 1,
+    "total_rows": 163089,
+    "data_duration_hours": 27181.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 3,
+    "dataset_ids": [
+      15,
+      50,
+      66
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-13",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 54865,
+    "data_duration_hours": 9144.2,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      29
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-14",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 52417,
+    "data_duration_hours": 8736.2,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      85
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-15",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 107579,
+    "data_duration_hours": 17929.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      64,
+      78
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-16",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 220443,
+    "data_duration_hours": 36740.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      30,
+      46,
+      65,
+      79
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-2",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 111555,
+    "data_duration_hours": 18592.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      12,
+      36
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-21",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 107441,
+    "data_duration_hours": 17906.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      47,
+      62
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-23",
+    "number_of_datasets": 3,
+    "anomaly_sequences": 1,
+    "normal_sequences": 2,
+    "total_rows": 164664,
+    "data_duration_hours": 27444.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 3,
+    "dataset_ids": [
+      37,
+      70,
+      80
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-32",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 107660,
+    "data_duration_hours": 17943.3,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      5,
+      59
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-33",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 108680,
+    "data_duration_hours": 18113.3,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      41,
+      49
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-34",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 217578,
+    "data_duration_hours": 36263.0,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      4,
+      18,
+      56,
+      94
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-35",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 225808,
+    "data_duration_hours": 37634.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      31,
+      48,
+      58,
+      67
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-38",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 108797,
+    "data_duration_hours": 18132.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      6,
+      81
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-42",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 111617,
+    "data_duration_hours": 18602.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      32,
+      91
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-43",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 223768,
+    "data_duration_hours": 37294.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      11,
+      33,
+      61,
+      93
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-44",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 119164,
+    "data_duration_hours": 19860.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      44,
+      75
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-5",
+    "number_of_datasets": 1,
+    "anomaly_sequences": 0,
+    "normal_sequences": 1,
+    "total_rows": 54577,
+    "data_duration_hours": 9096.2,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 1,
+    "dataset_ids": [
+      89
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-50",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 110555,
+    "data_duration_hours": 18425.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      8,
+      55
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-52",
+    "number_of_datasets": 4,
+    "anomaly_sequences": 2,
+    "normal_sequences": 2,
+    "total_rows": 220383,
+    "data_duration_hours": 36730.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 4,
+    "dataset_ids": [
+      28,
+      39,
+      43,
+      54
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-53",
+    "number_of_datasets": 6,
+    "anomaly_sequences": 3,
+    "normal_sequences": 3,
+    "total_rows": 320272,
+    "data_duration_hours": 53378.7,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 6,
+    "dataset_ids": [
+      1,
+      16,
+      20,
+      35,
+      60,
+      76
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-55",
+    "number_of_datasets": 3,
+    "anomaly_sequences": 1,
+    "normal_sequences": 2,
+    "total_rows": 166479,
+    "data_duration_hours": 27746.5,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 3,
+    "dataset_ids": [
+      9,
+      57,
+      88
+    ]
+  },
+  {
+    "farm": "Wind Farm C",
+    "turbine_id": "CARE-WT-56",
+    "number_of_datasets": 2,
+    "anomaly_sequences": 1,
+    "normal_sequences": 1,
+    "total_rows": 109745,
+    "data_duration_hours": 18290.8,
+    "feature_count": 2,
+    "valid_train_pred_pairs": 2,
+    "dataset_ids": [
+      63,
+      90
+    ]
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "Wind Farm A": {
+    "sensor_descriptions_count": 54,
+    "raw_total_columns": 86,
+    "metadata_columns_count": 5,
+    "recognized_sensor_columns": 81,
+    "semantic_categories_breakdown": {
+      "temperature": 25,
+      "angles": 2,
+      "wind_speed": 2,
+      "pitch": 1,
+      "generator": 1,
+      "electrical": 8,
+      "reactive_power": 7,
+      "active_power": 6,
+      "nacelle": 1,
+      "rotor_speed": 1
+    },
+    "care_2d_columns": [
+      "power_29_avg",
+      "wind_speed_3_avg"
+    ],
+    "care_common_columns": [
+      "power_29_avg",
+      "wind_speed_3_avg",
+      "sensor_52_avg"
+    ],
+    "care_native_columns_count": 81
+  },
+  "Wind Farm B": {
+    "sensor_descriptions_count": 63,
+    "raw_total_columns": 257,
+    "metadata_columns_count": 5,
+    "recognized_sensor_columns": 252,
+    "semantic_categories_breakdown": {
+      "counters": 4,
+      "angles": 1,
+      "electrical": 18,
+      "wind_speed": 4,
+      "temperature": 25,
+      "pitch": 1,
+      "reactive_power": 1,
+      "generator": 1,
+      "gearbox": 1,
+      "nacelle": 1,
+      "rotor_speed": 1,
+      "vibration": 3,
+      "active_power": 2
+    },
+    "care_2d_columns": [
+      "wind_speed_59_avg",
+      "power_58_avg"
+    ],
+    "care_common_columns": [
+      "sensor_25_avg",
+      "wind_speed_59_avg",
+      "power_58_avg"
+    ],
+    "care_native_columns_count": 252
+  },
+  "Wind Farm C": {
+    "sensor_descriptions_count": 238,
+    "raw_total_columns": 957,
+    "metadata_columns_count": 5,
+    "recognized_sensor_columns": 952,
+    "semantic_categories_breakdown": {
+      "other_sensor": 18,
+      "vibration": 5,
+      "active_power": 6,
+      "temperature": 77,
+      "generator": 11,
+      "electrical": 48,
+      "angles": 7,
+      "hydraulic": 14,
+      "nacelle": 4,
+      "pitch": 5,
+      "yaw": 9,
+      "reactive_power": 5,
+      "gearbox": 8,
+      "pressure": 14,
+      "rotor_speed": 4,
+      "wind_speed": 3
+    },
+    "care_2d_columns": [
+      "power_17_avg",
+      "wind_speed_235_avg"
+    ],
+    "care_common_columns": [
+      "sensor_144_avg",
+      "power_17_avg",
+      "wind_speed_235_avg"
+    ],
+    "care_native_columns_count": 952
+  }
+}

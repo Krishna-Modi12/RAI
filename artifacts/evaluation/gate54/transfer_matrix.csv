@@ -1,0 +1,7 @@
+source_farm,target_farm,frozen_care,calibrated_care,reference_care
+Wind Farm A,Wind Farm B,0.5705,0.565,0.5417
+Wind Farm A,Wind Farm C,0.5927,0.594,0.5521
+Wind Farm B,Wind Farm A,0.5906,0.5806,0.5722
+Wind Farm B,Wind Farm C,0.5977,0.594,0.5521
+Wind Farm C,Wind Farm A,0.4392,0.5806,0.5722
+Wind Farm C,Wind Farm B,0.5452,0.565,0.5417
