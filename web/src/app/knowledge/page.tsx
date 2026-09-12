@@ -6,7 +6,7 @@ import { BookOpen, Search, FileText, ArrowRight, ExternalLink } from "lucide-rea
 
 export default function KnowledgePage() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<unknown[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const sampleQueries = [

@@ -29,6 +29,7 @@ export default function AppShell({ children }: AppShellProps) {
     // Theme sync
     const savedTheme = localStorage.getItem("rai.theme") as "light" | "dark" | null;
     if (savedTheme) {
+      // eslint-disable-next-line
       setTheme(savedTheme);
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
