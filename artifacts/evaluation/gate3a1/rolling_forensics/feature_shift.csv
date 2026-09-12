@@ -1,0 +1,4 @@
+signal,modality,ks_statistic,p_value,drift_magnitude
+wind_speed_ms,wind,0.274,0.0,MODERATE
+power_kw,wind,0.2832,0.0,MODERATE
+gearbox_oil_temp_c,wind,0.2389,0.0,MODERATE

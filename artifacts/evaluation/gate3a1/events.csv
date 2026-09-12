@@ -1,0 +1,7 @@
+event_id,asset,modality,site,failure_family,onset,failure_end,first_valid_alarm,lead_time,alarm_count,detected,false_alarms_before_event,confidence
+EVT-0008,WT-017,wind,kutch-wind,gearbox,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,2026-09-07T08:00:00Z,5.0,12,True,0,0.88
+EVT-0005,WT-011,wind,kutch-wind,pitch_system,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,2026-09-06T08:00:00Z,6.0,8,True,0,0.82
+EVT-0007,WT-015,wind,kutch-wind,yaw_system,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,2026-09-07T12:00:00Z,4.5,6,True,0,0.76
+EVT-0002,WT-004,wind,kutch-wind,generator,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,2026-09-06T12:00:00Z,5.5,9,True,0,0.85
+EVT-0009,INV-007,solar,charanka-solar,dc_string,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,False,0,0.32
+EVT-0011,INV-015,solar,charanka-solar,inverter,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,2026-09-10T08:00:00Z,2.0,4,True,1,0.74

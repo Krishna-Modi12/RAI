@@ -1,0 +1,30 @@
+{
+  "git_sha": "df4194edd51b5f1d84266a15e07fc805d9a2796c",
+  "python_version": "3.11.9",
+  "sklearn_version": "1.8.0",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "production_decision_threshold": 0.45,
+  "calibration_method": "platt_scaling_and_isotonic_audit",
+  "random_seed": 42,
+  "embargo_hours_enforced": 342.0,
+  "embargo_formula": "336.0h (14d lookback) + 6.0h (thermal inertia lag) = 342.0h",
+  "dataset_hashes": {
+    "events": "MISSING",
+    "wt017_telemetry": "MISSING",
+    "inv023_telemetry": "MISSING"
+  },
+  "configuration_hashes": {
+    "rai_config": "53895682f470cfca908fbde0883024f450ded2bbf17964f240ca86a181398991",
+    "rai_schemas": "4afc67cddfbe814163e885cbf46163ba8a7426c368fa7c4c94c52568068c91f4"
+  },
+  "feature_schema_hashes": {
+    "feature_build": "2b064ffbab66e4c446daae92eee35451c26e643b5333cedc961452a7a5c68aee",
+    "pipeline": "b4f59d302d4acc3babaa88a1a06332094228f0e488b801b7f227b8221a64b7a4"
+  },
+  "model_artifact_hashes": {
+    "gate2_scorecard": "02e6e41e81c6b1448c5a1c80f2cb1e29ab43db6933850a024693f1e585f9e169",
+    "gate2_rolling": "62c69839420e522ecc386e377a90b3b8926aa100f73ce9817be3bf43b764ffb8"
+  },
+  "evaluation_command": "python scripts/evaluate_phase3a1.py",
+  "timestamp_utc": "2026-09-12T10:55:12.323602+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "evaluation_phase": "Phase 3A-1 \u2014 Temporal Stability Forensics & Benchmark Integrity",
+  "timestamp_utc": "2026-09-12T10:55:14.097889+00:00",
+  "runtime_seconds": 1.82,
+  "git_sha": "df4194edd51b5f1d84266a15e07fc805d9a2796c",
+  "statuses": {
+    "embargo_status": "PASS",
+    "documentation_status": "PASS",
+    "reproducibility_status": "PASS",
+    "rolling_origin_status": "PARTIAL",
+    "event_level_status": "PASS",
+    "uncertainty_status": "PASS",
+    "baseline_stability_status": "PASS",
+    "threshold_stability_status": "PARTIAL",
+    "failure_family_status": "INSUFFICIENT_DATA"
+  },
+  "metrics": {
+    "independent_event_count": 6,
+    "event_recall": 0.8333,
+    "median_lead_time_days": 5.0,
+    "holdout_pr_auc": 0.822,
+    "holdout_mcc": 0.69,
+    "holdout_precision": 0.8,
+    "holdout_recall": 0.667,
+    "rolling_macro_pr_auc": "0.294 \u00b1 0.324",
+    "rolling_event_weighted_pr_auc": 0.5558636363636363,
+    "pr_auc_gap": 0.528,
+    "derived_embargo_hours": 342.0,
+    "production_decision_threshold": 0.45,
+    "baseline_power_r2": 0.9944
+  },
+  "interpretation": "The model retains useful fault-detection signal, but rolling performance is highly heterogeneous across chronological folds due to extreme failure event sparsity (Fold 1 has 0 events, Fold 2 has 1 event). When weighted by events, PR-AUC is 0.556 (0.831 in Fold 4). Generalization cannot be fully validated without larger external failure corpora.",
+  "unresolved_questions": [
+    "Does temporal generalization hold on multi-year wind SCADA with dozens of natural failures?",
+    "Can cross-turbine and cross-farm transfer succeed without site-specific retraining?",
+    "How does the detector behave when challenged with genuinely unseen failure families?"
+  ]
+}

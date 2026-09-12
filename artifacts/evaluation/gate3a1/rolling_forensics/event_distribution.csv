@@ -1,0 +1,12 @@
+fold_id,event_id,asset_id,component,onset,is_equipment_fault,site
+2,EVT-0008,WT-017,gearbox,2026-08-27 08:00:00+00:00,True,kutch-wind
+3,EVT-0008,WT-017,gearbox,2026-08-27 08:00:00+00:00,True,kutch-wind
+3,EVT-0005,WT-011,pitch_system,2026-08-31 08:00:00+00:00,True,kutch-wind
+3,EVT-0007,WT-015,yaw_system,2026-09-01 08:00:00+00:00,True,kutch-wind
+3,EVT-0002,WT-004,generator,2026-09-03 08:00:00+00:00,True,kutch-wind
+4,EVT-0008,WT-017,gearbox,2026-08-27 08:00:00+00:00,True,kutch-wind
+4,EVT-0005,WT-011,pitch_system,2026-08-31 08:00:00+00:00,True,kutch-wind
+4,EVT-0007,WT-015,yaw_system,2026-09-01 08:00:00+00:00,True,kutch-wind
+4,EVT-0002,WT-004,generator,2026-09-03 08:00:00+00:00,True,kutch-wind
+4,EVT-0009,INV-007,dc_string,2026-09-06 08:00:00+00:00,True,charanka-solar
+4,EVT-0011,INV-015,inverter,2026-09-06 08:00:00+00:00,True,charanka-solar

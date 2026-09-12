@@ -1,0 +1,5 @@
+fold_id,fit_duration_days,fit_row_count,power_curve_r2,selected_val_threshold,production_threshold,threshold_delta,validation_care_at_optimal,validation_care_at_production,threshold_instability_status
+1,17.3,104630,0.9941,0.45,0.45,0.0,1.0,1.0,STABLE_DEFAULT (0 positive events in window)
+2,23.3,140918,0.9943,0.58,0.45,0.13,0.72,0.5,HIGH_INSTABILITY (Sparse N=1 event forces elevated threshold)
+3,29.3,177206,0.9945,0.48,0.45,0.03,0.612,0.568,"MODERATE_INSTABILITY (N=4 events, aligns near production 0.45)"
+4,35.3,213494,0.9948,0.45,0.45,0.0,0.611,0.611,"STABLE_OPTIMAL (N=6 events, exactly matches production threshold)"

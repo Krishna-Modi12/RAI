@@ -1,0 +1,15 @@
+Pillar,Metric,Value,Status
+Embargo Math,Derived Embargo Hours,342.0,PASS
+Documentation Integrity,Legacy Fabricated Claims Scrub,100% Scrubbed,PASS
+Reproducibility,Frozen Baseline Metadata,df4194ed,PASS
+Rolling Backtest,Macro Mean PR-AUC,0.294 ± 0.324,PARTIAL
+Rolling Backtest,Event-Weighted PR-AUC,0.5559,PASS
+Locked Holdout,Holdout PR-AUC,0.822,PASS
+Locked Holdout,Holdout MCC,0.690,PASS
+Event Accounting,Independent Failure Episodes,N=6,PASS
+Event Accounting,Event Recall (Detection Rate),83.3%,PASS
+Event Accounting,Median Lead Time,5.0 days,PASS
+Uncertainty Bounds,Event-Level 95% CI,"[0.50, 1.00]",PASS
+Baseline Fit,Power Curve Tracking R²,0.9944,PASS
+Threshold Stability,Production Threshold Mismatch,θ=0.45 vs 0.58 in Fold 2,PARTIAL
+Failure Families,Leave-One-Family-Out Feasibility,N=1 per family,INSUFFICIENT_DATA

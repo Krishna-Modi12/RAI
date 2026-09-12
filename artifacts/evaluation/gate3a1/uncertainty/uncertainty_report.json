@@ -1,0 +1,67 @@
+{
+  "status": "COMPLETED",
+  "methodology": "Dependence-aware event-level and asset-cluster bootstrap",
+  "sample_limitation": "N=6 independent failure episodes across 42 assets over 45 calendar days",
+  "intervals": [
+    {
+      "metric": "event_recall",
+      "point_estimate": 0.83,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "confidence_level": 0.95,
+      "resampling_unit": "independent_failure_episode",
+      "n_resampling_units": 6,
+      "n_bootstrap_repetitions": 1000,
+      "random_seed": 42,
+      "epistemic_limitation": "N=6 failure episodes is a very small sample. A single missed event alters recall by 16.7%. The 95% bootstrap CI spans broadly from ~0.50 to 1.00."
+    },
+    {
+      "metric": "median_lead_time_days",
+      "point_estimate": 5.0,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 6.0,
+      "confidence_level": 0.95,
+      "resampling_unit": "independent_failure_episode",
+      "n_resampling_units": 6,
+      "n_bootstrap_repetitions": 1000,
+      "random_seed": 42,
+      "epistemic_limitation": "Resampled over detected episodes. CI spans 2.0 to 6.0 days."
+    },
+    {
+      "metric": "holdout_pr_auc",
+      "point_estimate": 0.976,
+      "ci_lower_95": 0.85,
+      "ci_upper_95": 1.0,
+      "confidence_level": 0.95,
+      "resampling_unit": "physical_asset_cluster",
+      "n_resampling_units": 42,
+      "n_bootstrap_repetitions": 1000,
+      "random_seed": 42,
+      "epistemic_limitation": "Cluster bootstrap across 42 assets (6 faulted). Accounts for asset-level correlation."
+    },
+    {
+      "metric": "holdout_mcc",
+      "point_estimate": 0.806,
+      "ci_lower_95": 0.469,
+      "ci_upper_95": 1.0,
+      "confidence_level": 0.95,
+      "resampling_unit": "physical_asset_cluster",
+      "n_resampling_units": 42,
+      "n_bootstrap_repetitions": 1000,
+      "random_seed": 42,
+      "epistemic_limitation": "Asset cluster bootstrap. Bounds reflect false alarm variation on 36 healthy assets."
+    },
+    {
+      "metric": "rolling_macro_pr_auc",
+      "point_estimate": 0.294,
+      "ci_lower_95": 0.042,
+      "ci_upper_95": 0.644,
+      "confidence_level": 0.95,
+      "resampling_unit": "chronological_fold",
+      "n_resampling_units": 4,
+      "n_bootstrap_repetitions": 1000,
+      "random_seed": 42,
+      "epistemic_limitation": "Computed across 4 chronological folds. Extremely wide CI [0.042, 0.644] confirms high inter-fold heterogeneity caused by fold-specific event sparsity (0 to 6 events per fold)."
+    }
+  ]
+}

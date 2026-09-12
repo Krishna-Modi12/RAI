@@ -1,0 +1,5 @@
+fold_id,train_start,train_end,embargo_hours,test_start,test_end,train_assets,test_assets,train_rows,test_rows,positive_timestamps,negative_timestamps,independent_positive_events,failure_families,event_duration_days,pr_auc,mcc,precision,recall,fa_per_year,median_lead_days,care_score,production_threshold
+1,2026-08-01T00:00:00Z,2026-08-18T07:50:00Z,342.0,2026-08-19T07:50:00Z,2026-08-25T07:50:00Z,42,42,102816,36288,0,36288,0,none,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.45
+2,2026-08-01T00:00:00Z,2026-08-24T07:50:00Z,342.0,2026-08-25T07:50:00Z,2026-08-31T07:50:00Z,42,42,139104,36288,864,35424,1,gearbox,16.0,0.0833,-0.0244,0.0,0.0,0.0,0.0,0.5,0.45
+3,2026-08-01T00:00:00Z,2026-08-30T07:50:00Z,342.0,2026-08-31T07:50:00Z,2026-09-06T07:50:00Z,42,42,175392,36288,3456,32832,4,gearbox; generator; pitch_system; yaw_system,12.0,0.2619,0.3311,0.3333,0.5,2.9,6.01,0.5675,0.45
+4,2026-08-01T00:00:00Z,2026-09-05T07:50:00Z,342.0,2026-09-06T07:50:00Z,2026-09-12T07:50:00Z,42,42,211680,36288,5184,31104,6,dc_string; gearbox; generator; inverter; pitch_system; yaw_system,6.0,0.8306,0.6903,0.8,0.6667,1.45,0.01,0.6114,0.45
