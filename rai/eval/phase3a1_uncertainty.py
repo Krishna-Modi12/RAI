@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-import pandas as pd
 from sklearn.metrics import average_precision_score, matthews_corrcoef
 
 log = logging.getLogger(__name__)
@@ -67,7 +66,7 @@ def compute_phase3a1_uncertainty(
     recall_lo = float(np.percentile(boot_recalls, 2.5))
     recall_hi = float(np.percentile(boot_recalls, 97.5))
 
-    lead_pt = float(np.median([l for l, d in zip(event_lead_times, event_detections) if d == 1]))
+    lead_pt = float(np.median([lead for lead, det in zip(event_lead_times, event_detections, strict=True) if det == 1]))
     lead_lo = float(np.percentile(boot_lead_medians, 2.5)) if boot_lead_medians else 0.0
     lead_hi = float(np.percentile(boot_lead_medians, 97.5)) if boot_lead_medians else 0.0
 
