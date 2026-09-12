@@ -28,6 +28,12 @@ farm's own `event_info.csv` labels:
    then combine into the final CARE score.
 
 Nothing here is fit to, or tuned against, any RAI model or synthetic result.
+
+`run_farm` takes a farm directory as a parameter and has no Farm-A-specific logic; it is
+reused as-is (not copied) for Farm B and Farm C in `docs/evaluation/EXTERNAL_GENERALIZATION.md`.
+`run_all`/`FARMS`/the CLI entrypoint below remain Farm-A-only by design - this file's own
+established default behavior is left unchanged; the multi-farm and cross-turbine/cross-farm
+orchestration lives in the sibling `cross_turbine.py` and `cross_farm.py` modules instead.
 """
 
 from __future__ import annotations

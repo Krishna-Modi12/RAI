@@ -1,9 +1,14 @@
 # External CARE-to-Compare Benchmark (Gate 2)
 
-**Status:** Executed on real data, real results below
+**Status:** Executed on real data, real results below (Farm A only - see below for Farm B/C)
 **Last updated:** 2026-09-12
 **Code:** `rai/eval/external/care/{metrics,adapter,farm_a_runner}.py`
 **Artifacts:** `artifacts/evaluation/gate2/external_care/{results.json,summary.md}`
+
+**Farm B and Farm C, plus cross-turbine and cross-farm generalization, are covered in a
+follow-on document:** `docs/evaluation/EXTERNAL_GENERALIZATION.md`. Everything below this
+line is unchanged from the original Farm-A-only task and still describes exactly what it
+always described - Farm A only, two baselines.
 
 ---
 
