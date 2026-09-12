@@ -1,0 +1,18 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "basic",
+  "include": ["rai", "services", "scripts", "tests"],
+  "exclude": ["**/__pycache__", ".venv", "web", "data", "artifacts"],
+  "reportMissingTypeStubs": false,
+  "reportUnknownMemberType": false,
+  "reportPrivateImportUsage": false,
+  "reportArgumentType": "warning",
+  "reportReturnType": "warning",
+  "reportAttributeAccessIssue": "warning",
+  "reportCallIssue": "warning",
+  "reportOptionalMemberAccess": "warning",
+  "reportOperatorIssue": "warning",
+  "reportGeneralTypeIssues": "warning"
+}

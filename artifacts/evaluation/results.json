@@ -1,0 +1,209 @@
+{
+  "computed_at": "2026-09-12T08:10:58.216806+00:00",
+  "data": {
+    "source": "synthetic_physics_sim",
+    "events": 12,
+    "telemetry_root": "data/synthetic"
+  },
+  "model_metrics": {
+    "wind_power": {
+      "mae": 11.647244183070864,
+      "rmse": 16.616053579639896,
+      "r2": 0.9992263449284952,
+      "n_train": 61560,
+      "n_test": 11426,
+      "unit": "kW"
+    },
+    "wind_gearbox_temp": {
+      "mae": 0.907850991740207,
+      "rmse": 1.200799828944683,
+      "r2": 0.9887971545668344,
+      "n_train": 61271,
+      "n_test": 11418,
+      "unit": "\u00b0C"
+    },
+    "wind_generator_temp": {
+      "mae": 1.4216524793815113,
+      "rmse": 1.8516603739965538,
+      "r2": 0.9900034879376018,
+      "n_train": 61272,
+      "n_test": 11415,
+      "unit": "\u00b0C"
+    },
+    "wind_bearing_temp": {
+      "mae": 0.6445798034024829,
+      "rmse": 0.8949787146867155,
+      "r2": 0.9883721543096803,
+      "n_train": 61264,
+      "n_test": 11415,
+      "unit": "\u00b0C"
+    },
+    "wind_vibration": {
+      "mae": 0.11574830983570811,
+      "rmse": 0.14665984009522445,
+      "r2": 0.9505847976264487,
+      "n_train": 61561,
+      "n_test": 11426,
+      "unit": "mm/s"
+    },
+    "solar_power": {
+      "mae": 1.91028425997048,
+      "rmse": 3.325146955029172,
+      "r2": 0.997992468688887,
+      "n_train": 31212,
+      "n_test": 8997,
+      "unit": "kW"
+    },
+    "solar_dc_power": {
+      "mae": 2.0319589220914605,
+      "rmse": 3.8347266563375286,
+      "r2": 0.9973844068560208,
+      "n_train": 31208,
+      "n_test": 8997,
+      "unit": "kW"
+    },
+    "solar_inverter_temp": {
+      "mae": 0.6332064858008964,
+      "rmse": 0.819891686185562,
+      "r2": 0.9837681188327625,
+      "n_train": 30799,
+      "n_test": 8995,
+      "unit": "\u00b0C"
+    }
+  },
+  "splits": {
+    "wind_turbine": {
+      "policy": "time_ordered_healthy_prefix",
+      "train": "2026-07-29..2026-08-25",
+      "validation": "2026-08-25..2026-09-03",
+      "test": "2026-09-03..2026-09-12"
+    },
+    "solar_inverter": {
+      "policy": "time_ordered_healthy_prefix",
+      "train": "2026-07-29..2026-08-25",
+      "validation": "2026-08-25..2026-09-03",
+      "test": "2026-09-03..2026-09-12"
+    }
+  },
+  "scenario_discrimination": {
+    "definition": "scenario-level equipment-vs-non-equipment agreement against simulator flags",
+    "n_scenarios": 12,
+    "correct": 12,
+    "accuracy": 1.0,
+    "rows": [
+      {
+        "asset_id": "INV-023",
+        "scenario": "soiling_accumulation",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "soiling",
+        "requires_human_review": false,
+        "confidence": 0.86
+      },
+      {
+        "asset_id": "WT-017",
+        "scenario": "gearbox_bearing_wear",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "gearbox",
+        "requires_human_review": false,
+        "confidence": 0.9
+      },
+      {
+        "asset_id": "WT-002",
+        "scenario": "anemometer_drift",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "anemometer",
+        "requires_human_review": true,
+        "confidence": 0.72
+      },
+      {
+        "asset_id": "WT-011",
+        "scenario": "pitch_misalignment",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "pitch_system",
+        "requires_human_review": true,
+        "confidence": 0.44
+      },
+      {
+        "asset_id": "WT-015",
+        "scenario": "yaw_misalignment",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "pitch_system",
+        "requires_human_review": true,
+        "confidence": 0.25
+      },
+      {
+        "asset_id": "WT-004",
+        "scenario": "generator_overheating",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "generator",
+        "requires_human_review": true,
+        "confidence": 0.68
+      },
+      {
+        "asset_id": "WT-006",
+        "scenario": "icing_event",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "none",
+        "requires_human_review": false,
+        "confidence": 0.85
+      },
+      {
+        "asset_id": "INV-007",
+        "scenario": "string_outage",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "dc_string",
+        "requires_human_review": true,
+        "confidence": 0.65
+      },
+      {
+        "asset_id": "INV-015",
+        "scenario": "inverter_derate",
+        "expected_equipment_fault": true,
+        "predicted_equipment_fault": true,
+        "component": "inverter",
+        "requires_human_review": true,
+        "confidence": 0.63
+      },
+      {
+        "asset_id": "WT-008",
+        "scenario": "curtailment_window",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "none",
+        "requires_human_review": false,
+        "confidence": 0.85
+      },
+      {
+        "asset_id": "WT-014",
+        "scenario": "sensor_freeze",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "none",
+        "requires_human_review": false,
+        "confidence": 0.85
+      },
+      {
+        "asset_id": "INV-011",
+        "scenario": "cloud_transient",
+        "expected_equipment_fault": false,
+        "predicted_equipment_fault": false,
+        "component": "none",
+        "requires_human_review": false,
+        "confidence": 0.85
+      }
+    ]
+  },
+  "limitations": [
+    "Scenario agreement is not validation on real SCADA.",
+    "The deterministic reasoner confidence is an evidence-agreement score, not a calibrated probability.",
+    "No public external dataset is included in this run."
+  ]
+}

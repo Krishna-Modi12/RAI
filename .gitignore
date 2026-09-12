@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Data + artifacts (regenerable, large)
+data/raw/*
+data/interim/*
+data/processed/*
+data/synthetic/*
+!data/**/.gitkeep
+artifacts/models/*
+artifacts/index/*
+artifacts/*.jsonl
+!artifacts/**/.gitkeep
+*.parquet
+*.duckdb
+*.sqlite
+*.cact
+
+# Node
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# Env + editor
+.env
+.env.local
+.DS_Store
