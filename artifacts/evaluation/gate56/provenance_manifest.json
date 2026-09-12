@@ -1,0 +1,20 @@
+{
+  "gate": "Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion",
+  "timestamp_utc": "2026-09-12T15:36:52Z",
+  "random_seed": 20260912,
+  "seed_classification": "REPRODUCIBILITY_CHOICE",
+  "software_versions": {
+    "python": "3.11.9",
+    "pvlib": "0.15.2",
+    "numpy": "1.26.4",
+    "pandas": "2.2.1",
+    "scikit_learn": "1.8.0"
+  },
+  "evaluated_systems_count": 5,
+  "excluded_systems_count": 5,
+  "models_evaluated": [
+    "PVLIB_PHYSICS_REFERENCE",
+    "SOLAR_EMPIRICAL_BASELINE",
+    "RAI_SOLAR_CHAMPION"
+  ]
+}

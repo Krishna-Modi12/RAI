@@ -275,10 +275,7 @@ def compute_residual_diagnostics(
 
     # 3. Temperature bias slope (linear slope of residual vs module temperature)
     temp = day_df["module_temp_c"].to_numpy()
-    if np.var(temp) > 1e-6:
-        slope = float(np.cov(res, temp)[0, 1] / np.var(temp))
-    else:
-        slope = 0.0
+    slope = float(np.cov(res, temp)[0, 1] / np.var(temp)) if np.var(temp) > 1e-6 else 0.0
 
     # 4. Skewness and Kurtosis
     m2 = np.mean((res - np.mean(res)) ** 2)

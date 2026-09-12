@@ -1,0 +1,21 @@
+{
+  "protocol_name": "RAI Solar Expected-Performance Benchmark Protocol (Gate 5.6)",
+  "temporal_split_rule": "60% Train / 20% Val / 20% Test with 4-interval (1-hour) purge gaps",
+  "no_future_leakage_enforced": true,
+  "no_failure_label_fitting_enforced": true,
+  "zero_test_tuning_enforced": true,
+  "quality_filter_thresholds": {
+    "min_solar_elevation_deg": 5.0,
+    "min_poa_wm2": 20.0,
+    "clipping_threshold_fraction": 0.98,
+    "clipping_min_poa_wm2": 800.0,
+    "max_data_gap_minutes_without_flag": 30
+  },
+  "evaluation_dimensions": [
+    "Pointwise Tracking (R2, RMSE, MAE, nRMSE)",
+    "Operating Regime Stratification (Low/Med/High Irradiance, Thermal, Clipping, Curtailment)",
+    "Daily Energy Generation Tracking (kWh, Percentage Error, Energy R2)",
+    "Residual Statistical Diagnostics (Autocorrelation, Heteroscedasticity, Temperature Bias)",
+    "Cross-Site System-Level Holdout (Within-site vs Cross-site Transfer)"
+  ]
+}

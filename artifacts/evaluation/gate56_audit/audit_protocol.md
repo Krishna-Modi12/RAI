@@ -156,6 +156,59 @@ result, and if Gate 5.6 turns out to have its own version of a "Farm B active_po
 outcome is the same as before — document it, classify its severity, and recommend a follow-up,
 not silently patch it or block the whole gate over a single disclosed and bounded issue.
 
+## Addendum — Clean Restart Criteria (post-invalidation)
+
+The originally-audited Gate 5.6 run was found **BLOCKED** and has been preserved as
+`GATE_5.6_INVALID_SYNTHETIC_RUN` under `artifacts/evaluation/gate56_invalid_prior_run/`
+(see that directory's `invalidation_manifest.json` for the full record: undisclosed synthetic
+PVDAQ telemetry generated in-repo, and a physics-reference model that was algebraically
+identical to the generating formula it was "validated" against). The following criteria are
+added to this pre-registered rubric for the clean restart, and were fact-checked against current
+pvlib documentation (pvlib 0.15.2, matching the version this project already pins) before being
+written down — again, before any restart artifacts exist:
+
+- [ ] **Synthetic-data tripwire**: no function resembling `generate_pvdaq_telemetry()` (or any
+      code path that fabricates a canonical-field time series and labels it as PVDAQ) may exist
+      in the restart's code path. `tests/test_gate56_circularity.py` must exist and must fail
+      loudly if such a function is reintroduced or called.
+- [ ] **Real acquisition, not just real-looking metadata**: every row of `dataset_selection.csv`/
+      `candidate_systems.csv` must trace to a `source_url` + `sha256` + `retrieval_date` in
+      `acquisition/download_manifest.json` and `acquisition/checksums.csv`. A system with a
+      plausible real name and ID (e.g. "SYS_10", "NREL RSF") is **not sufficient evidence** of
+      real acquisition — the invalidated run already proved that plausible-looking metadata can
+      accompany fully fabricated telemetry.
+- [ ] **Circularity check, verified against actual pvlib mechanics**: `ModelChain` infers its DC
+      model from which parameter set is present on `PVSystem.arrays[i].module_parameters` —
+      `{'A0','A1','C7',...}` → SAPM, `{'a_ref','I_L_ref','I_o_ref','R_sh_ref','R_s','Adjust'}` →
+      CEC/De Soto, `{'pdc0','gamma_pdc'}` → PVWatts — and raises `ValueError: Could not infer DC
+      model from the module_parameters attributes...` if none match
+      ([pvlib ModelChain reference](https://pvlib-python.readthedocs.io/en/stable/reference/generated/pvlib.modelchain.ModelChain.html),
+      [GitHub issue #1946](https://github.com/pvlib/pvlib-python/issues/1946)). The restart's
+      physics reference must actually construct `pvlib.pvsystem.PVSystem` +
+      `pvlib.location.Location` + `pvlib.modelchain.ModelChain` and call `run_model()` or
+      `run_model_from_poa()` (the latter requires `poa_global`/`poa_direct`/`poa_diffuse` columns,
+      defaulting `temp_air=20°C`/`wind_speed=0` if absent) — not a hand-written formula that
+      happens to produce pvlib-like numbers. Confirm this by checking the manifest records real
+      `ModelChain` model-name strings (e.g. `sapm`, `cec`, `pvwatts`) rather than a free-text
+      description of a manually-coded equation.
+- [ ] **`UNSUPPORTED_PHYSICS_CONFIGURATION` must be the documented response to the exact
+      `ValueError` above**, for any system whose real metadata doesn't satisfy a parameter set —
+      not a caught-and-silently-defaulted exception, and not an invented parameter set to force a
+      model to run.
+- [ ] **Independence of the "actual power" column from any model in the pipeline**: for real
+      acquired data this is automatic (the actual power came from the utility meter/inverter
+      log, not from any RAI code), but the auditor should still confirm the `actual_power_kw` /
+      `ac_power` field used for scoring is read verbatim from the downloaded raw file (traceable
+      to a `local_path` in `download_manifest.json`), never recomputed or "cleaned" through a
+      model-shaped transformation before being used as the scoring target.
+- [ ] Re-apply Audit Dimensions 1–5 from the original protocol above unchanged — they remain
+      correct; only the acquisition/circularity layer needed strengthening.
+
+Sources checked for this addendum:
+[pvlib ModelChain user guide](https://pvlib-python.readthedocs.io/en/stable/reference/generated/pvlib.modelchain.ModelChain.html),
+[run_model_from_poa reference](https://pvlib-python.readthedocs.io/en/stable/reference/generated/pvlib.modelchain.ModelChain.run_model_from_poa.html),
+[pvlib-python GitHub issue #1946 on inference error messaging](https://github.com/pvlib/pvlib-python/issues/1946).
+
 ## Stop rule for this document
 
 This protocol is complete and requires no further action until Gate 5.6 artifacts exist under

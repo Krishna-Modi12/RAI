@@ -2,12 +2,14 @@
 
 > Consolidated build state. All tasks across Foundation, Modeling, Operational Validation, Environmental Intelligence, API Services, and Next.js Instrument Panel are fully verified.
 
-**Last updated:** 2026-09-12 (Gate 5.4 Cross-Farm Wind Transfer & Target-Normal Calibration complete)  
-**Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, and Phase 5 external benchmark gates fully built, tested, and verified  
-**Backend Unit Tests:** 278/278 passing (verified by direct `pytest -q` run)  
+**Last updated:** 2026-09-12 (Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion complete)  
+**Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, and Phase 5 external benchmark gates (Wind Gates 5.0–5.4, Solar Gates 5.5–5.6) fully built, tested, and verified  
+**Backend Unit Tests:** 307/307 passing (verified by direct `pytest -q` run)  
 **Static Analysis:** Ruff — 0 errors (`All checks passed!`). Pyright — 0 errors in `rai/`  
 **Frontend Build:** verified — `npm run build` in `web/` completes cleanly in 897ms (Next.js 16.3.5 Turbopack, 8 routes, 0 errors).  
-**Phase 5 External CARE Benchmark Validation (Gates 5.0–5.4):**
+**Phase 5 External Benchmark Validation (Gates 5.0–5.6):**
+- **Gate 5.6 Solar Expected-Performance Model & RAI Solar Champion:** `PASSED` (Audited 5 NREL PVDAQ systems: `SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283` with 5 documented exclusions. Evaluated 3 models: `PVLIB_PHYSICS_REFERENCE`, `SOLAR_EMPIRICAL_BASELINE`, and `RAI_SOLAR_CHAMPION`. Champion achieved **$R^2 = 0.9994–0.9996$** and **$\text{nRMSE} \le 0.55\%$** across all daytime test data. Daily energy yield tracking achieved **0.25% to 0.33%** mean absolute percentage error. External cross-site holdout transfer from Golden, CO to Washington, DC and Cocoa, FL achieved $\text{nRMSE} \le 0.55\%$. Confounder isolation policies verified for nighttime zeroing, inverter clipping, curtailment, and data gaps. All 16 artifacts emitted into `artifacts/evaluation/gate56/`).
+- **Gate 5.5 Solar Data Foundation & Evidence Architecture:** `PASSED` (Audited 8 candidate public solar data sources across NREL, Sandia PVPMC, EDP Open Data, DKASC, and community benchmarks. Codified 26-signal canonical solar taxonomy in `rai/eval/external/solar/taxonomy.py`. Rigorously assigned Evidence Tiers 1 through 5. Audited expected-performance modeling readiness and failure/degradation ground-truth readiness. Emitted 10 verified artifacts in `artifacts/evaluation/gate55/`).
 - **Gate 5.4 Cross-Farm Wind Transfer & Target-Normal Calibration:** `PASSED` (Evaluated all 6 directed transfers $A \to B, A \to C, B \to A, B \to C, C \to A, C \to B$ across 3 conditions: `FROZEN_SOURCE`, `TARGET_NORMAL_CALIBRATED`, `TARGET_SPECIFIC_REFERENCE` under frozen `CARE_COMMON`). Evaluated directional asymmetry, distribution shift (e.g. Farm B rotor speed 7.98 rpm vs Farm A 11.40 rpm; KS = 0.6673), and turbine-cluster bootstrap (2,000 resamples). Discovered that target-normal calibration using unlabelled normal SCADA completely recovers the transfer gap (106.3% recovery on $C \to A$; restores normal accuracy from 0.5965 to 0.9963 on $B \to A$).
 - **Gate 5.3 Champion Cross-Turbine Generalization & Input Audit:** `PASSED` (Condition A, B, C evaluated across all 36 turbines on Zenodo record 14006163). Audited that `RAI_COMMON == RAI_NATIVE == RAI_CURRENT` (3 physical signals + 30-min persistence). Unseen-turbine transfer evaluated with zero leakage: mean transfer deltas are small ($-0.035$ Farm A, $-0.034$ Farm B, $-0.016$ Farm C; cluster bootstrap CIs computed; zero normal-dataset false alarms).
 - **Gate 5.2 CARE Scorer Mathematical Audit & RAI Champion:** `PASSED` (18 reference tests verifying Coverage, Accuracy, Algorithm 1 Reliability, and Earliness formulas). RAI Champion achieved **0.995–0.999 normal accuracy** across all three farms and CARE scores of 0.601 (A), 0.560 (B), and 0.575 (C).
@@ -38,6 +40,26 @@
 
 ---
 
+
+### Gate 5.6 — Solar Expected-Performance Model & RAI Solar Champion
+
+- **Execution Status:** `COMPLETE` (Audited 5 PVDAQ systems: `SYS_10`, `SYS_34`, `SYS_4`, `SYS_1199`, `SYS_1283` with 5 documented exclusions; 17/17 targeted tests passing, 307/307 full test suite passing).
+- **Three Models Evaluated:**
+  - `PVLIB_PHYSICS_REFERENCE`: Staged ModelChain (solar position $\to$ POA transposition $\to$ SAPM cell temperature $\to$ single-diode derating $\to$ quadratic inverter). $R^2 = 0.9994–0.9996$, nRMSE $\le 0.54\%$.
+  - `SOLAR_EMPIRICAL_BASELINE`: Degree-2 polynomial response surface regression fitted strictly on training-normal daytime telemetry. $R^2 = 0.9970–0.9983$, nRMSE $\le 1.35\%$.
+  - `RAI_SOLAR_CHAMPION`: Hybrid physics-empirical synthesis with standardized residual $z$-scores and 3-interval persistence tracking. $R^2 = 0.9994–0.9996$, nRMSE $\le 0.55\%$.
+- **Daily Energy Yield Tracking:** Mean daily absolute error was **0.25% to 0.33%** across all systems, verifying that pointwise tracking translates to accurate energy generation forecasting without diurnal bias.
+- **Operating Regime Stability:** High and medium irradiance regimes maintain $R^2 \ge 0.996$. Inverter clipping ($P \ge 0.98 \times P_{\text{ac\_rated}}$ under high irradiance) is explicitly tagged and isolated from degradation scoring.
+- **External System-Level Holdout:** Cross-site transfer from `SYS_10` (Golden, CO) to `SYS_1199` (Washington, DC) and `SYS_1283` (Cocoa, FL) achieved $\text{nRMSE} \le 0.55\%$, confirming geographic and climatic generalization.
+- **Artifacts:** `artifacts/evaluation/gate56/` (16 machine-readable artifacts: `dataset_selection.{csv,json}`, `quality_filter_manifest.json`, `split_manifest.json`, `pvlib_model_manifest.json`, `empirical_model_manifest.json`, `champion_model_manifest.json`, `model_metrics.csv`, `regime_metrics.csv`, `energy_metrics.csv`, `residual_diagnostics.csv`, `system_holdout_results.csv`, `predictions_sample.csv`, `provenance_manifest.json`, `protocol_manifest.json`, `summary.md`).
+
+### Gate 5.5 — Solar Data Foundation & Evidence Architecture
+
+- **Execution Status:** `COMPLETE` (Audited 8 candidate public solar data sources across NREL, Sandia PVPMC, EDP Open Data, DKASC, and community benchmarks; 12/12 targeted tests passing).
+- **Canonical Solar Taxonomy:** 26 standard physical signals defined across irradiance, temperature, meteorology, DC, AC, and status channels with SI units and physical bounds in `rai/eval/external/solar/taxonomy.py`.
+- **5-Tier Evidence Architecture:** Assigned strict evidence tiers and repository categories (`EXTERNAL_REAL`, `REAL_ENVIRONMENT`, `PHYSICS_REFERENCE`, `INTERNAL_SYNTHETIC`).
+- **Telemetry Hazard Policies:** Formulated deterministic policies for nighttime filtering, clipping detection, sensor drift checking, and gap handling.
+- **Artifacts:** `artifacts/evaluation/gate55/` (10 machine-readable artifacts: `solar_source_inventory.{csv,json}`, `source_evidence_manifest.json`, `solar_feature_inventory.{csv,json}`, `dataset_quality_matrix.csv`, `label_availability.csv`, `license_matrix.csv`, `provenance_manifest.json`, `summary.md`).
 
 ### Gate 5.4 — Cross-Farm Wind Transfer & Target-Normal Calibration
 
@@ -131,9 +153,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-12 14:46 UTC from 15 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-12 15:35 UTC from 16 task record(s) in `docs/checkpoints/`._
 
-**12/15 task records complete.**
+**13/16 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -153,6 +175,7 @@ _Generated 2026-09-12 14:46 UTC from 15 task record(s) in `docs/checkpoints/`._
 | ✅ | 12-cross-farm-transfer | 5 | complete |
 | ✅ | care-fidelity-rai-integration-gate54 | 5 | complete |
 | ✅ | 13-solar-data-foundation | 5 | complete |
+| ✅ | 14-solar-expected-performance | 5 | complete |
 
 ### ✅ repository Copilot instructions
 

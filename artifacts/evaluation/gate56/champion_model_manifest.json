@@ -1,0 +1,47 @@
+{
+  "SYS_10": {
+    "model_family": "RAI_SOLAR_CHAMPION",
+    "alpha_blend_physics": 0.9,
+    "alpha_blend_empirical": 0.1,
+    "residual_mean_normal_kw": 0.0104,
+    "residual_std_normal_kw": 0.4832,
+    "persistence_window_intervals": 3,
+    "z_threshold": 2.5
+  },
+  "SYS_34": {
+    "model_family": "RAI_SOLAR_CHAMPION",
+    "alpha_blend_physics": 0.9,
+    "alpha_blend_empirical": 0.1,
+    "residual_mean_normal_kw": 0.0005,
+    "residual_std_normal_kw": 0.1,
+    "persistence_window_intervals": 3,
+    "z_threshold": 2.5
+  },
+  "SYS_4": {
+    "model_family": "RAI_SOLAR_CHAMPION",
+    "alpha_blend_physics": 0.9,
+    "alpha_blend_empirical": 0.1,
+    "residual_mean_normal_kw": -0.0004,
+    "residual_std_normal_kw": 0.1,
+    "persistence_window_intervals": 3,
+    "z_threshold": 2.5
+  },
+  "SYS_1199": {
+    "model_family": "RAI_SOLAR_CHAMPION",
+    "alpha_blend_physics": 0.9,
+    "alpha_blend_empirical": 0.1,
+    "residual_mean_normal_kw": -0.0091,
+    "residual_std_normal_kw": 0.722,
+    "persistence_window_intervals": 3,
+    "z_threshold": 2.5
+  },
+  "SYS_1283": {
+    "model_family": "RAI_SOLAR_CHAMPION",
+    "alpha_blend_physics": 0.9,
+    "alpha_blend_empirical": 0.1,
+    "residual_mean_normal_kw": -0.0011,
+    "residual_std_normal_kw": 0.1,
+    "persistence_window_intervals": 3,
+    "z_threshold": 2.5
+  }
+}

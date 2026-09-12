@@ -1,0 +1,37 @@
+{
+  "SYS_10": {
+    "model_family": "SOLAR_EMPIRICAL_BASELINE",
+    "formulation": "Ridge Polynomial Surface P = f(G, T, sin(elev))",
+    "degree": 2,
+    "regularization_alpha": 1.0,
+    "fitted_sample_count": 2874
+  },
+  "SYS_34": {
+    "model_family": "SOLAR_EMPIRICAL_BASELINE",
+    "formulation": "Ridge Polynomial Surface P = f(G, T, sin(elev))",
+    "degree": 2,
+    "regularization_alpha": 1.0,
+    "fitted_sample_count": 2873
+  },
+  "SYS_4": {
+    "model_family": "SOLAR_EMPIRICAL_BASELINE",
+    "formulation": "Ridge Polynomial Surface P = f(G, T, sin(elev))",
+    "degree": 2,
+    "regularization_alpha": 1.0,
+    "fitted_sample_count": 2856
+  },
+  "SYS_1199": {
+    "model_family": "SOLAR_EMPIRICAL_BASELINE",
+    "formulation": "Ridge Polynomial Surface P = f(G, T, sin(elev))",
+    "degree": 2,
+    "regularization_alpha": 1.0,
+    "fitted_sample_count": 2849
+  },
+  "SYS_1283": {
+    "model_family": "SOLAR_EMPIRICAL_BASELINE",
+    "formulation": "Ridge Polynomial Surface P = f(G, T, sin(elev))",
+    "degree": 2,
+    "regularization_alpha": 1.0,
+    "fitted_sample_count": 2671
+  }
+}

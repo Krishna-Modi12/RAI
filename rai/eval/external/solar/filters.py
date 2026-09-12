@@ -158,7 +158,8 @@ def verify_clearsky_consistency(
     solpos = site.get_solarposition(times)
     cs = site.get_clearsky(times, model="ineichen")
 
-    poa_cs = pvlib.irradiance.get_total_irradiance(
+    dni_extra = pvlib.irradiance.get_extra_radiation(times).to_numpy()
+    poa_cs_res = pvlib.irradiance.get_total_irradiance(
         surface_tilt=meta.tilt_deg,
         surface_azimuth=meta.azimuth_deg,
         solar_zenith=solpos["apparent_zenith"],
@@ -166,8 +167,10 @@ def verify_clearsky_consistency(
         dni=cs["dni"],
         ghi=cs["ghi"],
         dhi=cs["dhi"],
+        dni_extra=dni_extra,
         model="perez",
-    )["poa_global"].fillna(0.0).to_numpy()
+    )
+    poa_cs = np.nan_to_num(np.asarray(poa_cs_res["poa_global"]), nan=0.0)
 
     # Cloud enhancement can boost ground irradiance up to ~1.35x clear sky temporarily
     max_allowable = np.maximum(poa_cs * tolerance_factor, 50.0)

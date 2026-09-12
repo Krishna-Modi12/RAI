@@ -1,0 +1,42 @@
+{
+  "SYS_10": {
+    "model_family": "PVLIB_PHYSICS_REFERENCE",
+    "transposition_model": "Perez 1990",
+    "cell_temperature_model": "Sandia Array Performance Model (SAPM)",
+    "dc_model": "Single-diode temperature derating",
+    "inverter_model": "Quadratic efficiency curve with clipping",
+    "metadata_source": "NREL PVDAQ published station metadata"
+  },
+  "SYS_34": {
+    "model_family": "PVLIB_PHYSICS_REFERENCE",
+    "transposition_model": "Perez 1990",
+    "cell_temperature_model": "Sandia Array Performance Model (SAPM)",
+    "dc_model": "Single-diode temperature derating",
+    "inverter_model": "Quadratic efficiency curve with clipping",
+    "metadata_source": "NREL PVDAQ published station metadata"
+  },
+  "SYS_4": {
+    "model_family": "PVLIB_PHYSICS_REFERENCE",
+    "transposition_model": "Perez 1990",
+    "cell_temperature_model": "Sandia Array Performance Model (SAPM)",
+    "dc_model": "Single-diode temperature derating",
+    "inverter_model": "Quadratic efficiency curve with clipping",
+    "metadata_source": "NREL PVDAQ published station metadata"
+  },
+  "SYS_1199": {
+    "model_family": "PVLIB_PHYSICS_REFERENCE",
+    "transposition_model": "Perez 1990",
+    "cell_temperature_model": "Sandia Array Performance Model (SAPM)",
+    "dc_model": "Single-diode temperature derating",
+    "inverter_model": "Quadratic efficiency curve with clipping",
+    "metadata_source": "NREL PVDAQ published station metadata"
+  },
+  "SYS_1283": {
+    "model_family": "PVLIB_PHYSICS_REFERENCE",
+    "transposition_model": "Perez 1990",
+    "cell_temperature_model": "Sandia Array Performance Model (SAPM)",
+    "dc_model": "Single-diode temperature derating",
+    "inverter_model": "Quadratic efficiency curve with clipping",
+    "metadata_source": "NREL PVDAQ published station metadata"
+  }
+}

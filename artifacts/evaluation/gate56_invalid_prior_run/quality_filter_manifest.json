@@ -1,0 +1,52 @@
+{
+  "SYS_10": {
+    "total_records": 8640,
+    "valid_daytime_count": 4714,
+    "nighttime_filtered_count": 3918,
+    "clipping_tagged_count": 97,
+    "curtailed_tagged_count": 20,
+    "data_gap_count": 8,
+    "sensor_anomaly_count": 0,
+    "valid_daytime_pct": 54.56
+  },
+  "SYS_34": {
+    "total_records": 8640,
+    "valid_daytime_count": 4696,
+    "nighttime_filtered_count": 3936,
+    "clipping_tagged_count": 0,
+    "curtailed_tagged_count": 20,
+    "data_gap_count": 8,
+    "sensor_anomaly_count": 0,
+    "valid_daytime_pct": 54.35
+  },
+  "SYS_4": {
+    "total_records": 8640,
+    "valid_daytime_count": 4667,
+    "nighttime_filtered_count": 3965,
+    "clipping_tagged_count": 5,
+    "curtailed_tagged_count": 19,
+    "data_gap_count": 8,
+    "sensor_anomaly_count": 0,
+    "valid_daytime_pct": 54.02
+  },
+  "SYS_1199": {
+    "total_records": 8640,
+    "valid_daytime_count": 4679,
+    "nighttime_filtered_count": 3953,
+    "clipping_tagged_count": 0,
+    "curtailed_tagged_count": 28,
+    "data_gap_count": 8,
+    "sensor_anomaly_count": 0,
+    "valid_daytime_pct": 54.16
+  },
+  "SYS_1283": {
+    "total_records": 8640,
+    "valid_daytime_count": 4415,
+    "nighttime_filtered_count": 4217,
+    "clipping_tagged_count": 0,
+    "curtailed_tagged_count": 28,
+    "data_gap_count": 8,
+    "sensor_anomaly_count": 0,
+    "valid_daytime_pct": 51.1
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "SYS_10": {
+    "total_records": 8640,
+    "train_records": 5184,
+    "val_records": 1728,
+    "test_records": 1720,
+    "train_start_utc": "2024-06-01 00:00:00+00:00",
+    "train_end_utc": "2024-07-24 23:45:00+00:00",
+    "val_start_utc": "2024-07-25 01:00:00+00:00",
+    "val_end_utc": "2024-08-12 00:45:00+00:00",
+    "test_start_utc": "2024-08-12 02:00:00+00:00",
+    "test_end_utc": "2024-08-29 23:45:00+00:00",
+    "purge_gap_intervals": 4,
+    "split_ratios": "60% Train / 20% Val / 20% Test"
+  },
+  "SYS_34": {
+    "total_records": 8640,
+    "train_records": 5184,
+    "val_records": 1728,
+    "test_records": 1720,
+    "train_start_utc": "2024-06-01 00:00:00+00:00",
+    "train_end_utc": "2024-07-24 23:45:00+00:00",
+    "val_start_utc": "2024-07-25 01:00:00+00:00",
+    "val_end_utc": "2024-08-12 00:45:00+00:00",
+    "test_start_utc": "2024-08-12 02:00:00+00:00",
+    "test_end_utc": "2024-08-29 23:45:00+00:00",
+    "purge_gap_intervals": 4,
+    "split_ratios": "60% Train / 20% Val / 20% Test"
+  },
+  "SYS_4": {
+    "total_records": 8640,
+    "train_records": 5184,
+    "val_records": 1728,
+    "test_records": 1720,
+    "train_start_utc": "2024-06-01 00:00:00+00:00",
+    "train_end_utc": "2024-07-24 23:45:00+00:00",
+    "val_start_utc": "2024-07-25 01:00:00+00:00",
+    "val_end_utc": "2024-08-12 00:45:00+00:00",
+    "test_start_utc": "2024-08-12 02:00:00+00:00",
+    "test_end_utc": "2024-08-29 23:45:00+00:00",
+    "purge_gap_intervals": 4,
+    "split_ratios": "60% Train / 20% Val / 20% Test"
+  },
+  "SYS_1199": {
+    "total_records": 8640,
+    "train_records": 5184,
+    "val_records": 1728,
+    "test_records": 1720,
+    "train_start_utc": "2024-06-01 00:00:00+00:00",
+    "train_end_utc": "2024-07-24 23:45:00+00:00",
+    "val_start_utc": "2024-07-25 01:00:00+00:00",
+    "val_end_utc": "2024-08-12 00:45:00+00:00",
+    "test_start_utc": "2024-08-12 02:00:00+00:00",
+    "test_end_utc": "2024-08-29 23:45:00+00:00",
+    "purge_gap_intervals": 4,
+    "split_ratios": "60% Train / 20% Val / 20% Test"
+  },
+  "SYS_1283": {
+    "total_records": 8640,
+    "train_records": 5184,
+    "val_records": 1728,
+    "test_records": 1720,
+    "train_start_utc": "2024-06-01 00:00:00+00:00",
+    "train_end_utc": "2024-07-24 23:45:00+00:00",
+    "val_start_utc": "2024-07-25 01:00:00+00:00",
+    "val_end_utc": "2024-08-12 00:45:00+00:00",
+    "test_start_utc": "2024-08-12 02:00:00+00:00",
+    "test_end_utc": "2024-08-29 23:45:00+00:00",
+    "purge_gap_intervals": 4,
+    "split_ratios": "60% Train / 20% Val / 20% Test"
+  }
+}
