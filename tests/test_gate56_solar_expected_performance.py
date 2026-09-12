@@ -40,12 +40,18 @@ from rai.eval.external.solar.models import (
 )
 from rai.eval.external.solar.pvdaq import (
     GATE56_SEED,
-    PVDAQ_COHORT,
-    PVDAQ_EXCLUSION_CATALOG,
     CohortRole,
     PVDAQSystemMetadata,
-    generate_pvdaq_telemetry,
     split_system_telemetry,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    SYNTHETIC_FIXTURE_COHORT as PVDAQ_COHORT,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    SYNTHETIC_FIXTURE_EXCLUSION_CATALOG as PVDAQ_EXCLUSION_CATALOG,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    generate_synthetic_solar_fixture as generate_pvdaq_telemetry,
 )
 
 REPO_ROOT = Path(__file__).resolve().parent.parent

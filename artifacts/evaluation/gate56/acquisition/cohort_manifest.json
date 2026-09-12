@@ -1,0 +1,27 @@
+{
+  "gate": "5.6A",
+  "frozen_at_utc": "2026-09-12T16:30:00Z",
+  "source_version": "pvdaq/csv/systems_20250729.csv (sha256 recorded in source_manifest.json)",
+  "development_systems": [
+    1239,
+    1283,
+    34
+  ],
+  "validation_systems": [
+    1430,
+    1433
+  ],
+  "selection_method": "Predeclared, non-performance-based data-readiness screening only. No model was fit, run, or scored against any candidate before or during selection.",
+  "selection_rules_applied_in_order": [
+    "1. Candidate must have a readable (non-corrupted) real per-system metrics dictionary parquet file.",
+    "2. Candidate must expose a real POA/irradiance channel (not GHI-only, not absent).",
+    "3. Candidate must expose a real AC (or DC+efficiency-derivable) power channel.",
+    "4. Candidate must expose real ambient and/or module temperature.",
+    "5. Candidate must have site_location, latitude/longitude KNOWN (not UNKNOWN) in the systems metadata table.",
+    "6. Among otherwise-qualifying candidates at the same site (identical lat/long), keep only one to avoid redundant/co-located sister systems; prefer the larger or first-listed system.",
+    "7. Verify (via direct S3 prefix listing, not the summary metadata table) that daily pvdata parquet partitions actually exist for the intended acquisition window; if the metadata-table date range and the real partitions disagree, use the window that is REALLY present.",
+    "8. Assign systems to DEVELOPMENT vs VALIDATION by geographic/scale/configuration diversity (never by any computed performance metric)."
+  ],
+  "important_real_data_finding": "Systems 1430 and 1433's systems.csv metadata table claims data through 2024, but direct S3 prefix listing confirmed their actual pvdata parquet partitions stop at year=2017 and year=2018 respectively -- a genuine metadata/data inconsistency in the archive, not a bug in this acquisition code. Their acquisition window was therefore set to 2017-06-01..2017-08-29 (verified present via direct listing before download) rather than 2019 (used for the three development systems). This is a data-availability correction, made and verified BEFORE any file was downloaded for these systems, not a performance-based choice.",
+  "validation_systems_frozen": "Validation system selection is FINAL as of this manifest. It must not be changed based on any future Gate 5.6B modeling result."
+}

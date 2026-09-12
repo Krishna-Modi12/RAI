@@ -1,4 +1,17 @@
-"""Gate 5.6: Solar Expected-Performance Model & RAI Solar Champion Runner.
+"""PRESERVED FOR AUDIT HISTORY — GATE_5.6_INVALID_SYNTHETIC_RUN. DO NOT CITE AS MEASURED RESULT.
+
+The Gate 5.6 Scientific Auditor found that this runner's "PVDAQ" telemetry was 100% synthetically
+generated in-repo (not acquired from real NREL PVDAQ), undisclosed, and that its physics-reference
+model was validated against that synthetic data using an algebraically near-identical formula (a
+circular validation). See artifacts/evaluation/gate56_invalid_prior_run/invalidation_manifest.json
+for the full record. This file is kept runnable (imports point at the now clearly-labeled
+synthetic fixtures in rai/eval/external/solar/synthetic_fixtures.py) only so the invalid run
+remains reproducible as audit evidence — its output must never be cited as PVDAQ validation,
+external solar validation, physics-model accuracy, or RAI Solar Champion performance. The clean
+Gate 5.6B restart (real acquisition, then real modeling) is separate, later work.
+
+Original docstring (for historical record):
+Gate 5.6: Solar Expected-Performance Model & RAI Solar Champion Runner.
 
 Executes end-to-end evaluation:
 1. Deterministic cohort selection and catalog documentation (NREL PVDAQ).
@@ -50,11 +63,17 @@ from rai.eval.external.solar.models import (
 )
 from rai.eval.external.solar.pvdaq import (
     GATE56_SEED,
-    PVDAQ_COHORT,
-    PVDAQ_EXCLUSION_CATALOG,
     PVDAQSystemMetadata,
-    generate_pvdaq_telemetry,
     split_system_telemetry,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    SYNTHETIC_FIXTURE_COHORT as PVDAQ_COHORT,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    SYNTHETIC_FIXTURE_EXCLUSION_CATALOG as PVDAQ_EXCLUSION_CATALOG,
+)
+from rai.eval.external.solar.synthetic_fixtures import (
+    generate_synthetic_solar_fixture as generate_pvdaq_telemetry,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

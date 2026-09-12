@@ -27,20 +27,14 @@ from rai.eval.external.solar.models import (
 )
 from rai.eval.external.solar.pvdaq import (
     GATE56_SEED,
-    PVDAQ_COHORT,
-    PVDAQ_EXCLUSION_CATALOG,
     CohortRole,
     PVDAQSystemMetadata,
     SplitType,
-    generate_pvdaq_telemetry,
-    load_cohort_data,
     split_system_telemetry,
 )
 
 __all__ = [
     "GATE56_SEED",
-    "PVDAQ_COHORT",
-    "PVDAQ_EXCLUSION_CATALOG",
     "CohortRole",
     "DailyEnergyMetricRecord",
     "ModelMetricRecord",
@@ -60,8 +54,6 @@ __all__ = [
     "compute_pointwise_metrics",
     "compute_regime_metrics",
     "compute_residual_diagnostics",
-    "generate_pvdaq_telemetry",
-    "load_cohort_data",
     "split_system_telemetry",
     "verify_clearsky_consistency",
 ]

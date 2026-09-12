@@ -1,0 +1,21 @@
+{
+  "gate": "5.6B",
+  "supersedes": "artifacts/evaluation/gate56/acquisition/cohort_manifest.json (Gate 5.6A -- NOT overwritten, preserved as-is)",
+  "frozen_at_utc": "2026-09-12T18:00:00Z",
+  "development_systems": [
+    1239,
+    1283,
+    34
+  ],
+  "validation_systems": [],
+  "secondary_only_systems": [
+    1430,
+    1433
+  ],
+  "excluded_systems": [],
+  "validation_cohort_status": "INSUFFICIENT_DATA",
+  "validation_cohort_note": "Both original validation candidates (1430, 1433) are downgraded to SECONDARY_ONLY: their UTC timestamp convention could not be independently confirmed (TIMESTAMP_AMBIGUOUS -- see timestamp_adjudication.csv), which blocks VALIDATION_READY status (defined as requiring UTC ground truth). This is NOT a performance-based downgrade. No replacement systems were substituted; padding the cohort to hit a target size is explicitly forbidden.",
+  "system_level_holdout_meaningful": false,
+  "system_level_holdout_note": "With zero systems in VALIDATION role, a system-level external holdout is NOT currently statistically meaningful -- there is nothing to hold out. Gate 5.6C's author must decide, and explicitly justify, a fallback design (e.g. a temporal holdout within the 3 development systems) rather than treating this as resolved. This decision is NOT made here -- Gate 5.6B's role is adjudication, not modeling design.",
+  "cohort_size_rule_compliance": "No padding performed. Reporting actual post-adjudication counts, not the originally targeted 3-5 dev / 2-3 val."
+}

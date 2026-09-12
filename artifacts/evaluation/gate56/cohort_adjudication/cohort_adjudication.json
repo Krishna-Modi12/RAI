@@ -1,0 +1,67 @@
+[
+  {
+    "system_id": 1239,
+    "timestamp_status": "UTC_AVAILABLE_GROUND_TRUTH",
+    "power_status": "VALID_GENERATION_POWER",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "empirical_ready": true,
+    "physics_ready": true,
+    "validation_ready": true,
+    "final_role": "DEVELOPMENT",
+    "reason": "timestamp=UTC_AVAILABLE_GROUND_TRUTH; power=VALID_GENERATION_POWER; physics_ready=True"
+  },
+  {
+    "system_id": 1283,
+    "timestamp_status": "UTC_AVAILABLE_GROUND_TRUTH",
+    "power_status": "VALID_SIGNED_POWER",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "empirical_ready": true,
+    "physics_ready": true,
+    "validation_ready": true,
+    "final_role": "DEVELOPMENT",
+    "reason": "timestamp=UTC_AVAILABLE_GROUND_TRUTH; power=VALID_SIGNED_POWER; physics_ready=True"
+  },
+  {
+    "system_id": 34,
+    "timestamp_status": "UTC_AVAILABLE_GROUND_TRUTH",
+    "power_status": "VALID_SIGNED_POWER",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "empirical_ready": true,
+    "physics_ready": true,
+    "validation_ready": true,
+    "final_role": "DEVELOPMENT",
+    "reason": "timestamp=UTC_AVAILABLE_GROUND_TRUTH; power=VALID_SIGNED_POWER; physics_ready=True"
+  },
+  {
+    "system_id": 1430,
+    "timestamp_status": "TIMESTAMP_AMBIGUOUS",
+    "power_status": "VALID_GENERATION_POWER",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "empirical_ready": true,
+    "physics_ready": false,
+    "validation_ready": false,
+    "final_role": "SECONDARY_ONLY",
+    "reason": "timestamp=TIMESTAMP_AMBIGUOUS; power=VALID_GENERATION_POWER; physics_ready=False"
+  },
+  {
+    "system_id": 1433,
+    "timestamp_status": "TIMESTAMP_AMBIGUOUS",
+    "power_status": "VALID_SIGNED_POWER",
+    "irradiance_status": "REAL_MEASURED_POA_PRESENT",
+    "temperature_status": "REAL_MEASURED_AMBIENT_AND_MODULE_TEMP_PRESENT",
+    "alignment_status": "PENDING_GATE_5_6C_EXECUTION_OF_FASTEST_SIGNAL_GRID_POLICY",
+    "empirical_ready": true,
+    "physics_ready": false,
+    "validation_ready": false,
+    "final_role": "SECONDARY_ONLY",
+    "reason": "timestamp=TIMESTAMP_AMBIGUOUS; power=VALID_SIGNED_POWER; physics_ready=False"
+  }
+]

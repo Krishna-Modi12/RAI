@@ -1,0 +1,16 @@
+system_id,signal,metric_id,n_records,timestamp_basis_used,utc_timestamp_null_count,utc_timestamp_null_fraction,declared_timezone_or_utc_offset,first_timestamp,last_timestamp,duplicate_timestamp_count,monotonic_nondecreasing,modal_interval_minutes,n_distinct_intervals
+1239,poa,3018,8585,utc_measured_on,0,0.0,America/New_York,2019-06-01 04:00:00,2019-08-30 03:45:00,0,True,15.0,55
+1239,ac_power,3015,8645,utc_measured_on,0,0.0,America/New_York,2019-06-01 04:00:00,2019-08-30 03:45:00,0,True,15.0,23
+1239,ambient_temp,3016,8663,utc_measured_on,0,0.0,America/New_York,2019-06-01 04:00:00,2019-08-30 03:45:00,0,True,15.0,53
+1283,poa,1055,504384,utc_measured_on,0,0.0,7,2019-06-01 07:00:00,2019-08-30 06:59:45,0,True,0.25,10
+1283,ac_power,1040,504384,utc_measured_on,0,0.0,7,2019-06-01 07:00:00,2019-08-30 06:59:45,0,True,0.25,10
+1283,ambient_temp,1053,504384,utc_measured_on,0,0.0,7,2019-06-01 07:00:00,2019-08-30 06:59:45,0,True,0.25,10
+34,poa,2679,8409,utc_measured_on,0,0.0,America/Los_Angeles,2019-06-01 07:00:00,2019-08-30 06:45:00,0,True,15.0,14
+34,ac_power,2695,8640,utc_measured_on,0,0.0,America/Los_Angeles,2019-06-01 07:00:00,2019-08-30 06:45:00,0,True,15.0,1
+34,ambient_temp,2688,6027,utc_measured_on,0,0.0,America/Los_Angeles,2019-06-01 18:00:00,2019-08-30 06:45:00,0,True,15.0,78
+1430,poa,5041,8634,measured_on,8634,1.0,America/Denver,2017-06-01 00:00:00,2017-08-29 23:45:00,0,True,15.0,2
+1430,ac_power,5074,8329,measured_on,8329,1.0,America/Denver,2017-06-01 00:00:00,2017-08-29 23:45:00,0,True,15.0,3
+1430,ambient_temp,5042,8634,measured_on,8634,1.0,America/Denver,2017-06-01 00:00:00,2017-08-29 23:45:00,0,True,15.0,2
+1433,poa,5061,7837,measured_on,7837,1.0,America/Denver,2017-06-01 00:00:00,2017-08-29 23:45:00,0,True,15.0,3
+1433,ac_power,5069,2186,measured_on,2186,1.0,America/Denver,2017-06-01 00:15:00,2017-08-29 23:45:00,0,True,15.0,61
+1433,ambient_temp,5062,7837,measured_on,7837,1.0,America/Denver,2017-06-01 00:00:00,2017-08-29 23:45:00,0,True,15.0,3

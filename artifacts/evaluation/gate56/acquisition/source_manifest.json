@@ -1,0 +1,16 @@
+{
+  "dataset_name": "NREL PVDAQ (Photovoltaic Data Acquisition)",
+  "provider": "National Renewable Energy Laboratory (NREL), U.S. Department of Energy",
+  "distribution": "Open Energy Data Initiative (OEDI) Data Lake",
+  "submission_page": "https://data.openei.org/submissions/4568",
+  "doi": "10.25984/1846021",
+  "s3_bucket": "oedi-data-lake",
+  "s3_prefix": "pvdaq/",
+  "https_base_url": "https://oedi-data-lake.s3.amazonaws.com/",
+  "access_method": "Unauthenticated public HTTPS GET / S3 REST ListObjectsV2. No API key, account, or authentication required.",
+  "license": "Public domain / U.S. Government work (NREL open data); see OEDI submission page for full terms.",
+  "systems_table_file": "pvdaq/csv/systems_20250729.csv",
+  "systems_table_sha256": "54ddbd1ef044a7eb822ddf8bf3e53f319606598cc37b20d05c96b4631e03d65c",
+  "systems_table_size_bytes": 383559,
+  "systems_table_row_count_excl_header": 1862
+}

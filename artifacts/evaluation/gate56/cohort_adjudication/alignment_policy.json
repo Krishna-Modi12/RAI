@@ -1,0 +1,14 @@
+{
+  "problem": "Within the same system, different signals are natively sampled at different intervals (e.g. system 1239: AC power ~15min, module temperature ~60min; see signal_sampling_matrix.csv for exact per-signal intervals per system).",
+  "policy_name": "FASTEST_SIGNAL_GRID_WITH_BACKWARD_HOLD",
+  "rule": "1. The alignment grid for a system is the native sampling interval of its AC power signal (the modeling target) -- never a signal's own future value is used. 2. Slower-sampled context signals (temperature, wind speed) are aligned onto the power grid using BACKWARD (last-known-value) hold ONLY -- i.e. at each power timestamp t, the most recent slower-signal observation at or before t is used. A slower-signal observation from AFTER t is never used (no forward-fill, no interpolation, no centered/nearest-neighbor matching that could leak a future value). 3. A maximum staleness tolerance of 90 minutes is enforced: if the most recent slower-signal observation is more than 90 minutes stale relative to the power timestamp, the aligned value is marked NaN (data gap) rather than held indefinitely. 4. POA irradiance, being on the same or a comparable fast interval to power for all 5 cohort systems (see signal_sampling_matrix.csv), is aligned with a strict exact-or-nearest-within-5-minutes match; no backward hold is applied to irradiance because irradiance changes too quickly for a stale reading to be physically representative.",
+  "explicitly_forbidden": [
+    "Silent interpolation of any signal.",
+    "Using any temperature/wind reading whose timestamp is after the power timestamp being aligned.",
+    "Averaging or smoothing to fabricate an apparent common interval.",
+    "Dropping the staleness check to avoid data gaps."
+  ],
+  "applies_starting": "Gate 5.6C",
+  "not_yet_applied": true,
+  "reason_not_yet_applied": "Gate 5.6B is adjudication-only; this policy is declared and frozen here, executed in Gate 5.6C."
+}

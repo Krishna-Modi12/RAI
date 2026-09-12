@@ -18,8 +18,23 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 RAW_ROOT = REPO_ROOT / "data" / "raw" / "pvdaq"
 BASE_URL = "https://oedi-data-lake.s3.amazonaws.com/"
 
-WINDOW_START = date(2019, 6, 1)
-WINDOW_END = date(2019, 8, 29)  # inclusive, 90 days total
+# Per-system acquisition windows. NOT chosen for model performance -- chosen because
+# direct S3 prefix listing (real, verified via `curl` against oedi-data-lake.s3.amazonaws.com,
+# not inferred from the systems_20250729.csv summary columns) confirmed these are the windows
+# with actual daily pvdata parquet partitions present. Systems 1239/1283/34's pvdata partitions
+# cover 2019 (matching their metadata table's first/last timestamps). Systems 1430 and 1433's
+# metadata table claims coverage through 2024, but their real pvdata parquet partitions on S3
+# stop at year=2017 and year=2018 respectively (metadata/data inconsistency in the archive --
+# documented in candidate_systems.json / timestamp_quality.csv, not silently patched over).
+# 2017-06-01..2017-08-29 was verified present (all 31/31/30 days) for both 1430 and 1433 before
+# being selected here.
+SYSTEM_WINDOWS = {
+    1239: (date(2019, 6, 1), date(2019, 8, 29)),
+    1283: (date(2019, 6, 1), date(2019, 8, 29)),
+    34: (date(2019, 6, 1), date(2019, 8, 29)),
+    1430: (date(2017, 6, 1), date(2017, 8, 29)),
+    1433: (date(2017, 6, 1), date(2017, 8, 29)),
+}
 
 COHORT_SYSTEMS = [1239, 1283, 34, 1430, 1433]
 
@@ -72,15 +87,17 @@ def fetch_one(system_id: int, d: date) -> dict:
 
 
 def main() -> None:
-    tasks = [(sid, d) for sid in COHORT_SYSTEMS for d in daterange(WINDOW_START, WINDOW_END)]
+    tasks = [
+        (sid, d)
+        for sid in COHORT_SYSTEMS
+        for d in daterange(*SYSTEM_WINDOWS[sid])
+    ]
     print(f"Total files to fetch: {len(tasks)}")
     records = []
     with ThreadPoolExecutor(max_workers=12) as pool:
         futures = [pool.submit(fetch_one, sid, d) for sid, d in tasks]
-        done = 0
-        for fut in as_completed(futures):
+        for done, fut in enumerate(as_completed(futures), start=1):
             records.append(fut.result())
-            done += 1
             if done % 50 == 0:
                 print(f"  {done}/{len(tasks)} done")
     ok = sum(1 for r in records if r["status"] == "OK")

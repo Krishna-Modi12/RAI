@@ -1,0 +1,23 @@
+[
+  {
+    "name": "PVPMC Modeling Guide",
+    "url": "https://pvpmc.sandia.gov/modeling-guide/",
+    "classification": "PHYSICS_REFERENCE",
+    "status": "DOCUMENTED_ONLY_NOT_DOWNLOADED",
+    "intended_use": "Future physics-model methodology reference (Gate 5.7+). Not used to generate, validate, or influence any Gate 5.6A/5.6B artifact."
+  },
+  {
+    "name": "PVPMC Single-Axis Tracker Fault Time Series (Albuquerque, Jun-Nov 2023)",
+    "url": "https://pvpmc.sandia.gov/",
+    "classification": "REAL_CONTROLLED_FAULT_DATA",
+    "status": "DOCUMENTED_ONLY_NOT_DOWNLOADED",
+    "important_caveat": "This is REAL HARDWARE data but with CONTROLLED/EMULATED fault scenarios -- it must never be described as naturally-occurring field failures. Reserved for a future controlled-fault validation gate, not Gate 5.6A/5.6B."
+  },
+  {
+    "name": "PVPMC / DuraMAT Soiling and Degradation Resources",
+    "url": "https://pvpmc.sandia.gov/",
+    "classification": "REAL_ENVIRONMENTAL_DATA",
+    "status": "DOCUMENTED_ONLY_NOT_DOWNLOADED",
+    "intended_use": "Future long-term degradation evidence (Gate 5.8+)."
+  }
+]

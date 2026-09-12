@@ -1,0 +1,155 @@
+[
+  {
+    "artifact": "systems_20250729.csv",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/systems_20250729.csv",
+    "retrieved_at_utc": "2026-09-12T15:00:00Z",
+    "http_status": 200,
+    "sha256": "54ddbd1ef044a7eb822ddf8bf3e53f319606598cc37b20d05c96b4631e03d65c",
+    "size_bytes": 383559
+  },
+  {
+    "artifact": "system_metadata/1239_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1239_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "8c6f7a846540969598d1d9f192d548288b8f888bdcfdde0a02a44ff0dada8776",
+    "size_bytes": 1204
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1239.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1239__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "16cbed891d1d516a58d92533ff00d42e36de52ee2e2f8c8c17e2fe03947bae99",
+    "size_bytes": 3729,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/1283_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1283_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "674fccbb3f0bca200d9e4c3997db088796ece4454d0c1f431b599ed50e948642",
+    "size_bytes": 1234
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1283.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1283__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "ac0b1edeafd122f7632783be3957386e02f8a404aa62daa193f4aa5a09447e06",
+    "size_bytes": 4148,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/34_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/34_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "ea0f2de58dad416787fc4612f9fc3873e459d009caa672361305f34a25dfb8bf",
+    "size_bytes": 1228
+  },
+  {
+    "artifact": "metrics_dicts/metrics_34.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_34__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "c21ece039a845ae967ed5cf5135c6542a015ea24c34ae298ebe9ca5ff26da86f",
+    "size_bytes": 3972,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/1430_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1430_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "9be9115f48032860997a7f06a96f42ce83dde360b8bdc3b7d7dfab19d9b47206",
+    "size_bytes": 1182
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1430.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1430__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "02c7b74b4e54a844c72bc86800e21d062b52db755e64c2c7a9073c0f3186b48f",
+    "size_bytes": 3737,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/1433_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1433_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "b5439541fcf68c93282b834bfee888d5aead3cc4a75dd24abe6d0a7dd4d0a980",
+    "size_bytes": 1678
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1433.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1433__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "de2d181e977e210c3be168ed3219cf6e9e69869bc8fb93059361eff4316976be",
+    "size_bytes": 3534,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/1199_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1199_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "57ed6873da57d0dc3661c01299d1baba029be23c54b403a3c259599df4169a8a",
+    "size_bytes": 1220
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1199.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1199__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "36d30c5a97946b7b16f03235f56c6db79f0349c4e00e4856514c973a4dcb9023",
+    "size_bytes": 4261,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/1332_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/1332_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "8f0224dd8c81e695b7fda37fc8641adb7c02327ee0188fd3c75f3f38b2b7b2cb",
+    "size_bytes": 1738
+  },
+  {
+    "artifact": "metrics_dicts/metrics_1332.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_1332__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "9469de97c164b2fd3e6d4c348208610ffe0773b14c8467f1de67901af4e6c647",
+    "size_bytes": 3999,
+    "note": null
+  },
+  {
+    "artifact": "system_metadata/35_system_metadata.json",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/csv/system_metadata/35_system_metadata.json",
+    "retrieved_at_utc": "2026-09-12T16:15:00Z",
+    "http_status": 200,
+    "sha256": "857d0e6a03d6b2d971f416d993f694f75601408226d524a12c8e6160d1ba057b",
+    "size_bytes": 1219
+  },
+  {
+    "artifact": "metrics_dicts/metrics_35.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_35__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "af76dd045a284214373795d2360a4b8c1f11b13a8916e933c8085410f4fdafa5",
+    "size_bytes": 3973,
+    "note": null
+  },
+  {
+    "artifact": "metrics_dicts/metrics_9068.parquet",
+    "url": "https://oedi-data-lake.s3.amazonaws.com/pvdaq/parquet/metrics/metrics__system_9068__part000.parquet",
+    "retrieved_at_utc": "2026-09-12T14:30:00Z",
+    "http_status": 200,
+    "sha256": "01df8242376e62f724b194154fb6de135e19ccfc347ca41b3ee21e946f22ef62",
+    "size_bytes": 330,
+    "note": "9068's counterpart failed to parse as valid parquet (corrupted); recorded in candidate_systems.json exclusion."
+  }
+]
