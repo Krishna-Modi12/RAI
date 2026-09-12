@@ -1,0 +1,85 @@
+{
+  "gate": "5.6C",
+  "status": "MODEL_DEVELOPMENT",
+  "validation_status": "NOT_INDEPENDENTLY_VALIDATED",
+  "decision_gate_record": "artifacts/evaluation/gate56/gate56c_decision_gate/decision.md",
+  "path_taken": "PATH_B",
+  "development_systems": [
+    1239,
+    1283,
+    34
+  ],
+  "excluded_systems": {
+    "1430": "PARAMETERIZATION_INSUFFICIENT -- no real tracker-axis geometry available",
+    "1433": "PARAMETERIZATION_INSUFFICIENT -- no CEC module/inverter database match"
+  },
+  "holdout_type": "TEMPORAL_WITHIN_SYSTEM",
+  "holdout_note": "Gate 5.6B froze Validation=[] (INSUFFICIENT_DATA) for cross-system holdout. Each development system is independently split chronologically (60/20/20, purge_gap=4 intervals) via rai.eval.external.solar.pvdaq.split_system_telemetry. Results are NEVER cross-system generalization claims.",
+  "alignment_policy": "artifacts/evaluation/gate56/cohort_adjudication/alignment_policy.json (FASTEST_SIGNAL_GRID_WITH_BACKWARD_HOLD)",
+  "physics_reference": "rai.eval.external.solar.pvlib_modelchain_reference.PVLibModelChainReference (real pvlib.modelchain.ModelChain, not the invalid hand-rolled PVLibPhysicsReference)",
+  "empirical_baseline": "rai.eval.external.solar.models.SolarEmpiricalBaseline (unmodified, reused)",
+  "champion_hybrid": "rai.eval.external.solar.models.RAISolarChampion (unmodified, reused)",
+  "per_system_summary": {
+    "1239": {
+      "quality_result": {
+        "total_records": 8645,
+        "valid_daytime_count": 4892,
+        "nighttime_filtered_count": 3675,
+        "clipping_tagged_count": 23,
+        "curtailed_tagged_count": 0,
+        "data_gap_count": 78,
+        "sensor_anomaly_count": 0,
+        "valid_daytime_pct": 56.59
+      },
+      "split_sizes": {
+        "train": 5187,
+        "val": 1729,
+        "test": 1721
+      },
+      "alpha_blend": 0.1,
+      "residual_mean_normal_kw": -0.0219,
+      "residual_std_normal_kw": 0.485
+    },
+    "1283": {
+      "quality_result": {
+        "total_records": 504384,
+        "valid_daytime_count": 274729,
+        "nighttime_filtered_count": 229655,
+        "clipping_tagged_count": 1568,
+        "curtailed_tagged_count": 0,
+        "data_gap_count": 0,
+        "sensor_anomaly_count": 0,
+        "valid_daytime_pct": 54.47
+      },
+      "split_sizes": {
+        "train": 302630,
+        "val": 100876,
+        "test": 100870
+      },
+      "alpha_blend": 0.1,
+      "residual_mean_normal_kw": -0.0514,
+      "residual_std_normal_kw": 12.76
+    },
+    "34": {
+      "quality_result": {
+        "total_records": 8640,
+        "valid_daytime_count": 4154,
+        "nighttime_filtered_count": 2242,
+        "clipping_tagged_count": 0,
+        "curtailed_tagged_count": 0,
+        "data_gap_count": 2244,
+        "sensor_anomaly_count": 0,
+        "valid_daytime_pct": 48.08
+      },
+      "split_sizes": {
+        "train": 5184,
+        "val": 1728,
+        "test": 1720
+      },
+      "alpha_blend": 0.29677054000168285,
+      "residual_mean_normal_kw": -3.4933,
+      "residual_std_normal_kw": 7.6382
+    }
+  },
+  "diagnostic_metric_disclaimer": "R2/RMSE/nRMSE/MAE in self_consistency_diagnostics.csv measure how well each model reproduces REAL, HELD-OUT (temporally later) telemetry from the SAME system it was fit/calibrated on. They are internal self-consistency diagnostics, not validated accuracy and not evidence of generalization to any other system, site, or time period."
+}
