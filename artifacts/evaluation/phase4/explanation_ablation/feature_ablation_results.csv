@@ -1,0 +1,7 @@
+feature_ablated,baseline_risk,ablated_risk,risk_delta,baseline_action,ablated_action,action_flipped,diagnostic_impact_verdict
+gearbox_bearing_temperature,0.84,0.18,-0.66,repair_now,monitor,True,Thermal residual is the primary physical signature; removing it collapses risk to baseline.
+vibration_rms,0.84,0.54,-0.3,repair_now,inspect_first,True,High vibration confirms severe mechanical friction; removing it lowers risk into inspection range.
+peer_fleet_context,0.84,0.84,0.0,repair_now,inspect_first,True,"Without peer consensus, system cannot rule out common cause; downgrades repair to inspect."
+weather_meteorological_context,0.84,0.84,0.0,repair_now,defer_24h,True,"Without ambient temperature baseline, thermal margin is uncertain; policy hedges via 24h deferral."
+sensor_health_verification,0.84,0.84,0.0,repair_now,abstain,True,"When sensor health check is removed or invalid, safety gate mandates complete abstention."
+historical_case_retrieval,0.84,0.84,0.0,repair_now,repair_now,False,Historical memory provides empirical grounding; removing it maintains physics decision but lowers confidence.

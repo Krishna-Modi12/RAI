@@ -1,0 +1,8 @@
+scenario_id,scenario_name,sensor_condition,true_equipment_state,sensor_health_verdict,abstention_triggered,final_action,bad_dispatch_prevented,failure_mitigation_notes
+SENS-01,Healthy Sensor + Real Bearing Spalling,HEALTHY,DEFECTIVE,ok,False,repair_now,False,Healthy sensing confirmed genuine equipment degradation; dispatched repair crew.
+SENS-02,Stuck Thermocouple (Zero Variance Flatline),STUCK_SENSOR,HEALTHY,failed,True,abstain,True,Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch.
+SENS-03,Sensor Calibration Drift (+5°C Bias),DRIFTING_SENSOR,HEALTHY,suspect,True,abstain,True,Sensor calibration suspect; triggered telemetry recalibration instead of component tear-down.
+SENS-04,Excessive Packet Loss (>40% Missingness),PACKET_LOSS,UNKNOWN,failed,True,abstain,True,Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch.
+SENS-05,Thermodynamic Multi-Sensor Contradiction,CONTRADICTION,HEALTHY,failed,True,abstain,True,Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch.
+SENS-06,Severe Ambient Heatwave (+6°C Environmental Look-alike),ENVIRONMENTAL_HEATWAVE,HEALTHY,ok,False,monitor,True,Environmental context gate attributed thermal rise to ambient heatwave.
+SENS-07,Fleet-Wide Curtailment (60% Fleet Abnormal),COMMON_CAUSE_GRID,HEALTHY,ok,False,monitor,True,Peer consensus suppressed isolated equipment alarms; issued plant-wide curtailment notice.

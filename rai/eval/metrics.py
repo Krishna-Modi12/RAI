@@ -422,8 +422,6 @@ def count_fleet_alert_funnel(
                         final_dispatches += 1
 
     # Ensure nonzero base and scaling to annual rate
-    scale_factor = (8760.0 / max(total_monitoring_hours, 1.0)) * total_assets
-
     raw_annual = max(float(raw_exceedances) * (8760.0 / max(total_monitoring_hours, 1.0)), 100.0)
     pers_annual = max(float(persistence_survivors) * (8760.0 / max(total_monitoring_hours, 1.0)), 10.0)
     env_annual = max(float(env_survivors) * (8760.0 / max(total_monitoring_hours, 1.0)), 4.0)
@@ -462,12 +460,14 @@ def count_fleet_alert_funnel(
 
 
 def compute_alert_fatigue_funnel(
-    raw_rate_per_year: float = 3218.4,
-    persistence_filter_ratio: float = 0.2305,
-    environmental_filter_ratio: float = 0.1253,
-    peer_consensus_ratio: float = 0.1828,
-    confidence_gating_ratio: float = 0.2353,
+    raw_rate_per_year: float = 0.0,
+    persistence_filter_ratio: float = 1.0,
+    environmental_filter_ratio: float = 1.0,
+    peer_consensus_ratio: float = 1.0,
+    confidence_gating_ratio: float = 1.0,
     total_assets: int = 42,
+    raw_event_counts: dict[str, int] | None = None,
+    is_empirically_measured: bool = False,
 ) -> AlertFatigueFunnel:
     """Compute sequential multi-stage noise suppression through the operational filtering funnel."""
     s1 = raw_rate_per_year
@@ -481,7 +481,7 @@ def compute_alert_fatigue_funnel(
 
     stages = [
         {"stage": "1. Raw Statistical Residuals (3-sigma)", "annual_alarms": round(s1, 1), "eliminated_pct": 0.0},
-        {"stage": "2. Temporal Persistence (12h Purge)", "annual_alarms": round(s2, 1), "eliminated_pct": round((1 - persistence_filter_ratio) * 100, 1)},
+        {"stage": "2. Temporal Persistence (6h/12h Purge)", "annual_alarms": round(s2, 1), "eliminated_pct": round((1 - persistence_filter_ratio) * 100, 1)},
         {"stage": "3. Environmental Context (CAMS/Weather)", "annual_alarms": round(s3, 1), "eliminated_pct": round((1 - environmental_filter_ratio) * 100, 1)},
         {"stage": "4. Peer Consensus & Common-Cause", "annual_alarms": round(s4, 1), "eliminated_pct": round((1 - peer_consensus_ratio) * 100, 1)},
         {"stage": "5. Evidence & Confidence Gate", "annual_alarms": round(s5, 1), "eliminated_pct": round((1 - confidence_gating_ratio) * 100, 1)},
@@ -496,7 +496,7 @@ def compute_alert_fatigue_funnel(
         final_actionable_rate_per_asset_year=round(actionable_per_asset_year, 2),
         overall_noise_suppression_pct=round(suppression, 2),
         funnel_stages=stages,
-        raw_event_counts=None,
-        is_empirically_measured=False,
+        raw_event_counts=raw_event_counts,
+        is_empirically_measured=is_empirically_measured,
     )
 

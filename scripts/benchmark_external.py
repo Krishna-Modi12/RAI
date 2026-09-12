@@ -27,7 +27,6 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error, r2_score
 
 from rai.config import ARTIFACTS, Asset, AssetType
-from rai.eval.metrics import CAREComponents, compute_care_score
 from rai.ingest.care import discover, load_care_csv
 from rai.sim.wind import expected_power_reference
 

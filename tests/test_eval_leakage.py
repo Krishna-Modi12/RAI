@@ -128,7 +128,7 @@ def test_split_temporal_and_asset():
         "power_kw": np.random.uniform(500, 1500, n_pts),
     })
 
-    temp_split = split_temporal(df, time_col="ts", train_frac=0.60, val_frac=0.20, gap_hours=4.0)
+    temp_split = split_temporal(df, time_col="ts", train_frac=0.60, val_frac=0.20, gap_hours=4.0, enforce_embargo=False)
     assert len(temp_split.train) > 0
     assert len(temp_split.test) > 0
     assert temp_split.train["ts"].max() < temp_split.val["ts"].min()
@@ -138,6 +138,43 @@ def test_split_temporal_and_asset():
     train_assets = set(asset_split.train["asset_id"].unique())
     test_assets = set(asset_split.test["asset_id"].unique())
     assert len(train_assets.intersection(test_assets)) == 0
+
+
+def test_embargo_boundary_exact_enforcement():
+    from rai.eval.splits import (
+        compute_pipeline_embargo_hours,
+        split_temporal,
+        verify_embargo_boundary,
+    )
+
+    # 1. Verify exact mathematical formula: 336h lookback + 6h thermal lag = 342.0h
+    derived_embargo = compute_pipeline_embargo_hours()
+    assert derived_embargo == 342.0
+
+    # 2. Boundary Test 1: gap = 341.99 -> FAIL (DataLeakageError)
+    with pytest.raises(DataLeakageError, match="violates the physical backward reach invariant"):
+        verify_embargo_boundary(341.99, min_embargo=342.0)
+
+    # 3. Boundary Test 2: gap = 342.00 -> PASS
+    assert verify_embargo_boundary(342.00, min_embargo=342.0) is True
+
+    # 4. Boundary Test 3: gap = 342.01 -> PASS
+    assert verify_embargo_boundary(342.01, min_embargo=342.0) is True
+
+    # 5. Integration test on split_temporal
+    t0 = datetime(2026, 7, 1, 0, 0, tzinfo=UTC)
+    long_df = pd.DataFrame({
+        "ts": [t0 + timedelta(hours=i) for i in range(24 * 60)],
+        "asset_id": ["WT-001"] * (24 * 60),
+    })
+
+    # Sub-boundary split must fail
+    with pytest.raises(DataLeakageError):
+        split_temporal(long_df, gap_hours=341.99, enforce_embargo=True)
+
+    # Exact boundary split must pass
+    valid_split = split_temporal(long_df, gap_hours=342.0, enforce_embargo=True)
+    assert valid_split.metadata["gap_hours"] == 342.0
 
 
 def test_derived_embargo_and_rolling_origin():

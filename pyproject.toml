@@ -56,3 +56,4 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["PLR2004", "S101"]
+"scripts/*" = ["E402"]

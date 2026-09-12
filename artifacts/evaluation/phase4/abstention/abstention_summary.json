@@ -1,0 +1,630 @@
+{
+  "status": "COMPLETED",
+  "total_scenarios_audited": 30,
+  "decision_coverage_pct": 33.3,
+  "abstention_rate_pct": 66.7,
+  "unnecessary_abstentions": 0,
+  "dangerous_non_abstentions": 0,
+  "action_precision_pct": 100.0,
+  "scenarios": [
+    {
+      "scenario_id": "ABST-01",
+      "scenario_name": "High-Confidence Bearing Failure (WT-017)",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.88,
+      "confidence_range": [
+        0.75,
+        0.92
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.08,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-02",
+      "scenario_name": "Generator Winding Overheating (WT-004)",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.84,
+      "confidence_range": [
+        0.72,
+        0.89
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.12,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-03",
+      "scenario_name": "Failed Thermocouple Flatline",
+      "category": "SENSOR_FAILURE",
+      "evidence_score": 0.85,
+      "confidence_range": [
+        0.7,
+        0.9
+      ],
+      "sensor_health": "failed",
+      "env_explanation": 0.05,
+      "ground_truth_state": "SENSING_ERROR",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "sensor health is failed"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-04",
+      "scenario_name": "Suspect Calibration Drift",
+      "category": "SENSOR_FAILURE",
+      "evidence_score": 0.75,
+      "confidence_range": [
+        0.7,
+        0.85
+      ],
+      "sensor_health": "suspect",
+      "env_explanation": 0.1,
+      "ground_truth_state": "SENSING_ERROR",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "sensor health is suspect"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-05",
+      "scenario_name": "Weak Transient Anomaly Spike (1h persistence)",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "evidence_score": 0.42,
+      "confidence_range": [
+        0.5,
+        0.65
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.2,
+      "ground_truth_state": "HEALTHY",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.42 is below 0.60",
+        "confidence lower bound 0.50 is below 0.70",
+        "persistence 1.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-06",
+      "scenario_name": "Severe Dust Storm Look-alike (INV-012)",
+      "category": "ENVIRONMENTAL_DOMINATED",
+      "evidence_score": 0.78,
+      "confidence_range": [
+        0.72,
+        0.88
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.85,
+      "ground_truth_state": "SOILING_OR_WEATHER",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "environment explains 85% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-07",
+      "scenario_name": "Conflicting Signals / Broad Credible Interval",
+      "category": "MODEL_UNCERTAINTY",
+      "evidence_score": 0.68,
+      "confidence_range": [
+        0.35,
+        0.85
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.15,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.35 is below 0.70",
+        "confidence range width 0.50 exceeds 0.35"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-08",
+      "scenario_name": "Out-of-Distribution Arctic Cold Snap",
+      "category": "OOD_REGIME",
+      "evidence_score": 0.52,
+      "confidence_range": [
+        0.4,
+        0.68
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.7,
+      "ground_truth_state": "OOD",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.52 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "environment explains 70% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-09",
+      "scenario_name": "Synthetic Parameter Probe #9",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-10",
+      "scenario_name": "Synthetic Parameter Probe #10",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.6000000000000001,
+      "confidence_range": [
+        0.4,
+        0.4
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.6000000000000001,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 60% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-11",
+      "scenario_name": "Synthetic Parameter Probe #11",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.65,
+      "confidence_range": [
+        0.4,
+        0.5
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.7,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 70% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-12",
+      "scenario_name": "Synthetic Parameter Probe #12",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-13",
+      "scenario_name": "Synthetic Parameter Probe #13",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.75,
+      "confidence_range": [
+        0.4,
+        0.7000000000000001
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.30000000000000004,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-14",
+      "scenario_name": "Synthetic Parameter Probe #14",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.45,
+      "confidence_range": [
+        0.4,
+        0.8
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.4,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.45 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "confidence range width 0.40 exceeds 0.35",
+        "persistence 2.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-15",
+      "scenario_name": "Synthetic Parameter Probe #15",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-16",
+      "scenario_name": "Synthetic Parameter Probe #16",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.55,
+      "confidence_range": [
+        0.4,
+        0.5
+      ],
+      "sensor_health": "failed",
+      "env_explanation": 0.6000000000000001,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.55 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 60% of the deviation",
+        "sensor health is failed"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-17",
+      "scenario_name": "Synthetic Parameter Probe #17",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.6000000000000001,
+      "confidence_range": [
+        0.4,
+        0.6000000000000001
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.7,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 70% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-18",
+      "scenario_name": "Synthetic Parameter Probe #18",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-19",
+      "scenario_name": "Synthetic Parameter Probe #19",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.7,
+      "confidence_range": [
+        0.4,
+        0.8
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.30000000000000004,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "confidence range width 0.40 exceeds 0.35",
+        "persistence 2.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-20",
+      "scenario_name": "Synthetic Parameter Probe #20",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.75,
+      "confidence_range": [
+        0.4,
+        0.4
+      ],
+      "sensor_health": "failed",
+      "env_explanation": 0.4,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "sensor health is failed"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-21",
+      "scenario_name": "Synthetic Parameter Probe #21",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-22",
+      "scenario_name": "Synthetic Parameter Probe #22",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.5,
+      "confidence_range": [
+        0.4,
+        0.6000000000000001
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.6000000000000001,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.50 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 60% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-23",
+      "scenario_name": "Synthetic Parameter Probe #23",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.55,
+      "confidence_range": [
+        0.4,
+        0.7000000000000001
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.7,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.55 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 70% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-24",
+      "scenario_name": "Synthetic Parameter Probe #24",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-25",
+      "scenario_name": "Synthetic Parameter Probe #25",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.65,
+      "confidence_range": [
+        0.4,
+        0.4
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.30000000000000004,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-26",
+      "scenario_name": "Synthetic Parameter Probe #26",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.7,
+      "confidence_range": [
+        0.4,
+        0.5
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.4,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-27",
+      "scenario_name": "Synthetic Parameter Probe #27",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-28",
+      "scenario_name": "Synthetic Parameter Probe #28",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.45,
+      "confidence_range": [
+        0.4,
+        0.7000000000000001
+      ],
+      "sensor_health": "failed",
+      "env_explanation": 0.6000000000000001,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.45 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 60% of the deviation",
+        "sensor health is failed"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-29",
+      "scenario_name": "Synthetic Parameter Probe #29",
+      "category": "EDGE_CASE",
+      "evidence_score": 0.5,
+      "confidence_range": [
+        0.4,
+        0.8
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.7,
+      "ground_truth_state": "AMBIGUOUS",
+      "should_abstain": true,
+      "policy_verdict": "ABSTAIN",
+      "selected_action": null,
+      "abstention_reasons": [
+        "evidence score 0.50 is below 0.60",
+        "confidence lower bound 0.40 is below 0.70",
+        "confidence range width 0.40 exceeds 0.35",
+        "persistence 2.0h is below the required 6.0h",
+        "environment explains 70% of the deviation"
+      ],
+      "is_safe": true
+    },
+    {
+      "scenario_id": "ABST-30",
+      "scenario_name": "Synthetic Parameter Probe #30",
+      "category": "CLEAR_FAULT",
+      "evidence_score": 0.82,
+      "confidence_range": [
+        0.72,
+        0.86
+      ],
+      "sensor_health": "ok",
+      "env_explanation": 0.1,
+      "ground_truth_state": "DEFECTIVE",
+      "should_abstain": false,
+      "policy_verdict": "ACT",
+      "selected_action": "repair_now",
+      "abstention_reasons": [],
+      "is_safe": true
+    }
+  ]
+}

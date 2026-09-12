@@ -16,8 +16,10 @@ RAI is evaluated as an evidence-driven renewable asset decision intelligence sys
 4. Provide actionable, economically ranked interventions with explicit uncertainty bounds.
 
 > [!IMPORTANT]
-> **Internal Synthetic Fleet vs External CARE Benchmark:**  
-> All figures in this document are measured on the repository's 42-asset synthetic fleet (45 calendar days, 45,360 asset-hours, 6 equipment degradation episodes). While the evaluation metric is mathematically formulated after the 4 CARE dimensions (Coverage, Accuracy, Reliability, Earliness), it is an **internal CARE-inspired operational score**. It must not be cited as a score on the official external CARE to Compare dataset (Gück et al., 2024).
+> **Internal Synthetic Fleet vs External SCADA Tracking vs Official CARE Anomaly Benchmark:**  
+> - **Track A (RAI Operational Score):** Measured on the repository's 42-asset synthetic fleet (45 calendar days, 45,360 asset-hours, 6 equipment degradation episodes). Formulated after the 4 CARE dimensions (Coverage, Accuracy, Reliability, Earliness), this is an **internal CARE-inspired operational score**.
+> - **Track B (External SCADA Zero-Shot Tracking Validation):** Measured on external commercial wind turbine SCADA ($R^2 = 0.9943$ power curve tracking, $R^2 = 0.8120$ thermal tracking). This validates expected-behavior tracking on an unseen turbine, but is **not** an anomaly detection benchmark.
+> - **Official CARE Anomaly Benchmark:** `PENDING / NOT COMPUTED` until full labeled anomaly sequences from Gück et al. (2024) are ingested and scored across the 4 CARE alarm metrics. Do not cite expected-power $R^2$ as an external CARE anomaly score.
 
 ---
 
@@ -144,15 +146,17 @@ Systematic ablations isolating each layer's marginal contribution (`artifacts/ev
 | Capability / Metric | Status | Evidence / Notes |
 |---|---|---|
 | **Zero Preprocessing Leakage** | `MEASURED` | Scalers & regressors fit on train only; verified |
-| **Derived Temporal Embargo** | `MEASURED` | 336-hour embargo enforced in all splits |
+| **Derived Temporal Embargo** | `MEASURED` | 342.0-hour embargo enforced in all splits |
 | **Validation Threshold Lock** | `MEASURED` | Locked at $\theta^* = 0.45$ on validation set |
 | **Historical Memory Cutoff** | `MEASURED` | `knowledge_cutoff` and `exclude_asset_id` enforced |
-| **Adversarial Stress Battery** | `MEASURED` | 5 of 5 tests passed; documented in `adversarial/` |
-| **Rolling-Origin Backtest** | `MEASURED` | 4 folds; Mean PR-AUC `0.294`, Mean CARE `0.670` |
-| **Reproducibility Environment** | `MEASURED` | Python 3.11.9, scikit-learn 1.8.0; 0 warnings |
-| **External CARE Benchmark** | `UNCOMPUTED` | External dataset ingestion not yet executed |
-| **Live Satellite Telemetry** | `PARTIALLY IMPLEMENTED` | CAMS/dust cache present; real-time feed mocked |
-| **Alert Fatigue Funnel (Exact Counts)** | `UNCOMPUTED` | Stage-by-stage raw counts not computed; false alarm rate is measured |
+| **Adversarial Stress Battery** | `MEASURED` | 9 of 9 tests passed; documented in `adversarial/` |
+| **Rolling-Origin Backtest** | `MEASURED` | 4 folds; Macro PR-AUC `0.294 ± 0.324` (sparse folds diagnosed) |
+| **Level 2 Unseen Asset Holdout** | `MEASURED` | PR-AUC `0.833` across 11 held-out assets (2 faulted, 9 healthy) |
+| **External SCADA Zero-Shot Tracking** | `MEASURED` | $R^2 = 0.9943$ (power), $R^2 = 0.8120$ (thermal) on external turbine |
+| **Official CARE Anomaly Benchmark** | `PENDING` | Ingestion adapter built; pending full Zenodo anomaly callset |
+| **Alert Fatigue Funnel (Versioned)** | `MEASURED` | v1: 0.19 / asset-yr; v2: 0.09 / asset-yr (3.78 fleet alarms/yr with downstream gates) |
+| **Model-World Decision Regret** | `MEASURED` | Mean ₹0, 100% optimal (self-consistency check under policy assumptions) |
+| **Independent Outcome-World Regret** | `MEASURED` | Decoupled failure arrival, repair delay, and downtime variance (Phase 4) |
 
 ---
 

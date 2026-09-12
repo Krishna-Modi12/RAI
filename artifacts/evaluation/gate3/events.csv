@@ -1,0 +1,7 @@
+event_id,asset_id,site,modality,failure_family,scenario,onset,failure,first_valid_alarm,lead_time_days,alarm_count,status,false_alarms_before_event,detector_confidence
+EVT-0008,WT-017,kutch-wind,wind,gearbox,gearbox_bearing_wear,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0
+EVT-0005,WT-011,kutch-wind,wind,pitch_system,pitch_misalignment,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0
+EVT-0007,WT-015,kutch-wind,wind,yaw_system,yaw_misalignment,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0
+EVT-0002,WT-004,kutch-wind,wind,generator,generator_overheating,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0
+EVT-0009,INV-007,charanka-solar,solar,dc_string,string_outage,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0
+EVT-0011,INV-015,charanka-solar,solar,inverter,inverter_derate,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,,0.0,0,MISSED,0,0.0

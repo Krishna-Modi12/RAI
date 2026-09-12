@@ -14,7 +14,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from rai.eval.leakage import assert_no_leakage
+from rai.eval.leakage import DataLeakageError, assert_no_leakage
 
 
 @dataclass(frozen=True)
@@ -39,9 +39,26 @@ def compute_pipeline_embargo_hours(
 
     To ensure that the earliest test sample at t_test cannot read any observation
     from the training interval [t_train_start, t_train_end], the embargo gap must satisfy:
-        gap >= lookback_hours + lag_hours
+        gap >= lookback_hours + lag_hours = 336.0 + 6.0 = 342.0h
     """
     return float(lookback_hours + lag_hours)
+
+
+def verify_embargo_boundary(gap_hours: float, min_embargo: float = 342.0) -> bool:
+    """Verify that a candidate embargo gap satisfies the physical information-reach invariant.
+
+    Maximum trailing telemetry lookback: W = 336.0h (14 days).
+    Maximum stateful component thermal lag: L = 6.0h (360 minutes).
+    Maximum temporal backward reach: tau_max = W + L = 342.0h.
+
+    If gap < 342.0h, the earliest test sample's feature calculation reaches into the training window.
+    """
+    if gap_hours < min_embargo:
+        raise DataLeakageError(
+            f"Candidate embargo gap ({gap_hours:.2f}h) violates the physical backward reach invariant "
+            f"(required >= {min_embargo:.1f}h: 336h lookback + 6h thermal lag)."
+        )
+    return True
 
 
 def split_temporal(
@@ -50,6 +67,7 @@ def split_temporal(
     train_frac: float = 0.55,
     val_frac: float = 0.15,
     gap_hours: float | None = None,
+    enforce_embargo: bool = True,
 ) -> PartitionSplit:
     """Temporal split with enforced mathematically derived embargo gaps between train, val, and test."""
     ordered = df.sort_values(time_col).reset_index(drop=True)
@@ -62,14 +80,10 @@ def split_temporal(
     t_max = t_series.max()
     min_embargo = compute_pipeline_embargo_hours()
     actual_gap = gap_hours if gap_hours is not None else min_embargo
-    if actual_gap < min_embargo:
-        import logging
-        logging.getLogger(__name__).warning(
-            "Specified gap_hours (%.1f) is below mathematically required embargo (%.1f)",
-            actual_gap,
-            min_embargo,
-        )
+    if enforce_embargo:
+        verify_embargo_boundary(actual_gap, min_embargo)
 
+    total_span = max((t_max - t_min).total_seconds() / 3600.0, 1.0)
     train_end_target = t_min + pd.Timedelta(hours=total_span * train_frac)
     val_start_target = train_end_target + pd.Timedelta(hours=actual_gap)
     val_end_target = val_start_target + pd.Timedelta(hours=total_span * val_frac)
@@ -160,7 +174,7 @@ def generate_rolling_origin_folds(
                     "train_span": f"{train_part[time_col].min()} to {train_part[time_col].max()}",
                     "val_span": f"{val_part[time_col].min()} to {val_part[time_col].max()}" if not val_part.empty else "empty",
                     "test_span": f"{test_part[time_col].min()} to {test_part[time_col].max()}",
-                    "embargo_hours": embargo_hours,
+                    "embargo_hours": eff_embargo,
                     "train_rows": len(train_part),
                     "val_rows": len(val_part),
                     "test_rows": len(test_part),

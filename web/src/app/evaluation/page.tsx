@@ -166,8 +166,6 @@ export default function EvaluationPage() {
   const regretMedian = evalData?.decision_regret?.median_regret_inr ?? 0;
   const regretP95 = evalData?.decision_regret?.p95_regret_inr ?? 0;
   const regretOptimalPct = evalData?.decision_regret?.optimal_execution_pct ?? 100.0;
-  const trackBVerified = evalData?.track_b_external_benchmark?.zero_shot_verification?.validation_passed ?? true;
-  const trackBPowerR2 = evalData?.track_b_external_benchmark?.zero_shot_verification?.mean_expected_power_r2 ?? 0.9943;
 
   return (
     <div className="space-y-6">
@@ -178,13 +176,13 @@ export default function EvaluationPage() {
             Scientific Evaluation & Two-Track Benchmark Scorecard
           </h1>
           <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Two-Track Validation: Track A (RAI Operational Score) & Track B (Official CARE Reference Benchmark)
+            Two-Track Validation: Track A (RAI Operational Score) & Track B (CARE External Reference Benchmark)
           </p>
         </div>
 
         <div className="flex items-center space-x-2 font-mono text-xs px-2.5 py-1 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px]">
           <ShieldCheck className="w-4 h-4" />
-          <span>ZERO-ACCURACY BIAS · SCIENTIFICALLY HONEST CLAIMS</span>
+          <span>DEPENDENCE-AWARE · LEAKAGE-FREE EVALUATION</span>
         </div>
       </div>
 
@@ -197,16 +195,16 @@ export default function EvaluationPage() {
               <span>Track A: RAI Fleet Benchmark (Internal Synthetic)</span>
             </div>
             <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px]">
-              OPERATIONAL SCORE: 0.659
+              OPERATIONAL SCORE: {champCare.toFixed(3)}
             </span>
           </div>
           <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-            Full end-to-end evaluation on RAI&apos;s 42-asset fleet (18 wind, 24 solar) over 45,360 operating hours. Evaluates the complete decision stack using a CARE-inspired metric ($C=0.67, A=0.98, R=0.98, E=0.00$).
+            Full end-to-end evaluation on RAI&apos;s 42-asset fleet (18 wind, 24 solar) over 45,360 operating hours. Evaluates the complete decision stack using a CARE-inspired metric (Coverage=0.83, Accuracy=0.98, Reliability=0.98, Earliness=0.39).
           </p>
           <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-1 flex justify-between">
             <span>Observation Hours: 45,360 h</span>
             <span>Independent Failures: N=6</span>
-            <span>PR-AUC: 0.948</span>
+            <span>PR-AUC: {champPrauc.toFixed(3)}</span>
           </div>
         </div>
 
@@ -214,19 +212,19 @@ export default function EvaluationPage() {
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
             <div className="flex items-center space-x-2 text-xs font-semibold text-[var(--text-primary)]">
               <Scale className="w-4 h-4 text-[var(--text-secondary)]" />
-              <span>Track B: External Wind Benchmark (Official CARE)</span>
+              <span>Track B: External SCADA Validation (Zero-Shot Tracking)</span>
             </div>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--surface-sunken)] text-[var(--text-tertiary)] rounded-[2px]">
-              REFERENCE PROTOCOL
+            <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px]">
+              TRACKING PASSED (R²=0.994) · ANOMALY BENCHMARK PENDING
             </span>
           </div>
           <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-            Official CARE to Compare specification (Gück et al., 2024): 36 commercial wind turbines across 3 farms (44 labeled anomaly frames, 51 normal time series). Protocol adapter verified for external SCADA ingestion.
+            External commercial wind turbine zero-shot expected power tracking (<strong className="text-[var(--text-primary)]">R² = 0.9943</strong>) and thermal tracking (<strong className="text-[var(--text-primary)]">R² = 0.8120</strong>). Confirms expected-behavior transfer to unseen turbine SCADA. <em>Official CARE Anomaly Detection Benchmark remains Pending / Not Computed until full labeled anomaly sequence callset is scored.</em>
           </p>
           <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-1 flex justify-between">
-            <span>Turbines: 36</span>
-            <span>Wind Farms: 3</span>
-            <span>Anomaly Frames: 44</span>
+            <span>Turbines: 36 (Declared)</span>
+            <span>Zero-Shot Tracking R²: 0.9943</span>
+            <span>CARE Anomaly: Pending</span>
           </div>
         </div>
       </div>
@@ -379,7 +377,7 @@ export default function EvaluationPage() {
               <span>Operational Alert Fatigue Reduction Funnel</span>
             </div>
             <span className="text-[10px] font-mono text-[var(--ok)] font-semibold">
-              99.99% NOISE SUPPRESSION
+              STAGE-GATED NOISE SUPPRESSION
             </span>
           </div>
 
@@ -399,9 +397,19 @@ export default function EvaluationPage() {
               </div>
             ))}
           </div>
-          <p className="text-[11px] text-[var(--text-tertiary)] pt-1">
-            *Final actionable control-room dispatch: <strong className="text-[var(--text-primary)]">0.19 alerts per asset-year</strong> (1 alarm every ~5 years per turbine).
-          </p>
+          <div className="text-[11px] text-[var(--text-tertiary)] pt-1 space-y-1 border-t border-[var(--border)] mt-2">
+            <div>
+              <span className="font-semibold text-[var(--text-secondary)]">Metric Versioning:</span>
+            </div>
+            <div className="flex justify-between font-mono text-[10px]">
+              <span>v1 Pipeline Baseline (no downstream gates):</span>
+              <span className="text-[var(--text-secondary)]">0.19 alerts / asset-yr</span>
+            </div>
+            <div className="flex justify-between font-mono text-[10px]">
+              <span>v2 Production Funnel (with sensor/peer gating):</span>
+              <span className="text-[var(--ok)] font-semibold">0.09 alerts / asset-yr (~3.8/yr fleet)</span>
+            </div>
+          </div>
         </div>
 
         {/* Next-Gen Decision Intelligence: Regret & VOI */}
@@ -409,25 +417,25 @@ export default function EvaluationPage() {
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
             <div className="flex items-center space-x-2 text-xs font-semibold text-[var(--text-primary)]">
               <DollarSign className="w-4 h-4 text-[var(--ok)]" />
-              <span>Next-Gen Decision Intelligence & Regret Analysis</span>
+              <span>Decision Regret (Model-World & Outcome-World)</span>
             </div>
             <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--ok-surface)] text-[var(--ok)] rounded-[2px]">
-              OPTIMAL EXECUTION: 86.7%
+              MODEL-WORLD OPTIMAL: {regretOptimalPct.toFixed(1)}%
             </span>
           </div>
 
           <div className="grid grid-cols-3 gap-2 text-center font-mono">
             <div className="p-2 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[2px]">
               <div className="text-[10px] text-[var(--text-tertiary)]">Mean Regret</div>
-              <div className="text-sm font-semibold text-[var(--text-primary)] mt-1">₹2,850</div>
+              <div className="text-sm font-semibold text-[var(--ok)] mt-1">₹{regretMean.toLocaleString()}</div>
             </div>
             <div className="p-2 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[2px]">
               <div className="text-[10px] text-[var(--text-tertiary)]">Median Regret</div>
-              <div className="text-sm font-semibold text-[var(--ok)] mt-1">₹0.00</div>
+              <div className="text-sm font-semibold text-[var(--ok)] mt-1">₹{regretMedian.toLocaleString()}</div>
             </div>
             <div className="p-2 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[2px]">
               <div className="text-[10px] text-[var(--text-tertiary)]">95th Percentile</div>
-              <div className="text-sm font-semibold text-[var(--warning)] mt-1">₹18,400</div>
+              <div className="text-sm font-semibold text-[var(--ok)] mt-1">₹{regretP95.toLocaleString()}</div>
             </div>
           </div>
 
@@ -530,12 +538,12 @@ export default function EvaluationPage() {
               <span>Level 1 — Chronological Temporal Holdout Passed</span>
             </div>
             <p className="text-[11px] font-sans text-[var(--text-secondary)]">
-              Training strictly partitioned to earlier time horizons (Days 1–30) with a 12-hour operational embargo purge gap. Evaluation executed exclusively on unseen future time horizons (Days 31–45). Zero lookahead leakage.
+              Training strictly partitioned to earlier time horizons (Days 1–30) with an enforced $\ge 342$-hour operational embargo purge gap (336h feature lookback + 6h thermal lag). Zero lookahead leakage.
             </p>
             <div className="grid grid-cols-3 gap-3 pt-2 text-xs">
               <div>Train Samples: 4,212 rows</div>
               <div>Test Samples: 1,152 rows</div>
-              <div>Temporal Leakage: 0.000 (Pass)</div>
+              <div>Embargo Gap: ≥342.0h (Pass)</div>
             </div>
           </div>
         )}
@@ -544,32 +552,32 @@ export default function EvaluationPage() {
           <div className="p-4 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] space-y-2 text-xs font-mono">
             <div className="flex items-center space-x-2 text-[var(--ok)] font-semibold">
               <CheckCircle2 className="w-4 h-4" />
-              <span>Level 2 — Asset-Grouped Holdout Passed</span>
+              <span>Level 2 — Asset-Grouped Holdout Evaluation</span>
             </div>
             <p className="text-[11px] font-sans text-[var(--text-secondary)]">
-              10 assets (6 wind turbines, 4 inverters) completely held out from training. Proves models learn fundamental physical degradation signatures rather than memorizing individual asset idiosyncrasies.
+              Asset-grouped holdout partition: No training sample contains information from held-out assets. Requires positive failure events in held-out split for valid evaluation.
             </p>
             <div className="grid grid-cols-3 gap-3 pt-2 text-xs">
-              <div>Held-out Assets: 10 Assets</div>
-              <div>Unseen Asset PR-AUC: 0.931</div>
-              <div>Asset Leakage: 0.000 (Pass)</div>
+              <div>Grouping Unit: asset_id</div>
+              <div>Data Leakage: 0.000 (Pass)</div>
+              <div>Status: Phase 3A Rigorous Audit</div>
             </div>
           </div>
         )}
 
         {selectedHoldout === "l3" && (
           <div className="p-4 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] space-y-2 text-xs font-mono">
-            <div className="flex items-center space-x-2 text-[var(--ok)] font-semibold">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Level 3 — Independent Per-Fleet Breakdown (Wind vs Solar)</span>
+            <div className="flex items-center space-x-2 text-[var(--warning)] font-semibold">
+              <AlertCircle className="w-4 h-4" />
+              <span>Level 3 — Within-Domain Site Transfer: Insufficient Data</span>
             </div>
             <p className="text-[11px] font-sans text-[var(--text-secondary)]">
-              Wind turbines and solar inverters have completely disjoint physics schemas. Rather than claiming false &ldquo;cross-site transfer&rdquo; across different physics domains, RAI reports performance separately for Kutch Wind and Charanka Solar.
+              Wind turbines and solar inverters have completely disjoint physics schemas. Evaluating Wind vs Solar measures cross-domain transfer, NOT within-domain geographical site transfer. Within-domain site transfer is marked INSUFFICIENT_DATA (single wind farm, single solar park).
             </p>
             <div className="grid grid-cols-3 gap-3 pt-2 text-xs">
-              <div>Kutch Wind PR-AUC: 0.948</div>
-              <div>Charanka Solar PR-AUC: 0.935</div>
-              <div>Domain Cross-Validation: Verified</div>
+              <div>Wind Sites: 1 (Kutch)</div>
+              <div>Solar Sites: 1 (Charanka)</div>
+              <div>Status: INSUFFICIENT_DATA</div>
             </div>
           </div>
         )}
@@ -578,15 +586,15 @@ export default function EvaluationPage() {
           <div className="p-4 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] space-y-2 text-xs font-mono">
             <div className="flex items-center space-x-2 text-[var(--ok)] font-semibold">
               <CheckCircle2 className="w-4 h-4" />
-              <span>Level 4 — Out-of-Distribution (OOD) Synthetic Stress Challenge</span>
+              <span>Level 4 — Out-of-Distribution (OOD) Stress Challenge</span>
             </div>
             <p className="text-[11px] font-sans text-[var(--text-secondary)]">
-              Test faults generated with perturbed parameter regimes: accelerated thermal drift, sensor noise, wind shear shifts, and combined dust storms with trace rain.
+              Evaluation under 3 simultaneous physical perturbation regimes: 1.8x sensor noise amplification, +2.5°C thermal sensor calibration drift, and +4.0°C ambient heat shock.
             </p>
             <div className="grid grid-cols-3 gap-3 pt-2 text-xs">
-              <div>OOD Scenarios: 5 Perturbations</div>
-              <div>Stress Resistance: Confirmed</div>
-              <div>Status: Verified</div>
+              <div>OOD Regimes: 3 Stress Perturbations</div>
+              <div>PR-AUC Retention: 100.0% (0.822 → 0.822)</div>
+              <div>Robustness Status: Verified Resilient</div>
             </div>
           </div>
         )}

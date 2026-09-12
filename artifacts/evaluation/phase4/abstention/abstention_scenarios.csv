@@ -1,0 +1,31 @@
+scenario_id,scenario_name,category,evidence_score,sensor_health,env_explanation,ground_truth_state,should_abstain,policy_verdict,selected_action,is_safe
+ABST-01,High-Confidence Bearing Failure (WT-017),CLEAR_FAULT,0.88,ok,0.08,DEFECTIVE,False,ACT,repair_now,True
+ABST-02,Generator Winding Overheating (WT-004),CLEAR_FAULT,0.84,ok,0.12,DEFECTIVE,False,ACT,repair_now,True
+ABST-03,Failed Thermocouple Flatline,SENSOR_FAILURE,0.85,failed,0.05,SENSING_ERROR,True,ABSTAIN,,True
+ABST-04,Suspect Calibration Drift,SENSOR_FAILURE,0.75,suspect,0.1,SENSING_ERROR,True,ABSTAIN,,True
+ABST-05,Weak Transient Anomaly Spike (1h persistence),INSUFFICIENT_EVIDENCE,0.42,ok,0.2,HEALTHY,True,ABSTAIN,,True
+ABST-06,Severe Dust Storm Look-alike (INV-012),ENVIRONMENTAL_DOMINATED,0.78,ok,0.85,SOILING_OR_WEATHER,True,ABSTAIN,,True
+ABST-07,Conflicting Signals / Broad Credible Interval,MODEL_UNCERTAINTY,0.68,ok,0.15,AMBIGUOUS,True,ABSTAIN,,True
+ABST-08,Out-of-Distribution Arctic Cold Snap,OOD_REGIME,0.52,ok,0.7,OOD,True,ABSTAIN,,True
+ABST-09,Synthetic Parameter Probe #9,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-10,Synthetic Parameter Probe #10,EDGE_CASE,0.6000000000000001,ok,0.6000000000000001,AMBIGUOUS,True,ABSTAIN,,True
+ABST-11,Synthetic Parameter Probe #11,EDGE_CASE,0.65,ok,0.7,AMBIGUOUS,True,ABSTAIN,,True
+ABST-12,Synthetic Parameter Probe #12,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-13,Synthetic Parameter Probe #13,EDGE_CASE,0.75,ok,0.30000000000000004,AMBIGUOUS,True,ABSTAIN,,True
+ABST-14,Synthetic Parameter Probe #14,EDGE_CASE,0.45,ok,0.4,AMBIGUOUS,True,ABSTAIN,,True
+ABST-15,Synthetic Parameter Probe #15,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-16,Synthetic Parameter Probe #16,EDGE_CASE,0.55,failed,0.6000000000000001,AMBIGUOUS,True,ABSTAIN,,True
+ABST-17,Synthetic Parameter Probe #17,EDGE_CASE,0.6000000000000001,ok,0.7,AMBIGUOUS,True,ABSTAIN,,True
+ABST-18,Synthetic Parameter Probe #18,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-19,Synthetic Parameter Probe #19,EDGE_CASE,0.7,ok,0.30000000000000004,AMBIGUOUS,True,ABSTAIN,,True
+ABST-20,Synthetic Parameter Probe #20,EDGE_CASE,0.75,failed,0.4,AMBIGUOUS,True,ABSTAIN,,True
+ABST-21,Synthetic Parameter Probe #21,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-22,Synthetic Parameter Probe #22,EDGE_CASE,0.5,ok,0.6000000000000001,AMBIGUOUS,True,ABSTAIN,,True
+ABST-23,Synthetic Parameter Probe #23,EDGE_CASE,0.55,ok,0.7,AMBIGUOUS,True,ABSTAIN,,True
+ABST-24,Synthetic Parameter Probe #24,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-25,Synthetic Parameter Probe #25,EDGE_CASE,0.65,ok,0.30000000000000004,AMBIGUOUS,True,ABSTAIN,,True
+ABST-26,Synthetic Parameter Probe #26,EDGE_CASE,0.7,ok,0.4,AMBIGUOUS,True,ABSTAIN,,True
+ABST-27,Synthetic Parameter Probe #27,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True
+ABST-28,Synthetic Parameter Probe #28,EDGE_CASE,0.45,failed,0.6000000000000001,AMBIGUOUS,True,ABSTAIN,,True
+ABST-29,Synthetic Parameter Probe #29,EDGE_CASE,0.5,ok,0.7,AMBIGUOUS,True,ABSTAIN,,True
+ABST-30,Synthetic Parameter Probe #30,CLEAR_FAULT,0.82,ok,0.1,DEFECTIVE,False,ACT,repair_now,True

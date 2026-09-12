@@ -1,0 +1,14 @@
+{
+  "total_events": 6,
+  "detected_events": 0,
+  "missed_events": 6,
+  "event_recall": 0.0,
+  "detected_event_fraction": 0.0,
+  "median_lead_time_days": 0.0,
+  "iqr_lead_time_days": 0.0,
+  "mean_lead_time_days": 0.0,
+  "min_lead_time_days": 0.0,
+  "max_lead_time_days": 0.0,
+  "total_false_alarms": 0,
+  "false_alarms_per_event": 0.0
+}

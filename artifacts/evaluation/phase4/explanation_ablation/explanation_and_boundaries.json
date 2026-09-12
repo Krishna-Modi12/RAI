@@ -1,0 +1,117 @@
+{
+  "status": "COMPLETED",
+  "asset_evaluated": "WT-017",
+  "baseline_action": "repair_now",
+  "baseline_risk": 0.84,
+  "feature_ablations": [
+    {
+      "feature_ablated": "gearbox_bearing_temperature",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.18,
+      "risk_delta": -0.66,
+      "baseline_action": "repair_now",
+      "ablated_action": "monitor",
+      "action_flipped": true,
+      "diagnostic_impact_verdict": "Thermal residual is the primary physical signature; removing it collapses risk to baseline."
+    },
+    {
+      "feature_ablated": "vibration_rms",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.54,
+      "risk_delta": -0.3,
+      "baseline_action": "repair_now",
+      "ablated_action": "inspect_first",
+      "action_flipped": true,
+      "diagnostic_impact_verdict": "High vibration confirms severe mechanical friction; removing it lowers risk into inspection range."
+    },
+    {
+      "feature_ablated": "peer_fleet_context",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.84,
+      "risk_delta": 0.0,
+      "baseline_action": "repair_now",
+      "ablated_action": "inspect_first",
+      "action_flipped": true,
+      "diagnostic_impact_verdict": "Without peer consensus, system cannot rule out common cause; downgrades repair to inspect."
+    },
+    {
+      "feature_ablated": "weather_meteorological_context",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.84,
+      "risk_delta": 0.0,
+      "baseline_action": "repair_now",
+      "ablated_action": "defer_24h",
+      "action_flipped": true,
+      "diagnostic_impact_verdict": "Without ambient temperature baseline, thermal margin is uncertain; policy hedges via 24h deferral."
+    },
+    {
+      "feature_ablated": "sensor_health_verification",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.84,
+      "risk_delta": 0.0,
+      "baseline_action": "repair_now",
+      "ablated_action": "abstain",
+      "action_flipped": true,
+      "diagnostic_impact_verdict": "When sensor health check is removed or invalid, safety gate mandates complete abstention."
+    },
+    {
+      "feature_ablated": "historical_case_retrieval",
+      "baseline_risk": 0.84,
+      "ablated_risk": 0.84,
+      "risk_delta": 0.0,
+      "baseline_action": "repair_now",
+      "ablated_action": "repair_now",
+      "action_flipped": false,
+      "diagnostic_impact_verdict": "Historical memory provides empirical grounding; removing it maintains physics decision but lowers confidence."
+    }
+  ],
+  "longitudinal_risk_decomposition": {
+    "asset_id": "WT-017",
+    "timestamp_t_minus_1": "2026-08-27T08:00:00Z",
+    "timestamp_t": "2026-08-28T08:00:00Z",
+    "risk_t_minus_1": 0.38,
+    "risk_t": 0.84,
+    "total_risk_delta": 0.46,
+    "contributions": {
+      "thermal_residual_acceleration": 0.24,
+      "temporal_persistence_accumulation": 0.12,
+      "peer_divergence_widening": 0.1,
+      "environmental_attribution_reduction": 0.0
+    },
+    "algebraic_check": "0.24 + 0.12 + 0.10 + 0.00 = 0.46 (Matches total_risk_delta exactly)"
+  },
+  "counterfactual_decision_boundaries": [
+    {
+      "target_action": "inspect_first",
+      "boundary_condition": "Diagnostic risk drops below high-consequence threshold OR uncertainty widens",
+      "parameter_name": "failure_probability",
+      "current_value": 0.84,
+      "flip_threshold": "< 0.75 (or confidence range width > 0.25)",
+      "operational_rationale": "When failure is not imminent, paying \u20b912,000 for boroscope inspection is positive VOI."
+    },
+    {
+      "target_action": "defer_24h",
+      "boundary_condition": "Failure risk drops to moderate and 24h energy loss is low",
+      "parameter_name": "failure_probability",
+      "current_value": 0.84,
+      "flip_threshold": "< 0.35 and energy_loss_24h < \u20b910,000",
+      "operational_rationale": "Allows operational clustering with scheduled weekend maintenance window."
+    },
+    {
+      "target_action": "abstain",
+      "boundary_condition": "Sensor telemetry health degrades to suspect/failed",
+      "parameter_name": "sensor_health",
+      "current_value": "ok",
+      "flip_threshold": "!= 'ok'",
+      "operational_rationale": "Blocks automated crane dispatch on unverified instrumentation."
+    },
+    {
+      "target_action": "monitor",
+      "boundary_condition": "Thermal residual drops below peer normal for 6 consecutive hours",
+      "parameter_name": "bearing_temp_c",
+      "current_value": "82.5\u00b0C",
+      "flip_threshold": "< 68.0\u00b0C and peer_residual < 1.0\u03c3",
+      "operational_rationale": "Normalizes thermal profile back to expected thermodynamic envelope."
+    }
+  ]
+}

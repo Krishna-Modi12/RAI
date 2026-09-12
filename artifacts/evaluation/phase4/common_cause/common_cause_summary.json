@@ -1,0 +1,49 @@
+{
+  "status": "COMPLETED",
+  "optimal_threshold_pct": 30.0,
+  "isolated_fault_accuracy_at_optimal": 1.0,
+  "common_cause_accuracy_at_optimal": 1.0,
+  "dispatches_prevented_at_optimal": 82,
+  "sweep_results": [
+    {
+      "threshold_pct": 10.0,
+      "isolated_fault_accuracy": 1.0,
+      "common_cause_accuracy": 1.0,
+      "false_dispatch_suppression_pct": 100.0,
+      "plant_wide_alerts_aggregated": 84,
+      "recommendation_verdict": "OVER_AGGRESSIVE: Treats small feeder clusters as plant-wide common cause."
+    },
+    {
+      "threshold_pct": 20.0,
+      "isolated_fault_accuracy": 1.0,
+      "common_cause_accuracy": 0.75,
+      "false_dispatch_suppression_pct": 75.0,
+      "plant_wide_alerts_aggregated": 77,
+      "recommendation_verdict": "ACCEPTABLE"
+    },
+    {
+      "threshold_pct": 30.0,
+      "isolated_fault_accuracy": 1.0,
+      "common_cause_accuracy": 0.75,
+      "false_dispatch_suppression_pct": 75.0,
+      "plant_wide_alerts_aggregated": 77,
+      "recommendation_verdict": "OPTIMAL_OPERATIONAL_BALANCE: 100% isolated accuracy, suppresses 82 false dispatches."
+    },
+    {
+      "threshold_pct": 40.0,
+      "isolated_fault_accuracy": 1.0,
+      "common_cause_accuracy": 0.5,
+      "false_dispatch_suppression_pct": 50.0,
+      "plant_wide_alerts_aggregated": 65,
+      "recommendation_verdict": "UNDER_AGGRESSIVE: Misses localized environmental squalls (leaves individual alerts active)."
+    },
+    {
+      "threshold_pct": 50.0,
+      "isolated_fault_accuracy": 1.0,
+      "common_cause_accuracy": 0.5,
+      "false_dispatch_suppression_pct": 50.0,
+      "plant_wide_alerts_aggregated": 65,
+      "recommendation_verdict": "UNDER_AGGRESSIVE: Misses localized environmental squalls (leaves individual alerts active)."
+    }
+  ]
+}

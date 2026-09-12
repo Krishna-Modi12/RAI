@@ -1,0 +1,21 @@
+{
+  "asset_id": "INV-023",
+  "modality": "solar",
+  "scenario": "soiling_accumulation_with_dry_season_dust",
+  "observation_days": 45.0,
+  "atmospheric_exposure_mean_aod": 0.35,
+  "cumulative_aod_exposure": 378.0,
+  "physical_deposition_estimated_g_m2": 4.536,
+  "rai_soiling_ratio_mean": 0.942,
+  "rai_soiling_ratio_final": 0.885,
+  "rdtools_srr_soiling_ratio": 0.893,
+  "rdtools_cods_soiling_ratio": 0.88,
+  "rdtools_srr_ci95": [
+    0.868,
+    0.915
+  ],
+  "agreement_rmse": 0.0067,
+  "causal_attribution_status": "MODEL_BASED_ASSOCIATION (NOT causal proof)",
+  "comparison_type": "MODEL_TO_MODEL_COMPARISON (Field sensor ground truth unavailable)",
+  "uncertainty_notes": "Separates atmospheric CAMS exposure from physical glass deposition and electrical ratio. Validated against RdTools SRR/CODS algorithms. Model-to-model benchmark, not ground truth proof."
+}

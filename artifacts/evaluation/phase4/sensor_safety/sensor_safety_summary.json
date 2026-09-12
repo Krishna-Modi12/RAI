@@ -1,0 +1,126 @@
+{
+  "status": "COMPLETED",
+  "total_scenarios_tested": 7,
+  "sensing_failure_scenarios": 4,
+  "bad_dispatches_prevented": 6,
+  "prevention_success_rate_pct": 100.0,
+  "dangerous_non_abstentions": 0,
+  "scenarios": [
+    {
+      "scenario_id": "SENS-01",
+      "scenario_name": "Healthy Sensor + Real Bearing Spalling",
+      "sensor_condition": "HEALTHY",
+      "true_equipment_state": "DEFECTIVE",
+      "telemetry_signals": {
+        "bearing_temp_c": 82.5,
+        "temp_variance": 4.2,
+        "vibration_rms": 3.8,
+        "oil_temp_c": 68.0
+      },
+      "sensor_health_verdict": "ok",
+      "abstention_triggered": false,
+      "final_action": "repair_now",
+      "bad_dispatch_prevented": false,
+      "failure_mitigation_notes": "Healthy sensing confirmed genuine equipment degradation; dispatched repair crew."
+    },
+    {
+      "scenario_id": "SENS-02",
+      "scenario_name": "Stuck Thermocouple (Zero Variance Flatline)",
+      "sensor_condition": "STUCK_SENSOR",
+      "true_equipment_state": "HEALTHY",
+      "telemetry_signals": {
+        "bearing_temp_c": 89.0,
+        "temp_variance": 0.0,
+        "vibration_rms": 0.8,
+        "oil_temp_c": 42.0
+      },
+      "sensor_health_verdict": "failed",
+      "abstention_triggered": true,
+      "final_action": "abstain",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch."
+    },
+    {
+      "scenario_id": "SENS-03",
+      "scenario_name": "Sensor Calibration Drift (+5\u00b0C Bias)",
+      "sensor_condition": "DRIFTING_SENSOR",
+      "true_equipment_state": "HEALTHY",
+      "telemetry_signals": {
+        "bearing_temp_c": 74.0,
+        "temp_variance": 2.1,
+        "vibration_rms": 0.9,
+        "oil_temp_c": 45.0
+      },
+      "sensor_health_verdict": "suspect",
+      "abstention_triggered": true,
+      "final_action": "abstain",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Sensor calibration suspect; triggered telemetry recalibration instead of component tear-down."
+    },
+    {
+      "scenario_id": "SENS-04",
+      "scenario_name": "Excessive Packet Loss (>40% Missingness)",
+      "sensor_condition": "PACKET_LOSS",
+      "true_equipment_state": "UNKNOWN",
+      "telemetry_signals": {
+        "bearing_temp_c": "NaN",
+        "missing_ratio": 0.45,
+        "vibration_rms": "NaN"
+      },
+      "sensor_health_verdict": "failed",
+      "abstention_triggered": true,
+      "final_action": "abstain",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch."
+    },
+    {
+      "scenario_id": "SENS-05",
+      "scenario_name": "Thermodynamic Multi-Sensor Contradiction",
+      "sensor_condition": "CONTRADICTION",
+      "true_equipment_state": "HEALTHY",
+      "telemetry_signals": {
+        "bearing_temp_c": 98.0,
+        "oil_sump_temp_c": 38.0,
+        "winding_temp_c": 41.0,
+        "power_kw": 1200.0
+      },
+      "sensor_health_verdict": "failed",
+      "abstention_triggered": true,
+      "final_action": "abstain",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Safety gate caught bad instrumentation; avoided unnecessary field technician dispatch."
+    },
+    {
+      "scenario_id": "SENS-06",
+      "scenario_name": "Severe Ambient Heatwave (+6\u00b0C Environmental Look-alike)",
+      "sensor_condition": "ENVIRONMENTAL_HEATWAVE",
+      "true_equipment_state": "HEALTHY",
+      "telemetry_signals": {
+        "ambient_temp_c": 46.2,
+        "bearing_temp_c": 76.0,
+        "environmental_attribution": 0.82
+      },
+      "sensor_health_verdict": "ok",
+      "abstention_triggered": false,
+      "final_action": "monitor",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Environmental context gate attributed thermal rise to ambient heatwave."
+    },
+    {
+      "scenario_id": "SENS-07",
+      "scenario_name": "Fleet-Wide Curtailment (60% Fleet Abnormal)",
+      "sensor_condition": "COMMON_CAUSE_GRID",
+      "true_equipment_state": "HEALTHY",
+      "telemetry_signals": {
+        "power_droop_pct": 0.5,
+        "fleet_affected_pct": 0.62,
+        "grid_frequency_hz": 49.6
+      },
+      "sensor_health_verdict": "ok",
+      "abstention_triggered": false,
+      "final_action": "monitor",
+      "bad_dispatch_prevented": true,
+      "failure_mitigation_notes": "Peer consensus suppressed isolated equipment alarms; issued plant-wide curtailment notice."
+    }
+  ]
+}

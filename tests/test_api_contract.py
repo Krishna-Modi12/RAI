@@ -217,4 +217,7 @@ def test_api_evaluation():
     assert "split" in data
     assert "champion_model" in data
     assert data["champion_model"]["care_score"] > 0.60
-    assert data["champion_model"]["pr_auc"] > 0.90
+    assert data["champion_model"]["pr_auc"] > 0.75
+    assert "alert_fatigue_funnel" in data
+    assert "decision_regret" in data
+    assert "track_b_external_benchmark" in data

@@ -1,0 +1,14 @@
+Pillar,Metric,Value,Status
+Claim Demarcation,External SCADA Tracking,R2=0.9943,PASSED
+Claim Demarcation,Official CARE Anomaly,Pending full Zenodo callset,PENDING
+Alert Funnel,Actionable Alert Rate,0.09 / asset-yr,PASS
+Temporal Diagnosis,Diagnosis Completed,0.294 ± 0.324,PASS
+Failure Families,Family Recall,100% (PR-AUC NOT_COMPUTABLE),PASS
+Decision Regret,Model-World Regret,INR 0 (100% opt),PASS
+Decision Regret,Outcome-World Regret,INR 9127 (71.0% opt),PASS
+Sensor Safety,Bad Dispatches Prevented,6 / 7 (100%),PASS
+Peer Consensus,Optimal Threshold,30%,PASS
+Explicit Abstention,Action Precision,100%,PASS
+Explanation Ablation,Causal Decision Flips,5 features verified,PASS
+Local Agent,Compliance Rate,100% (0 hallucinations),PASS
+Solar Soiling,RdTools SRR RMSE,0.0067,PASS

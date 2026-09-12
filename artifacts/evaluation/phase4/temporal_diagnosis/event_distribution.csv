@@ -1,0 +1,25 @@
+fold_id,event_id,asset_id,scenario,component,onset,end,overlaps_fold
+1,EVT-0008,WT-017,gearbox_bearing_wear,gearbox,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+1,EVT-0005,WT-011,pitch_misalignment,pitch_system,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+1,EVT-0007,WT-015,yaw_misalignment,yaw_system,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+1,EVT-0002,WT-004,generator_overheating,generator,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+1,EVT-0009,INV-007,string_outage,dc_string,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+1,EVT-0011,INV-015,inverter_derate,inverter,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+2,EVT-0008,WT-017,gearbox_bearing_wear,gearbox,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+2,EVT-0005,WT-011,pitch_misalignment,pitch_system,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+2,EVT-0007,WT-015,yaw_misalignment,yaw_system,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+2,EVT-0002,WT-004,generator_overheating,generator,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+2,EVT-0009,INV-007,string_outage,dc_string,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+2,EVT-0011,INV-015,inverter_derate,inverter,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+3,EVT-0008,WT-017,gearbox_bearing_wear,gearbox,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+3,EVT-0005,WT-011,pitch_misalignment,pitch_system,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+3,EVT-0007,WT-015,yaw_misalignment,yaw_system,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+3,EVT-0002,WT-004,generator_overheating,generator,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+3,EVT-0009,INV-007,string_outage,dc_string,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+3,EVT-0011,INV-015,inverter_derate,inverter,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,False
+4,EVT-0008,WT-017,gearbox_bearing_wear,gearbox,2026-08-27 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+4,EVT-0005,WT-011,pitch_misalignment,pitch_system,2026-08-31 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+4,EVT-0007,WT-015,yaw_misalignment,yaw_system,2026-09-01 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+4,EVT-0002,WT-004,generator_overheating,generator,2026-09-03 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+4,EVT-0009,INV-007,string_outage,dc_string,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,True
+4,EVT-0011,INV-015,inverter_derate,inverter,2026-09-06 08:00:00+00:00,2026-09-12 08:00:00+00:00,True

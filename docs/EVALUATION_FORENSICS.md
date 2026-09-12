@@ -42,17 +42,17 @@ This document systematically classifies every claim into:
 
 | # | Claimed Metric / Assertion | Prior Reported Value | Forensic Classification | True Finding & Methodological Correction |
 |---|---|---|---|---|
-| 1 | **CARE Benchmark Score** | `0.659` | `PARTIALLY VERIFIED` | **Not the official CARE benchmark dataset.** The score was computed on RAI's 42-asset synthetic fleet using a metric inspired by the 4 CARE dimensions ($C=0.67, A=0.98, R=0.98, E=0.00$). Renamed to **`RAI Operational Score (CARE-inspired)`** (Track A). Track B reserved for official CARE dataset. |
-| 2 | **PR-AUC Champion** | `0.948` | `VERIFIED` | **PR-AUC is 0.948 across the holdout split.** However, this must NEVER be called "94.8% accuracy". True precision is 0.912 and recall is 0.884 at the decision threshold. |
-| 3 | **False Alarm Rate** | `0.19 / asset-yr` | `VERIFIED` | **Verified post-filtering.** Raw residual thresholding triggers 3,088 false alarms/yr. Temporal persistence (12h), environmental filtering, and peer consensus filter this down to 0.19/yr. |
-| 4 | **Probabilistic Calibration (Brier)** | `0.017` | `PARTIALLY VERIFIED` | **Brier score is 0.0170**, which is low primarily because non-events dominate (base rate $<15\%$). Brier mixes calibration, resolution, and uncertainty; it is NOT pure calibration. |
-| 5 | **Expected Calibration Error (ECE)** | `0.1286` | `PARTIALLY VERIFIED` | **ECE is 0.1286 (~12.9%)** across 5 probability bins. This is modest, not "perfect" calibration. Disclose empirical bin counts and reliability curves; do not claim exact probability equality. |
-| 6 | **Median Detection Lead Time** | `13.5 days` | `PARTIALLY VERIFIED` | **13.5 days is achievable via continuous walk-forward sampling**, but static evaluation on final timestamps yielded 0.0d. The walk-forward sweep must be standardized across all baselines. |
-| 7 | **Level 1: Temporal Holdout** | `0 Leakage (12h gap)` | `VERIFIED` | **Strict temporal boundary verified.** 65% train, 15% validation, 20% test with a 12-hour purge embargo gap. No feature leakage. |
-| 8 | **Level 2: Asset Holdout** | `10 unseen assets (PR-AUC 0.931)` | `VERIFIED` | **Strict asset-level grouping verified.** 10 assets completely held out from training; evaluated solely on unseen physical equipment. |
-| 9 | **Cross-Site Generalization** | `PR-AUC 0.894 (Kutch to Charanka)` | `INCORRECT` | **Cross-domain transfer, NOT site generalization.** Kutch is 100% wind turbines; Charanka is 100% solar inverters. Transferring across them evaluates domain shift, not geographical site transfer. Split within wind and within solar. |
-| 10 | **Level 4: OOD Perturbations** | `PR-AUC 0.902 across 5 factors` | `VERIFIED` | **Verified against 5 synthetic stress perturbations** (noise amplitude, drift rate, abrupt shifts). |
-| 11 | **Additive Loss Decomposition** | `Exact 100% causal decomposition` | `PARTIALLY VERIFIED` | **Enforced mathematical identity, not causal proof.** The arithmetic is forced to sum to 100% by setting `unexplained = total - sum(known)`. Renamed to **`Model-based Loss Attribution`** with uncertainty ranges. |
+| 1 | **CARE Benchmark Score** | `0.659` | `PARTIALLY VERIFIED` | **Not the official CARE benchmark dataset.** The score was computed on RAI's 42-asset synthetic fleet using a metric inspired by the 4 CARE dimensions. Champion holdout score is **0.797** (rolling-origin mean: 0.670 ± 0.195). Renamed to **`RAI Operational Score (CARE-inspired)`** (Track A). Track B reserved for official CARE dataset. |
+| 2 | **PR-AUC Champion** | `0.948` | `REVISED / HARDENED` | **Leak-free holdout PR-AUC is 0.822; rolling-origin mean is 0.294 ± 0.324.** Prior 0.948 was from unconstrained static evaluation. Never call PR-AUC "accuracy". Precision is 0.800 and recall is 0.667 on holdout. |
+| 3 | **False Alarm Rate** | `0.19 / asset-yr` | `VERIFIED` | **Verified post-filtering.** Raw residual thresholding triggers significant nuisance alarms. Temporal persistence, environmental filtering, and peer consensus filter this down to 0.19/yr on holdout (1.09/yr on rolling origin). |
+| 4 | **Probabilistic Calibration (Brier)** | `0.017` | `REVISED` | **Holdout Brier score is 0.0423**, low primarily because non-events dominate. Brier mixes calibration, resolution, and uncertainty; it is NOT pure calibration. |
+| 5 | **Expected Calibration Error (ECE)** | `0.1286` | `REVISED` | **Holdout ECE is 0.1491 (~14.9%)** across 5 probability bins. Disclose empirical bin counts and reliability curves; do not claim exact probability equality. |
+| 6 | **Median Detection Lead Time** | `13.5 days` | `REVISED / HARDENED` | **Empirically measured median lead time is 5.0 days on locked holdout (1.5 days on rolling origin).** Prior 13.5 days was unverified and removed. |
+| 7 | **Level 1: Temporal Holdout** | `0 Leakage (342h embargo)` | `VERIFIED` | **Strict temporal boundary verified.** Partitioned with an enforced $\ge 342.0\text{h}$ embargo purge gap (336h lookback + 6h thermal lag). Zero lookahead leakage. |
+| 8 | **Level 2: Asset Holdout** | `Asset-Grouped Holdout` | `INSUFFICIENT DATA / HARDENED` | **Prior 0.931 was fabricated.** Asset holdout requires non-zero failure events in the held-out assets. Under Phase 3A rigorous evaluation, asset grouping is enforced without leakage. |
+| 9 | **Cross-Site Generalization** | `Within-Domain Site Transfer` | `INSUFFICIENT DATA` | **Cross-domain transfer (Wind vs Solar) is NOT site generalization.** Kutch is 100% wind turbines; Charanka is 100% solar inverters. Within-domain site transfer requires $\ge 2$ independent wind or solar sites, which current fleet data does not provide. Marked `INSUFFICIENT_DATA`. |
+| 10 | **Level 4: OOD Perturbations** | `Controlled Degradation Curves` | `REVISED` | **Prior 0.902 was an arbitrary single number.** Replaced with quantitative degradation curves across sensor noise, drift, missingness, and ambient extremes. |
+| 11 | **Additive Loss Decomposition** | `Model-based Loss Attribution` | `PARTIALLY VERIFIED` | **Enforced mathematical identity, not causal proof.** The arithmetic is forced to sum to 100% by setting `unexplained = total - sum(known)`. Renamed to **`Model-based Loss Attribution`** with uncertainty ranges. |
 | 12 | **Fleet Reliability Sample Size** | `45,360 hours = robust statistics` | `PARTIALLY VERIFIED` | **High observation count, low event count.** 45,360 hours represents 2,721,600 telemetry points, but only **6 independent equipment failure episodes**. Statistical confidence on event-level prediction is constrained by $N_{\text{events}}=6$. |
 
 ---
@@ -171,25 +171,25 @@ $$\text{Regret} = \text{Cost}(\text{chosen policy}) - \text{Cost}(\text{ex-post 
   * Median Decision Regret: **₹0** (optimal action chosen in 13 of 15 scenarios)
   * 95th Percentile Regret: **₹18,400** (suboptimal deferral on 1 complex solar event)
 
-### Alert Fatigue Reduction Funnel
-A critical operational metric for plant control rooms:
+### Alert Fatigue Mitigation Pipeline
+A critical operational capability for plant control rooms is filtering nuisance alarms while preserving real failure episodes:
 ```
-1. Raw Statistical Deviations:     3,218 alarms/yr
-   │ (3-sigma residual threshold)
+1. Raw Residuals & Physics Exceedances:   Per-sample deviations against expected baseline
+   │ (Filtered by physical envelope)
    ▼
-2. Temporal Persistence Filter:      742 alarms/yr   (-76.9%)
-   │ (Requires 12h persistent drift)
+2. Temporal Persistence Filter:            Requires multi-hour persistent drift (6h/12h window)
+   │ (Suppresses instantaneous turbulence and cloud transients)
    ▼
-3. Environmental Context Filter:      93 alarms/yr   (-87.5%)
-   │ (Correlates with CAMS/AOD/Wind)
+3. Environmental Context Filter:           CAMS AOD, solar irradiance, and thermal normalization
+   │ (Eliminates ambient weather events like dust storms and heat waves)
    ▼
-4. Peer Consensus Filter:             17 alarms/yr   (-81.7%)
-   │ (Correlates with array-wide drop)
+4. Peer Consensus & Common-Cause:          Array-wide correlation check
+   │ (Filters site-wide curtailment and regional weather fronts)
    ▼
-5. Confidence & Evidence Gating:       4 alarms/yr   (-76.5%)
-   │ (Requires >0.70 confidence)
+5. Evidence & Confidence Gating:           Sensor health validation and uncertainty thresholds
+   │
    ▼
-Actionable Control-Room Alerts:     0.19 / asset-year  (99.99% raw noise suppression)
+Actionable Control-Room Dispatches:        Empirically measured at 0.19 FA/asset-year on holdout
 ```
 
 ---

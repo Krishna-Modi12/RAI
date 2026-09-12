@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Sequence
+from dataclasses import asdict, dataclass
+from typing import Any
 
 import numpy as np
 
@@ -150,7 +152,7 @@ def simulate_stochastic_decision_regret(
     is_optimal = (matched_chosen == best_action) or (regret <= (planned_repair_cost_inr * 0.05))
 
     return DecisionRegretResult(
-        scenario_name=f"stochastic_realization_{'fault' if has_real_defect else 'healthy'}",
+        scenario_name=f"model_world_realization_{'fault' if has_real_defect else 'healthy'}",
         chosen_action=matched_chosen,
         optimal_action=best_action,
         chosen_cost_inr=round(chosen_cost, 2),
@@ -158,3 +160,217 @@ def simulate_stochastic_decision_regret(
         regret_inr=round(regret, 2),
         is_optimal=is_optimal,
     )
+
+
+# Alias for backwards compatibility
+simulate_model_world_regret = simulate_stochastic_decision_regret
+
+
+@dataclass(frozen=True)
+class IndependentOutcomeEpisode:
+    """Detailed record of a single decision episode in the independent outcome world."""
+
+    episode_id: int
+    predicted_state: str
+    selected_action: str
+    realized_failure_time_h: float
+    realized_repair_time_h: float
+    realized_production_loss_inr: float
+    realized_maintenance_cost_inr: float
+    total_realized_cost_inr: float
+    ex_post_optimal_action: str
+    ex_post_optimal_cost_inr: float
+    regret_inr: float
+    is_optimal: bool
+
+
+def simulate_independent_outcome_world_regret(
+    n_episodes: int = 100,
+    seed: int = 20260912,
+    failure_arrival_scale: float = 1.0,
+    repair_effectiveness: float = 0.88,
+    downtime_variance: float = 1.25,
+    economic_shock_mult: float = 1.0,
+) -> dict[str, Any]:
+    """Evaluate decision quality against an independent, perturbed outcome world.
+
+    Crucially decouples the decision ranking logic from the realization world:
+    - Independent stochastic Weibull failure times with perturbed scale
+    - Imperfect repair effectiveness (requiring rework when maintenance is imperfect)
+    - Stochastic downtime variance and variable lost production costs
+    - Imperfect inspection accuracy (10% false negatives in sensing/inspection)
+
+    This breaks circular self-consistency and allows the decision policy to fail,
+    measuring true operational risk and non-zero regret.
+    """
+    rng = np.random.default_rng(seed)
+    episodes: list[IndependentOutcomeEpisode] = []
+
+    for i in range(n_episodes):
+        # 1. State generation: 40% real fault, 40% healthy, 10% ambiguous, 10% sensor failure
+        state_roll = rng.uniform(0.0, 1.0)
+        if state_roll < 0.40:
+            pred_state = "high_risk_fault"
+            has_defect = True
+            perceived_risk = rng.uniform(0.70, 0.95)
+            sensor_healthy = True
+        elif state_roll < 0.75:
+            pred_state = "healthy_normal"
+            has_defect = False
+            perceived_risk = rng.uniform(0.01, 0.15)
+            sensor_healthy = True
+        elif state_roll < 0.90:
+            pred_state = "ambiguous_incubation"
+            has_defect = rng.choice([True, False], p=[0.6, 0.4])
+            perceived_risk = rng.uniform(0.35, 0.65)
+            sensor_healthy = True
+        else:
+            pred_state = "sensor_malfunction"
+            has_defect = False
+            perceived_risk = rng.uniform(0.80, 0.99)
+            sensor_healthy = False
+
+        # Base economic costs in INR
+        base_repair = 85_000.0 * economic_shock_mult
+        base_catastrophic = 350_000.0 * economic_shock_mult
+        base_inspect = 12_000.0
+        hourly_energy_loss = (18_000.0 / 24.0) * economic_shock_mult
+
+        # Nature's independent outcome parameters (decoupled from policy assumptions)
+        if has_defect:
+            # Independent Weibull: scale perturbed by failure_arrival_scale
+            # Shape=1.5 has heavier tail than policy's assumed 1.8
+            t_fail = float(rng.weibull(1.4) * (60.0 * failure_arrival_scale))
+        else:
+            t_fail = float("inf")
+
+        # Realized repair duration in hours (lognormally distributed)
+        realized_repair_hours = float(np.exp(rng.normal(np.log(8.0 * downtime_variance), 0.30)))
+        # Repair execution success
+        repair_succeeded = bool(rng.uniform(0.0, 1.0) <= repair_effectiveness)
+        rework_penalty = 0.50 * base_repair if not repair_succeeded else 0.0
+        rework_downtime = 12.0 if not repair_succeeded else 0.0
+
+        # Inspection accuracy (10% false negative rate)
+        inspection_accurate = bool(rng.uniform(0.0, 1.0) <= 0.90)
+
+        # 2. Ex-post realized costs for all actions:
+        realized_costs: dict[str, tuple[float, float, float]] = {}  # action -> (total, maint, prod_loss)
+
+        # Action: repair_now
+        maint = base_repair + rework_penalty
+        prod = (realized_repair_hours + rework_downtime) * hourly_energy_loss
+        realized_costs["repair_now"] = (maint + prod, maint, prod)
+
+        # Action: inspect_first
+        if has_defect:
+            if inspection_accurate:
+                # Discovered: repaired safely
+                maint_insp = base_inspect + base_repair + rework_penalty
+                prod_insp = (3.0 + realized_repair_hours + rework_downtime) * hourly_energy_loss
+            else:
+                # Missed: deferred to catastrophic failure
+                maint_insp = base_inspect + base_catastrophic
+                prod_insp = (72.0 * hourly_energy_loss)
+        else:
+            # Inspection verifies asset is healthy; saves repair
+            maint_insp = base_inspect
+            prod_insp = 3.0 * hourly_energy_loss
+        realized_costs["inspect_first"] = (maint_insp + prod_insp, maint_insp, prod_insp)
+
+        # Action: defer_24h
+        if has_defect and t_fail < 24.0:
+            maint_d24 = base_catastrophic
+            prod_d24 = 72.0 * hourly_energy_loss
+        elif has_defect:
+            maint_d24 = base_repair + rework_penalty
+            prod_d24 = (24.0 + realized_repair_hours + rework_downtime) * hourly_energy_loss
+        else:
+            maint_d24 = 0.0
+            prod_d24 = 0.0
+        realized_costs["defer_24h"] = (maint_d24 + prod_d24, maint_d24, prod_d24)
+
+        # Action: defer_72h
+        if has_defect and t_fail < 72.0:
+            maint_d72 = base_catastrophic
+            prod_d72 = 120.0 * hourly_energy_loss
+        elif has_defect:
+            maint_d72 = base_repair + rework_penalty
+            prod_d72 = (72.0 + realized_repair_hours + rework_downtime) * hourly_energy_loss
+        else:
+            maint_d72 = 0.0
+            prod_d72 = 0.0
+        realized_costs["defer_72h"] = (maint_d72 + prod_d72, maint_d72, prod_d72)
+
+        # Action: monitor
+        if has_defect:
+            maint_mon = base_catastrophic
+            prod_mon = 168.0 * hourly_energy_loss
+        else:
+            maint_mon = 0.0
+            prod_mon = 0.0
+        realized_costs["monitor"] = (maint_mon + prod_mon, maint_mon, prod_mon)
+
+        # Action: abstain (triggers manual investigation / conservative standby)
+        if has_defect:
+            # Defect remains unaddressed; leads to catastrophic failure
+            maint_abs = 15_000.0 + base_catastrophic
+            prod_abs = 96.0 * hourly_energy_loss
+        else:
+            maint_abs = 15_000.0
+            prod_abs = 6.0 * hourly_energy_loss
+        realized_costs["abstain"] = (maint_abs + prod_abs, maint_abs, prod_abs)
+
+        # Ex-post optimal action and cost (prefer monitor on tie for zero-cost healthy assets)
+        sorted_action_preference = ["monitor", "defer_24h", "defer_72h", "inspect_first", "repair_now", "abstain"]
+        best_act = min(sorted_action_preference, key=lambda a: realized_costs[a][0])
+        best_cost = realized_costs[best_act][0]
+
+        # 3. Policy selects action based only on state at decision time t:
+        if not sensor_healthy:
+            selected_action = "abstain"
+        elif perceived_risk >= 0.75:
+            selected_action = "repair_now"
+        elif perceived_risk >= 0.35:
+            selected_action = "inspect_first"
+        elif perceived_risk >= 0.15:
+            selected_action = "defer_24h"
+        else:
+            selected_action = "monitor"
+
+        chosen_total, chosen_maint, chosen_prod = realized_costs[selected_action]
+        regret = max(0.0, chosen_total - best_cost)
+        is_opt = (selected_action == best_act) or (regret <= 2000.0)
+
+        episodes.append(
+            IndependentOutcomeEpisode(
+                episode_id=i + 1,
+                predicted_state=pred_state,
+                selected_action=selected_action,
+                realized_failure_time_h=round(t_fail, 2),
+                realized_repair_time_h=round(realized_repair_hours, 2),
+                realized_production_loss_inr=round(chosen_prod, 2),
+                realized_maintenance_cost_inr=round(chosen_maint, 2),
+                total_realized_cost_inr=round(chosen_total, 2),
+                ex_post_optimal_action=best_act,
+                ex_post_optimal_cost_inr=round(best_cost, 2),
+                regret_inr=round(regret, 2),
+                is_optimal=is_opt,
+            )
+        )
+
+    regrets = [e.regret_inr for e in episodes]
+    optimal_count = sum(1 for e in episodes if e.is_optimal)
+
+    summary = {
+        "status": "COMPLETED",
+        "n_episodes": n_episodes,
+        "mean_regret_inr": round(float(np.mean(regrets)), 2),
+        "median_regret_inr": round(float(np.median(regrets)), 2),
+        "p95_regret_inr": round(float(np.percentile(regrets, 95)), 2),
+        "max_regret_inr": round(float(np.max(regrets)), 2),
+        "optimal_action_pct": round((optimal_count / n_episodes) * 100.0, 1),
+        "episodes": [asdict(e) for e in episodes],
+    }
+    return summary
+

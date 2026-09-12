@@ -118,9 +118,9 @@ RAI adheres to strict scientific honesty by reporting performance across two dec
 | **baseline_2_expected_regression** | Regression | `0.235` | 0.17 | 0.31 | 0.10 | 0.36 | 27.1 / yr | 5.1 d | `0.202` |
 | **baseline_3_residual_z** | Statistical | `0.422` | 1.00 | 0.00 | 0.00 | 0.68 | 3,088.4 / yr | 9.8 d | `0.126` |
 | **baseline_4_isolation_forest** | Unsupervised ML | `0.617` | 0.50 | 0.98 | 0.98 | 0.00 | 0.2 / yr | 0.0 d | `0.644` |
-| **challenger_hybrid_ensemble** | Hybrid Fusion | **`0.659`** | **0.67** | **0.98** | **0.98** | **0.00** | **0.19 / yr** | **13.5 d\*** | **`0.948`** |
+| **challenger_hybrid_ensemble** | Hybrid Fusion | **`0.797`** | **0.83** | **0.98** | **0.98** | **0.39** | **0.19 / yr** | **5.0 d** | **`0.822`** |
 
-*\*Note: 13.5 days is achieved during walk-forward simulation; static terminal snapshots report 0.0d.*
+*Note: 5.0 days median lead time is measured on the locked holdout (1.5 days across chronological rolling-origin folds).*
 
 ---
 
@@ -128,31 +128,31 @@ RAI adheres to strict scientific honesty by reporting performance across two dec
 * **Dataset:** Official CARE to Compare wind turbine benchmark (Gück et al., 2024).
 * **Scale:** 36 commercial turbines across 3 wind farms.
 * **Ground Truth:** 44 labeled anomalous operating time frames, 51 confirmed healthy time series.
-* **Status:** Ingestion interface standardized; awaiting bulk external SCADA feed.
+* **Status:** Adapter available; external dataset ingestion and benchmarking state separated (Track 1–4).
 
 ---
 
 ## 4. Operational Alert Fatigue Reduction Funnel
 
-Control rooms cannot tolerate 10 alarms a day per turbine. RAI's multi-tier filtering funnel systematically crushes nuisance alarms while preserving critical failure signals:
+Control rooms cannot tolerate tens of nuisance alarms per asset-day. RAI's multi-tier filtering funnel systematically mitigates false alarms while preserving critical failure signals:
 
 ```
-1. Raw Statistical Residuals (3-sigma):    3,218.4 alarms/yr
+1. Raw Statistical Residuals (3-sigma):    Measured per asset-hour
    │  [Eliminates instantaneous turbulence]
    ▼
-2. Temporal Persistence (12h Purge):         742.0 alarms/yr  (-76.9%)
-   │  [Eliminates ambient weather events via CAMS/AOD]
+2. Temporal Persistence Gate (6h/12h):     Persistent multi-hour drift requirement
+   │  [Eliminates transient gusts and cloud shadows]
    ▼
-3. Environmental Context Filter:              93.0 alarms/yr  (-87.5%)
+3. Environmental Context Filter:           CAMS AOD & ambient weather normalization
+   │  [Eliminates ambient dust events & heat waves]
+   ▼
+4. Peer Consensus & Common-Cause:          Array-wide peer correlation check
    │  [Eliminates site-wide curtailment & cloud fronts]
    ▼
-4. Peer Consensus & Common-Cause:             17.0 alarms/yr  (-81.7%)
-   │  [Requires >0.70 evidence score & verified sensor health]
-   ▼
-5. Evidence & Confidence Gate:                 4.0 alarms/yr  (-76.5%)
+5. Evidence & Confidence Gate:             Sensor health & uncertainty thresholds
    │
    ▼
-Actionable Control-Room Dispatches:        0.19 / asset-year (99.99% raw noise suppression)
+Actionable Control-Room Dispatches:        0.19 / asset-year (Empirically measured holdout)
 ```
 
 ---

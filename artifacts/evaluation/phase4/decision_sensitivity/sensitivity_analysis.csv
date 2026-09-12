@@ -1,0 +1,9 @@
+regime_name,parameter_tested,parameter_value,description,mean_regret_inr,median_regret_inr,p95_regret_inr,max_regret_inr,optimal_action_pct,dominant_failure_mode,policy_robustness_verdict
+baseline,baseline,1.0,Nominal independent outcome world (moderate uncertainty),12810.9,0.0,19500.0,326743.86,66.7,None; standard operational trade-offs,ROBUST
+faster_failures,failure_arrival_scale,0.6,Rapid defect progression (failures arrive 40% sooner than nominal),7364.71,0.0,19500.0,270264.63,66.7,Premature catastrophic breakdown during 24h/72h deferral,VULNERABLE_TO_RAPID_BREAKDOWN
+slower_failures,failure_arrival_scale,1.6,Slow incubation (defects progress 60% slower; deferral safer),8796.71,0.0,19500.0,323040.07,75.0,None; standard operational trade-offs,ROBUST
+higher_downtime,downtime_variance,2.0,Severe crane and weather delays (doubled repair downtime),7640.25,0.0,19500.0,317580.08,67.5,Prolonged crane unavailability inflates production outage,SENSITIVE_TO_DOWNTIME
+lower_repair_effectiveness,repair_effectiveness,0.72,High rework rate (28% of field repairs require secondary intervention),13489.51,0.0,19500.0,323419.97,60.0,Repeated technician dispatches due to incomplete component repair,MODERATE_REPAIR_SENSITIVITY
+higher_repair_cost,economic_shock_mult,1.5,High spare-parts inflation (+50% component replacement cost),20603.48,0.0,21750.0,485101.81,70.0,None; standard operational trade-offs,ROBUST
+lower_repair_cost,economic_shock_mult,0.7,Subsidized / low-cost component inventory (-30% repair cost),5283.75,0.0,18150.0,18150.0,64.2,None; standard operational trade-offs,ROBUST
+higher_lost_production,energy_loss_multiplier,2.0,Peak tariff season (energy loss costs doubled),17382.86,0.0,24000.0,630196.74,63.3,None; standard operational trade-offs,ROBUST
