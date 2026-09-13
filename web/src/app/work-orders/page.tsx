@@ -240,7 +240,7 @@ export default function WorkOrdersPage() {
 
         <div className="p-4 rounded border border-[var(--border)] bg-[var(--surface-raised)] space-y-1 col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
-            <span>Avoided Loss</span>
+            <span>Projected Avoided Exposure</span>
             <TrendingUp className="w-4 h-4 text-emerald-500" />
           </div>
           <div className="text-2xl font-bold text-[var(--text-primary)]">

@@ -644,8 +644,8 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                   <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left">
                     <th className="py-2">Intervention Strategy</th>
                     <th className="py-2 text-right">Intervention Cost</th>
-                    <th className="py-2 text-right">Avoided Loss</th>
-                    <th className="py-2 text-right">Net Financial Benefit</th>
+                    <th className="py-2 text-right">Projected Avoidable Exposure</th>
+                    <th className="py-2 text-right">Modelled Net Benefit</th>
                     <th className="py-2 text-center">Recommendation</th>
                   </tr>
                 </thead>
