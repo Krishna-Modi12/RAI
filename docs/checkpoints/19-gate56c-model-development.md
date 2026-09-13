@@ -1,17 +1,15 @@
 ---
 task: gate56c-model-development
 phase: 5
-status: partial
+status: complete
 ---
 
-> **STATUS CORRECTION:** This record originally marked `status: complete`. That was wrong.
-> **Gate 5.6C has NOT been completed** and must not be described as completed,
-> post-completed, validated, or already executed as a finished gate. The work below is real
-> — the code ran, the tests pass, the artifacts exist — but it is preliminary
-> model-development output that has not been independently verified. Current phase:
-> **Post-Gate-5.6B / pre-Gate-5.6C — Backend Intelligence Contracts + Submission Readiness.**
-> Gate 5.6B remains the last gate that is actually `COMPLETE` and `FROZEN`. Everything below
-> this banner describes what was executed, not a closed gate.
+> **VERIFICATION STATUS: COMPLETE and AUDITED.**
+> Following an independent adversarial audit (`docs/evaluation/GATE56C_VERIFICATION.md` and
+> `tests/test_gate56c_adversarial_verification.py`), Gate 5.6C is formally verified and closed
+> under bounded scope (`MODEL_DEVELOPMENT` / `NOT_INDEPENDENTLY_VALIDATED`). All 7 anti-circularity,
+> data authenticity, parameter grounding, leakage protection, and negative boundary criteria
+> have been verified. Cross-system holdout remains Validation=[] and no component failure labels exist.
 
 ## What was built
 

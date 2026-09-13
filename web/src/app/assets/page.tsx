@@ -4,15 +4,14 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import StatusPill from "../../components/StatusPill";
 import MetricTile from "../../components/MetricTile";
-import { getFleetAssets, getFleetOverview } from "../../lib/api";
+import { getFleetAssets } from "../../lib/api";
 import { formatPower, formatPercent } from "../../lib/format";
-import { FleetAssetItem, FleetOverview } from "../../lib/types";
+import { FleetAssetItem } from "../../lib/types";
 import {
   Wind,
   Sun,
   Search,
   ArrowUpRight,
-  SlidersHorizontal,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -22,7 +21,6 @@ type SortDirection = "asc" | "desc";
 
 export default function AssetRegistryPage() {
   const [assets, setAssets] = useState<FleetAssetItem[]>([]);
-  const [overview, setOverview] = useState<FleetOverview | null>(null);
   const [assetsLive, setAssetsLive] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -37,13 +35,9 @@ export default function AssetRegistryPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [assetRes, overviewRes] = await Promise.all([
-          getFleetAssets(),
-          getFleetOverview(),
-        ]);
+        const assetRes = await getFleetAssets();
         setAssets(assetRes.data);
         setAssetsLive(assetRes.live);
-        setOverview(overviewRes.data);
       } finally {
         setLoading(false);
       }
@@ -88,8 +82,8 @@ export default function AssetRegistryPage() {
         return true;
       })
       .sort((a, b) => {
-        let valA = a[sortField];
-        let valB = b[sortField];
+        const valA = a[sortField];
+        const valB = b[sortField];
 
         if (typeof valA === "string" && typeof valB === "string") {
           return sortDirection === "asc"
