@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Renewable Asset Intelligence (RAI) — Turn renewable-asset anomalies into defensible intervention decisions with physics-informed residuals, environmental attribution, fleet comparison, and bounded local AI.">
+  <meta name="theme-color" content="#fbfbfa">
+  <title>Renewable Asset Intelligence (RAI) — Defensible Renewable Decisions</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <!-- STICKY SITE HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="RAI Home">
+        <span class="brand-mark">RAI</span>
+        <span class="brand-text">
+          Renewable Asset Intelligence
+          <span class="brand-sub">Operational Decision Intelligence</span>
+        </span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#problem" class="nav-link">The Problem</a></li>
+          <li><a href="#decision-loop" class="nav-link">Decision Loop</a></li>
+          <li><a href="#difference" class="nav-link">The Difference</a></li>
+          <li><a href="#product" class="nav-link">Product</a></li>
+          <li><a href="#case-study" class="nav-link">WT-004 Story</a></li>
+          <li><a href="#architecture" class="nav-link">Architecture</a></li>
+          <li><a href="#evidence" class="nav-link">Evidence</a></li>
+          <li><a href="#limitations" class="nav-link">Limitations</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#quickstart" class="btn btn-secondary btn-sm">Run Demo</a>
+        <a href="https://github.com/Krishna-Modi12/RAI" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">GitHub</a>
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="section hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <!-- LIVE TELEMETRY STRIP -->
+          <div class="hero-telemetry-bar">
+            <span class="telemetry-item"><span class="dot"></span> 42 Assets Tracked (Wind + Solar)</span>
+            <span class="telemetry-item">554/554 Tests Passing</span>
+            <span class="telemetry-item">47/47 Adversarial Gates Passed</span>
+            <span class="telemetry-item">14 Real Academic Cases Partitioned</span>
+            <span class="telemetry-item">Release Commit: <code>4e80839d</code></span>
+          </div>
+
+          <h1 class="hero-title">Turn renewable-asset anomalies into defensible intervention decisions.</h1>
+          <p class="hero-description">
+            RAI combines physics-grounded expected behaviour, environmental attribution, fleet comparison, historical precedent, techno-economics, bounded local AI, and human-governed intervention.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#decision-loop" class="btn btn-primary">Explore the System</a>
+            <a href="https://github.com/Krishna-Modi12/RAI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View on GitHub</a>
+            <a href="#quickstart" class="btn btn-secondary">Run the Demo</a>
+          </div>
+        </div>
+
+        <!-- HERO WORKSTATION SCREENSHOT FRAME -->
+        <div class="workstation-frame">
+          <div class="frame-bar">
+            <div class="frame-status">
+              <span class="indicator"></span>
+              <span>RAI FLEET COMMAND CONSOLE &middot; OPERATIONAL SYSTEM</span>
+            </div>
+            <div class="frame-pills">
+              <span class="frame-pill">42 ASSETS</span>
+              <span class="frame-pill">97.6% FLEET HEALTH</span>
+              <span class="frame-pill">WT-004 PRIORITY</span>
+            </div>
+          </div>
+          <div class="frame-content">
+            <img src="./assets/images/01_home_fleet_command.png" alt="Renewable Asset Intelligence Fleet Command Console showing real-time fleet health, production delta, and asset status across 42 wind and solar units" width="1440" height="900" loading="eager">
+          </div>
+          <div class="frame-caption">
+            <span>VERIFIED SCREENSHOT &middot; FLEET COMMAND OVERVIEW</span>
+            <span>EVIDENCE PROVENANCE: DEMONSTRATED RUNTIME &middot; 42 ASSETS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE PROBLEM SECTION -->
+    <section id="problem" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">The Root Problem</span>
+          <h2 class="section-title">An alarm tells you something changed. It does not tell you what to do.</h2>
+          <p class="section-subtitle">
+            Modern SCADA systems trigger hundreds of alerts daily. When a wind turbine or solar inverter suffers a 20% generation deficit, fixed thresholds cannot isolate the true underlying cause.
+          </p>
+        </div>
+
+        <!-- CAUSAL AMBIGUITY CARDS -->
+        <div class="problem-card-grid">
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Atmosphere</span>
+              <span class="badge badge-neutral">EXTERNAL</span>
+            </div>
+            <h3>Meteorological Transients</h3>
+            <p>Localized wind gusts, rapid wind shear, or localized cloud cover can abruptly drop generation without indicating equipment wear.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Environment</span>
+              <span class="badge badge-neutral">EXTERNAL</span>
+            </div>
+            <h3>Atmospheric Dust &amp; Soiling</h3>
+            <p>Elevated aerosol optical depth $D(t)$ coats photovoltaic panels or alters aerodynamic lift, causing deficit without component degradation.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Grid / Utility</span>
+              <span class="badge badge-neutral">EXTERNAL</span>
+            </div>
+            <h3>Grid Curtailment Orders</h3>
+            <p>Utility feed-in limits or feeder substation switching artificially cap export power, indistinguishable from inverter derating on standard SCADA.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Instrumentation</span>
+              <span class="badge badge-neutral">SENSOR</span>
+            </div>
+            <h3>Sensor Drift &amp; Miscalibration</h3>
+            <p>Pyranometers, anemometers, or thermocouple channels experience drift, triggering false alarms while the turbine remains physically sound.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Substation</span>
+              <span class="badge badge-neutral">SHARED</span>
+            </div>
+            <h3>Feeder-Level Common Cause</h3>
+            <p>Multiple adjacent turbines trip simultaneously due to shared grid transients, not isolated independent mechanical breakdowns.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-card-header">
+              <span class="problem-card-tag">Equipment</span>
+              <span class="badge badge-unvalidated">DEGRADATION</span>
+            </div>
+            <h3>True Mechanical Failure</h3>
+            <p>Bearing spalling, generator winding insulation breakdown, or pitch actuator failure requiring immediate physical crew intervention.</p>
+          </div>
+        </div>
+
+        <!-- CAUSAL BIFURCATION DIAGRAM (SVG) -->
+        <div class="diagram-container">
+          <svg class="diagram-svg" viewBox="0 0 920 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Causal attribution diagram: Ambiguous SCADA Alarm resolving into distinct causes via RAI discrimination layers">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#737773"/>
+              </marker>
+              <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#15803d"/>
+              </marker>
+            </defs>
+
+            <!-- Origin Node -->
+            <rect x="20" y="125" width="170" height="70" rx="4" fill="#121312" stroke="#2d302e" stroke-width="1.5"/>
+            <text x="105" y="152" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle">AMBIGUOUS ALARM</text>
+            <text x="105" y="172" fill="#9ea39e" font-family="monospace" font-size="11" text-anchor="middle">&Delta;P = -20% Deficit</text>
+
+            <!-- Filter Layers -->
+            <path d="M 190 160 L 260 160" stroke="#737773" stroke-width="1.5" marker-end="url(#arrow)"/>
+            
+            <rect x="260" y="40" width="220" height="240" rx="6" fill="#f4f4ee" stroke="#d6d6cd" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <text x="370" y="65" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">RAI DISCRIMINATION ENGINE</text>
+
+            <rect x="280" y="85" width="180" height="40" rx="3" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="370" y="110" fill="#404340" font-family="-apple-system, sans-serif" font-size="11" text-anchor="middle">1. Physics Baseline Model</text>
+
+            <rect x="280" y="140" width="180" height="40" rx="3" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="370" y="165" fill="#404340" font-family="-apple-system, sans-serif" font-size="11" text-anchor="middle">2. Satellite Aerosol Dust D(t)</text>
+
+            <rect x="280" y="195" width="180" height="40" rx="3" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="370" y="220" fill="#404340" font-family="-apple-system, sans-serif" font-size="11" text-anchor="middle">3. Feeder Peer Cohort</text>
+
+            <!-- Outputs -->
+            <path d="M 480 105 L 560 60" stroke="#737773" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <path d="M 480 160 L 560 160" stroke="#737773" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <path d="M 480 215 L 560 260" stroke="#15803d" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+            <!-- Result Nodes -->
+            <rect x="560" y="35" width="330" height="50" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="580" y="60" fill="#404340" font-family="-apple-system, sans-serif" font-size="12" font-weight="600">Environmental or Soiling Transient</text>
+            <text x="580" y="76" fill="#737773" font-family="monospace" font-size="10">ACTION: MONITOR / AUTOMATIC SOILING TICKET</text>
+
+            <rect x="560" y="135" width="330" height="50" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="580" y="160" fill="#404340" font-family="-apple-system, sans-serif" font-size="12" font-weight="600">Feeder Grid Curtailment / Sensor Drift</text>
+            <text x="580" y="176" fill="#737773" font-family="monospace" font-size="10">ACTION: RECALIBRATE / NO DISPATCH TRUCK ROLL</text>
+
+            <rect x="560" y="235" width="330" height="55" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+            <text x="580" y="260" fill="#15803d" font-family="-apple-system, sans-serif" font-size="12" font-weight="700">Isolated Turbine Mechanical Degradation</text>
+            <text x="580" y="278" fill="#166534" font-family="monospace" font-size="10">ACTION: PROPOSE DEFENSIBLE WORK ORDER &amp; DISPATCH</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE SIGNATURE RAI 10-STAGE LOOP -->
+    <section id="decision-loop" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">The Core Workflow</span>
+          <h2 class="section-title">The 10-Stage Operational Decision Loop</h2>
+          <p class="section-subtitle">
+            RAI replaces alarm guesswork with an auditable, ten-step sequential pipeline from high-frequency ingestion to closed-loop memory.
+          </p>
+        </div>
+
+        <div class="loop-wrapper">
+          <div class="loop-steps-grid">
+            <!-- STEP 1 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 01</span>
+              <h4>SENSE</h4>
+              <p>Continuously stream high-frequency SCADA telemetry and satellite atmospheric data into memory.</p>
+              <span class="loop-step-tag">SCADA + Satellite</span>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 02</span>
+              <h4>EXPECT</h4>
+              <p>Compute physics-informed baseline expected curves for power, temperature, and yield under current ambient conditions.</p>
+              <span class="loop-step-tag">Physics Baseline</span>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 03</span>
+              <h4>DETECT</h4>
+              <p>Quantify statistical residual deviations and z-scores to isolate significant physical divergence.</p>
+              <span class="loop-step-tag">Residual Z-Score</span>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 04</span>
+              <h4>CONTEXTUALIZE</h4>
+              <p>Assimilate atmospheric aerosol dust $D(t)$, precipitation, and ambient temperatures to eliminate weather false-positives.</p>
+              <span class="loop-step-tag">Atmospheric Gating</span>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 05</span>
+              <h4>COMPARE</h4>
+              <p>Normalize unit metrics against adjacent feeder peers to distinguish isolated unit failures from cluster-wide curtailment.</p>
+              <span class="loop-step-tag">Peer Isolation</span>
+            </div>
+
+            <!-- STEP 6 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 06</span>
+              <h4>RETRIEVE</h4>
+              <p>Search 14 partitioned real academic failure cases using trajectory similarity vectors and preserved provenance.</p>
+              <span class="loop-step-tag">14 Partitioned Cases</span>
+            </div>
+
+            <!-- STEP 7 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 07</span>
+              <h4>QUANTIFY</h4>
+              <p>Deterministically calculate Net Present Value comparing immediate intervention cost against catastrophic deferral exposure.</p>
+              <span class="loop-step-tag">NPV Cash Flow</span>
+            </div>
+
+            <!-- STEP 8 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 08</span>
+              <h4>DECIDE</h4>
+              <p>Synthesize evidence into a bounded proposal with calibrated confidence gating, forcing human escalation if below 80%.</p>
+              <span class="loop-step-tag">Bounded Local AI</span>
+            </div>
+
+            <!-- STEP 9 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 09</span>
+              <h4>ACT</h4>
+              <p>Plant engineer authorizes work orders, scheduling maintenance strictly within weather-safe wind and lightning windows.</p>
+              <span class="loop-step-tag">Human Authorization</span>
+            </div>
+
+            <!-- STEP 10 -->
+            <div class="loop-step-card">
+              <span class="loop-step-num">STAGE 10</span>
+              <h4>LEARN</h4>
+              <p>Ingest verified technician field feedback through a dual-key promotion gate to update retrieval memory safely.</p>
+              <span class="loop-step-tag">Dual-Key Memory Gate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE DIFFERENCE SECTION -->
+    <section id="difference" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">The Architectural Contrast</span>
+          <h2 class="section-title">Why RAI Is Fundamentally Different</h2>
+          <p class="section-subtitle">
+            Most predictive maintenance platforms stop at alert generation or rely on hallucination-prone LLM chat wrappers. RAI builds an auditable chain of evidence.
+          </p>
+        </div>
+
+        <div class="comparison-grid">
+          <!-- LEGACY APPROACH -->
+          <div class="comparison-col">
+            <span class="comparison-badge legacy">Traditional SCADA / Alarm Tools</span>
+            <h3>Fixed Thresholds &amp; Guesswork</h3>
+            <p>Operators are flooded with static threshold alerts that cannot explain the physical origin of performance deficits.</p>
+            <ul class="comparison-list">
+              <li class="comparison-item">
+                <span class="icon">&times;</span>
+                <div>
+                  <strong>Blind Threshold Alerts:</strong> Triggers indiscriminately on wind gusts, irradiance transients, or sensor spikes.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&times;</span>
+                <div>
+                  <strong>No Environmental Context:</strong> Atmospheric dust, ambient temperature, and weather are completely unmodeled.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&times;</span>
+                <div>
+                  <strong>No Fleet Cohort Isolation:</strong> Cannot tell if one turbine is broken or if the entire feeder is curtailed by the grid operator.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&times;</span>
+                <div>
+                  <strong>Uncalibrated Financial Guesses:</strong> Maintenance technicians are dispatched without quantified Net Present Value risk modeling.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&times;</span>
+                <div>
+                  <strong>Unchecked Cloud LLMs:</strong> In modern "AI" tools, telemetry is dumped into cloud APIs with hallucinated math and no governance.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- RAI APPROACH -->
+          <div class="comparison-col featured">
+            <span class="comparison-badge rai">Renewable Asset Intelligence</span>
+            <h3>Evidence-Gated Decision Engine</h3>
+            <p>Every proposal is deterministically computed, contextualized, economically quantified, and governed by human authorization.</p>
+            <ul class="comparison-list">
+              <li class="comparison-item">
+                <span class="icon">&#10003;</span>
+                <div>
+                  <strong>Physics-Informed Residuals:</strong> Evaluates deviations against chronological healthy power and thermal baselines.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&#10003;</span>
+                <div>
+                  <strong>CAMS Satellite Integration:</strong> Continuous aerosol optical depth $D(t)$ tracking rules out atmospheric dust soiling.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&#10003;</span>
+                <div>
+                  <strong>Feeder Cohort Isolation:</strong> Normalizes behavior across adjacent units on the same feeder to verify isolation.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&#10003;</span>
+                <div>
+                  <strong>Deterministic Techno-Economics:</strong> Python engine calculates NPV of Act Now vs Defer under explicit assumptions.
+                </div>
+              </li>
+              <li class="comparison-item">
+                <span class="icon">&#10003;</span>
+                <div>
+                  <strong>Bounded Local AI (Zero Math in LLM):</strong> Local quantized reasoner with calibrated confidence gating and human escalation.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT WALKTHROUGH SECTION -->
+    <section id="product" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Product Walkthrough</span>
+          <h2 class="section-title">Engineered For The Plant Operations Center</h2>
+          <p class="section-subtitle">
+            Explore the operational interfaces verified across desktop, laptop, and mobile form factors. Real screenshots captured from the frozen release build.
+          </p>
+        </div>
+
+        <div class="product-tabs-container">
+          <!-- TAB NAVIGATION -->
+          <div class="product-tab-nav" role="tablist">
+            <button class="product-tab-btn active" role="tab" data-tab="tab-fleet" aria-selected="true">1. Fleet Command</button>
+            <button class="product-tab-btn" role="tab" data-tab="tab-residuals" aria-selected="false">2. WT-004 Anomaly</button>
+            <button class="product-tab-btn" role="tab" data-tab="tab-attribution" aria-selected="false">3. Environment &amp; Peers</button>
+            <button class="product-tab-btn" role="tab" data-tab="tab-economics" aria-selected="false">4. Historical Precedent &amp; NPV</button>
+            <button class="product-tab-btn" data-tab="tab-dispatch" aria-selected="false">5. Work Orders &amp; Dispatch</button>
+          </div>
+
+          <!-- TAB PANELS -->
+          <!-- PANEL 1: FLEET -->
+          <div id="tab-fleet" class="product-tab-panel active" role="tabpanel">
+            <div class="product-showcase-grid">
+              <div class="product-meta-header">
+                <div>
+                  <h3>Unified Fleet Command Console</h3>
+                  <p>Comprehensive portfolio oversight tracking 42 assets (24 wind turbines, 18 solar inverters) with instantaneous health indexing.</p>
+                </div>
+                <span class="badge badge-demonstrated">DEMONSTRATED &middot; 42 ASSETS</span>
+              </div>
+              <div class="workstation-frame">
+                <img src="./assets/images/01_home_fleet_command.png" alt="Fleet command console showing portfolio health and priority assets" width="1440" height="900" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: RESIDUALS -->
+          <div id="tab-residuals" class="product-tab-panel" role="tabpanel">
+            <div class="product-showcase-grid">
+              <div class="product-meta-header">
+                <div>
+                  <h3>Physics Baseline Residuals &amp; Statistical Anomaly</h3>
+                  <p>Turbine WT-004 exhibits severe generator winding thermal deviation (+12.3&sigma;) against the chronological baseline curve.</p>
+                </div>
+                <span class="badge badge-validated">VALIDATED ON CARE &middot; PR-AUC 0.822</span>
+              </div>
+              <div class="workstation-frame">
+                <img src="./assets/images/03_asset_section1_residuals.png" alt="WT-004 thermal residual curve and statistical deviation plot" width="1440" height="900" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 3: ATTRIBUTION -->
+          <div id="tab-attribution" class="product-tab-panel" role="tabpanel">
+            <div class="product-showcase-grid">
+              <div class="product-meta-header">
+                <div>
+                  <h3>Environmental Context &amp; Peer Feeder Isolation</h3>
+                  <p>CAMS atmospheric aerosol data rules out dust events; comparison across 8 feeder peers confirms WT-004 is completely isolated.</p>
+                </div>
+                <span class="badge badge-demonstrated">DEMONSTRATED &middot; REAL SATELLITE INTEGRATION</span>
+              </div>
+              <div class="workstation-frame">
+                <img src="./assets/images/04_asset_section2_3_environment_peers.png" alt="Environmental dust index and peer turbine thermal distribution" width="1440" height="900" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 4: PRECEDENT & ECONOMICS -->
+          <div id="tab-economics" class="product-tab-panel" role="tabpanel">
+            <div class="product-showcase-grid">
+              <div class="product-meta-header">
+                <div>
+                  <h3>Historical Trajectory Retrieval &amp; Techno-Economics</h3>
+                  <p>Matched against 14 partitioned academic cases with 80% similarity; Python engine models +&pound;9.07L net benefit for immediate intervention.</p>
+                </div>
+                <span class="badge badge-demonstrated">DEMONSTRATED &middot; PARTITIONED RETRIEVAL</span>
+              </div>
+              <div class="workstation-frame">
+                <img src="./assets/images/06_asset_section6_7_economics_decision.png" alt="Techno-economic Net Present Value chart comparing Act Now vs Defer" width="1440" height="900" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 5: DISPATCH -->
+          <div id="tab-dispatch" class="product-tab-panel" role="tabpanel">
+            <div class="product-showcase-grid">
+              <div class="product-meta-header">
+                <div>
+                  <h3>Work Order Lifecycle &amp; Safe-Weather Dispatch</h3>
+                  <p>Human operator authorizes intervention ticket; crew dispatch optimizer schedules truck roll strictly within safe wind windows (&lt;12 m/s).</p>
+                </div>
+                <span class="badge badge-demonstrated">DEMONSTRATED &middot; DUAL-KEY PROVENANCE</span>
+              </div>
+              <div class="workstation-frame">
+                <img src="./assets/images/09_crew_dispatch_weather_windows.png" alt="Crew dispatch schedule with weather safety windows" width="1440" height="900" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WT-004 CASE STUDY SECTION -->
+    <section id="case-study" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Operational Case Study</span>
+          <h2 class="section-title">Turbine WT-004: From Thermal Anomaly to Weather-Safe Dispatch</h2>
+          <p class="section-subtitle">
+            A step-by-step walkthrough showing how RAI resolves an ambiguous generator winding temperature surge into an authorized, weather-safe work order.
+          </p>
+        </div>
+
+        <div class="case-study-hero">
+          <!-- METRIC STRIP -->
+          <div class="case-summary-strip">
+            <div class="case-metric-box">
+              <h5>Asset Identifier</h5>
+              <div class="metric-val">WT-004</div>
+              <span class="badge badge-neutral">2.0 MW WIND TURBINE</span>
+            </div>
+            <div class="case-metric-box">
+              <h5>Winding Deviation</h5>
+              <div class="metric-val alert">+12.3&sigma;</div>
+              <span class="badge badge-unvalidated">SEVERE DEVIATION</span>
+            </div>
+            <div class="case-metric-box">
+              <h5>Peer Isolation</h5>
+              <div class="metric-val">8/8 Normal</div>
+              <span class="badge badge-validated">FEEDER ISOLATED</span>
+            </div>
+            <div class="case-metric-box">
+              <h5>Precedent Match</h5>
+              <div class="metric-val">80% Similarity</div>
+              <span class="badge badge-demonstrated">KELMARSH COOLING TRIP</span>
+            </div>
+            <div class="case-metric-box">
+              <h5>Economic Exposure</h5>
+              <div class="metric-val success">+&pound;9.07L NPV</div>
+              <span class="badge badge-validated">ACT NOW BENEFIT</span>
+            </div>
+          </div>
+
+          <!-- TIMELINE NARRATIVE -->
+          <div class="case-timeline">
+            <div class="timeline-node danger">
+              <h4>1. Statistical Thermal Anomaly Detected</h4>
+              <p>High-frequency SCADA telemetry flags WT-004's generator winding temperature at 108.4&deg;C during moderate 8.2 m/s wind speeds, representing a massive <strong>+12.3&sigma;</strong> divergence from the physics-expected thermal curve.</p>
+            </div>
+
+            <div class="timeline-node">
+              <h4>2. Environmental Attribution Rules Out Ambient Weather</h4>
+              <p>RAI cross-references CAMS satellite atmospheric data. Ambient temperature is 18.2&deg;C and aerosol optical depth is low ($D(t) = 0.08$), ruling out ambient heatwaves and aerodynamic blade drag as potential causes.</p>
+            </div>
+
+            <div class="timeline-node highlight">
+              <h4>3. Feeder Peer Normalization Confirms Complete Isolation</h4>
+              <p>All 8 adjacent turbines sharing Feeder Circuit B are operating with winding temperatures between 68&deg;C and 74&deg;C (&lt;1.2&sigma;). This definitively eliminates grid curtailment, voltage surges, or common-cause substation events.</p>
+            </div>
+
+            <div class="timeline-node">
+              <h4>4. Historical Academic Precedent Retrieved</h4>
+              <p>RAI's trajectory-similarity engine queries 14 partitioned real academic records, finding an 80% match to a documented Kelmarsh operational event involving cooling airflow blockage and winding thermal trip.</p>
+            </div>
+
+            <div class="timeline-node">
+              <h4>5. Techno-Economic Net Present Value Quantified</h4>
+              <p>The deterministic Python engine models maintenance cash flows: immediate inspection costs &pound;45,000, while deferring risks catastrophic insulation breakdown resulting in &pound;1,350,000 in replacement and downtime losses. The Net Present Value benefit of immediate action is <strong>+&pound;9.07 Lakhs</strong>.</p>
+            </div>
+
+            <div class="timeline-node highlight">
+              <h4>6. Bounded Local AI Synthesizes Evidence for Operator</h4>
+              <p>The local Needle 2 engine synthesizes the structured evidence packet with 94% calibrated confidence. Zero calculations are performed in the LLM. The operator reviews the rationale and authorizes Work Order <code>WO-2026-004</code>.</p>
+            </div>
+
+            <div class="timeline-node">
+              <h4>7. Weather-Safe Dispatch Execution</h4>
+              <p>The dispatch engine checks 48-hour forecast windows, scheduling technician arrival for Wednesday 07:00–11:00 UTC when wind speeds remain safely below the 12.0 m/s working threshold.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL ARCHITECTURE SECTION -->
+    <section id="architecture" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Engineering Rigor</span>
+          <h2 class="section-title">System Architecture: Strict Separation of Concerns</h2>
+          <p class="section-subtitle">
+            Core mathematical truth: <strong>The LLM does not perform numerical calculations</strong>. Physics curves, z-scores, peer percentiles, and Net Present Value cash flows are computed deterministically in Python.
+          </p>
+        </div>
+
+        <div class="architecture-svg-wrap">
+          <svg class="diagram-svg" viewBox="0 0 1060 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RAI Technical Architecture diagram illustrating deterministic numerical engine cleanly separated from bounded local AI reasoner and human governance">
+            <defs>
+              <marker id="arch-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#121312"/>
+              </marker>
+              <marker id="arch-arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#15803d"/>
+              </marker>
+            </defs>
+
+            <!-- ZONE 1: DETERMINISTIC NUMERICAL ENGINE -->
+            <rect x="20" y="20" width="560" height="440" rx="6" fill="#f8faf8" stroke="#86efac" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <text x="40" y="48" fill="#15803d" font-family="-apple-system, sans-serif" font-size="13" font-weight="750">ZONE 1: DETERMINISTIC NUMERICAL ENGINE (PYTHON / NUMPY / SCIPY)</text>
+
+            <!-- Pipeline nodes in Zone 1 -->
+            <rect x="50" y="70" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="160" y="98" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">SCADA + Weather Telemetry</text>
+
+            <path d="M 160 118 L 160 148" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="50" y="150" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="160" y="178" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Physics Expected Models</text>
+
+            <path d="M 160 198 L 160 228" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="50" y="230" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="160" y="258" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Residual Deviations (Z-Scores)</text>
+
+            <path d="M 270 254 L 330 254" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <!-- Right Column in Zone 1 -->
+            <rect x="330" y="70" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="440" y="98" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Aerosol Dust Gating D(t)</text>
+
+            <path d="M 440 118 L 440 148" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="330" y="150" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="440" y="178" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Feeder Peer Normalization</text>
+
+            <path d="M 440 198 L 440 228" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="330" y="230" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="440" y="258" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Historical Trajectory Retrieval</text>
+
+            <path d="M 440 278 L 440 308" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="330" y="310" width="220" height="48" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="440" y="338" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">NPV Cash Flow Engine</text>
+
+            <path d="M 440 358 L 440 388" stroke="#15803d" stroke-width="2" marker-end="url(#arch-arrow-green)"/>
+
+            <rect x="250" y="390" width="300" height="50" rx="4" fill="#15803d" stroke="#166534" stroke-width="1"/>
+            <text x="400" y="420" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">STRUCTURED EVIDENCE PACKET (JSON)</text>
+
+            <!-- Bridging Arrow -->
+            <path d="M 580 250 L 630 250" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arch-arrow)"/>
+            <text x="605" y="240" fill="#1d4ed8" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">INPUT</text>
+
+            <!-- ZONE 2: LOCAL AI REASONER -->
+            <rect x="630" y="20" width="410" height="210" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <text x="650" y="48" fill="#1d4ed8" font-family="-apple-system, sans-serif" font-size="13" font-weight="750">ZONE 2: BOUNDED LOCAL AI REASONER</text>
+
+            <rect x="660" y="70" width="350" height="60" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="835" y="96" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Quantized Local LLM / Needle 2</text>
+            <text x="835" y="116" fill="#404340" font-family="-apple-system, sans-serif" font-size="11" text-anchor="middle">Synthesizes evidence &middot; ZERO math execution</text>
+
+            <rect x="660" y="145" width="350" height="65" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="835" y="170" fill="#121312" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Calibrated Confidence Gate</text>
+            <text x="835" y="190" fill="#b45309" font-family="monospace" font-size="10" font-weight="600" text-anchor="middle">Confidence &lt; 80% &rarr; FORCED HUMAN ESCALATION</text>
+
+            <!-- ZONE 3: HUMAN GOVERNANCE & CLOSED LOOP -->
+            <rect x="630" y="250" width="410" height="210" rx="6" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <text x="650" y="278" fill="#b45309" font-family="-apple-system, sans-serif" font-size="13" font-weight="750">ZONE 3: HUMAN GOVERNANCE &amp; CLOSED LOOP</text>
+
+            <rect x="660" y="295" width="350" height="50" rx="4" fill="#121312" stroke="#2d302e" stroke-width="1"/>
+            <text x="835" y="325" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Human Plant Operator Authorization Gate</text>
+
+            <path d="M 835 345 L 835 375" stroke="#121312" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <rect x="660" y="375" width="350" height="60" rx="4" fill="#ffffff" stroke="#e3e3dc" stroke-width="1"/>
+            <text x="835" y="398" fill="#121312" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Weather-Safe Crew Dispatch &amp; Dual-Key Ledger</text>
+            <text x="835" y="418" fill="#15803d" font-family="monospace" font-size="10" text-anchor="middle">Technician Feedback &rarr; Dual-Key Promotion</text>
+          </svg>
+        </div>
+
+        <div class="architecture-legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: #86efac; border: 1px solid #15803d;"></span>
+            <span>Deterministic Numerical Engine (Zero LLM Math)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: #93c5fd; border: 1px solid #1d4ed8;"></span>
+            <span>Bounded Local AI Reasoner (Air-Gapped)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: #fcd34d; border: 1px solid #b45309;"></span>
+            <span>Human Approval &amp; Dual-Key Governed Closed Loop</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCAL AI & HUMAN GOVERNANCE -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow blue">Governed Intelligence</span>
+          <h2 class="section-title">Bounded Local AI: Zero Hallucinations, Absolute Safety</h2>
+          <p class="section-subtitle">
+            RAI rejects the reckless pattern of sending raw telemetry into cloud LLMs. Our local reasoning layer operates under mathematical boundaries and strict operational containment.
+          </p>
+        </div>
+
+        <div class="ai-pillars-grid">
+          <div class="ai-pillar-card">
+            <div class="pillar-icon">[ 01 ]</div>
+            <h4>Local Air-Gapped Execution</h4>
+            <p>Runs fully on-premises using quantized Needle 2 weights with deterministic rule-based fallback. No plant telemetry ever leaves your physical network perimeter.</p>
+          </div>
+
+          <div class="ai-pillar-card">
+            <div class="pillar-icon">[ 02 ]</div>
+            <h4>Strict Evidence Grounding</h4>
+            <p>The local reasoner is bound to verified JSON input schemas. It explains and contextualizes pre-calculated numerical findings without calculating numbers internally.</p>
+          </div>
+
+          <div class="ai-pillar-card">
+            <div class="pillar-icon">[ 03 ]</div>
+            <h4>Calibrated Confidence Gating</h4>
+            <p>If evidence completeness or trajectory similarity falls below the 80% threshold, the model is architecturally forbidden from recommending action and forces human escalation.</p>
+          </div>
+
+          <div class="ai-pillar-card">
+            <div class="pillar-icon">[ 04 ]</div>
+            <h4>Zero Plant-Control Writes</h4>
+            <p>RAI generates operational work-order proposals for human engineers. It has zero actuator or SCADA write privileges, making autonomous control accidents physically impossible.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUR-TIER SCIENTIFIC EVIDENCE MATRIX -->
+    <section id="evidence" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Scientific Integrity</span>
+          <h2 class="section-title">Four-Tier Evidence Taxonomy</h2>
+          <p class="section-subtitle">
+            We hold RAI to the highest standard of scientific honesty. We never claim a capability is validated unless it has been evaluated against independent external benchmarks.
+          </p>
+        </div>
+
+        <!-- FILTER BUTTONS -->
+        <div class="evidence-filters">
+          <button class="filter-btn active" data-filter="all">All Capabilities (18)</button>
+          <button class="filter-btn" data-filter="VALIDATED">Validated (4)</button>
+          <button class="filter-btn" data-filter="DEMONSTRATED">Demonstrated (9)</button>
+          <button class="filter-btn" data-filter="ARCHITECTURAL">Architecturally Supported (4)</button>
+          <button class="filter-btn" data-filter="NOT_VALIDATED">Not Validated (1)</button>
+        </div>
+
+        <!-- RESPONSIVE TABLE -->
+        <div class="table-responsive">
+          <table class="evidence-table">
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Status</th>
+                <th>Dataset / Benchmark Source</th>
+                <th>Scope &amp; Provenance</th>
+                <th>Primary Limitation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- ROW 1 -->
+              <tr data-tier="VALIDATED">
+                <td class="cap-name">CARE Wind Anomaly Detection</td>
+                <td><span class="badge badge-validated">VALIDATED</span></td>
+                <td>Fraunhofer IEE CARE Benchmark (Zenodo 10958775) &middot; 36 turbines</td>
+                <td>REAL &middot; EXTERNAL</td>
+                <td>Evaluates detection; does not diagnose causal mechanical failure.</td>
+              </tr>
+
+              <!-- ROW 2 -->
+              <tr data-tier="VALIDATED">
+                <td class="cap-name">CARE Cross-Farm Transfer</td>
+                <td><span class="badge badge-validated">VALIDATED</span></td>
+                <td>6 directed transfers under frozen CARE_COMMON protocol</td>
+                <td>REAL &middot; EXTERNAL</td>
+                <td>Requires baseline calibration telemetry on target fleet.</td>
+              </tr>
+
+              <!-- ROW 3 -->
+              <tr data-tier="VALIDATED">
+                <td class="cap-name">Kelmarsh Operational Benchmark</td>
+                <td><span class="badge badge-validated">VALIDATED</span></td>
+                <td>Kelmarsh Wind Farm Open Dataset (Zenodo 5841834) &middot; 6 MM92 turbines</td>
+                <td>REAL &middot; EXTERNAL</td>
+                <td>Operational trip association only; no component hardware ground truth.</td>
+              </tr>
+
+              <!-- ROW 4 -->
+              <tr data-tier="VALIDATED">
+                <td class="cap-name">Solar PVDAQ Data Foundation</td>
+                <td><span class="badge badge-validated">VALIDATED</span></td>
+                <td>NREL PVDAQ Open Energy Data Initiative (OEDI S3) &middot; 5 systems</td>
+                <td>REAL &middot; EXTERNAL</td>
+                <td>Validates acquisition and checksums; validation cohort remains empty.</td>
+              </tr>
+
+              <!-- ROW 5 -->
+              <tr data-tier="DEMONSTRATED">
+                <td class="cap-name">Local AI Agent Reasoning</td>
+                <td><span class="badge badge-demonstrated">DEMONSTRATED</span></td>
+                <td>Internal deterministic evaluation battery (Tasks A&ndash;G, 24 targeted tests)</td>
+                <td>INTERNAL FIXTURES</td>
+                <td>Tested on deterministic scenarios; not tested on live utility operations.</td>
+              </tr>
+
+              <!-- ROW 6 -->
+              <tr data-tier="DEMONSTRATED">
+                <td class="cap-name">Historical Case Retrieval</td>
+                <td><span class="badge badge-demonstrated">DEMONSTRATED</span></td>
+                <td>14 partitioned real academic cases (CARE, Kelmarsh, PVDAQ)</td>
+                <td>MIXED &middot; PARTITIONED</td>
+                <td>Retrieval quality evaluated against internal relevance labels.</td>
+              </tr>
+
+              <!-- ROW 7 -->
+              <tr data-tier="DEMONSTRATED">
+                <td class="cap-name">Techno-Economic Consequence Engine</td>
+                <td><span class="badge badge-demonstrated">DEMONSTRATED</span></td>
+                <td>Analytical Net Present Value model under explicit input assumptions</td>
+                <td>SIMULATED OUTCOME</td>
+                <td>Modeled projections; not realized or guaranteed cash savings.</td>
+              </tr>
+
+              <!-- ROW 8 -->
+              <tr data-tier="DEMONSTRATED">
+                <td class="cap-name">Work-Order Lifecycle</td>
+                <td><span class="badge badge-demonstrated">DEMONSTRATED</span></td>
+                <td>FastAPI backend + Next.js operator console verified via Playwright</td>
+                <td>INTERNAL SYNTHETIC</td>
+                <td>Demonstrated in software; zero live commercial plant deployments.</td>
+              </tr>
+
+              <!-- ROW 9 -->
+              <tr data-tier="DEMONSTRATED">
+                <td class="cap-name">Closed-Loop Learning Pipeline</td>
+                <td><span class="badge badge-demonstrated">DEMONSTRATED</span></td>
+                <td>Feedback-to-retrieval ingestion pipeline with dual-key promotion gate</td>
+                <td>INTERNAL SYNTHETIC</td>
+                <td>Demonstrated in-browser; zero commercial utility sites connected.</td>
+              </tr>
+
+              <!-- ROW 10 -->
+              <tr data-tier="ARCHITECTURAL">
+                <td class="cap-name">Counterevidence Diagnosis</td>
+                <td><span class="badge badge-architectural">ARCHITECTURAL</span></td>
+                <td>Differential diagnosis engine and deterministic rule reasoner</td>
+                <td>INTERNAL INVARIANTS</td>
+                <td>Tested against invariant contracts; no external multi-fault ground truth.</td>
+              </tr>
+
+              <!-- ROW 11 -->
+              <tr data-tier="ARCHITECTURAL">
+                <td class="cap-name">Safe-Weather Dispatch Optimizer</td>
+                <td><span class="badge badge-architectural">ARCHITECTURAL</span></td>
+                <td>Meteorological constraint gating (wind, lightning, temperature)</td>
+                <td>MIXED (WEATHER API)</td>
+                <td>Operational heuristics; not a legally binding OSHA safety guarantee.</td>
+              </tr>
+
+              <!-- ROW 12 -->
+              <tr data-tier="NOT_VALIDATED">
+                <td class="cap-name">Solar Physics Failure Model (Gate 5.6C)</td>
+                <td><span class="badge badge-unvalidated">NOT VALIDATED</span></td>
+                <td>pvlib ModelChain fit against PVDAQ development cohort</td>
+                <td>DEVELOPMENT ONLY</td>
+                <td>Gate 5.6B validation cohort is empty; zero independent validation.</td>
+              </tr>
+
+              <!-- ROW 13 -->
+              <tr data-tier="NOT_VALIDATED">
+                <td class="cap-name">Live Commercial Utility Deployment</td>
+                <td><span class="badge badge-unvalidated">NOT VALIDATED</span></td>
+                <td>Real-time production plant SCADA integrations</td>
+                <td>NONE CURRENTLY</td>
+                <td>Zero live commercial utility sites are connected to this release.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVENANCE & DUAL-KEY PROMOTION GATE -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Provenance Defense</span>
+          <h2 class="section-title">The Dual-Key Quarantine Promotion Gate</h2>
+          <p class="section-subtitle">
+            To prevent test artifacts and synthetic simulation data from corrupting real academic benchmark retrieval, RAI enforces cryptographic partitioning and dual-key promotion.
+          </p>
+        </div>
+
+        <div class="provenance-card">
+          <h3>Strict Partition Invariant: <code>EXTERNAL_REAL</code> vs <code>INTERNAL_SYNTHETIC</code></h3>
+          <p>
+            All 14 academic baseline cases are strictly quarantined in the <code>EXTERNAL_REAL</code> partition. Every demonstration ticket, test fixture, and UI simulation starts quarantined in <code>INTERNAL_SYNTHETIC</code>.
+          </p>
+
+          <div class="dual-key-grid">
+            <div class="key-box">
+              <div class="key-title">KEY 1: FIELD EVIDENCE</div>
+              <span class="badge badge-neutral">EXTERNAL_FIELD_OBSERVED</span>
+              <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--ink-secondary);">Verified physical inspection logged from an active field deployment site.</p>
+            </div>
+
+            <div class="key-operator">+</div>
+
+            <div class="key-box">
+              <div class="key-title">KEY 2: FORMAL ADJUDICATION</div>
+              <span class="badge badge-neutral">FIELD_VERIFIED</span>
+              <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--ink-secondary);">Cryptographic checksum and supervisor engineering signoff on failure ground truth.</p>
+            </div>
+          </div>
+
+          <div style="background-color: var(--bg-tint-green); border: 1px solid var(--accent-green-border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center;">
+            <strong style="color: var(--accent-green); font-family: var(--font-mono); font-size: 0.9rem;">
+              PROMOTED TO RETRIEVAL MEMORY ONLY WHEN BOTH KEYS ARE PRESENT
+            </strong>
+            <p style="font-size: 0.85rem; color: var(--ink-secondary); margin-top: 0.35rem;">
+              Because zero live utility plants are currently connected, concordance metrics correctly report <code>NO_VERIFIED_CASES_YET</code>. Memory integrity is 100% preserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVERSARIAL STRESS TESTING -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Defensive Verification</span>
+          <h2 class="section-title">Tested Beyond Happy Paths: 47 Adversarial Stress Gates</h2>
+          <p class="section-subtitle">
+            RAI was intentionally stressed with malformed payloads, prompt injection attacks, partition breach attempts, and race conditions before freezing this release.
+          </p>
+        </div>
+
+        <div class="stress-metrics-strip">
+          <div class="stress-stat-card">
+            <div class="num">554 / 554</div>
+            <div class="label">Core Test Battery</div>
+            <div class="detail">All unit, integration, and physics regression tests passing offline.</div>
+          </div>
+
+          <div class="stress-stat-card">
+            <div class="num">47 / 47</div>
+            <div class="label">Adversarial Attacks Defeated</div>
+            <div class="detail">Hostile evaluator battery across backend, models, memory, and UI.</div>
+          </div>
+
+          <div class="stress-stat-card">
+            <div class="num">0</div>
+            <div class="label">Secret &amp; Token Leaks</div>
+            <div class="detail">Complete repository scan verified clean of hardcoded credentials.</div>
+          </div>
+
+          <div class="stress-stat-card">
+            <div class="num">0.00</div>
+            <div class="label">Unsupported Claim Rate</div>
+            <div class="detail">Local reasoner rigorously tested on hallucinations and abstentions.</div>
+          </div>
+        </div>
+
+        <div class="test-categories-grid">
+          <div class="test-cat-pill">
+            <span>REST API Contract Validation</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Pathological Telemetry (NaN / Inverted)</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>ML Edge Cases &amp; Missing Sensors</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Prompt Injection &amp; Jailbreak Resistance</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>RAG Partition Attack &amp; Isolation Defense</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Economics Boundary &amp; Negative Cash Flow</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Illegal Work-Order State Transitions</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Concurrency &amp; High-Volume Thread Safety</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Browser Deadlock &amp; Modal Escapes</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+          <div class="test-cat-pill">
+            <span>Dual-Key Memory Contamination Resistance</span>
+            <span class="status">&#10003; PASSED</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIMITATIONS SECTION -->
+    <section id="limitations" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Honest Engineering</span>
+          <h2 class="section-title">Explicit Limitations &amp; Boundary Declarations</h2>
+          <p class="section-subtitle">
+            Scientific software must communicate its limitations with clarity. We explicitly state what this release candidate does not do.
+          </p>
+        </div>
+
+        <div class="limitations-grid">
+          <div class="limitation-item">
+            <h4>Zero Live Commercial Plant Connections</h4>
+            <p>RAI has been evaluated on open academic datasets and simulated telemetry. It is not currently connected to live utility-scale SCADA networks or real-time production plant control systems.</p>
+          </div>
+
+          <div class="limitation-item">
+            <h4>Solar Failure Validation Is Unclosed</h4>
+            <p>While NREL PVDAQ real solar telemetry acquisition is frozen and verified, Gate 5.6B's validation cohort contains insufficient data. Gate 5.6C solar models are development references, not independently validated.</p>
+          </div>
+
+          <div class="limitation-item">
+            <h4>Kelmarsh Operational Events &ne; Hardware Failure</h4>
+            <p>Kelmarsh open records document SCADA alarms and operational downtime trips. They do not contain verified mechanical component failure labels. RAI scores correlate with operational windows, not physical failure prediction.</p>
+          </div>
+
+          <div class="limitation-item">
+            <h4>Modeled Economic Projections</h4>
+            <p>Techno-economic figures (including Net Present Value and avoidable loss) are modeled under explicit cost and tariff assumptions. They must never be interpreted as realized, guaranteed accounting savings.</p>
+          </div>
+
+          <div class="limitation-item">
+            <h4>Weather Forecasts Are Third-Party Dependencies</h4>
+            <p>The safe-weather dispatch scheduler relies on Open-Meteo and ECMWF meteorological feeds. Forecast inaccuracies can occur; the optimizer provides decision support, not an OSHA-certified safety guarantee.</p>
+          </div>
+
+          <div class="limitation-item">
+            <h4>Zero Autonomous Plant Actuation</h4>
+            <p>RAI is strictly decision-support software. It does not possess actuator write privileges, does not control turbine yaw, and does not alter inverter setpoints.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICKSTART & FINAL CTA SECTION -->
+    <section id="quickstart" class="section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>From anomaly to action &mdash; with the evidence in between.</h2>
+          <p>
+            Experience the complete frozen operational application, inspect the academic evaluation suites, or reproduce all 554 tests locally.
+          </p>
+          <div class="cta-actions">
+            <a href="https://github.com/Krishna-Modi12/RAI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View GitHub Repository</a>
+            <a href="#quickstart" class="btn btn-primary">Quickstart Instructions</a>
+          </div>
+        </div>
+
+        <!-- QUICKSTART CARD -->
+        <div class="quickstart-card">
+          <span class="section-eyebrow">Local Reproduction</span>
+          <h3>Run The Operational System in Under 3 Minutes</h3>
+          <p>Clone the frozen release repository and launch both the FastAPI backend and Next.js operator console locally:</p>
+
+          <pre class="code-terminal"><code><span class="comment"># 1. Clone the frozen release candidate</span>
+<span class="cmd">git clone</span> https://github.com/Krishna-Modi12/RAI.git
+<span class="cmd">cd</span> RAI
+
+<span class="comment"># 2. Install Python backend dependencies</span>
+<span class="cmd">python -m venv</span> .venv
+<span class="cmd">source</span> .venv/bin/activate  <span class="comment"># On Windows: .venv\Scripts\activate</span>
+<span class="cmd">pip install -e</span> ".[dev,domain]"
+
+<span class="comment"># 3. Generate test fixtures &amp; train expected physics baselines</span>
+<span class="cmd">python</span> scripts/generate_data.py
+<span class="cmd">python</span> scripts/train.py
+
+<span class="comment"># 4. Run the full 554-test verification suite</span>
+<span class="cmd">pytest</span> tests/ -q
+
+<span class="comment"># 5. Launch Backend API (Port 8000) and Next.js Console (Port 3000)</span>
+<span class="cmd">uvicorn</span> services.api.main:app --host 127.0.0.1 --port 8000 &amp;
+<span class="cmd">npm install --prefix</span> web &amp;&amp; <span class="cmd">npm run dev --prefix</span> web</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand" style="margin-bottom: 0.75rem;">
+            <span class="brand-mark">RAI</span>
+            <span class="brand-text">Renewable Asset Intelligence</span>
+          </div>
+          <p style="font-size: 0.85rem; max-width: 320px;">
+            Physics-grounded, environmentally-attributed, and human-governed decision intelligence for wind and solar fleets.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Core System</h5>
+          <ul class="footer-links">
+            <li><a href="#decision-loop">The 10-Stage Loop</a></li>
+            <li><a href="#difference">The Difference</a></li>
+            <li><a href="#product">Product Walkthrough</a></li>
+            <li><a href="#case-study">WT-004 Story</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Evidence &amp; Limits</h5>
+          <ul class="footer-links">
+            <li><a href="#evidence">Four-Tier Evidence</a></li>
+            <li><a href="#evidence">CARE Benchmark</a></li>
+            <li><a href="#evidence">Kelmarsh Dataset</a></li>
+            <li><a href="#evidence">PVDAQ Foundation</a></li>
+            <li><a href="#limitations">Explicit Limitations</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Repository</h5>
+          <ul class="footer-links">
+            <li><a href="https://github.com/Krishna-Modi12/RAI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://github.com/Krishna-Modi12/RAI/blob/main/docs/CLAIMS.md" target="_blank" rel="noopener noreferrer">Claims Matrix</a></li>
+            <li><a href="https://github.com/Krishna-Modi12/RAI/blob/main/README.md" target="_blank" rel="noopener noreferrer">Project README</a></li>
+            <li><a href="#quickstart">Run Demo Locally</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Renewable Asset Intelligence (RAI). MIT Open Source License.</span>
+        <span class="footer-hash">Frozen Release Commit: <code>4e80839d14f5bfb3e99dabdf371d76e384d7c3db</code></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
