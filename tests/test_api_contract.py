@@ -30,7 +30,7 @@ def test_api_fleet():
     assert data["assets_total"] == 42
     assert "generation_kw" in data
     assert "expected_generation_kw" in data
-    assert "revenue_at_risk_inr_per_day" in data
+    assert "revenue_at_risk_inr_30d" in data
     assert len(data["by_type"]) == 2
     types = {t["asset_type"] for t in data["by_type"]}
     assert "wind_turbine" in types

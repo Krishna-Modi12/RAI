@@ -20,7 +20,7 @@ export interface FleetOverview {
   generation_kw: number;
   expected_generation_kw: number;
   availability_pct: number;
-  revenue_at_risk_inr_per_day: number;
+  revenue_at_risk_inr_30d: number;
   by_type?: Array<{
     asset_type: "wind_turbine" | "solar_inverter";
     count: number;
@@ -36,7 +36,7 @@ export interface PriorityQueueItem {
   site: string;
   risk_score: number;
   risk_band: "low" | "elevated" | "high" | "critical";
-  revenue_at_risk_inr: number;
+  revenue_at_risk_inr: number | null;
   dominant_signal: string;
   deadline_hours: number;
   requires_human_review: boolean;

@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  --font-sans: var(--font-archivo), "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, "SFMono-Regular",
+    "Cascadia Mono", "Roboto Mono", monospace;
+
   /* Light theme - normative tokens from docs/DESIGN.md */
   --surface: oklch(0.980 0.006 85);
   --surface-raised: oklch(0.993 0.004 85);
@@ -98,7 +102,8 @@
 body {
   background: var(--surface);
   color: var(--text-primary);
-  font-feature-settings: "tnum" 1, "cv02" 1, "cv03" 1, "cv04" 1;
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1, "cv05" 1;
   -webkit-font-smoothing: antialiased;
 }
 

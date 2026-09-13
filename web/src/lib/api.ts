@@ -58,7 +58,7 @@ const FALLBACK_FLEET: FleetOverview = {
   generation_kw: 62450,
   expected_generation_kw: 68200,
   availability_pct: 97.6,
-  revenue_at_risk_inr_per_day: 485000,
+  revenue_at_risk_inr_30d: 485000,
   by_type: [
     { asset_type: "wind_turbine", count: 18, health: 91.0, generation_kw: 48200 },
     { asset_type: "solar_inverter", count: 24, health: 95.4, generation_kw: 14250 },

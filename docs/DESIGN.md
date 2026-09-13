@@ -668,7 +668,8 @@ when direction has a clear polarity, and is accompanied by a `▲`/`▼` glyph.
 
 Fleet view tiles (exactly four): Fleet health (`fleet_health`, hero variant `--t-metric-lg`),
 Generation vs expected (`generation_kw` / `expected_generation_kw`), Availability
-(`availability_pct`), Revenue at risk (`revenue_at_risk_inr_per_day`).
+(`availability_pct`), and modeled 30-day revenue exposure
+(`revenue_at_risk_inr_30d`).
 
 ### 6.3 Priority action row (`PriorityRow`)
 

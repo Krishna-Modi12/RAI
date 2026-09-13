@@ -4,7 +4,7 @@
 
 **Last updated:** 2026-09-13 (Gate 5.6 solar-model claim retracted as `GATE_5.6_INVALID_SYNTHETIC_RUN`; Gate 5.6A real PVDAQ acquisition and Gate 5.6B cohort adjudication are **COMPLETE and FROZEN**. Current phase: **Post-Gate-5.6B / pre-Gate-5.6C — Backend Intelligence Contracts + Submission Readiness**. A Gate 5.6C decision (PATH B) was recorded and preliminary model-development code was executed against the real, adjudicated cohort — but **Gate 5.6C itself has NOT been completed, validated, or independently verified**, and must not be described as such. See the corrected status note in `docs/checkpoints/19-gate56c-model-development.md`.)  
 **Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, and Phase 5 external benchmark gates (Wind Gates 5.0–5.4, Solar Gates 5.5–5.6) fully built, tested, and verified  
-**Backend Unit Tests:** 307/307 passing (verified by direct `pytest -q` run)  
+**Backend Unit Tests:** 426/426 passing (verified by direct `pytest -q` run)
 **Static Analysis:** Ruff — 0 errors (`All checks passed!`). Pyright — 0 errors in `rai/`  
 **Frontend Build:** verified — `npm run build` in `web/` completes cleanly in 897ms (Next.js 16.3.5 Turbopack, 8 routes, 0 errors).  
 **Phase 5 External Benchmark Validation (Gates 5.0–5.6):**
@@ -181,9 +181,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-13 02:20 UTC from 31 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-13 03:21 UTC from 32 task record(s) in `docs/checkpoints/`._
 
-**25/31 task records complete.**
+**26/32 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -218,6 +218,7 @@ _Generated 2026-09-13 02:20 UTC from 31 task record(s) in `docs/checkpoints/`._
 | ✅ | frontend-transition-contract-verification | 5 | complete |
 | ✅ | frontend-live-cached-honesty-pass | 5 | complete |
 | ✅ | concurrent-investigate-crash-fix | 5 | complete |
+| ✅ | fleet-exposure-integrity | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -1875,3 +1876,25 @@ it survived 5/5 repeats in the same test.
   only that concurrent access is necessary and sufficient to trigger it and serializing access
   is necessary and sufficient to prevent it in every trial run.
 
+### ✅ fleet-exposure-integrity
+
+**What was built**
+
+- Completed the fleet exposure transition from instantaneous power deficit to the deterministic
+  `do_nothing_exposure` economic engine.
+- Removed the frontend's fabricated exposure fallback so unavailable data renders as not evaluated.
+- Updated the design contract to use the modeled 30-day exposure field.
+- Tightened fleet error handling: expected data/economic failures are explicit and logged.
+
+**How it was verified**
+
+`.venv\Scripts\python.exe -m pytest tests\ -q` → 426 passed, 24 warnings.
+
+**Measured results**
+
+426 backend tests passed. No new metric was evaluated by this documentation/integrity pass.
+
+**Limitations**
+
+The independently validated Gate 5.6C solar-model gate remains incomplete and must not be
+represented as complete.

@@ -9,7 +9,7 @@
 
 export function formatINR(
   amount: number | null | undefined,
-  options?: { showExact?: boolean; perDay?: boolean }
+  options?: { showExact?: boolean }
 ): { display: string; exact: string } {
   if (amount === null || amount === undefined || isNaN(amount)) {
     return { display: "—", exact: "not evaluated" };
@@ -34,10 +34,6 @@ export function formatINR(
       currency: "INR",
       maximumFractionDigits: 0,
     }).format(amount);
-  }
-
-  if (options?.perDay) {
-    displayStr += "/day";
   }
 
   return {

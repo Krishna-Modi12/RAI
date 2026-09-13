@@ -43,6 +43,12 @@ sensor_health   : "ok" | "suspect" | "failed"
 
 ## `GET /api/fleet`
 
+`revenue_at_risk_inr_30d` is the modeled 30-day cost of leaving every currently at-risk asset
+unaddressed (`rai.economics.engine.do_nothing_exposure`, driven by calibrated risk score and
+component cost table), not a measurement of current lost energy — it stays non-zero for a
+high-risk asset even when that asset's live power output is not currently below its expected
+baseline.
+
 ```json
 {
   "updated_at": "2026-09-12T06:40:00Z",
@@ -54,7 +60,7 @@ sensor_health   : "ok" | "suspect" | "failed"
   "generation_kw": 21850.0,
   "expected_generation_kw": 22710.0,
   "availability_pct": 97.6,
-  "revenue_at_risk_inr_per_day": 184000.0,
+  "revenue_at_risk_inr_30d": 184000.0,
   "by_type": [
     {"asset_type": "wind_turbine",  "count": 18, "health": 86.1, "generation_kw": 19400.0},
     {"asset_type": "solar_inverter","count": 24, "health": 88.9, "generation_kw": 2450.0}
@@ -65,6 +71,9 @@ sensor_health   : "ok" | "suspect" | "failed"
 ## `GET /api/fleet/priority`
 
 Ranked action queue. Ordered by `revenue_at_risk_inr` × `risk_score`, descending.
+`revenue_at_risk_inr` is a modeled 14-day expected-consequence-of-inaction figure (same engine
+as `/api/fleet` above), not an instantaneous power-deficit measurement — it is `null` (never a
+fabricated `0`) on the rare occasion the estimate cannot be computed from available data.
 
 ```json
 [

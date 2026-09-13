@@ -15,7 +15,7 @@ import {
   PriorityQueueItem,
   FleetAssetItem,
 } from "../lib/types";
-import { Wind, Sun, Search, Filter, ArrowUpRight, AlertOctagon } from "lucide-react";
+import { Wind, Sun, Search, ArrowUpRight, AlertOctagon } from "lucide-react";
 
 export default function FleetPage() {
   const [overview, setOverview] = useState<FleetOverview | null>(null);
@@ -69,15 +69,15 @@ export default function FleetPage() {
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
         <div>
           <h1 className="text-xl font-semibold tracking-tight text-[var(--text-primary)]">
-            Fleet Operations Command
+            Fleet operations command
           </h1>
           <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Real-time SCADA telemetry, physics-informed health monitoring & economic loss tracking across 42 assets
+            SCADA telemetry and evidence-backed maintenance decisions across the fleet
           </p>
         </div>
         <div className="flex items-center space-x-2 font-mono text-xs text-[var(--text-secondary)]">
           <span className="w-2 h-2 rounded-full bg-[var(--ok)]" />
-          <span>Operational Benchmark: CARE Framework (Coverage, Accuracy, Reliability, Earliness)</span>
+          <span>CARE benchmarked</span>
         </div>
       </div>
 
@@ -106,9 +106,9 @@ export default function FleetPage() {
           live={overviewLive}
         />
         <MetricTile
-          label="Avoidable Revenue Exposure"
-          value={formatINR(overview?.revenue_at_risk_inr_per_day ?? 485000, { perDay: true }).display}
-          context="Daily financial leakage if unaddressed"
+          label="Expected Exposure (30-Day)"
+          value={formatINR(overview?.revenue_at_risk_inr_30d).display}
+          context="Modeled cost of leaving at-risk assets unaddressed for 30 days"
           source="rai.economics.engine"
           live={overviewLive}
         />
@@ -120,7 +120,7 @@ export default function FleetPage() {
           <div className="flex items-center space-x-2">
             <AlertOctagon className="w-4 h-4 text-[var(--critical)]" />
             <h2 className="text-xs font-semibold text-[var(--text-primary)]">
-              Ranked Action Queue (Sorted by Daily Financial Exposure × Risk)
+              Ranked Action Queue (Sorted by 14-Day Expected Exposure × Risk)
             </h2>
           </div>
           <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
