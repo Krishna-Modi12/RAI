@@ -44,6 +44,12 @@ def list_assets() -> list[dict[str, Any]]:
         risk_b = st.risk.risk_band.value if st.risk else "low"
         anom_sc = float(st.anomaly.anomaly_score) if st.anomaly else 0.0
         op_st = st.operating_state.value if st.operating_state else "normal"
+        res_pct = round(((p_kw - exp_kw) / max(exp_kw, 1.0) * 100.0), 1)
+        status_val = "nominal"
+        if risk_b in ("critical", "high"):
+            status_val = "critical" if risk_b == "critical" else "warning"
+        elif op_st in ("stopped", "maintenance"):
+            status_val = "offline"
 
         results.append(
             {
@@ -60,8 +66,11 @@ def list_assets() -> list[dict[str, Any]]:
                 "operating_state": op_st,
                 "power_kw": round(p_kw, 1),
                 "expected_power_kw": round(exp_kw, 1),
+                "residual_pct": res_pct,
+                "status": status_val,
                 "capacity_factor": round(cf, 2),
                 "data_freshness_s": round(fresh, 1),
+                "last_update": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             }
         )
     return results

@@ -57,7 +57,7 @@ def test_api_assets_list():
     assets = resp.json()
     assert len(assets) == 42
     sample = assets[0]
-    for key in ("asset_id", "name", "asset_type", "site", "health_score", "risk_score", "power_kw"):
+    for key in ("asset_id", "name", "asset_type", "site", "health_score", "risk_score", "power_kw", "residual_pct", "status", "last_update"):
         assert key in sample
 
 

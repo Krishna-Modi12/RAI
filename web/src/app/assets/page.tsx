@@ -393,36 +393,36 @@ export default function AssetRegistryPage() {
                       <td className="py-2.5 px-3 text-right">
                         <span
                           className={`font-semibold ${
-                            asset.health_score < 70
+                            (asset.health_score ?? 100) < 70
                               ? "text-[var(--critical)]"
-                              : asset.health_score < 85
+                              : (asset.health_score ?? 100) < 85
                               ? "text-[var(--warn-ink)]"
                               : "text-[var(--ok)]"
                           }`}
                         >
-                          {asset.health_score.toFixed(1)}%
+                          {(asset.health_score ?? 100).toFixed(1)}%
                         </span>
                       </td>
                       <td className="py-2.5 px-3 text-right font-medium text-[var(--text-primary)]">
-                        {asset.risk_score.toFixed(2)}
+                        {(asset.risk_score ?? 0).toFixed(2)}
                       </td>
                       <td className="py-2.5 px-3 text-right text-[var(--text-primary)] font-medium">
-                        {formatPower(asset.power_kw)}
+                        {formatPower(asset.power_kw ?? 0)}
                       </td>
                       <td className="py-2.5 px-3 text-right text-[var(--text-secondary)]">
-                        {formatPower(asset.expected_power_kw)}
+                        {formatPower(asset.expected_power_kw ?? 0)}
                       </td>
                       <td className="py-2.5 px-3 text-right">
                         <span
                           className={
-                            Math.abs(asset.residual_pct) > 15
+                            Math.abs(asset.residual_pct ?? 0) > 15
                               ? "text-[var(--critical)] font-semibold"
-                              : Math.abs(asset.residual_pct) > 8
+                              : Math.abs(asset.residual_pct ?? 0) > 8
                               ? "text-[var(--warn-ink)]"
                               : "text-[var(--text-secondary)]"
                           }
                         >
-                          {asset.residual_pct > 0 ? `+${asset.residual_pct.toFixed(1)}%` : `${asset.residual_pct.toFixed(1)}%`}
+                          {(asset.residual_pct ?? 0) > 0 ? `+${(asset.residual_pct ?? 0).toFixed(1)}%` : `${(asset.residual_pct ?? 0).toFixed(1)}%`}
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-center">
