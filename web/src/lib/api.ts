@@ -16,6 +16,8 @@ import {
   SoilingResponse,
   ScenarioItem,
   WorkOrder,
+  DispatchPlan,
+  ClosedLoopMetrics,
 } from "./types";
 
 // In local browser sessions, proxy through Next so the browser does not depend on
@@ -768,4 +770,69 @@ export async function submitWorkOrderFeedback(
     console.error("Failed to submit work order feedback:", err);
   }
   return null;
+}
+
+export async function getDispatchPlan(crewsPerSite: number = 2): Promise<LiveResult<DispatchPlan>> {
+  const fallback: DispatchPlan = {
+    generated_at: new Date().toISOString(),
+    site_windows: {
+      "kutch-wind": {
+        site: "kutch-wind",
+        asset_type: "wind_turbine",
+        current_wind_speed_ms: 8.5,
+        current_ambient_temp_c: 29.4,
+        current_rain_probability_pct: 10.0,
+        climb_safe: true,
+        electrical_safe: true,
+        status: "SAFE",
+        safety_rationale: "Sustained wind 8.5 m/s <= 12.0 m/s; rain prob 10% <= 35%. Tower climb approved.",
+        safe_window_hours: 24.0,
+      },
+      "charanka-solar": {
+        site: "charanka-solar",
+        asset_type: "solar_inverter",
+        current_wind_speed_ms: 4.2,
+        current_ambient_temp_c: 34.1,
+        current_rain_probability_pct: 5.0,
+        climb_safe: true,
+        electrical_safe: true,
+        status: "SAFE",
+        safety_rationale: "Clear dry conditions: temp 34.1°C, rain prob 5%. Open enclosure maintenance approved.",
+        safe_window_hours: 36.0,
+      },
+    },
+    assignments: [],
+    unassigned_orders: [],
+    active_crews_count: crewsPerSite * 2,
+    total_avoided_loss_inr: 0,
+    total_scheduled_hours: 0,
+  };
+  return fetchWithFallback<DispatchPlan>(
+    `${API_BASE}/work-orders/dispatch-plan?crews_per_site=${crewsPerSite}`,
+    fallback
+  );
+}
+
+export async function getClosedLoopMetrics(): Promise<LiveResult<ClosedLoopMetrics>> {
+  const fallback: ClosedLoopMetrics = {
+    total_orders: 0,
+    pending_approval: 0,
+    approved: 0,
+    in_progress: 0,
+    completed: 0,
+    rejected: 0,
+    total_feedbacks: 0,
+    confirmed_faults: 0,
+    concordance_rate_pct: 100.0,
+    indexed_field_cases_count: 0,
+    total_academic_real_cases_count: 14,
+    total_real_retrieval_pool_size: 14,
+    total_parts_cost_inr: 0,
+    total_downtime_hours: 0,
+    mean_downtime_hours: 0,
+  };
+  return fetchWithFallback<ClosedLoopMetrics>(
+    `${API_BASE}/work-orders/closed-loop-metrics`,
+    fallback
+  );
 }

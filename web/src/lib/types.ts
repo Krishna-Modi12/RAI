@@ -339,3 +339,60 @@ export interface WorkOrder {
   feedback?: WorkOrderFeedback[];
 }
 
+export interface SiteWeatherWindow {
+  site: string;
+  asset_type: string;
+  current_wind_speed_ms: number;
+  current_ambient_temp_c: number;
+  current_rain_probability_pct: number;
+  climb_safe: boolean;
+  electrical_safe: boolean;
+  status: "SAFE" | "MARGINAL" | "UNSAFE";
+  safety_rationale: string;
+  safe_window_hours: number;
+}
+
+export interface CrewAssignment {
+  assignment_id: string;
+  crew_id: string;
+  site: string;
+  ticket_id: string;
+  asset_id: string;
+  component: string;
+  priority: string;
+  action: string;
+  estimated_duration_hours: number;
+  scheduled_start_hour_offset: number;
+  weather_status: string;
+  projected_avoided_loss_inr: number;
+  dispatch_readiness: "READY_IMMEDIATE" | "AWAITING_WEATHER_WINDOW" | "PENDING_APPROVAL";
+}
+
+export interface DispatchPlan {
+  generated_at: string;
+  site_windows: Record<string, SiteWeatherWindow>;
+  assignments: CrewAssignment[];
+  unassigned_orders: Array<Record<string, unknown>>;
+  active_crews_count: number;
+  total_avoided_loss_inr: number;
+  total_scheduled_hours: number;
+}
+
+export interface ClosedLoopMetrics {
+  total_orders: number;
+  pending_approval: number;
+  approved: number;
+  in_progress: number;
+  completed: number;
+  rejected: number;
+  total_feedbacks: number;
+  confirmed_faults: number;
+  concordance_rate_pct: number;
+  indexed_field_cases_count: number;
+  total_academic_real_cases_count: number;
+  total_real_retrieval_pool_size: number;
+  total_parts_cost_inr: number;
+  total_downtime_hours: number;
+  mean_downtime_hours: number;
+}
+

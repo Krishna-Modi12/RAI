@@ -254,6 +254,10 @@ def _historical_case(
             why_matched.append(
                 f"Documented component failure ({case.component}) shares residual signature."
             )
+        elif event_class_str == "FIELD_VERIFIED_RESOLUTION":
+            why_matched.append(
+                f"On-site technician physical inspection confirmed {case.component} ground-truth finding."
+            )
         elif event_class_str in ("REAL_OPERATIONAL_EVENT", "REAL_MAINTENANCE_EVENT"):
             why_matched.append(
                 f"Documented operational event ({case.component}) shares deficit/standstill pattern."
@@ -267,7 +271,11 @@ def _historical_case(
             "Historical outcome is contextual evidence, not proof of current diagnosis or failure probability.",
             f"Case provenance: {getattr(case, 'source_reference', case.source_doc or 'Real external dataset')}.",
         ]
-        if event_class_str == "REAL_OPERATIONAL_EVENT":
+        if event_class_str == "FIELD_VERIFIED_RESOLUTION":
+            why_not.append(
+                "Verified on-site teardown finding; local operating condition may vary from historical baseline."
+            )
+        elif event_class_str == "REAL_OPERATIONAL_EVENT":
             why_not.append(
                 "This is an operational/control shutdown record, NOT confirmed equipment damage."
             )

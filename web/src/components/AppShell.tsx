@@ -14,6 +14,7 @@ import {
   SunMedium,
   CheckCircle2,
   AlertCircle,
+  Wrench,
 } from "lucide-react";
 import { getHealth, getFleetOverview } from "../lib/api";
 import { HealthResponse, FleetOverview } from "../lib/types";
@@ -73,6 +74,7 @@ export default function AppShell({ children }: AppShellProps) {
   const navItems = [
     { href: "/", label: "Fleet Command", icon: Activity },
     { href: "/assets", label: "Asset Registry", icon: Wind },
+    { href: "/work-orders", label: "Operations", icon: Wrench },
     { href: "/soiling", label: "Soiling & Weather", icon: Sun },
     { href: "/evaluation", label: "Model Scorecard", icon: BarChart3 },
     { href: "/knowledge", label: "Knowledge Corpus", icon: BookOpen },

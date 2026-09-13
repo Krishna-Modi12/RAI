@@ -201,9 +201,10 @@ def test_real_synthetic_separation() -> None:
     synth_cases = SYNTHETIC_CASES
     all_cases = get_all_cases()
 
-    assert len(real_cases) == 14
+    # At least the 14 curated academic cases, plus any verified operator field feedback cases
+    assert len(real_cases) >= 14
     assert len(synth_cases) == 14
-    assert len(all_cases) == 28
+    assert len(all_cases) >= 28
 
     real_ids = {c.case_id for c in real_cases}
     synth_ids = {c.case_id for c in synth_cases}
@@ -222,9 +223,9 @@ def test_real_synthetic_separation() -> None:
     wind_synth = cases_for("wind_turbine", partition="synthetic")
     wind_all = cases_for("wind_turbine", partition="all")
 
-    assert len(wind_real) == 12
+    assert len(wind_real) >= 12
     assert len(wind_synth) == 8
-    assert len(wind_all) == 20
+    assert len(wind_all) >= 20
     assert all(c.source_type == HistoricalSourceType.EXTERNAL_REAL for c in wind_real)
     assert all(c.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC for c in wind_synth)
 
@@ -486,9 +487,9 @@ def test_api_historical_cases_endpoints() -> None:
     assert info_resp.status_code == 200
     info = info_resp.json()
     assert info["synthetic_case_count"] == 14
-    assert info["real_case_count"] == 14
-    assert info["total_cases"] == 28
-    assert len(info["sources"]["real"]) == 3
+    assert info["real_case_count"] >= 14
+    assert info["total_cases"] >= 28
+    assert len(info["sources"]["real"]) >= 3
 
     # Test GET /api/assets/historical-cases/{case_id}
     case_resp = client.get("/api/assets/historical-cases/REAL-CARE-A-072")
