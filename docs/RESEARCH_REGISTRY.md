@@ -46,3 +46,16 @@ truth.” The latter remains blocked until event semantics are independently adj
 | Corpus | Existing authored incident cases only; labelled `INTERNAL_SYNTHETIC`. No raw SCADA rows and no unadjudicated events are indexed as cases. |
 | Limitations | Retrieval evaluation is deterministic and small; no claim of real maintenance-history coverage or diagnosis prediction is supported. |
 | Status | `IMPLEMENTED` |
+
+## RAI-AGENT-001 — Local evidence and tool-boundary evaluation
+
+| Field | Record |
+|---|---|
+| Question | Does the local agent preserve computed evidence, provenance, abstention, economics, and proposal-only safety at its tool boundary without requiring Needle weights? |
+| Protocol | Deterministic fixture battery using the real fallback reasoner, real trajectory retrieval, real SQLite FTS5/economics seams where applicable, injected provider/runtime failures, malformed proposal arguments, and an injectable fake Needle runtime. |
+| Result | 24 targeted tests passed. Evaluator tasks A-G passed. Tool selection, argument correctness, provenance, abstention, recommendation validity, and tool-failure handling were each 1.00; unsupported-claim rate was 0.00. Needle runtime response success was 1.00, mean latency was 6451.9 ms, and concurrent safety passed in the measured run. |
+| Reliability | High for these local contract and safety invariants; low for model quality, real-world diagnosis, calibration, and generalization because the battery is small and `INTERNAL_SYNTHETIC`. |
+| Decision | **IMPLEMENTED / BOUNDED:** retain the deterministic fallback as the testable safety baseline; Needle remains optional and its runtime metrics are not diagnostic-quality claims. No Qwen gateway is justified by this evaluation. |
+| Limitations | Tool-selection accuracy here measures deterministic intent-to-tool contracts, not unconstrained Needle selection. No Needle latency or availability claim is made. |
+| Artifacts | `tests/test_local_agent_evaluation.py`; `docs/evaluation/LOCAL_AGENT_EVALUATION.md`. |
+| Status | `IMPLEMENTED` |

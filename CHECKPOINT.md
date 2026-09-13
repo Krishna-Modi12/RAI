@@ -181,9 +181,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-13 04:09 UTC from 36 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-13 04:15 UTC from 37 task record(s) in `docs/checkpoints/`._
 
-**27/36 task records complete.**
+**28/37 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -223,6 +223,7 @@ _Generated 2026-09-13 04:09 UTC from 36 task record(s) in `docs/checkpoints/`._
 | 🟡 | kelmarsh-event-behaviour | 5 | partial |
 | 🟡 | Historical case intelligence and provenance-safe retrieval | 3 | partial |
 | ✅ | Fixing frontend live-data browser path | 5 | complete |
+| ✅ | Local AI agent evidence evaluation | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -2005,3 +2006,31 @@ Fleet rendering: 42 of 42 assets; 7 active work orders; WT-017 present.
 The existing shared API fallback snapshots remain available when the backend is unavailable
 and are labelled cached. Existing lint warnings in `HeroChart.tsx` and unrelated `api.ts`
 catch variables remain.
+
+### ✅ Local AI agent evidence evaluation
+
+**What was built**
+
+- Added a deterministic bounded query-agent evaluation for state, history, abstention, environmental conflict, provenance, economics, tool failure, and invalid arguments.
+- Added evaluator metrics for tool selection, argument correctness, provenance, abstention, recommendation validity, unsupported claims, and optional Needle runtime behavior.
+- Preserved proposal-only maintenance actions and prevented missing economics from becoming a fabricated zero.
+
+**How it was verified**
+
+`.venv\Scripts\python.exe -m pytest tests\test_local_agent_evaluation.py tests\test_agent_reasoning.py tests\test_historical_intelligence.py tests\test_economics_memory.py -q` — 54 passed.
+
+`.venv\Scripts\ruff.exe check rai\agent\query_agent.py rai\eval\agent_eval.py tests\test_local_agent_evaluation.py` — passed.
+
+**Measured results**
+
+Seven evaluator tasks passed; tool selection, argument correctness, provenance,
+abstention, recommendation validity, and tool-failure handling were 1.00.
+Unsupported-claim rate was 0.00. Needle response success was 1.00, mean latency
+was 6451.9 ms, and the concurrent safety check passed.
+
+**Limitations**
+
+The corpus is internally authored synthetic cases. The intent selector is
+keyword-based, the suite is small, and Needle confidence is not failure
+probability. This is not failure diagnosis or real-world RAG validation.
+

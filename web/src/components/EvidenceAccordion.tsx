@@ -49,6 +49,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <AlertTriangle className="w-4 h-4 text-[var(--critical)]" />
             <span>1. Anomaly Detection & Signal Residuals</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              OBSERVED
+            </span>
             <StatusPill band={evidence.anomaly?.severity === "critical" ? "critical" : "high"} />
           </div>
           {openSections.anomaly ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -151,6 +154,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <CloudSun className="w-4 h-4 text-[var(--info)]" />
             <span>2. Environmental Attribution & Weather Context</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              OBSERVED
+            </span>
             <StatusPill
               status={evidence.environment?.is_explained ? "nominal" : "warning"}
               label={evidence.environment?.is_explained ? "Explained by Environment" : "Unexplained by Environment"}
@@ -221,6 +227,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <Users className="w-4 h-4 text-[var(--accent)]" />
             <span>3. Fleet & Peer Cohort Isolation</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              OBSERVED
+            </span>
             <StatusPill
               status={evidence.peers?.is_isolated ? "critical" : "nominal"}
               label={evidence.peers?.is_isolated ? "Isolated Asset Anomaly" : "Fleet-Wide Congruence"}
@@ -273,6 +282,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <Clock className="w-4 h-4 text-[var(--warn-ink)]" />
             <span>4. Similar Historical Cases (Contextual Evidence)</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--accent-surface)] border border-[var(--accent)] text-[var(--accent)] rounded-[2px]">
+              RETRIEVED
+            </span>
             <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
               {evidence.history?.cases.length ?? 0} matches
             </span>
@@ -318,8 +330,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                   <span>Avoided Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
                   <span className="uppercase text-[9px]">Provenance: {c.source_type ?? c.source}</span>
                 </div>
-                <div className="text-[10px] text-[var(--warn-ink)]">
-                  Historical context only; it does not confirm the current diagnosis.
+                <div className="text-[10px] text-[var(--warn-ink)] flex items-center justify-between">
+                  <span>Historical context only; it does not confirm the current diagnosis.</span>
+                  <span className="text-[var(--text-tertiary)] font-mono text-[9px]">Corpus: INTERNAL_SYNTHETIC</span>
                 </div>
               </div>
             ))}
@@ -339,6 +352,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <BookOpen className="w-4 h-4 text-[var(--accent)]" />
             <span>5. Technical Knowledge & OEM SOP Citations</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--accent-surface)] border border-[var(--accent)] text-[var(--accent)] rounded-[2px]">
+              RETRIEVED
+            </span>
             <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
               SQLite FTS5 RAG
             </span>
@@ -380,6 +396,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <DollarSign className="w-4 h-4 text-[var(--ok)]" />
             <span>6. Techno-Economic Intervention Trade-Offs</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              INFERRED
+            </span>
             <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
               Avoidable Exposure: {formatINR(evidence.economics?.avoidable_exposure_inr).display}
             </span>
@@ -453,6 +472,9 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           <div className="flex items-center space-x-2.5">
             <CheckCircle className="w-4 h-4 text-[var(--accent)]" />
             <span>7. Decision Synthesis & Needle Model Gating</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              INFERRED
+            </span>
             <span className="text-[10px] font-mono text-[var(--accent)] font-semibold">
               Confidence: {(confidence * 100).toFixed(0)}%
             </span>

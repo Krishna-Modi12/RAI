@@ -243,6 +243,18 @@ def create_inspection_ticket(
     deadline_hours: int = 72,
 ) -> dict[str, Any]:
     """Propose a maintenance inspection ticket for human approval. Does not dispatch work."""
+    if not isinstance(asset_id, str) or not asset_id.strip():
+        return {"created": False, "reason": "asset_id must be a non-empty string"}
+    if not isinstance(component, str) or not component.strip():
+        return {"created": False, "reason": "component must be a non-empty string"}
+    if not isinstance(action, str) or not action.strip():
+        return {"created": False, "reason": "action must be a non-empty string"}
+    if (
+        isinstance(deadline_hours, bool)
+        or not isinstance(deadline_hours, int)
+        or deadline_hours <= 0
+    ):
+        return {"created": False, "reason": "deadline_hours must be a positive integer"}
     try:
         asset = get_asset(asset_id)
     except KeyError:
