@@ -204,17 +204,38 @@ def test_evidence_freeze_artifacts_consistency():
     with open(freeze_dir / "evidence_registry.json", encoding="utf-8") as f:
         registry = json.load(f)
 
-    evidence_ids = {e["evidence_id"] for e in registry["evidence_sources"]}
-    assert len(evidence_ids) >= 14, "Registry must contain at least 14 evidence entries"
+    capability_names = {c["capability"] for c in registry["capabilities"]}
+    assert len(capability_names) == 18, "Registry must contain exactly 18 audited capabilities"
 
-    # Verify claim_to_evidence references valid evidence_ids
+    required_fields = {
+        "capability",
+        "evidence_source",
+        "dataset_or_fixture",
+        "real_or_synthetic",
+        "external_or_internal",
+        "metric_or_result",
+        "artifact",
+        "what_the_evidence_actually_proves",
+        "what_it_does_NOT_prove",
+        "final_status",
+    }
+    for c in registry["capabilities"]:
+        assert required_fields.issubset(c.keys()), f"Capability {c.get('capability')} missing required fields"
+        assert c["final_status"] in {
+            "VALIDATED",
+            "DEMONSTRATED",
+            "ARCHITECTURALLY_SUPPORTED",
+            "NOT_VALIDATED",
+        }
+
+    # Verify claim_to_evidence references valid capabilities
     import csv
 
     with open(freeze_dir / "claim_to_evidence.csv", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            assert row["evidence_id"] in evidence_ids, (
-                f"Claim {row['claim_id']} points to unknown evidence_id {row['evidence_id']}"
+            assert row["capability"] in capability_names, (
+                f"Claim {row['claim_id']} points to unknown capability {row['capability']}"
             )
             assert row["capability_level"] in {
                 "VALIDATED",
@@ -222,3 +243,43 @@ def test_evidence_freeze_artifacts_consistency():
                 "ARCHITECTURALLY_SUPPORTED",
                 "NOT_VALIDATED",
             }
+
+
+def test_real_corpus_evidence_quality_never_conflated_with_field_verified():
+    """Guarantee historical benchmark cases (real_corpus.py) never claim the ObservationLevel.FIELD_VERIFIED
+    provenance tier reserved for the technician-feedback dual-key promotion gate — these are two distinct
+    provenance vocabularies and must never be merged."""
+    for rec in get_real_case_records():
+        assert rec.evidence_quality != ObservationLevel.FIELD_VERIFIED.value
+        assert rec.evidence_quality != "FIELD_VERIFIED"
+
+
+def test_registry_never_upgrades_frozen_downgraded_capabilities():
+    """Guarantee the evidence-freeze registry keeps its most safety-critical statuses frozen:
+    the solar physics layer (Gate 5.6C) stays NOT_VALIDATED, and historical case retrieval stays
+    at DEMONSTRATED (not VALIDATED) because its P@1/R@3 metrics are self-graded against
+    developer-authored relevance judgments, not an independent benchmark."""
+    freeze_dir = REPO_ROOT / "artifacts" / "evaluation" / "evidence_freeze"
+    with open(freeze_dir / "evidence_registry.json", encoding="utf-8") as f:
+        registry = json.load(f)
+
+    by_name = {c["capability"]: c for c in registry["capabilities"]}
+
+    assert by_name["Solar physics layer"]["final_status"] == "NOT_VALIDATED"
+    assert by_name["Historical case retrieval"]["final_status"] != "VALIDATED"
+    assert by_name["Kelmarsh benchmark"]["final_status"] == "VALIDATED"
+    assert "not hardware-failure" in by_name["Kelmarsh benchmark"]["what_it_does_NOT_prove"].lower() or (
+        "failure detection" in by_name["Kelmarsh benchmark"]["what_it_does_NOT_prove"].lower()
+    )
+
+    for cap_name in ("Dispatch optimization", "Weather-aware scheduling"):
+        limitation = by_name[cap_name]["what_it_does_NOT_prove"].lower()
+        assert "certified" in limitation, f"{cap_name} must explicitly disclaim a certified safety guarantee"
+
+    econ = by_name["Economic consequence analysis"]
+    assert "realized" in econ["what_it_does_NOT_prove"].lower() or "savings" in econ["what_it_does_NOT_prove"].lower()
+
+    closed_loop = by_name["Closed-loop learning"]
+    assert "live utility field data" in closed_loop["what_it_does_NOT_prove"].lower() or (
+        "commercial utility" in closed_loop["what_it_does_NOT_prove"].lower()
+    )

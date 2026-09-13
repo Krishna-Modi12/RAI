@@ -1,220 +1,232 @@
-# SCIENTIFIC EVIDENCE MATRIX — DETAILED METHODOLOGY & PROVENANCE
+# SCIENTIFIC EVIDENCE MATRIX — DETAILED CAPABILITY-TO-EVIDENCE MAPPING
 
-This matrix provides the complete audit specification for every evidence source in RAI.
+**Freeze Date:** 2026-09-13  
+**Audit Base Commit:** `acd214f`
 
-| Evidence ID | Feature / System | Source Dataset | Evidence Class | Reality Status | Validation Status | Exact Artifact |
-|---|---|---|---|---|---|---|
-| `EVID-CARE-01` | Wind Anomaly Detection Baseline | CARE Benchmark (Zenodo 10.5281/zenodo.10958775) | `EXTERNAL_BENCHMARK` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/evaluation/external_care/` |
-| `EVID-CARE-02` | Cross-Farm Wind Transfer & Calibration | CARE Benchmark (Zenodo 10.5281/zenodo.10958775) | `EXTERNAL_BENCHMARK` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/evaluation/gate54/` |
-| `EVID-KEL-01` | Wind Operational Event Window Association | Kelmarsh Wind Farm (Zenodo 10.5281/zenodo.5841834) | `EXTERNAL_BENCHMARK` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/evaluation/kelmarsh_event_behaviour/` |
-| `EVID-PVDAQ-01` | Solar Data Foundation & Telemetry Acquisition | NREL PVDAQ Open Energy Data Initiative (OEDI S3) | `EXTERNAL_REAL` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/evaluation/gate56/cohort_adjudication/` |
-| `EVID-PVDAQ-02` | Solar Expected-Performance Model Development | NREL PVDAQ Telemetry (Systems 1239, 1283, 34) | `MODEL_COMPARISON` | `REAL_EXTERNAL_DATA` | `NOT_VALIDATED` | `artifacts/evaluation/gate56/gate56c_model_development/` |
-| `EVID-AGENT-01` | Local AI Agent Safety & Reasoning Battery | Internal Deterministic Agent Evaluation Suite | `INTERNAL_SYNTHETIC` | `INTERNAL_SYNTHETIC` | `DEMONSTRATED` | `artifacts/evaluation/agent_eval/` |
-| `EVID-RAG-01` | Historical Precedent Case Retrieval | 14 External Real Cases (CARE, Kelmarsh, PVDAQ) + 14 Synthetic Reference Scenarios | `EXTERNAL_BENCHMARK` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/retrieval_benchmark_results.json` |
-| `EVID-LOOP-01` | Closed-Loop Operational Ingestion & Promotion Gate | Simulated Work Order Lifecycle in Browser & API | `DEMONSTRATION_ONLY` | `INTERNAL_SYNTHETIC` | `DEMONSTRATED` | `browser_verification/` |
-| `EVID-DISPATCH-01` | Safe-Weather Fleet Crew Dispatch Optimizer | Configured Meteorological Thresholds + Weather API Cache | `SIMULATED_OUTCOME` | `SIMULATED_OUTCOME` | `ARCHITECTURALLY_SUPPORTED` | `artifacts/weather_cache/` |
-| `EVID-SIM-01` | Physics-Based Telemetry & Fault Simulator | rai/sim/ synthetic generation engine | `INTERNAL_SYNTHETIC` | `INTERNAL_SYNTHETIC` | `DEMONSTRATED` | `artifacts/evaluation/results.json` |
-| `EVID-ECON-01` | Techno-Economic Decision Support Engine | Analytical NPV Decision Models (rai/economics/decision_support.py) | `MODEL_COMPARISON` | `SIMULATED_OUTCOME` | `DEMONSTRATED` | `tests/test_economic_decision_support.py` |
-| `EVID-COUNTER-01` | Counterevidence & Differential Diagnosis Engine | rai/models/differential_diagnosis.py | `SOFTWARE_INVARIANT` | `SOFTWARE_INVARIANT` | `ARCHITECTURALLY_SUPPORTED` | `tests/test_differential_diagnosis.py` |
-| `EVID-OOD-01` | Out-of-Distribution Robustness Suite | Controlled Synthetic Perturbation Suite | `SIMULATED_OUTCOME` | `SIMULATED_OUTCOME` | `VALIDATED` | `artifacts/evaluation/phase4/` |
-| `EVID-REALCASES-01` | External Real Historical Precedent Corpus | 14 Audited Cases (8 CARE, 4 Kelmarsh, 2 NREL PVDAQ OEDI) | `EXTERNAL_REAL` | `REAL_EXTERNAL_DATA` | `VALIDATED` | `artifacts/evaluation/real_case_provenance/` |
+This matrix provides the complete audit specification for every one of the 18 named
+capabilities in the Evidence Freeze scope. Every row traces to an existing artifact or
+report already present in this repository; no number here was computed for this
+document — each is copied from the cited artifact.
+
+| Capability | Real/Synthetic | External/Internal | Final Status | Exact Artifact |
+|---|---|---|---|---|
+| **CARE wind anomaly detection** | REAL | EXTERNAL | `VALIDATED` | artifacts/evaluation/external_care/ ; docs/evaluation/EXTERNAL_CARE.md |
+| **CARE cross-farm transfer** | REAL | EXTERNAL | `VALIDATED` | artifacts/evaluation/gate54/ ; docs/checkpoints/14-gate54-cross-farm-wind-transfer.md |
+| **Kelmarsh benchmark** | REAL | EXTERNAL | `VALIDATED` | artifacts/evaluation/kelmarsh_event_behaviour/ ; docs/evaluation/KELMARSH_EVENT_BEHAVIOUR.md |
+| **Environmental context / discrimination** | MIXED (real external weather data; internal synthetic telemetry for fault/no-fault ground truth) | MIXED (external weather API + internal test scenarios) | `DEMONSTRATED` | tests/test_environment_solar.py ; docs/evaluation/GATE2_FORENSIC_AUDIT.md |
+| **Solar PVDAQ data foundation** | REAL | EXTERNAL | `VALIDATED` | artifacts/evaluation/gate56/cohort_adjudication/ ; docs/checkpoints/13-solar-data-foundation.md |
+| **Solar physics layer** | REAL telemetry; NOT_INDEPENDENTLY_VALIDATED methodology | EXTERNAL data source; INTERNAL model development | `NOT_VALIDATED` | artifacts/evaluation/gate56/gate56c_model_development/ ; docs/evaluation/GATE56C_VERIFICATION.md ; docs/evaluation/SOLAR_EXPECTED_PERFORMANCE.md |
+| **Diagnosis** | SYNTHETIC (software-invariant test fixtures) | INTERNAL | `ARCHITECTURALLY_SUPPORTED` | tests/test_differential_diagnosis.py ; docs/checkpoints/22-counterevidence-differential-diagnosis.md |
+| **Historical case retrieval** | MIXED — strictly partitioned, never merged | MIXED — strictly partitioned, never merged | `DEMONSTRATED` | artifacts/retrieval_benchmark_results.json ; docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md ; docs/evaluation/REAL_HISTORICAL_CASE_RETRIEVAL.md |
+| **RAG** | SYNTHETIC (internally authored, clearly-labelled sample documents) | INTERNAL | `DEMONSTRATED` | tests/test_rag.py |
+| **Local AI agent** | SYNTHETIC (internal deterministic fixtures) | INTERNAL | `DEMONSTRATED` | artifacts/evaluation/agent_eval/ ; docs/evaluation/LOCAL_AGENT_EVALUATION.md |
+| **Economic consequence analysis** | SIMULATED_OUTCOME (analytical model over configured assumptions) | INTERNAL | `DEMONSTRATED` | tests/test_economic_decision_support.py ; docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md ; docs/evaluation/DECISION_MATH_AUDIT.md |
+| **Recommendation engine** | SYNTHETIC (software-invariant + simulator scenarios) | INTERNAL | `ARCHITECTURALLY_SUPPORTED` | tests/test_decision_engine.py ; tests/test_decision_math.py ; docs/evaluation/DECISION_MATH_AUDIT.md |
+| **Work orders** | SYNTHETIC (internal demo/test tickets) | INTERNAL | `DEMONSTRATED` | docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md |
+| **Dispatch optimization** | MIXED (real cached weather forecasts; configured heuristic thresholds) | MIXED | `ARCHITECTURALLY_SUPPORTED` | artifacts/weather_cache/ ; docs/checkpoints/24-crew-dispatch-weather-optimizer.md |
+| **Weather-aware scheduling** | MIXED (real forecast data; configured thresholds) | MIXED | `ARCHITECTURALLY_SUPPORTED` | artifacts/weather_cache/kutch-wind_latest.json ; artifacts/weather_cache/charanka-solar_latest.json |
+| **Technician feedback** | SYNTHETIC (demo/test fixtures) | INTERNAL | `DEMONSTRATED` | artifacts/evaluation/real_case_provenance/provenance_summary.json |
+| **Closed-loop learning** | SYNTHETIC (internal/demo data) | INTERNAL | `DEMONSTRATED` | docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md |
+| **Frontend operational workflow** | SYNTHETIC (internal demo UI over cached/simulated data) | INTERNAL | `DEMONSTRATED` | web/ ; docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md ; docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md |
 
 ---
 
-## Detailed Evidence Item Profiles
+## Detailed Capability Profiles
 
-### `EVID-CARE-01`: Wind Anomaly Detection Baseline
-- **Technology:** Wind Turbines
-- **Source Dataset:** CARE Benchmark (Zenodo 10.5281/zenodo.10958775)
-- **Source Provenance:** Academic open benchmark from 3 operational wind farms (Farms A, B, C; 36 turbines total)
-- **Evidence Class:** `EXTERNAL_BENCHMARK`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/external_care/`](artifacts/evaluation/external_care/)
-- **Report Path:** [`docs/evaluation/EXTERNAL_CARE.md`](docs/evaluation/EXTERNAL_CARE.md)
-- **What Was Tested:** Multi-farm anomaly detection accuracy, Coverage, Reliability (CARE Algorithm 1), and Earliness on published SCADA and failure event logs. Evaluated on 36 turbines.
-- **Metric / Result:** Normal accuracy 0.995-0.999 across all 3 farms; CARE Operational Score 0.601 (Farm A), 0.560 (Farm B), 0.575 (Farm C); false alarm rate <= 0.005.
-- **What It Does NOT Prove:** *Does not prove universal zero-shot generalization to uncalibrated fleets or novel turbine models. Does not prove causal root-cause diagnosis.*
-- **Claim IDs:** CLAIM-WIND-01, CLAIM-CARE-01
+### CARE wind anomaly detection
+- **Final Status:** `VALIDATED`
+- **Evidence Source:** CARE to Compare benchmark (Fraunhofer IEE), Zenodo 10.5281/zenodo.10958775 — 3 wind farms (A/B/C), 36 turbines, author-labeled failure events
+- **Dataset / Fixture:** CARE Farms A/B/C SCADA + failure event logs
+- **Real vs Synthetic:** REAL
+- **External vs Internal:** EXTERNAL
+- **Metric / Result:** Normal accuracy 0.995-0.999 across all 3 farms; CARE Operational Score 0.601 (A), 0.560 (B), 0.575 (C); false alarm rate <= 0.005
+- **Artifact:** artifacts/evaluation/external_care/ ; docs/evaluation/EXTERNAL_CARE.md
+- **What the evidence actually proves:** The physics-conditioned residual anomaly detector discriminates documented real turbine failure events from normal SCADA on an independent public benchmark across 3 farms.
+- **What it does NOT prove:** *Universal zero-shot generalization to uncalibrated fleets or novel turbine models; causal root-cause diagnosis of the detected anomaly.*
 
-### `EVID-CARE-02`: Cross-Farm Wind Transfer & Calibration
-- **Technology:** Wind Turbines
-- **Source Dataset:** CARE Benchmark (Zenodo 10.5281/zenodo.10958775)
-- **Source Provenance:** Cross-farm evaluation between Wind Farms A, B, and C under frozen CARE_COMMON input protocol
-- **Evidence Class:** `EXTERNAL_BENCHMARK`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/gate54/`](artifacts/evaluation/gate54/)
-- **Report Path:** [`docs/checkpoints/14-gate54-cross-farm-wind-transfer.md`](docs/checkpoints/14-gate54-cross-farm-wind-transfer.md)
-- **What Was Tested:** All 6 directed transfers (A->B, A->C, B->A, B->C, C->A, C->B) across 3 conditions (FROZEN_SOURCE, TARGET_NORMAL_CALIBRATED, TARGET_SPECIFIC_REFERENCE). Kolmogorov-Smirnov distribution shift quantification.
-- **Metric / Result:** Target-normal calibration using unlabelled SCADA completely recovers the transfer gap (106.3% recovery on C->A; normal accuracy restored from 0.5965 to 0.9963 on B->A).
-- **What It Does NOT Prove:** *Does not prove that zero-shot uncalibrated transfer works across disparate turbine kinematics without unlabelled target telemetry.*
-- **Claim IDs:** CLAIM-WIND-02, CLAIM-TRANSFER-01
+### CARE cross-farm transfer
+- **Final Status:** `VALIDATED`
+- **Evidence Source:** CARE benchmark, 6 directed transfers under frozen CARE_COMMON protocol (Gate 5.4)
+- **Dataset / Fixture:** CARE Farms A/B/C cross-evaluation (A<->B, A<->C, B<->C)
+- **Real vs Synthetic:** REAL
+- **External vs Internal:** EXTERNAL
+- **Metric / Result:** Target-normal calibration recovers 106.3% of the transfer gap on C->A; B->A normal accuracy restored from 0.5965 to 0.9963
+- **Artifact:** artifacts/evaluation/gate54/ ; docs/checkpoints/14-gate54-cross-farm-wind-transfer.md
+- **What the evidence actually proves:** Calibrating on a small amount of unlabelled normal SCADA from a new (target) farm recovers cross-farm anomaly-detection performance on the real CARE benchmark.
+- **What it does NOT prove:** *Raw, uncalibrated zero-shot transfer works without any target-farm telemetry; performance on farms/turbine types outside the CARE benchmark.*
 
-### `EVID-KEL-01`: Wind Operational Event Window Association
-- **Technology:** Wind Turbines
-- **Source Dataset:** Kelmarsh Wind Farm (Zenodo 10.5281/zenodo.5841834)
-- **Source Provenance:** Open-access operational SCADA and Greenbyte status logs from 6 Senvion MM92 turbines in the UK
-- **Evidence Class:** `EXTERNAL_BENCHMARK`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/kelmarsh_event_behaviour/`](artifacts/evaluation/kelmarsh_event_behaviour/)
-- **Report Path:** [`docs/evaluation/KELMARSH_EVENT_BEHAVIOUR.md`](docs/evaluation/KELMARSH_EVENT_BEHAVIOUR.md)
-- **What Was Tested:** Association between RAI continuous anomaly scores and documented operational event periods (cable untwisting, curtailment, scheduled maintenance, environmental calm standstills).
-- **Metric / Result:** Statistically significant elevation of anomaly residuals during operational event intervals vs normal generation periods.
-- **What It Does NOT Prove:** *MUST NOT be described as failure prediction or hardware failure validation. Public Kelmarsh dataset contains operational and maintenance logs, but NO verified component-failure labels.*
-- **Claim IDs:** CLAIM-KELMARSH-01
+### Kelmarsh benchmark
+- **Final Status:** `VALIDATED`
+- **Evidence Source:** Kelmarsh Wind Farm open dataset (Plumley), Zenodo 10.5281/zenodo.5841834 — 6 Senvion MM92 turbines, UK
+- **Dataset / Fixture:** Kelmarsh SCADA + Greenbyte operational status/event codes
+- **Real vs Synthetic:** REAL
+- **External vs Internal:** EXTERNAL
+- **Metric / Result:** Statistically significant elevation of RAI anomaly residuals during documented operational/maintenance event windows (cable untwist, curtailment, scheduled maintenance stop, calm-standstill)
+- **Artifact:** artifacts/evaluation/kelmarsh_event_behaviour/ ; docs/evaluation/KELMARSH_EVENT_BEHAVIOUR.md
+- **What the evidence actually proves:** RAI's continuous anomaly score behaves consistently with independently logged operational events on a second, independent real wind farm dataset.
+- **What it does NOT prove:** *Failure prediction or hardware/component-failure detection. Kelmarsh's public record contains zero verified mechanical-failure ground truth; it documents operational status and trips only.*
 
-### `EVID-PVDAQ-01`: Solar Data Foundation & Telemetry Acquisition
-- **Technology:** Solar PV
-- **Source Dataset:** NREL PVDAQ Open Energy Data Initiative (OEDI S3)
-- **Source Provenance:** Public solar telemetry from NREL public data lake (Systems 34, 1283, 1239, 1430, 1433)
-- **Evidence Class:** `EXTERNAL_REAL`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/gate56/cohort_adjudication/`](artifacts/evaluation/gate56/cohort_adjudication/)
-- **Report Path:** [`docs/checkpoints/16-gate56b-cohort-adjudication.md`](docs/checkpoints/16-gate56b-cohort-adjudication.md)
-- **What Was Tested:** 450 daily telemetry files downloaded and checksum-verified; 26-signal canonical solar taxonomy mapping; timestamp monotonicity, unit scale, and sensor quality audited (Gate 5.6A & 5.6B).
-- **Metric / Result:** Adjudicated cohort: Development=[1239, 1283, 34], Validation=[], State=INSUFFICIENT_DATA. Flagged that 1430/1433 have 100% null UTC timestamps and 1283 has no plant-level AC channel.
-- **What It Does NOT Prove:** *Does not validate any solar performance or failure model. Validation cohort was explicitly empty.*
-- **Claim IDs:** CLAIM-SOLAR-01
+### Environmental context / discrimination
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** pvlib clear-sky/POA physics baseline + CAMS/Open-Meteo dust & precipitation forecasts + peer-turbine gating (rai/models/environment_solar.py, rai/models/weather_provider.py)
+- **Dataset / Fixture:** Real cached/live Open-Meteo + CAMS weather feeds applied to internal simulator-generated telemetry; Gate 2 leakage-hardened internal evaluation
+- **Real vs Synthetic:** MIXED (real external weather data; internal synthetic telemetry for fault/no-fault ground truth)
+- **External vs Internal:** MIXED (external weather API + internal test scenarios)
+- **Metric / Result:** Deterministic unit tests passing for clear-sky/soiling/curtailment additive loss decomposition; Gate 2 audit reports false alarm rate 0.19/asset-year post peer-gating on leakage-hardened internal evaluation
+- **Artifact:** tests/test_environment_solar.py ; docs/evaluation/GATE2_FORENSIC_AUDIT.md
+- **What the evidence actually proves:** The system computes a physics-grounded expected-clean-power baseline from real weather inputs and can rule out environmental causes (irradiance, soiling, curtailment) before asserting an equipment fault, verified deterministically and under a zero-leakage audit.
+- **What it does NOT prove:** *Real-world misdiagnosis rate on live plant instrumentation; evaluation ground truth is internal-simulator-based, not independently observed field weather/fault co-occurrence.*
 
-### `EVID-PVDAQ-02`: Solar Expected-Performance Model Development
-- **Technology:** Solar PV
-- **Source Dataset:** NREL PVDAQ Telemetry (Systems 1239, 1283, 34)
-- **Source Provenance:** Development cohort telemetry fit with temporal within-system split
-- **Evidence Class:** `MODEL_COMPARISON`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `NOT_VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/gate56/gate56c_model_development/`](artifacts/evaluation/gate56/gate56c_model_development/)
-- **Report Path:** [`docs/evaluation/GATE56C_VERIFICATION.md`](docs/evaluation/GATE56C_VERIFICATION.md)
-- **What Was Tested:** ModelChain physics reference vs polynomial empirical baseline vs hybrid champion on temporal holdouts within Systems 1239, 1283, 34 (Gate 5.6C).
-- **Metric / Result:** Within-system test split R² = 0.70-0.99, nRMSE = 3-10% of rated capacity. Labeled throughout as MODEL_DEVELOPMENT / NOT_INDEPENDENTLY_VALIDATED.
-- **What It Does NOT Prove:** *Zero cross-system generalization demonstrated. No independent validation cohort. Does NOT prove solar failure detection or operational field accuracy.*
-- **Claim IDs:** CLAIM-SOLAR-02
+### Solar PVDAQ data foundation
+- **Final Status:** `VALIDATED`
+- **Evidence Source:** NREL PVDAQ Open Energy Data Initiative (OEDI S3) — Systems 34, 1283, 1239, 1430, 1433
+- **Dataset / Fixture:** 450 daily telemetry files, checksum-verified, mapped to canonical 26-signal solar taxonomy
+- **Real vs Synthetic:** REAL
+- **External vs Internal:** EXTERNAL
+- **Metric / Result:** Adjudicated cohort: Development=[1239, 1283, 34], Validation=[] (state INSUFFICIENT_DATA); Systems 1430/1433 excluded (100% null UTC timestamps / no plant-level AC channel)
+- **Artifact:** artifacts/evaluation/gate56/cohort_adjudication/ ; docs/checkpoints/13-solar-data-foundation.md
+- **What the evidence actually proves:** Real public solar telemetry was acquired, checksum-verified, and mapped to a canonical schema, with documented, evidence-based data-quality exclusions.
+- **What it does NOT prove:** *Any solar performance or fault model. This gate validates data acquisition only; the validation cohort produced by adjudication is empty, so no model has been independently evaluated on held-out systems.*
 
-### `EVID-AGENT-01`: Local AI Agent Safety & Reasoning Battery
-- **Technology:** Software / LLM Integration
-- **Source Dataset:** Internal Deterministic Agent Evaluation Suite
-- **Source Provenance:** 10 curated scenario fixtures from rai/eval/agent_eval.py
-- **Evidence Class:** `INTERNAL_SYNTHETIC`
-- **Real vs Synthetic:** `INTERNAL_SYNTHETIC`
-- **Validation Status:** `DEMONSTRATED`
-- **Artifact Path:** [`artifacts/evaluation/agent_eval/`](artifacts/evaluation/agent_eval/)
-- **Report Path:** [`docs/evaluation/LOCAL_AGENT_EVALUATION.md`](docs/evaluation/LOCAL_AGENT_EVALUATION.md)
-- **What Was Tested:** Agent tool selection, provenance preservation, mandatory abstention under symmetric evidence, schema validity, recommendation bounds, unsupported claim rate, and Needle 2 runtime performance.
-- **Metric / Result:** Evaluator Tasks A-G passed 100%; Tool selection = 1.00; Abstention accuracy = 1.00; Unsupported claim rate = 0.00%; Needle 2 runtime benchmark: 6451.9 ms latency, concurrency safe.
-- **What It Does NOT Prove:** *Does not prove production field performance, reasoning on unstructured edge cases, or multi-turn conversational robustness under unmodelled field anomalies.*
-- **Claim IDs:** CLAIM-AGENT-01
+### Solar physics layer
+- **Final Status:** `NOT_VALIDATED`
+- **Evidence Source:** pvlib ModelChain physics reference vs polynomial empirical baseline vs hybrid champion model (Gate 5.6C)
+- **Dataset / Fixture:** Development cohort only (NREL PVDAQ Systems 1239, 1283, 34), temporal within-system holdout split
+- **Real vs Synthetic:** REAL telemetry; NOT_INDEPENDENTLY_VALIDATED methodology
+- **External vs Internal:** EXTERNAL data source; INTERNAL model development
+- **Metric / Result:** Within-system temporal holdout: R^2 = 0.70-0.99, nRMSE = 3-10% of rated capacity
+- **Artifact:** artifacts/evaluation/gate56/gate56c_model_development/ ; docs/evaluation/GATE56C_VERIFICATION.md ; docs/evaluation/SOLAR_EXPECTED_PERFORMANCE.md
+- **What the evidence actually proves:** Candidate solar expected-performance models fit real PVDAQ telemetry reasonably well on held-out time windows of the SAME systems they were developed on.
+- **What it does NOT prove:** *Independent or cross-system validation. Gate 5.6B's Validation cohort is empty (INSUFFICIENT_DATA); therefore Gate 5.6C cannot be, and is not, independently validated. Zero cross-system generalization has been demonstrated.*
 
-### `EVID-RAG-01`: Historical Precedent Case Retrieval
-- **Technology:** Memory & Retrieval System
-- **Source Dataset:** 14 External Real Cases (CARE, Kelmarsh, PVDAQ) + 14 Synthetic Reference Scenarios
-- **Source Provenance:** Curated benchmark cases with complete provenance tracking in rai/memory/real_corpus.py
-- **Evidence Class:** `EXTERNAL_BENCHMARK`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/retrieval_benchmark_results.json`](artifacts/retrieval_benchmark_results.json)
-- **Report Path:** [`docs/evaluation/REAL_HISTORICAL_CASE_RETRIEVAL.md`](docs/evaluation/REAL_HISTORICAL_CASE_RETRIEVAL.md)
-- **What Was Tested:** 10 deterministic search queries evaluating Precision@1, Precision@3, Recall@3, MRR, Partition Purity, Provenance Preservation, and Abstention on out-of-scope queries.
-- **Metric / Result:** Mean Precision@1 = 90.0%, Recall@3 = 85.0%, MRR = 0.950, Partition Purity = 100.0%, Provenance Preservation = 100.0%, Abstention Accuracy = 100.0%.
-- **What It Does NOT Prove:** *Retrieval of past similar episodes is contextual precedent matching only. It does NOT prove causal failure diagnosis or ground-truth prediction of the current active fault.*
-- **Claim IDs:** CLAIM-RAG-01
+### Diagnosis
+- **Final Status:** `ARCHITECTURALLY_SUPPORTED`
+- **Evidence Source:** Counterevidence & differential diagnosis engine (rai/models/differential_diagnosis.py) + deterministic evidence reasoner (rai/agent/fallback.py)
+- **Dataset / Fixture:** 11 targeted invariant tests + internal scenario fixtures (e.g. bearing wear vs lubrication degradation; soiling vs string fault)
+- **Real vs Synthetic:** SYNTHETIC (software-invariant test fixtures)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** 11/11 targeted tests passing; 100% abstention to COMPETING_HYPOTHESES when counterevidence is symmetric
+- **Artifact:** tests/test_differential_diagnosis.py ; docs/checkpoints/22-counterevidence-differential-diagnosis.md
+- **What the evidence actually proves:** The system generates competing hypotheses, actively evaluates counterevidence, and abstains rather than asserting a single false cause, per its own coded rule set and ordering (weather/curtailment/sensor health ruled out before equipment fault).
+- **What it does NOT prove:** *Diagnostic accuracy against real, unmodelled, or multi-fault cascading failures in physical plant operation. No external diagnostic ground truth was used.*
 
-### `EVID-LOOP-01`: Closed-Loop Operational Ingestion & Promotion Gate
-- **Technology:** Full-Stack System Workflow
-- **Source Dataset:** Simulated Work Order Lifecycle in Browser & API
-- **Source Provenance:** End-to-end browser walkthrough with Playwright across /work-orders and /assets/WT-004
-- **Evidence Class:** `DEMONSTRATION_ONLY`
-- **Real vs Synthetic:** `INTERNAL_SYNTHETIC`
-- **Validation Status:** `DEMONSTRATED`
-- **Artifact Path:** [`browser_verification/`](browser_verification/)
-- **Report Path:** [`docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md`](docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md)
-- **What Was Tested:** 8-step operational loop: Anomaly -> Propose WO -> Reject -> Approve -> Dispatch -> Record Feedback -> Closed-Loop Case Ingestion -> Dual-Key Promotion Gate -> KPI Empty State.
-- **Metric / Result:** 17 captured browser screenshots; complete lifecycle idempotency; dual-key promotion gate strictly enforces that demo/test tickets remain INTERNAL_SYNTHETIC and never contaminate EXTERNAL_REAL.
-- **What It Does NOT Prove:** *Does not prove that autonomous continuous learning is occurring from live commercial utility data. Zero commercial utility sites are currently connected.*
-- **Claim IDs:** CLAIM-LOOP-01
+### Historical case retrieval
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** rai/memory/ trajectory-similarity retrieval over a partitioned real+synthetic case library
+- **Dataset / Fixture:** 14 external real cases (rai/memory/real_corpus.py: 12 wind CARE/Kelmarsh + 2 solar PVDAQ) + 14 internal synthetic reference cases (rai/memory/library.py)
+- **Real vs Synthetic:** MIXED — strictly partitioned, never merged
+- **External vs Internal:** MIXED — strictly partitioned, never merged
+- **Metric / Result:** On 10 deterministic test queries: P@1=90.0%, R@3=85.0%, MRR=0.950, partition purity=100%, provenance preservation=100%
+- **Artifact:** artifacts/retrieval_benchmark_results.json ; docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md ; docs/evaluation/REAL_HISTORICAL_CASE_RETRIEVAL.md
+- **What the evidence actually proves:** Retrieval correctly surfaces topically-relevant precedent cases for a query asset and preserves source-type partition integrity — no synthetic case can leak into the real-case partition or vice versa.
+- **What it does NOT prove:** *Causal failure diagnosis or ground-truth prediction of the current active fault. The underlying case corpus is real and externally sourced, but the P@1/R@3/MRR retrieval-quality metrics are computed against `relevant_case_ids` authored by the RAI team itself, not an independent or peer-reviewed relevance benchmark — this is a self-graded evaluation of retrieval mechanics, not an externally validated one. The 14 real cases are historical benchmark/open-data evidence, NOT live technician field verification.*
 
-### `EVID-DISPATCH-01`: Safe-Weather Fleet Crew Dispatch Optimizer
-- **Technology:** Operations & Logistics
-- **Source Dataset:** Configured Meteorological Thresholds + Weather API Cache
-- **Source Provenance:** Simulated and live-cached Open-Meteo forecasts for Charanka Solar and Kutch Wind
-- **Evidence Class:** `SIMULATED_OUTCOME`
-- **Real vs Synthetic:** `SIMULATED_OUTCOME`
-- **Validation Status:** `ARCHITECTURALLY_SUPPORTED`
-- **Artifact Path:** [`artifacts/weather_cache/`](artifacts/weather_cache/)
-- **Report Path:** [`docs/checkpoints/24-crew-dispatch-weather-optimizer.md`](docs/checkpoints/24-crew-dispatch-weather-optimizer.md)
-- **What Was Tested:** Wind nacelle climb speed gating (< 12 m/s), solar enclosure rain lockout (0 mm rain), work order priority sorting, window slot assignment.
-- **Metric / Result:** Zero safety lockout violations during high wind (>12m/s) or rain; deterministic assignment of approved work orders to valid weather windows.
-- **What It Does NOT Prove:** *Does not represent a certified legal or OSHA operational safety guarantee. Thresholds are site-specific configured heuristics.*
-- **Claim IDs:** CLAIM-DISPATCH-01
+### RAG
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** SQLite FTS5 + BM25-style ranked keyword retrieval over a curated knowledge corpus (rai/rag/index.py, rai/rag/retrieve.py)
+- **Dataset / Fixture:** 19 curated internal documents (manuals, SOPs, incident logs) under knowledge/
+- **Real vs Synthetic:** SYNTHETIC (internally authored, clearly-labelled sample documents)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** 4/4 deterministic tests passing: capability probe, keyword search relevance (e.g. 'soiling' query), asset/component-filtered search, document list/get integrity (19 documents indexed)
+- **Artifact:** tests/test_rag.py
+- **What the evidence actually proves:** The FTS5 keyword+BM25 retrieval engine correctly returns relevant curated documents for known queries and correctly respects asset/component filters, over a small internally curated corpus.
+- **What it does NOT prove:** *Retrieval quality on unseen or paraphrased real-world technician queries, or validation against an independent relevance benchmark. The corpus is a small internally curated sample (19 documents), not a comprehensive real maintenance-manual library.*
 
-### `EVID-SIM-01`: Physics-Based Telemetry & Fault Simulator
-- **Technology:** Simulation Engine
-- **Source Dataset:** rai/sim/ synthetic generation engine
-- **Source Provenance:** Internal physics models for 18 wind turbines and 24 solar inverters
-- **Evidence Class:** `INTERNAL_SYNTHETIC`
-- **Real vs Synthetic:** `INTERNAL_SYNTHETIC`
-- **Validation Status:** `DEMONSTRATED`
-- **Artifact Path:** [`artifacts/evaluation/results.json`](artifacts/evaluation/results.json)
-- **Report Path:** [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)
-- **What Was Tested:** Telemetry generation under 12 injected failure and environmental scenarios (bearing wear, pitch imbalance, soiling, curtailment, cloud transients).
-- **Metric / Result:** 12/12 scenario-level equipment/non-equipment agreement; realistic diurnal cycles, wind power curves, and thermal curves.
-- **What It Does NOT Prove:** *Synthetic scenario agreement is NOT real-world predictive accuracy. Internal simulator cannot validate operational reliability in the field.*
-- **Claim IDs:** CLAIM-SIM-01
+### Local AI agent
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Needle 2 runtime + deterministic fallback reasoner, evaluated via internal agent evaluation battery (rai/eval/agent_eval.py)
+- **Dataset / Fixture:** 10 curated deterministic scenario fixtures, Evaluator Tasks A-G
+- **Real vs Synthetic:** SYNTHETIC (internal deterministic fixtures)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** Tasks A-G passed 100%; tool selection = 1.00; abstention accuracy = 1.00; unsupported-claim rate = 0.00%; Needle 2 latency 6451.9 ms
+- **Artifact:** artifacts/evaluation/agent_eval/ ; docs/evaluation/LOCAL_AGENT_EVALUATION.md
+- **What the evidence actually proves:** Tool use, provenance preservation, bounded reasoning, mandatory abstention under symmetric evidence, and workflow behavior are demonstrated on the internal evaluation corpus.
+- **What it does NOT prove:** *Production field performance, multi-turn conversational robustness on unmodelled real technician inputs, or safety under adversarial user prompts. This is NOT production field validation.*
 
-### `EVID-ECON-01`: Techno-Economic Decision Support Engine
-- **Technology:** Decision Economics
-- **Source Dataset:** Analytical NPV Decision Models (rai/economics/decision_support.py)
-- **Source Provenance:** Configured commercial cost assumptions (tariffs, labor rates, parts costs)
-- **Evidence Class:** `MODEL_COMPARISON`
-- **Real vs Synthetic:** `SIMULATED_OUTCOME`
-- **Validation Status:** `DEMONSTRATED`
-- **Artifact Path:** [`tests/test_economic_decision_support.py`](tests/test_economic_decision_support.py)
-- **Report Path:** [`docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md`](docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md)
-- **What Was Tested:** Net present value calculation across intervention strategies (Act Now, Defer 3d, Defer 14d); explicit source labeling of assumptions, uncertainty components, and null handling.
-- **Metric / Result:** Deterministic decision classification (INTERVENE, INSPECT, MONITOR, WAIT, ABSTAIN) with 100% documented assumptions and zero fabricated probabilities.
-- **What It Does NOT Prove:** *Economic outputs are modelled projections under assumed counterfactuals. They do NOT prove realized financial savings or verified failure probability distributions.*
-- **Claim IDs:** CLAIM-ECON-01
+### Economic consequence analysis
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Techno-economic decision-support engine (rai/economics/decision_support.py, rai/economics/engine.py)
+- **Dataset / Fixture:** Configured commercial cost assumptions (tariffs, labor rates, parts costs); NPV comparison across Act Now / Defer 3d / Defer 14d
+- **Real vs Synthetic:** SIMULATED_OUTCOME (analytical model over configured assumptions)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** Deterministic decision classification (INTERVENE/INSPECT/MONITOR/WAIT/ABSTAIN); mathematical invariants verified in test suite; 100% documented assumption provenance; zero fabricated probabilities
+- **Artifact:** tests/test_economic_decision_support.py ; docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md ; docs/evaluation/DECISION_MATH_AUDIT.md
+- **What the evidence actually proves:** Given stated cost assumptions, the engine deterministically and reproducibly computes net financial consequences across intervention options, with explicit source labeling of every assumption and null-handling for missing inputs.
+- **What it does NOT prove:** *Realized financial savings or empirically validated failure-probability distributions. Results are modeled/projected consequences based on assumptions — they must never be labeled as realized savings.*
 
-### `EVID-COUNTER-01`: Counterevidence & Differential Diagnosis Engine
-- **Technology:** Diagnostic Logic
-- **Source Dataset:** rai/models/differential_diagnosis.py
-- **Source Provenance:** Rule-based competing hypothesis generator for wind and solar assets
-- **Evidence Class:** `SOFTWARE_INVARIANT`
-- **Real vs Synthetic:** `SOFTWARE_INVARIANT`
-- **Validation Status:** `ARCHITECTURALLY_SUPPORTED`
-- **Artifact Path:** [`tests/test_differential_diagnosis.py`](tests/test_differential_diagnosis.py)
-- **Report Path:** [`docs/checkpoints/22-counterevidence-differential-diagnosis.md`](docs/checkpoints/22-counterevidence-differential-diagnosis.md)
-- **What Was Tested:** Systematic generation of competing hypotheses (e.g. bearing wear vs lubrication degradation; soiling vs string fault); active counterevidence evaluation; symmetric abstention.
-- **Metric / Result:** 11/11 targeted tests passing; 100% abstention to COMPETING_HYPOTHESES when counterevidence is symmetric.
-- **What It Does NOT Prove:** *Does not prove diagnostic accuracy against unmodelled failure modes or complex multi-fault cascaded failures in physical plant operations.*
-- **Claim IDs:** CLAIM-DIAG-01
+### Recommendation engine
+- **Final Status:** `ARCHITECTURALLY_SUPPORTED`
+- **Evidence Source:** Confidence-gated decision policy with explicit human-abstention threshold (rai/agent/fallback.py, rai/decision/engine.py, rai/decision/policy.py)
+- **Dataset / Fixture:** Deterministic decision-math and decision-intelligence test suites
+- **Real vs Synthetic:** SYNTHETIC (software-invariant + simulator scenarios)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** Deterministic mapping of evidence packet + confidence to a bounded action set, verified by tests/test_decision_engine.py, tests/test_decision_intelligence.py, tests/test_decision_math.py
+- **Artifact:** tests/test_decision_engine.py ; tests/test_decision_math.py ; docs/evaluation/DECISION_MATH_AUDIT.md
+- **What the evidence actually proves:** Given a computed evidence packet, the policy deterministically and reproducibly maps evidence and confidence to one of a fixed, auditable set of recommended actions, and always escalates to human review below the confidence threshold rather than guessing.
+- **What it does NOT prove:** *That the recommended action is the objectively correct real-world maintenance decision, or that it improves real operational outcomes relative to an alternative policy. The system never executes autonomous plant control actions — recommendations are proposal-only.*
 
-### `EVID-OOD-01`: Out-of-Distribution Robustness Suite
-- **Technology:** Wind Anomaly Detection
-- **Source Dataset:** Controlled Synthetic Perturbation Suite
-- **Source Provenance:** Synthetic sensor drift, white noise, and scaling perturbations applied to SCADA
-- **Evidence Class:** `SIMULATED_OUTCOME`
-- **Real vs Synthetic:** `SIMULATED_OUTCOME`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/phase4/`](artifacts/evaluation/phase4/)
-- **Report Path:** [`docs/evaluation/OOD.md`](docs/evaluation/OOD.md)
-- **What Was Tested:** Model resilience under sensor calibration loss, anemometer bias, and extreme temperature noise.
-- **Metric / Result:** Quantified degradation boundaries: CARE score drops from 0.797 to 0.520 and false alarms increase ~40x under severe sensor drift.
-- **What It Does NOT Prove:** *Does not prove resilience under unmodelled non-Gaussian environmental shifts or novel aerodynamic conditions.*
-- **Claim IDs:** CLAIM-OOD-01
+### Work orders
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Work-order lifecycle across FastAPI (services/api/routers/work_orders.py) and the Next.js console (web/src/app/work-orders/)
+- **Dataset / Fixture:** Internal/demo work-order tickets; Playwright browser walkthrough
+- **Real vs Synthetic:** SYNTHETIC (internal demo/test tickets)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** End-to-end lifecycle (propose -> reject/approve -> dispatch -> feedback) browser-verified across 8 steps and 17 screenshots; API routes covered by unit/integration tests
+- **Artifact:** docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md
+- **What the evidence actually proves:** The work-order creation, human approval, and dispatch workflow functions correctly end-to-end in a demo/test environment, and always requires explicit human operator sign-off before dispatch.
+- **What it does NOT prove:** *Operational use by real technicians at a live commercial site. Zero commercial utility deployments currently exist.*
 
-### `EVID-REALCASES-01`: External Real Historical Precedent Corpus
-- **Technology:** Memory Library
-- **Source Dataset:** 14 Audited Cases (8 CARE, 4 Kelmarsh, 2 NREL PVDAQ OEDI)
-- **Source Provenance:** Public benchmark datasets and open energy data lakes with verified DOIs and S3 paths
-- **Evidence Class:** `EXTERNAL_REAL`
-- **Real vs Synthetic:** `REAL_EXTERNAL_DATA`
-- **Validation Status:** `VALIDATED`
-- **Artifact Path:** [`artifacts/evaluation/real_case_provenance/`](artifacts/evaluation/real_case_provenance/)
-- **Report Path:** [`docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md`](docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md)
-- **What Was Tested:** Source provenance lineage, physical event types, and non-fault operational event classification.
-- **Metric / Result:** Exactly 14 records verified; 8 confirmed equipment failures (CARE), 4 operational/maintenance events without damage (Kelmarsh), 2 environmental derates (PVDAQ).
-- **What It Does NOT Prove:** *They are historical open-data benchmark precedents, NOT technician-verified live commercial utility deployment observations.*
-- **Claim IDs:** CLAIM-RAG-01, CLAIM-REAL-01
+### Dispatch optimization
+- **Final Status:** `ARCHITECTURALLY_SUPPORTED`
+- **Evidence Source:** Safe-weather fleet crew dispatch optimizer (rai/decision/dispatch_optimizer.py)
+- **Dataset / Fixture:** Configured safety thresholds (wind climb <=12.0 m/s, gust <=18.0 m/s, solar rain=0mm, ambient temp<45C) applied to cached Open-Meteo forecasts
+- **Real vs Synthetic:** MIXED (real cached weather forecasts; configured heuristic thresholds)
+- **External vs Internal:** MIXED
+- **Metric / Result:** Deterministic assignment of approved work orders to valid safety windows; zero safety-lockout violations observed in test scenarios
+- **Artifact:** artifacts/weather_cache/ ; docs/checkpoints/24-crew-dispatch-weather-optimizer.md
+- **What the evidence actually proves:** Crew dispatch scheduling correctly applies configured safety thresholds against real (cached) weather-forecast data to gate or allow physical field work, and correctly prioritizes and slots approved work orders.
+- **What it does NOT prove:** *A certified or legally binding (e.g. OSHA) operational safety guarantee. Thresholds are project-configured operational heuristics, not certified safety standards; forecast accuracy itself is a third-party dependency.*
+
+### Weather-aware scheduling
+- **Final Status:** `ARCHITECTURALLY_SUPPORTED`
+- **Evidence Source:** Meteorological constraint-gating and safety-window classification within the same dispatch optimizer (rai/decision/dispatch_optimizer.py) — the weather-gating facet of dispatch optimization, not a separately built subsystem
+- **Dataset / Fixture:** Live/cached Open-Meteo forecast caches (artifacts/weather_cache/charanka-solar_latest.json, kutch-wind_latest.json)
+- **Real vs Synthetic:** MIXED (real forecast data; configured thresholds)
+- **External vs Internal:** MIXED
+- **Metric / Result:** Deterministic window classification (APPROVED / MARGINAL / LOCKED_OUT) computed from live/cached forecast wind speed, gust, rain probability, and temperature
+- **Artifact:** artifacts/weather_cache/kutch-wind_latest.json ; artifacts/weather_cache/charanka-solar_latest.json
+- **What the evidence actually proves:** The scheduler correctly classifies field-work safety windows from real forecast inputs using fixed, auditable, documented thresholds.
+- **What it does NOT prove:** *A certified operational safety guarantee. Third-party forecast accuracy is not guaranteed, and following the schedule does not guarantee prevention of all weather-related field incidents. This is the same underlying engine as 'dispatch optimization' above, not an independent capability with separate evidence.*
+
+### Technician feedback
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Field-feedback ledger and dual-key promotion gate (rai/memory/library.py get_field_feedback_cases; artifacts/tickets.jsonl)
+- **Dataset / Fixture:** 306 tickets inspected, 122 feedback entries; all are quarantined test fixtures or demo simulations
+- **Real vs Synthetic:** SYNTHETIC (demo/test fixtures)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** 0 tickets promoted to EXTERNAL_REAL; 40 reclassified as quarantined test fixtures; 0 active production field deployments
+- **Artifact:** artifacts/evaluation/real_case_provenance/provenance_summary.json
+- **What the evidence actually proves:** The feedback-capture UI/API and the dual-key provenance gate (requires both FeedbackProvenance.EXTERNAL_FIELD_OBSERVED and ObservationLevel.FIELD_VERIFIED) function correctly, and correctly refuse to promote unverified or test tickets into the real-case retrieval memory.
+- **What it does NOT prove:** *That any real technician has used the system in the field. Zero live commercial utility sites are connected; zero genuine external field observations exist in the live ledger.*
+
+### Closed-loop learning
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Feedback-to-retrieval ingestion pipeline with dual-key promotion gate, verified end-to-end in-browser
+- **Dataset / Fixture:** Playwright browser walkthrough of /work-orders and /assets/WT-004 (8-step lifecycle, 17 screenshots)
+- **Real vs Synthetic:** SYNTHETIC (internal/demo data)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** 8-step operational loop (Anomaly -> Propose WO -> Approve -> Dispatch -> Feedback -> Case Ingestion -> Promotion Gate -> KPI state) verified end-to-end; dual-key gate enforced programmatically
+- **Artifact:** docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md
+- **What the evidence actually proves:** The full operator workflow from anomaly to technician feedback to candidate case-ingestion is demonstrated end-to-end in the browser, and the promotion gate correctly prevents demo/test feedback from contaminating the real-case retrieval memory.
+- **What it does NOT prove:** *Production learning from live utility field data. This does NOT establish that the system continuously learns from real operational feedback — zero commercial utility sites are connected.*
+
+### Frontend operational workflow
+- **Final Status:** `DEMONSTRATED`
+- **Evidence Source:** Next.js operator console (web/) — dashboard, asset deep-dive, evidence accordion, work-orders, dispatch console
+- **Dataset / Fixture:** npm run build, npm run lint, Playwright browser verification screenshots
+- **Real vs Synthetic:** SYNTHETIC (internal demo UI over cached/simulated data)
+- **External vs Internal:** INTERNAL
+- **Metric / Result:** Production build succeeds with zero type errors; lint clean; full operator workflow browser-verified; EvidenceAccordion correctly distinguishes confirmed-failure vs non-fault historical event classes after the provenance-reconciliation fix
+- **Artifact:** web/ ; docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md ; docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md
+- **What the evidence actually proves:** The operator-facing UI renders the evidence-backed decision workflow correctly end-to-end, builds and lints cleanly, and correctly represents case provenance and event class in its styling.
+- **What it does NOT prove:** *Usability or effectiveness judged by a real plant operator. No user study, A/B test, or field usability evaluation has been performed.*
