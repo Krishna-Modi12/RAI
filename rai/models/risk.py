@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import logging
+import threading
 from dataclasses import dataclass
 
 import numpy as np
@@ -224,12 +225,22 @@ class RiskModel:
 
 
 _cached: RiskModel | None = None
+_cache_lock = threading.Lock()
 
 
 def get_model() -> RiskModel:
+    """Load the risk model once and reuse it.
+
+    Guarded by a lock: FastAPI runs sync request handlers in a thread pool, and
+    concurrent requests racing past an unguarded `is None` check each unpickled
+    the full scaler/classifier/calibrator bundle independently -- the concurrent
+    disk reads and numpy allocations reliably crashed the API process under load.
+    """
     global _cached
     if _cached is None:
-        _cached = RiskModel.load()
+        with _cache_lock:
+            if _cached is None:
+                _cached = RiskModel.load()
     return _cached
 
 

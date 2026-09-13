@@ -24,6 +24,7 @@ from __future__ import annotations
 import contextlib
 import json
 import logging
+import threading
 import time
 from typing import Any
 
@@ -92,7 +93,16 @@ VERDICT_EXTRACTION_SCHEMA: dict[str, Any] = {
 
 
 class NeedleRuntime:
-    """Thin wrapper that keeps one Needle session alive across investigations."""
+    """Thin wrapper that keeps one Needle session alive across investigations.
+
+    The underlying `needle.Needle` session is a single native inference session shared
+    across every request this process handles. Concurrent `/investigate` calls invoking
+    `.run()`/`.extract()` on it simultaneously from different threads (FastAPI runs sync
+    routes in a thread pool) reliably crashed the API process -- reproduced by firing just
+    4 concurrent investigate requests twice in a row. A single lock serializes access: one
+    investigation uses the native session at a time, the rest queue briefly instead of
+    corrupting shared native state.
+    """
 
     def __init__(self, tools: list[Any] | None = None) -> None:
         import needle
@@ -100,6 +110,7 @@ class NeedleRuntime:
         self._needle = needle
         self._agent = needle.Needle(tools=tools or [], system=SYSTEM_PROMPT)
         self._tools = tools or []
+        self._lock = threading.Lock()
 
     def run_investigation(self, packet: EvidencePacket) -> tuple[dict[str, Any], list[str]]:
         """Let the model drive tool calls. Returns (raw result, tool names invoked)."""
@@ -108,23 +119,25 @@ class NeedleRuntime:
             f"{packet.risk.risk_band.value} with anomaly score "
             f"{packet.anomaly.anomaly_score:.2f}. Gather evidence and diagnose the cause."
         )
-        result = self._agent.run(
-            query,
-            max_steps=settings.agent_max_tools_per_turn + 3,
-            max_new_tokens=256,
-            strict=True,
-        )
+        with self._lock:
+            result = self._agent.run(
+                query,
+                max_steps=settings.agent_max_tools_per_turn + 3,
+                max_new_tokens=256,
+                strict=True,
+            )
         return result, _extract_tool_names(result)
 
     def extract_verdict(self, packet: EvidencePacket, digest: str) -> dict[str, Any]:
         """Constrained-decode the decision fields from the evidence digest."""
-        out = self._needle.extract(
-            digest,
-            VERDICT_EXTRACTION_SCHEMA,
-            system=SYSTEM_PROMPT,
-            max_new_tokens=256,
-            strict=True,
-        )
+        with self._lock:
+            out = self._needle.extract(
+                digest,
+                VERDICT_EXTRACTION_SCHEMA,
+                system=SYSTEM_PROMPT,
+                max_new_tokens=256,
+                strict=True,
+            )
         if isinstance(out, str):
             out = json.loads(out)
         if hasattr(out, "model_dump"):

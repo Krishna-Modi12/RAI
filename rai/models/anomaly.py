@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import logging
+import threading
 from dataclasses import dataclass
 from typing import Any
 
@@ -200,10 +201,12 @@ def train_isolation_forests() -> dict[str, int]:
     IFOREST_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return {"assets": len(payload)}
 _iforest_cache: dict[str, Any] = {}
+_iforest_cache_lock = threading.Lock()
 
 
 def reset_iforest_cache() -> None:
-    _iforest_cache.clear()
+    with _iforest_cache_lock:
+        _iforest_cache.clear()
 
 
 def _isolation_score(asset_id: str, window: ResidualWindow) -> tuple[float, str | None]:
@@ -226,9 +229,14 @@ def _isolation_score(asset_id: str, window: ResidualWindow) -> tuple[float, str 
         return 0.0, "insufficient recent data"
 
     if asset_id not in _iforest_cache:
-        import pickle
-        with path.open("rb") as fh:
-            _iforest_cache[asset_id] = pickle.load(fh)
+        # Locked: concurrent requests racing this check each unpickled the same
+        # forest independently, and the simultaneous disk reads + numpy allocations
+        # reliably crashed the API process under concurrent /investigate load.
+        with _iforest_cache_lock:
+            if asset_id not in _iforest_cache:
+                import pickle
+                with path.open("rb") as fh:
+                    _iforest_cache[asset_id] = pickle.load(fh)
     forest = _iforest_cache[asset_id]
 
     recent = matrix[-max(len(matrix) // 20, 6) :]
