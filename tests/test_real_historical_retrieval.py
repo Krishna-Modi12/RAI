@@ -44,9 +44,11 @@ def test_real_synthetic_partition_separation():
     assert all(c.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC for c in synth_wind)
     assert all(c.case_id.startswith("CASE-W-") for c in synth_wind)
 
-    # All partition contains both
+    # All partition contains both real and synthetic benchmark cases
     all_wind = cases_for(AssetType.WIND_TURBINE, partition="all")
-    assert len(all_wind) == len(real_wind) + len(synth_wind)
+    assert len(all_wind) >= len(real_wind) + len(synth_wind)
+    assert all(c in all_wind for c in real_wind)
+    assert all(c in all_wind for c in synth_wind)
 
 
 def test_retrieval_partition_filtering():

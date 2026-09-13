@@ -784,10 +784,23 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
 
         {openSections.workorders && (
           <div className="p-4 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+              <span className="text-xs text-[var(--text-secondary)] font-medium">
+                Asset Maintenance Lifecycle Controls
+              </span>
+              <button
+                onClick={handleApproveClick}
+                className="px-3 py-1.5 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-xs font-semibold rounded-[2px] transition-colors flex items-center space-x-1.5 shadow-xs"
+              >
+                <ClipboardList className="w-3.5 h-3.5" />
+                <span>Propose Work Order</span>
+              </button>
+            </div>
+
             {workOrders.length === 0 ? (
               <div className="p-4 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] text-center text-xs text-[var(--text-tertiary)]">
                 No maintenance work orders have been logged yet for asset {investigation.asset_id}.
-                Click <span className="text-[var(--text-primary)] font-medium">Authorize Work Order</span> above to dispatch an intervention.
+                Click <span className="text-[var(--text-primary)] font-medium">Propose Work Order</span> to dispatch an intervention.
               </div>
             ) : (
               <div className="space-y-3">
