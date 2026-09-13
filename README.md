@@ -17,8 +17,124 @@ Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric c
 
 ---
 
+## Read this before anything else
+
+RAI is a research and hackathon build, not a deployed product. Six things are true at once,
+and none of them are hidden in fine print below:
+
+- **The benchmark is a wind anomaly benchmark first.** The internal 0.797 operational score
+  and the external 0.535 CARE score are both measured on wind SCADA data (18 turbines
+  internally; one real farm, Wind Farm A, externally). Solar gets its own, much narrower,
+  validation story below.
+- **Solar failure validation is not complete.** Gate 5.6C — fitting and validating a solar
+  expected-performance model against real acquired PVDAQ telemetry — is explicitly
+  **not closed**. See [Solar External Data Status](#solar-external-data-status).
+- **One external farm is not proof of universal generalization.** CARE = 0.535 on Wind Farm A
+  is a real result against a real, independently-labelled dataset — and it is one evaluated
+  pair (this model, that farm), not evidence the model transfers to arbitrary sites.
+- **A model that looks well-calibrated on its own targets can still miss under distribution
+  shift.** The OOD suite shows CARE falling to 0.52 and false alarms rising ~40× under severe
+  synthetic sensor drift/noise — see [Gate 2 — OOD robustness](#scientific-validation-five-gates-not-one-number).
+- **The local AI explains and escalates; it does not invent evidence or run unattended.**
+  See [Local reasoning: what's real vs. architectural target](#local-reasoning-whats-real-vs-architectural-target).
+- **Every economic figure depends on stated cost assumptions**, disclosed next to the number
+  in the UI, not buried in a config file.
+
+None of this is a hedge added after the fact — it is the same discipline
+[`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md) exists to enforce throughout the repository.
+
+---
+
+## The problem in one paragraph
+
+A wind turbine's power output depends on wind speed; a solar inverter's depends on irradiance
+and temperature. So a raw "power is low" reading is ambiguous by construction — it could be a
+failing gearbox bearing, a dust storm, a grid curtailment order, a cloud bank, or a stuck
+sensor, and a fixed threshold alarm cannot tell them apart. Two failure modes follow from that
+ambiguity: **alarm fatigue** (every weather event pages a technician) or **missed faults**
+(a real degradation hides inside normal weather-driven variance until it is a forced outage).
+Most SCADA alarm layers stop at the threshold and leave that disambiguation to a human staring
+at a trend chart.
+
+### Where a threshold alarm stops and where RAI keeps going
+
+| | Fixed-threshold alarm | RAI |
+|---|---|---|
+| **Trigger** | Power below a fixed % of nameplate | Residual against a physics + gradient-boosted expected-behavior model, conditioned on live wind/irradiance/temperature |
+| **Environmental causes** | Not distinguished — a dust storm and a bearing failure look identical | Checked first: CAMS dust exposure, weather transients, curtailment flags, and fleet-peer isolation must all fail to explain the deviation before an equipment fault is asserted (`rai/models/fleet_common_cause.py`, `rai/environment/`) |
+| **Evidence behind an alert** | A single number crossed a line | An evidence ledger: residual z-scores, peer comparison, environmental attribution, historical case match, OEM/SOP citation (`rai/schemas.py: EvidencePacket`) |
+| **Economic framing** | None — every alarm looks equally urgent | Net-present-value comparison of act-now vs. defer-3-days vs. defer-14-days, with assumptions shown (`rai/economics/`) |
+| **Confidence handling** | Binary alarm / no-alarm | Confidence-gated: below the calibrated threshold, the system escalates to a human instead of asserting a verdict (`rai/agent/`) |
+| **When it doesn't know** | Silent — a threshold either fires or it doesn't | Explicit `UNKNOWN` / `requires_human_review` states surfaced in the UI, not smoothed over |
+
+---
+
+## The RAI intelligence loop
+
+Ten stages, each backed by a real module — not a diagram drawn before the code existed:
+
+```
+ SENSE           NORMALIZE        COMPARE          DIAGNOSE         PREDICT
+ SCADA/inverter  physics+GBM      residual z /     environment /    Weibull hazard,
+ telemetry in    expected value   isolation forest peer / sensor    calibrated risk
+ rai/store/      rai/models/      fusion           gating           band
+                 expected.py      rai/models/      rai/models/      rai/models/
+                                  anomaly.py        fleet_common_    risk.py
+                                                     cause.py,
+                                                     sensor_health.py
+     │                │                │                │                │
+     ▼                ▼                ▼                ▼                ▼
+ RETRIEVE         QUANTIFY         PRIORITIZE       ACT              LEARN
+ similar past     NPV of act-now   rank by risk ×   confidence-      technician
+ failure cases    vs. defer,       exposure across  gated recom-     outcome logged
+ rai/memory/      OEM SOP cites    the fleet        mendation via    for audit
+ library.py       rai/economics/,  services/api/    local reasoner   rai/decision/
+                  rai/rag/                           rai/agent/       policy.py
+```
+
+This loop is the operating model behind the app you can run locally (`web/`), not a separate
+narrative layered on top of it — every box above is a module you can open and read. **One
+honest caveat on the last stage:** `record_maintenance_feedback` appends a technician's actual
+finding to a JSONL log (`artifacts/state/maintenance_outcomes.jsonl`) for later audit — nothing
+in this repository yet reads that log back into the retrieval index, so "LEARN" here means
+"captured for a human to review," not a closed loop that automatically improves future
+retrieval.
+
+---
+
+## Local reasoning: what's real vs. architectural target
+
+**What's implemented today:** every number a user sees — residuals, risk scores, NPV, avoided
+exposure — is computed in Python and handed to the reasoning layer as a structured
+`EvidencePacket`. A deterministic rule-based reasoner (`rai/agent/fallback.py`) always
+produces a schema-valid, evidence-cited verdict. Where a local Needle 2 runtime is available
+(`cactus-needle`, a 45M-parameter, ~14 MB tool-calling model that runs in ~28 MB of RAM —
+small enough for an edge gateway next to the SCADA historian), it can additionally drive tool
+calls and improve the natural-language explanation — but it never computes the numbers itself,
+and a low-confidence or contradictory model output falls back to the deterministic verdict
+rather than being shown at face value (`rai/agent/runtime.py: verdict_from_needle`).
+
+**What this is not:** a fully autonomous agent that acts on the fleet unattended. The agent has
+read-only tools plus ticket creation — it never issues a physical control command — and its
+internal reasoning trace is not exposed as a performance for the user; what's shown is the
+cited evidence and the final verdict, not manufactured chain-of-thought. Below the confidence
+threshold, or when local weights aren't available at all, the system says so and escalates
+rather than guessing.
+
+**Feasibility note:** because the detection, economics, and fallback-reasoning path has no
+required external API call, the core pipeline runs fully offline on a single machine — the
+Needle 2 layer is the only part that benefits from (and is designed to eventually run
+entirely within) an edge device with no cloud round-trip, which matters for a SCADA
+environment that may not have reliable outbound connectivity.
+
+---
+
 ## Contents
 
+- [Read this before anything else](#read-this-before-anything-else)
+- [The problem in one paragraph](#the-problem-in-one-paragraph)
+- [The RAI intelligence loop](#the-rai-intelligence-loop)
+- [Local reasoning: what's real vs. architectural target](#local-reasoning-whats-real-vs-architectural-target)
 - [Why RAI](#why-rai)
 - [Key Features](#key-features)
 - [Architecture](#architecture)
@@ -57,7 +173,7 @@ RAI answers three questions in under ten seconds:
 | **Model-Based Loss Attribution** | Decomposes derating into Soiling, Cloud, Thermal, Curtailment, and Equipment with uncertainty intervals | `rai/environment/attribution.py` |
 | **Next-Gen Decision Intelligence** | Counterfactual futures, decision regret ($\text{Cost}_{\text{chosen}} - \text{Cost}_{\text{optimal}}$), VOI, and sensitivity bounds | `rai/decision/` |
 | **Probabilistic Cleaning Optimizer** | Dynamic opportunity windows & Monte Carlo weather simulations for optimal intervention timing | `rai/environment/cleaning_optimizer.py` |
-| **Historical Trajectory Memory** | Cosine similarity KNN retrieval of past degradation signatures with strict retrieval leakage guards | `rai/memory/cases.py` |
+| **Historical Trajectory Memory** | Cosine similarity KNN retrieval of past degradation signatures with strict retrieval leakage guards | `rai/memory/library.py` |
 | **Technical Knowledge RAG** | SQLite FTS5 BM25 retrieval over 19 maintenance manuals, failure catalogs, and OEM SOPs | `rai/rag/` |
 | **Deterministic Reasoning Agent** | Structured diagnosis and confidence-gated escalation with local Needle 2 runtime support | `rai/agent/` |
 | **High-Density Instrument Panel** | Bloomberg-terminal density Next.js 16 UI with OKLCH tokens, HeroChart, and Evidence Ledger. Every API client call returns `{data, live}`, and the UI shows a `LIVE`/`CACHED` badge rather than presenting a last-known snapshot with full visual authority | `web/src/lib/api.ts` |
