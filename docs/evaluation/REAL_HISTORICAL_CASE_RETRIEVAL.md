@@ -16,6 +16,9 @@ The retrieval architecture—combining metadata partition filtering, weighted Eu
 > [!IMPORTANT]
 > **Evidentiary Boundary:** Real historical cases are contextual reference patterns ("has a renewable fleet seen this shape of deviation before?"). They do **NOT** prove a current failure, do not establish causal diagnosis, and do not constitute an empirical failure probability distribution. Real cases and internal synthetic scenarios are strictly partitioned and never silently merged.
 
+> [!NOTE]
+> **Evaluation Methodology Boundary:** The Precision/Recall/MRR figures above measure retrieval **self-consistency**, not an externally validated benchmark. The "relevant case" label for each of the 10 benchmark queries below is a curated evaluation label authored by the same team that built the retrieval algorithm being scored — not an independent ground-truth judgment from CARE/Kelmarsh/PVDAQ's own event logs. Query inputs are also built from the internal fleet simulator, not live real-world telemetry. This benchmark is run manually (`python -m rai.eval.retrieval_eval`) and is not part of the automated `pytest` suite. It demonstrates that real cases can be stored, partitioned, and retrieved correctly under a self-authored answer key (Level 1/2 boundary) — it does not demonstrate validated real fault-history retrieval (Level 3) or diagnosis validated against real ground truth (Level 4). See `docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md` §7 for the full level rubric.
+
 ---
 
 ## 1. Source Research & Ranking
@@ -29,6 +32,9 @@ Candidate external renewable sources were evaluated across 10 engineering criter
 | **NREL PVDAQ OEDI** (US DOE Open Data Lake) | Solar (Systems 34 & 1283) | 1-min & 15-min PV data | Public Domain | **8.5** | **SELECTED (Rank 3)** | Measured utility-scale and commercial inverter operations demonstrating midday operational outages and inverter clipping. |
 | **DKA Solar Centre (DKASC)** | Solar (Desert test facility) | 5-min PV data | CC-BY-4.0 | 5.2 | Context Only | Long-term degradation and soiling context, but lacks discrete component failure logs. |
 | **DuraMAT** | Solar | Material testing | Open access | 4.1 | EXCLUDED | Material degradation laboratory records; unsuitable for operational SCADA event retrieval. |
+
+> [!NOTE]
+> **Relationship to Gate 5.6B:** NREL PVDAQ Systems 34 and 1283 are the same two physical installations that Gate 5.6B's cohort adjudication (`docs/checkpoints/16-gate56b-cohort-adjudication.md`) separately placed in its solar expected-performance **Development** cohort (`[1239, 1283, 34]`, Validation cohort empty/`INSUFFICIENT_DATA`, Gate 5.6C `NOT VALIDATED`). These are two independent, non-overlapping uses of the same raw PVDAQ telemetry: here the two systems each contribute one retrieval-memory case record (both classified `REAL_OPERATIONAL_EVENT`/`ENVIRONMENTAL_EVENT`, neither a confirmed failure); in Gate 5.6B the same systems are training data for expected-performance *model fitting*. Neither use validates the other, and this real-case corpus existing does not imply Gate 5.6C achieved a validated result — it did not. Gate 5.6B's third Development-cohort system, 1239, has no corresponding case in this corpus.
 
 ---
 
@@ -146,7 +152,7 @@ Every retrieved case delivers four transparent explanation fields:
 ## 8. Verified Claims & Boundaries
 
 ### Supported Claim
-> "RAI's historical retrieval architecture was evaluated using a provenance-tracked corpus of real external operational/event cases (CARE Zenodo 10958775, Kelmarsh Zenodo 5841834, NREL PVDAQ OEDI). On a 10-query deterministic benchmark, it achieved Mean Precision@1 of 90.0%, Recall@3 of 85.0%, MRR of 0.950, with 100% provenance preservation, 100% partition purity, and 100% abstention accuracy."
+> "RAI's historical retrieval architecture was evaluated using a provenance-tracked corpus of real external operational/event cases (CARE Zenodo 10958775, Kelmarsh Zenodo 5841834, NREL PVDAQ OEDI). On a 10-query deterministic benchmark against curated, developer-authored relevance labels (not an independently-sourced ground truth), it achieved Mean Precision@1 of 90.0%, Recall@3 of 85.0%, MRR of 0.950, with 100% provenance preservation, 100% partition purity, and 100% abstention accuracy."
 
 ### Explicit Negative Boundaries (What We Do NOT Claim)
 - **NOT failure diagnosis validation:** Real historical matches indicate trajectory similarity, not ground truth proof of the active anomaly.

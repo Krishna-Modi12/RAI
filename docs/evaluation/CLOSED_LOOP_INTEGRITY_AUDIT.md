@@ -16,7 +16,7 @@ Prior to this audit, a critical provenance defect existed: `get_field_feedback_c
 
 This audit confirms that:
 1. **The defect has been eliminated:** A formal **Case Promotion Gate** with dual-key provenance tracking (`FeedbackProvenance` and `ObservationLevel`) was implemented. Synthetic test fixtures and demo simulations are strictly quarantined as `INTERNAL_SYNTHETIC` and `SYNTHETIC_WORK_ORDER_FEEDBACK`.
-2. **Partition Purity is 100% Preserved:** The `EXTERNAL_REAL` retrieval pool contains strictly audited academic and historical benchmark cases (10 wind cases from CARE/Kelmarsh, 6 solar cases from PVPMC). Zero synthetic or unverified test records contaminate the real partition.
+2. **Partition Purity is 100% Preserved:** The `EXTERNAL_REAL` retrieval pool contains strictly audited academic and historical benchmark cases (12 wind cases from CARE/Kelmarsh, 2 solar cases from NREL PVDAQ OEDI Systems 34/1283 — 14 total; see `docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md` for the full per-case reconciliation, correcting an earlier miscount in this document). Zero synthetic or unverified test records contaminate the real partition.
 3. **Economic and Safety Claims are De-hyped:** All "avoided loss" figures have been re-anchored as **Projected Avoidable Exposure (Modelled)**, reflecting unobservable counterfactual uncertainty. Dispatch safety thresholds have been relabeled as **Configured Operational Constraints (Site Dispatch Heuristics)** rather than universal engineering laws.
 4. **All 535 Automated Tests Pass:** Regression test suites verify end-to-end idempotency, partition purity, dispatch logic, and human approval prerequisites.
 
@@ -90,16 +90,17 @@ When `get_field_feedback_cases()` parses `tickets.jsonl`, any record whose prove
 In `rai/memory/library.py`:
 ```python
 def get_real_cases() -> list[Case]:
-    """Return strictly verified external real cases.
-    
-    Excludes all synthetic cases and any unverified internal test fixtures.
-    """
-    cases = [*REAL_WIND_CASES, *REAL_SOLAR_CASES, *get_field_feedback_cases()]
-    return [c for c in cases if c.source_type == HistoricalSourceType.EXTERNAL_REAL]
+    """Dynamically fetch real historical cases strictly guaranteeing EXTERNAL_REAL partition purity."""
+    from rai.memory.real_corpus import get_real_cases as _fetch_real
+
+    real_field_cases = [c for c in get_field_feedback_cases() if c.source_type == HistoricalSourceType.EXTERNAL_REAL]
+    return [*_fetch_real(), *real_field_cases]
 ```
-Because no record in `tickets.jsonl` satisfies the dual-key external requirement, `[c for c in get_field_feedback_cases() if c.source_type == EXTERNAL_REAL]` returns `[]`. Thus:
-$$\text{len}(\text{get\_real\_cases}()) \equiv 16 \quad (10 \text{ Wind} + 6 \text{ Solar})$$
+`_fetch_real()` returns the 14 audited academic records from `rai/memory/real_corpus.py` (12 wind: 8 CARE + 4 Kelmarsh; 2 solar: NREL PVDAQ OEDI Systems 34 and 1283). Because no record in `tickets.jsonl` satisfies the dual-key external requirement, `real_field_cases` is currently `[]`. Thus:
+$$\text{len}(\text{get\_real\_cases}()) \equiv 14 \quad (12 \text{ Wind} + 2 \text{ Solar})$$
 Contamination level: **0.00%**.
+
+*(Correction: this document previously stated 16 cases / 10 wind + 6 solar from "PVPMC" — that count and source attribution were wrong. The corpus has never contained 16 records; see `docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md` for the full reconciliation.)*
 
 ---
 
@@ -131,8 +132,8 @@ We verified the following invariant across both asset types:
 $$\text{len}(\text{cases\_for}(asset\_type, \text{"all"})) \equiv \text{len}(\text{cases\_for}(asset\_type, \text{"real"})) + \text{len}(\text{cases\_for}(asset\_type, \text{"synthetic"}))$$
 
 ```
-Wind:   10 Real (CARE/Kelmarsh) + 8 Synthetic Benchmark + N Test Cases
-Solar:   6 Real (PVPMC)         + 6 Synthetic Benchmark + N Test Cases
+Wind:   12 Real (CARE/Kelmarsh)     + 8 Synthetic Benchmark + N Test Cases
+Solar:    2 Real (NREL PVDAQ OEDI)  + 6 Synthetic Benchmark + N Test Cases
 ```
 When querying with `partition="real"`, test fixtures cannot appear in search results, regardless of similarity score.
 
@@ -315,7 +316,7 @@ The system gracefully handles all adverse operating conditions:
    - Labeled as **"Projected Avoidable Exposure (Modelled)"** (₹ INR), avoiding false claims of realized cost savings.
 3. **Memory Composition Display:**
    - 4-card metric display clearly distinguishes:
-     - 16 Audited Academic Cases (CARE, Kelmarsh, PVPMC)
+     - 14 Audited Academic Cases (CARE, Kelmarsh, NREL PVDAQ OEDI)
      - 0 Verified Real Field Cases
      - 14 Reference Synthetic Cases
      - 255 Test Ledger Entries (Quarantined)
@@ -346,7 +347,7 @@ pytest tests/ -q
 - `tests/test_work_order_lifecycle.py`: 12 passed (Human approval gate, feedback recording, idempotency).
 - `tests/test_dispatch_optimizer.py`: 4 passed (Configured constraints, window scheduling).
 - `tests/test_real_case_retrieval.py`: 13 passed (Partition isolation, zero contamination).
-- `tests/test_real_historical_retrieval.py`: 18 passed (CARE / Kelmarsh / PVPMC benchmark fidelity).
+- `tests/test_real_historical_retrieval.py`: 18 passed (CARE / Kelmarsh / NREL PVDAQ benchmark fidelity).
 
 ---
 
@@ -356,7 +357,7 @@ pytest tests/ -q
 |---|---|---|---|---|
 | Closed-Loop Ingestion Mechanism | ✅ Yes | ✅ Yes (535 tests) | ⚠️ Awaiting Site Deployment | **Production Ready** |
 | Provenance Gating & Partition Purity | ✅ Yes | ✅ Yes (Formal gate) | ✅ Clean Isolation | **Production Ready** |
-| Historical Case Library (CARE/Kelmarsh/PVPMC) | ✅ Yes | ✅ Yes (16 cases) | ✅ Real Academic Data | **Validated** |
+| Historical Case Library (CARE/Kelmarsh/NREL PVDAQ) | ✅ Yes | ✅ Yes (14 cases) | ✅ Real Academic Data | **Validated** |
 | Crew Dispatch Optimization | ✅ Yes | ✅ Yes (Heuristic engine) | ⚠️ Requires OEM Tailoring | **Configurable** |
 | Real Utility Field Ground Truth | ❌ No | N/A | ❌ No | **Roadmap Milestone** |
 

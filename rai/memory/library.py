@@ -665,18 +665,34 @@ def get_field_feedback_cases() -> list[Case]:
                 )
                 obs_val = raw_obs.value if hasattr(raw_obs, "value") else str(raw_obs)
 
+                is_quarantined = bool(
+                    getattr(rec, "quarantine", False)
+                    or (isinstance(rec, dict) and rec.get("quarantine"))
+                    or getattr(fb, "quarantine", False)
+                    or (isinstance(fb, dict) and fb.get("quarantine"))
+                )
+                is_test_fixture = (
+                    getattr(rec, "created_by", "") in {"test_harness", "api_test", "rai_agent_verification", "test_prov"}
+                    or getattr(fb, "technician_id", "").startswith("test_")
+                    or prov_val == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value
+                )
+
                 is_external_real = (
                     prov_val == FeedbackProvenance.EXTERNAL_FIELD_OBSERVED.value
                     and obs_val in (ObservationLevel.FIELD_VERIFIED.value, "physical_inspection_verified", "FIELD_VERIFIED")
+                    and not is_quarantined
+                    and not is_test_fixture
                 )
 
-                if is_external_real:
+                if is_quarantined:
+                    ev_quality = "QUARANTINED_TEST_FIXTURE"
+                elif is_external_real:
                     ev_quality = "FIELD_VERIFIED"
                 elif obs_val in (ObservationLevel.TECHNICIAN_REPORTED.value, "technician_observation", "TECHNICIAN_REPORTED"):
                     ev_quality = "TECHNICIAN_REPORTED"
                 elif obs_val in (ObservationLevel.OPERATOR_REPORTED.value, "operator_claim", "OPERATOR_REPORTED"):
                     ev_quality = "OPERATOR_REPORTED"
-                elif prov_val == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value:
+                elif prov_val == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value or is_test_fixture:
                     ev_quality = "SYNTHETIC_TEST_FIXTURE"
                 else:
                     ev_quality = "UNKNOWN"

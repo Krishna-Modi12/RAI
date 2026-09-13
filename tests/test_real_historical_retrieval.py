@@ -13,7 +13,7 @@ from rai.schemas import AssetType, HistoricalSourceType
 
 def test_real_case_provenance_and_adjudication():
     """Verify that every real case in the corpus preserves complete source lineage."""
-    assert len(REAL_RECORDS) >= 12, "Corpus must have at least 12 audited real cases"
+    assert len(REAL_RECORDS) == 14, "Audited real corpus must contain exactly 14 records (12 wind, 2 solar) - see docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md"
 
     for rec in REAL_RECORDS:
         case = rec.to_case()
@@ -44,11 +44,19 @@ def test_real_synthetic_partition_separation():
     assert all(c.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC for c in synth_wind)
     assert all(c.case_id.startswith("CASE-W-") for c in synth_wind)
 
-    # All partition contains both real and synthetic benchmark cases
+    # All partition contains both real and synthetic benchmark cases, plus any promoted/unpromoted
+    # field-feedback cases (persisted in artifacts/tickets.jsonl, which accumulates across test runs
+    # and is never reset - see docs/evaluation/REAL_CASE_CORPUS_PROVENANCE.md Section 9)
     all_wind = cases_for(AssetType.WIND_TURBINE, partition="all")
     assert len(all_wind) >= len(real_wind) + len(synth_wind)
+    assert len({c.case_id for c in all_wind}) == len(all_wind), "all_wind must contain no duplicate case_ids"
     assert all(c in all_wind for c in real_wind)
     assert all(c in all_wind for c in synth_wind)
+    extra = [c for c in all_wind if c not in real_wind and c not in synth_wind]
+    assert all(c.case_id.startswith("FIELD-") for c in extra), (
+        "Any case in 'all' beyond real+synthetic must be a recognized field-feedback case, "
+        "not an unaccounted-for or leaked entry"
+    )
 
 
 def test_retrieval_partition_filtering():

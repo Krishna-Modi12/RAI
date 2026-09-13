@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-09-13T07:58:15.760572+00:00",
+  "audit_scope": "RAI Real Case Corpus & Field Feedback Ledger Reconciliation",
+  "total_cases_audited": 28,
+  "external_real_conclusively_proven": 14,
+  "external_real_breakdown": {
+    "wind_turbine_cases": 12,
+    "solar_inverter_cases": 2,
+    "by_dataset": {
+      "CARE to Compare \u2014 Wind Farm A": 5,
+      "CARE to Compare \u2014 Wind Farm B": 1,
+      "CARE to Compare \u2014 Wind Farm C": 2,
+      "Kelmarsh Wind Farm 2019": 4,
+      "NREL PVDAQ OEDI \u2014 System 34": 1,
+      "NREL PVDAQ OEDI \u2014 System 1283": 1,
+      "Sandia PVPMC": 0
+    },
+    "by_event_class": {
+      "REAL_VERIFIED_EVENT (Component Failure)": 6,
+      "REAL_OPERATIONAL_EVENT (Trip / Outage / Baseline)": 5,
+      "REAL_MAINTENANCE_EVENT (Service Stop / Valve Misposition)": 2,
+      "ENVIRONMENTAL_EVENT (Calm Standstill / Clipping)": 2
+    }
+  },
+  "internal_synthetic_cases": 14,
+  "internal_synthetic_breakdown": {
+    "wind_turbine_synthetic": 8,
+    "solar_inverter_synthetic": 6
+  },
+  "field_feedback_ledger_audit": {
+    "total_tickets_inspected": 306,
+    "total_feedback_entries": 122,
+    "promoted_to_external_real": 0,
+    "reclassified_quarantined_test_fixtures": 40,
+    "active_production_field_deployments": 0,
+    "finding": "Zero genuine external field observations exist in the live ledger; all existing tickets are automated test fixtures or demo simulations. Dual-key gate correctly admits 0 tickets into EXTERNAL_REAL."
+  },
+  "solar_reconciliation": {
+    "question": "What is the true identity and source of the six solar 'real' cases mentioned in previous documentation relative to frozen Gate 5.6B?",
+    "finding": "Category C (synthetic/demo cases incorrectly classified in documentation).",
+    "detail": [
+      "The 6 solar cases (CASE-S-001 through CASE-S-006 in rai/memory/library.py) are internally authored synthetic scenarios from project incident logs.",
+      "They were erroneously referred to as '6 real cases from PVPMC' in docs/evaluation/CLOSED_LOOP_INTEGRITY_AUDIT.md and CHECKPOINT.md.",
+      "Sandia PVPMC is a Tier 4 physics reference / algorithm collection (De Soto, SAPM, Kimber soiling, pvlib-python), NOT an operational fault dataset.",
+      "The ONLY real solar cases in the repository are the 2 cases in rai/memory/real_corpus.py (REAL-PVDAQ-034-OUTAGE and REAL-PVDAQ-1283-CLIPPING), derived from NREL PVDAQ Systems 34 and 1283.",
+      "Systems 34 and 1283 are part of the Gate 5.6B Development cohort [1239, 1283, 34].",
+      "Gate 5.6B frozen state is strictly preserved: Development=[1239, 1283, 34], Validation=[] (INSUFFICIENT_DATA). The 2 retrieval cases serve purely as qualitative pattern precedents and do not alter model validation."
+    ]
+  },
+  "wind_reconciliation": {
+    "question": "Does 'real' in the wind cases refer to genuine external field evidence, public benchmark data, or live technician feedback?",
+    "finding": "Public academic benchmark datasets with author event logs and SCADA status codes; NOT live technician feedback from RAI.",
+    "detail": [
+      "12 wind cases originate from CARE to Compare (Fraunhofer IEE, Zenodo 10.5281/zenodo.14006163) and Kelmarsh Wind Farm (Plumley, Zenodo 10.5281/zenodo.5841834).",
+      "6 CARE cases represent verified component failures with author ground truth (gearbox, generator, transformer, hydraulics, main bearing, blown fuse).",
+      "4 Kelmarsh cases are operational/maintenance/environmental events from Greenbyte status codes; zero hardware failures.",
+      "2 CARE cases are a maintenance error (valve misposition) and a normal healthy baseline.",
+      "None of these cases represent live technician feedback from an operational RAI deployment."
+    ]
+  },
+  "discrepancies_identified_and_resolved": [
+    {
+      "id": "DISC-01",
+      "summary": "Total real cases claimed as 16 instead of actual 14",
+      "status": "RESOLVED_DOWNGRADED"
+    },
+    {
+      "id": "DISC-02",
+      "summary": "Attribution of 6 solar cases to Sandia PVPMC instead of internal synthetic library",
+      "status": "RESOLVED_CORRECTED"
+    },
+    {
+      "id": "DISC-03",
+      "summary": "Automated unit test tickets leaking into EXTERNAL_REAL due to unisolated tickets.jsonl",
+      "status": "RESOLVED_ISOLATED_QUARANTINED"
+    },
+    {
+      "id": "DISC-04",
+      "summary": "Conflation of academic dataset ground-truth with 'field-verified' operational deployment",
+      "status": "RESOLVED_DOWNGRADED"
+    }
+  ]
+}

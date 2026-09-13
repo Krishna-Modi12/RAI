@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import threading
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 from rai.config import ARTIFACTS, get_asset
@@ -29,7 +31,16 @@ from rai.schemas import (
 
 log = logging.getLogger("rai.work_orders")
 
-TICKET_LOG = ARTIFACTS / "tickets.jsonl"
+
+def get_ticket_log_path() -> Path:
+    """Return the active tickets JSONL path, supporting runtime test isolation override."""
+    env_override = os.environ.get("RAI_TICKET_LOG")
+    if env_override:
+        return Path(env_override)
+    return ARTIFACTS / "tickets.jsonl"
+
+
+TICKET_LOG = get_ticket_log_path()
 _lock = threading.Lock()
 
 
@@ -41,10 +52,11 @@ def _get_asset_meta(asset_id: str) -> tuple[str, str]:
 
 def _read_records_raw() -> dict[str, dict[str, Any]]:
     """Read all records from jsonl into a dictionary keyed by ticket_id."""
-    if not TICKET_LOG.exists():
+    log_path = get_ticket_log_path()
+    if not log_path.exists():
         return {}
     records: dict[str, dict[str, Any]] = {}
-    with TICKET_LOG.open("r", encoding="utf-8") as fh:
+    with log_path.open("r", encoding="utf-8") as fh:
         for raw_line in fh:
             line = raw_line.strip()
             if not line:
@@ -61,8 +73,9 @@ def _read_records_raw() -> dict[str, dict[str, Any]]:
 
 def _write_records_raw(records: dict[str, dict[str, Any]]) -> None:
     """Rewrite jsonl file safely under lock."""
-    TICKET_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with TICKET_LOG.open("w", encoding="utf-8") as fh:
+    log_path = get_ticket_log_path()
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with log_path.open("w", encoding="utf-8") as fh:
         for item in records.values():
             fh.write(json.dumps(item, default=str) + "\n")
 
@@ -445,18 +458,33 @@ def export_field_cases_for_retrieval() -> list[HistoricalCase]:
                 fb_prov = fb.get("provenance", data.get("provenance", FeedbackProvenance.INTERNAL_TEST_FIXTURE.value))
                 obs_level = fb.get("observation_level", ObservationLevel.UNKNOWN.value)
 
+                is_quarantined = (
+                    data.get("quarantine")
+                    or fb.get("quarantine")
+                    or getattr(data, "quarantine", False)
+                )
+                is_test_fixture = (
+                    data.get("created_by") in {"test_harness", "api_test", "rai_agent_verification", "test_prov"}
+                    or fb.get("technician_id", "").startswith("test_")
+                    or fb_prov == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value
+                )
+
                 is_external_real = (
                     fb_prov == FeedbackProvenance.EXTERNAL_FIELD_OBSERVED.value
                     and obs_level in (ObservationLevel.FIELD_VERIFIED.value, "physical_inspection_verified", "FIELD_VERIFIED")
+                    and not is_quarantined
+                    and not is_test_fixture
                 )
 
-                if is_external_real:
+                if is_quarantined:
+                    ev_quality = "QUARANTINED_TEST_FIXTURE"
+                elif is_external_real:
                     ev_quality = "FIELD_VERIFIED"
                 elif obs_level in (ObservationLevel.TECHNICIAN_REPORTED.value, "technician_observation", "TECHNICIAN_REPORTED"):
                     ev_quality = "TECHNICIAN_REPORTED"
                 elif obs_level in (ObservationLevel.OPERATOR_REPORTED.value, "operator_claim", "OPERATOR_REPORTED"):
                     ev_quality = "OPERATOR_REPORTED"
-                elif fb_prov == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value:
+                elif fb_prov == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value or is_test_fixture:
                     ev_quality = "SYNTHETIC_TEST_FIXTURE"
                 else:
                     ev_quality = "UNKNOWN"

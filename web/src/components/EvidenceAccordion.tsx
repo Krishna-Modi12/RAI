@@ -26,6 +26,23 @@ interface EvidenceAccordionProps {
   investigation: InvestigationResult;
 }
 
+// A historical case's source_type ("EXTERNAL_REAL" vs "INTERNAL_SYNTHETIC") only says where the
+// record came from, not whether it was a confirmed equipment failure. Several EXTERNAL_REAL event
+// classes (operational trips, scheduled maintenance, weather-driven curtailment) are non-fault
+// events by definition and must not read as "confirmed failure" just because they are real.
+const CONFIRMED_FAILURE_EVENT_CLASS = "REAL_VERIFIED_EVENT";
+
+const EVENT_CLASS_GLOSS: Record<string, string> = {
+  REAL_VERIFIED_EVENT: "confirmed component failure",
+  REAL_OPERATIONAL_EVENT: "operational trip — no confirmed hardware damage",
+  REAL_MAINTENANCE_EVENT: "maintenance intervention — not a failure",
+  ENVIRONMENTAL_EVENT: "weather/environment-driven — not a fault",
+};
+
+function isConfirmedFailure(eventClass?: string | null): boolean {
+  return eventClass === CONFIRMED_FAILURE_EVENT_CLASS;
+}
+
 export default function EvidenceAccordion({ investigation }: EvidenceAccordionProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     anomaly: true,
@@ -442,8 +459,21 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                           </span>
                         )}
                         {c.event_class && (
-                          <span className="px-1.5 py-0.5 font-mono text-[9px] bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+                          <span
+                            title={EVENT_CLASS_GLOSS[c.event_class] ?? undefined}
+                            className={`px-1.5 py-0.5 font-mono text-[9px] rounded-[2px] border ${
+                              isConfirmedFailure(c.event_class)
+                                ? "bg-red-950/40 border-red-500/40 text-red-400 font-semibold"
+                                : "bg-[var(--surface-raised)] border-[var(--border)] text-[var(--text-secondary)]"
+                            }`}
+                          >
                             {c.event_class}
+                            {EVENT_CLASS_GLOSS[c.event_class] ? ` — ${EVENT_CLASS_GLOSS[c.event_class]}` : ""}
+                          </span>
+                        )}
+                        {isReal && !c.event_class && (
+                          <span className="px-1.5 py-0.5 font-mono text-[9px] bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-tertiary)] rounded-[2px]">
+                            event class not recorded — do not assume confirmed failure
                           </span>
                         )}
                       </div>
@@ -452,7 +482,13 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                       </span>
                     </div>
 
-                    <div className="font-medium text-[var(--warn-ink)] flex items-center justify-between">
+                    <div
+                      className={`font-medium flex items-center justify-between ${
+                        isReal && !isConfirmedFailure(c.event_class)
+                          ? "text-[var(--text-primary)]"
+                          : "text-[var(--warn-ink)]"
+                      }`}
+                    >
                       <span>{c.fault_mode}</span>
                       <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{c.source}</span>
                     </div>
