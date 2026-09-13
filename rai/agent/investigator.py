@@ -205,7 +205,7 @@ def _load_cases(packet: EvidencePacket, timeline: _Timeline) -> list[HistoricalC
         timeline.add("history", "Historical memory unavailable", detail, status="skipped")
         return []
     try:
-        cases = memory.find_similar_cases(packet, k=5)
+        cases = memory.find_similar_cases(packet, k=5, corpus_partition="all")
     except Exception as exc:  # noqa: BLE001
         timeline.add("history", "Historical memory failed", str(exc)[:160], status="skipped")
         return []

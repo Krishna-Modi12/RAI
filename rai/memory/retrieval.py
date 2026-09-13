@@ -171,7 +171,7 @@ def find_similar_cases(
     k: int = 5,
     knowledge_cutoff: Any = None,
     exclude_asset_id: str | None = None,
-    corpus_partition: str = "all",
+    corpus_partition: str = "synthetic",
     partition: str | None = None,
 ) -> list[HistoricalCase]:
     """Return up to `k` past episodes whose trajectory resembles this asset's, best first.
