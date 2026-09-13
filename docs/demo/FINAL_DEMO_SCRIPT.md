@@ -3,7 +3,7 @@
 **Target Audience:** Technical Hackathon Judges, Energy Systems Evaluators, Machine Learning Researchers  
 **Duration:** 3–5 minutes  
 **Environment:** Clean-state local environment (`FastAPI` on `http://127.0.0.1:8000`, `Next.js` on `http://localhost:3000`)  
-**Scientific Evidence Baseline:** Frozen at `d7a92d1` under the [Four-Level Evidence Taxonomy](../../README.md#scientific-evidence-freeze-the-four-level-evidence-taxonomy).
+**Scientific Evidence Baseline:** Frozen at `d7a92d1` under the [Four-Level Evidence Taxonomy](../../README.md#scientific-evidence-what-is-actually-validated).
 
 ---
 
@@ -187,7 +187,7 @@
 
 | Judge Question | Where It Is Proven |
 |---|---|
-| **What is validated vs. demonstrated?** | [README Evidence Taxonomy Table](../../README.md#scientific-evidence-freeze-the-four-level-evidence-taxonomy) & `/evaluation` route |
+| **What is validated vs. demonstrated?** | [README Evidence Taxonomy Table](../../README.md#scientific-evidence-what-is-actually-validated) & `/evaluation` route |
 | **Are the benchmarks leak-free?** | `docs/evaluation/GATE2_FORENSIC_AUDIT.md` (342h purge embargo, zero feature leakage) |
 | **How does it perform on real external data?** | `docs/evaluation/EXTERNAL_CARE.md` (Wind Farm A, Zenodo 14006163, CARE = 0.535) |
 | **Is the local LLM reasoning bounded?** | `rai/agent/needle_engine.py` (Needle 2 quantized, zero external API calls, deterministic math fallback) |
