@@ -1,5 +1,8 @@
 /**
- * Client API services for RAI with robust local fallbacks
+ * Client API services for RAI. Every getter returns { data, live }: `data` is either the
+ * real API response or a last-known snapshot, and `live` is false whenever the API was
+ * unreachable — callers must surface that distinction rather than showing the snapshot
+ * with full visual authority (see docs/DESIGN.md's numerical-honesty rules).
  */
 
 import {
@@ -8,6 +11,7 @@ import {
   PriorityQueueItem,
   FleetAssetItem,
   InvestigationResult,
+  HistoricalCaseItem,
   TimeseriesPoint,
   SoilingResponse,
   ScenarioItem,
@@ -15,48 +19,58 @@ import {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
-async function fetchWithFallback<T>(url: string, fallback: T): Promise<T> {
+export interface LiveResult<T> {
+  data: T;
+  live: boolean;
+}
+
+async function fetchWithFallback<T>(url: string, fallback: T): Promise<LiveResult<T>> {
   try {
     const res = await fetch(url, { next: { revalidate: 10 } });
     if (!res.ok) {
-      console.warn(`API call failed: ${url} (${res.status}), using fallback`);
-      return fallback;
+      console.warn(`API call failed: ${url} (${res.status}), showing last-known snapshot`);
+      return { data: fallback, live: false };
     }
-    return (await res.json()) as T;
+    return { data: (await res.json()) as T, live: true };
   } catch (err) {
-    console.warn(`API call unreachable: ${url}, using fallback`);
-    return fallback;
+    console.warn(`API call unreachable: ${url}, showing last-known snapshot`);
+    return { data: fallback, live: false };
   }
 }
 
-// Fallbacks matching real precomputed fleet states
+// Fallbacks matching real precomputed fleet states (18 wind turbines, 24 solar inverters —
+// see docs/API_CONTRACT.md; do not swap this ratio without re-checking the live contract)
 const FALLBACK_HEALTH: HealthResponse = {
   status: "ok",
-  timestamp: new Date().toISOString(),
-  data_freshness_s: 14,
-  models_loaded: ["expected_behavior_gbm", "hybrid_ensemble", "risk_calibrated"],
-  assets_active: 42,
+  version: "0.1.0",
+  data_as_of: new Date().toISOString(),
+  models_loaded: ["wind_expected_power", "solar_expected_power", "risk"],
+  assets: 42,
   needle_available: true,
-  needle_confidence_threshold: 0.8,
+  needle_detail: "needle 2 session constructed",
 };
 
 const FALLBACK_FLEET: FleetOverview = {
-  total_assets: 42,
+  assets_total: 42,
   assets_at_risk: 4,
-  offline_assets: 1,
+  assets_offline: 1,
   fleet_health: 93.8,
   generation_kw: 62450,
   expected_generation_kw: 68200,
   availability_pct: 97.6,
   revenue_at_risk_inr_per_day: 485000,
+  by_type: [
+    { asset_type: "wind_turbine", count: 18, health: 91.0, generation_kw: 48200 },
+    { asset_type: "solar_inverter", count: 24, health: 95.4, generation_kw: 14250 },
+  ],
 };
 
 const FALLBACK_PRIORITY: PriorityQueueItem[] = [
   {
     asset_id: "WT-017",
-    asset_name: "Turbine 17 · Kutch",
-    asset_type: "wind",
-    site_name: "Kutch Wind Farm",
+    name: "Turbine 17",
+    asset_type: "wind_turbine",
+    site: "Kutch Wind Farm",
     risk_score: 0.88,
     risk_band: "critical",
     revenue_at_risk_inr: 155000,
@@ -67,9 +81,9 @@ const FALLBACK_PRIORITY: PriorityQueueItem[] = [
   },
   {
     asset_id: "INV-023",
-    asset_name: "Central Inverter 23 · Charanka",
-    asset_type: "solar",
-    site_name: "Charanka Solar Park",
+    name: "Central Inverter 23",
+    asset_type: "solar_inverter",
+    site: "Charanka Solar Park",
     risk_score: 0.74,
     risk_band: "high",
     revenue_at_risk_inr: 88000,
@@ -80,9 +94,9 @@ const FALLBACK_PRIORITY: PriorityQueueItem[] = [
   },
   {
     asset_id: "WT-004",
-    asset_name: "Turbine 04 · Kutch",
-    asset_type: "wind",
-    site_name: "Kutch Wind Farm",
+    name: "Turbine 04",
+    asset_type: "wind_turbine",
+    site: "Kutch Wind Farm",
     risk_score: 0.62,
     risk_band: "elevated",
     revenue_at_risk_inr: 54000,
@@ -93,9 +107,9 @@ const FALLBACK_PRIORITY: PriorityQueueItem[] = [
   },
   {
     asset_id: "INV-009",
-    asset_name: "String Inverter 09 · Charanka",
-    asset_type: "solar",
-    site_name: "Charanka Solar Park",
+    name: "String Inverter 09",
+    asset_type: "solar_inverter",
+    site: "Charanka Solar Park",
     risk_score: 0.45,
     risk_band: "elevated",
     revenue_at_risk_inr: 32000,
@@ -106,31 +120,31 @@ const FALLBACK_PRIORITY: PriorityQueueItem[] = [
   },
 ];
 
-export async function getHealth(): Promise<HealthResponse> {
+export async function getHealth(): Promise<LiveResult<HealthResponse>> {
   return fetchWithFallback(`${API_BASE}/health`, FALLBACK_HEALTH);
 }
 
-export async function getFleetOverview(): Promise<FleetOverview> {
+export async function getFleetOverview(): Promise<LiveResult<FleetOverview>> {
   return fetchWithFallback(`${API_BASE}/fleet`, FALLBACK_FLEET);
 }
 
-export async function getPriorityQueue(): Promise<PriorityQueueItem[]> {
+export async function getPriorityQueue(): Promise<LiveResult<PriorityQueueItem[]>> {
   return fetchWithFallback(`${API_BASE}/fleet/priority`, FALLBACK_PRIORITY);
 }
 
-export async function getFleetAssets(): Promise<FleetAssetItem[]> {
+export async function getFleetAssets(): Promise<LiveResult<FleetAssetItem[]>> {
   const fallbackAssets: FleetAssetItem[] = Array.from({ length: 42 }, (_, i) => {
-    const isWind = i < 24;
+    const isWind = i < 18;
     const id = isWind
       ? `WT-${String(i + 1).padStart(3, "0")}`
-      : `INV-${String(i - 23).padStart(3, "0")}`;
+      : `INV-${String(i - 17).padStart(3, "0")}`;
     const isWT17 = id === "WT-017";
     const isINV23 = id === "INV-023";
 
     return {
       asset_id: id,
-      name: isWind ? `Turbine ${i + 1}` : `Inverter ${i - 23}`,
-      asset_type: isWind ? "wind" : "solar",
+      name: isWind ? `Turbine ${i + 1}` : `Inverter ${i - 17}`,
+      asset_type: isWind ? "wind_turbine" : "solar_inverter",
       site: isWind ? "Kutch Wind Farm" : "Charanka Solar Park",
       status: isWT17 ? "critical" : isINV23 ? "warning" : "nominal",
       health_score: isWT17 ? 48.2 : isINV23 ? 64.0 : 96.5,
@@ -147,7 +161,28 @@ export async function getFleetAssets(): Promise<FleetAssetItem[]> {
   return fetchWithFallback(`${API_BASE}/assets`, fallbackAssets);
 }
 
-export async function getAssetTimeseries(assetId: string): Promise<TimeseriesPoint[]> {
+// The real GET /api/assets/{id}/timeseries response is an object — {asset_id, signal,
+// unit, interval_min, points, events} — not a bare array, and each point carries
+// residual_z but no raw residual. `residual` here is actual - expected, the direct
+// definition of the term, not an invented figure.
+function normalizeTimeseries(raw: Record<string, unknown>): TimeseriesPoint[] {
+  const points = (raw.points as Array<Record<string, unknown>>) ?? [];
+  return points.map((p) => {
+    const actual = p.actual as number;
+    const expected = p.expected as number;
+    return {
+      timestamp: p.t as string,
+      actual,
+      expected,
+      lower_band: p.lower as number,
+      upper_band: p.upper as number,
+      residual: actual - expected,
+      z_score: p.residual_z as number,
+    };
+  });
+}
+
+export async function getAssetTimeseries(assetId: string): Promise<LiveResult<TimeseriesPoint[]>> {
   const points: TimeseriesPoint[] = [];
   const now = Date.now();
   const isWT17 = assetId === "WT-017";
@@ -172,10 +207,128 @@ export async function getAssetTimeseries(assetId: string): Promise<TimeseriesPoi
     });
   }
 
-  return fetchWithFallback(`${API_BASE}/assets/${assetId}/timeseries`, points);
+  try {
+    const res = await fetch(`${API_BASE}/assets/${assetId}/timeseries`, { next: { revalidate: 10 } });
+    if (!res.ok) {
+      console.warn(`API call failed: ${API_BASE}/assets/${assetId}/timeseries (${res.status}), showing last-known snapshot`);
+      return { data: points, live: false };
+    }
+    const raw = await res.json();
+    return { data: normalizeTimeseries(raw), live: true };
+  } catch (err) {
+    console.warn(`API call unreachable: ${API_BASE}/assets/${assetId}/timeseries, showing last-known snapshot`);
+    return { data: points, live: false };
+  }
 }
 
-export async function getInvestigation(assetId: string): Promise<InvestigationResult> {
+// The real POST /api/assets/{id}/investigate response nests evidence under `packet`
+// (anomaly/risk/peers/environment/soiling) alongside top-level verdict/timeline/
+// historical_cases/citations/economics — a materially different shape from the
+// InvestigationResult the UI renders. This maps real fields onto that shape; anything
+// with no real equivalent (e.g. a per-peer power breakdown, a per-cause loss split) is
+// left out rather than invented.
+function normalizeInvestigation(raw: Record<string, unknown>, assetId: string): InvestigationResult {
+  const packet = (raw.packet ?? {}) as Record<string, unknown>;
+  const verdict = (raw.verdict ?? {}) as Record<string, unknown>;
+  const anomaly = (packet.anomaly ?? {}) as Record<string, unknown>;
+  const risk = (packet.risk ?? {}) as Record<string, unknown>;
+  const peers = (packet.peers ?? {}) as Record<string, unknown>;
+  const environment = (packet.environment ?? {}) as Record<string, unknown>;
+  const conditions = (environment.conditions ?? {}) as Record<string, unknown>;
+  const soiling = packet.soiling as Record<string, unknown> | null | undefined;
+  const economics = (raw.economics ?? {}) as Record<string, unknown>;
+  const startedAt = new Date((raw.started_at as string) ?? Date.now()).getTime();
+
+  const detectors = (anomaly.detectors as Array<Record<string, unknown>>) ?? [];
+  const dominantDetector = detectors.reduce<Record<string, unknown> | null>((best, d) => {
+    if (!best || (d.score as number) > (best.score as number)) return d;
+    return best;
+  }, null);
+
+  const signals = ((anomaly.signals as Array<Record<string, unknown>>) ?? []).map((s) => ({
+    name: s.name as string,
+    actual: s.actual as number,
+    expected: s.expected as number,
+    residual: s.residual as number,
+    z_score: s.z_score as number,
+    trend_per_day: s.trend_per_day as number,
+    dominant: s.name === anomaly.dominant_signal,
+  }));
+
+  const options = ((economics.options as Array<Record<string, unknown>>) ?? []).map((o) => {
+    const avoidableTotal = (economics.avoidable_exposure_inr as number) ?? 0;
+    const expectedExposure = (o.expected_exposure_inr as number) ?? 0;
+    const avoidedLoss = avoidableTotal - expectedExposure;
+    return {
+      action: o.label as string,
+      cost_inr: o.intervention_cost_inr as number,
+      avoided_loss_inr: avoidedLoss,
+      net_benefit_inr: avoidedLoss - (o.intervention_cost_inr as number),
+      is_recommended: o.option_id === economics.recommended_option_id,
+    };
+  });
+  const recommendedOption = options.find((o) => o.is_recommended) ?? options[0];
+
+  return {
+    asset_id: (raw.asset_id as string) ?? assetId,
+    verdict: (verdict.likely_cause as string) ?? "No verdict computed",
+    confidence: (verdict.confidence as number) ?? 0,
+    needle_used: (verdict.model_used as string) ?? "unknown",
+    requires_human_review: Boolean(verdict.requires_human_review),
+    timeline: ((raw.timeline as Array<Record<string, unknown>>) ?? []).map((t) => ({
+      stage: t.stage as string,
+      status: (t.status as "pending" | "running" | "done" | "skipped") ?? "done",
+      detail: (t.detail as string) ?? (t.label as string) ?? "",
+      elapsed_ms: Math.max(0, new Date(t.at as string).getTime() - startedAt),
+    })),
+    evidence: {
+      anomaly: {
+        score: (anomaly.anomaly_score as number) ?? 0,
+        threshold: (dominantDetector?.threshold as number) ?? 0.5,
+        severity: (verdict.severity as string) ?? "low",
+        signals,
+      },
+      environment: {
+        is_explained: environment.verdict === "environmental",
+        explains_fraction: environment.explains_fraction as number | undefined,
+        ambient_temp_c: conditions.ambient_temp_c as number | undefined,
+        wind_speed_ms: conditions.wind_speed_ms as number | undefined,
+        irradiance_wm2: conditions.irradiance_wm2 as number | undefined,
+        dust_risk: soiling?.dust_risk as string | undefined,
+      },
+      peers: {
+        group_size: (peers.n_peers as number) ?? 0,
+        is_isolated: peers.verdict === "asset_specific",
+        subject_residual_pct: (peers.asset_residual_pct as number) ?? 0,
+        peer_median_residual_pct: (peers.peer_median_residual_pct as number) ?? 0,
+        deviation_percentile: (peers.deviation_percentile as number) ?? 0,
+      },
+      history: {
+        cases: ((raw.historical_cases as Array<Record<string, unknown>>) ?? []) as unknown as HistoricalCaseItem[],
+      },
+      knowledge: {
+        citations: ((raw.citations as Array<Record<string, unknown>>) ?? []).map((c) => ({
+          doc_id: c.doc_id as string,
+          title: c.title as string,
+          snippet: c.snippet as string,
+          relevance: c.score as number,
+        })),
+      },
+      economics: {
+        options,
+        avoidable_exposure_inr: (economics.avoidable_exposure_inr as number) ?? 0,
+      },
+    },
+    intervention: {
+      recommended_action: (verdict.recommended_action as string) ?? "No action recommended",
+      recommended_window_hours: (verdict.action_deadline_hours as number) ?? 0,
+      expected_savings_inr: (economics.avoidable_exposure_inr as number) ?? 0,
+      net_benefit_inr: recommendedOption?.net_benefit_inr ?? 0,
+    },
+  };
+}
+
+export async function getInvestigation(assetId: string): Promise<LiveResult<InvestigationResult>> {
   const isWT17 = assetId === "WT-017";
   const fallback: InvestigationResult = {
     asset_id: assetId,
@@ -213,9 +366,7 @@ export async function getInvestigation(assetId: string): Promise<InvestigationRe
       },
       environment: {
         is_explained: !isWT17,
-        loss_breakdown: isWT17
-          ? { weather: 0.0, curtailment: 0.0, equipment: 18.2, unexplained: 1.1 }
-          : { irradiance: 4.0, soiling: 11.5, thermal: 1.2, equipment: 0.0, unexplained: 0.8 },
+        explains_fraction: isWT17 ? 0.06 : 0.82,
         ambient_temp_c: 34.2,
         wind_speed_ms: 8.4,
         irradiance_wm2: 820,
@@ -223,14 +374,10 @@ export async function getInvestigation(assetId: string): Promise<InvestigationRe
       },
       peers: {
         group_size: 8,
-        peer_z_score: isWT17 ? 3.4 : 0.4,
         is_isolated: isWT17,
-        distribution: [
-          { peer_id: assetId, power_kw: 1850, residual_pct: -11.9, is_subject: true },
-          { peer_id: isWT17 ? "WT-015" : "INV-021", power_kw: 2100, residual_pct: 0.2, is_subject: false },
-          { peer_id: isWT17 ? "WT-016" : "INV-022", power_kw: 2085, residual_pct: -0.4, is_subject: false },
-          { peer_id: isWT17 ? "WT-018" : "INV-024", power_kw: 2110, residual_pct: 0.5, is_subject: false },
-        ],
+        subject_residual_pct: -11.9,
+        peer_median_residual_pct: 0.2,
+        deviation_percentile: isWT17 ? 100.0 : 92.0,
       },
       history: {
         cases: [
@@ -257,7 +404,7 @@ export async function getInvestigation(assetId: string): Promise<InvestigationRe
         ],
       },
       economics: {
-        daily_exposure_inr: 155000,
+        avoidable_exposure_inr: 7662566,
         options: [
           { action: "Repair Now (Planned)", cost_inr: 850000, avoided_loss_inr: 4500000, net_benefit_inr: 3650000, is_recommended: true },
           { action: "Defer 7 Days", cost_inr: 1250000, avoided_loss_inr: 3200000, net_benefit_inr: 1950000, is_recommended: false },
@@ -273,138 +420,172 @@ export async function getInvestigation(assetId: string): Promise<InvestigationRe
     },
   };
 
-  return fetchWithFallback(`${API_BASE}/assets/${assetId}/investigate`, fallback);
+  try {
+    const res = await fetch(`${API_BASE}/assets/${assetId}/investigate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ force_refresh: false }),
+    });
+    if (!res.ok) {
+      console.warn(`Investigation failed: ${API_BASE}/assets/${assetId}/investigate (${res.status}), showing last-known snapshot`);
+      return { data: fallback, live: false };
+    }
+    const raw = await res.json();
+    return { data: normalizeInvestigation(raw, assetId), live: true };
+  } catch (err) {
+    console.warn(`Investigation unreachable: ${API_BASE}/assets/${assetId}/investigate, showing last-known snapshot`);
+    return { data: fallback, live: false };
+  }
 }
 
-export async function getSoilingIntelligence(assetId = "INV-023"): Promise<SoilingResponse> {
+export async function getSoilingIntelligence(): Promise<LiveResult<SoilingResponse>> {
+  // Matches the real GET /api/soiling contract (docs/API_CONTRACT.md) exactly, used only
+  // when the API is unreachable. This is a site-level summary, not per-asset.
   const fallback: SoilingResponse = {
-    asset_id: assetId,
     site: "Charanka Solar Park",
-    timestamp: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    site_soiling_loss_pct: 6.7,
     dust_risk: "high",
-    dust_concentration_ug_m3: 168.4,
-    aod_550: 0.84,
-    pm10_ug_m3: 142.1,
-    rain_probability_24h: 0.15,
-    rain_wash_probability: 0.12,
-    mud_cementation_risk: "medium",
-    soiling_ratio: 0.874,
-    current_soiling_loss_pct: 12.6,
-    daily_accumulation_rate_pct: 0.65,
-    last_cleaning_days_ago: 14,
-    advisor_options: [
-      {
-        action: "Clean Now",
-        recommended_window_hours: 24,
-        expected_energy_recovered_kwh: 14500,
-        cleaning_cost_inr: 45000,
-        avoided_loss_inr: 122000,
-        net_benefit_inr: 77000,
-        break_even_days: 3.2,
-        confidence: 0.89,
-        is_recommended: true,
-        rationale: "High dust accumulation; low rain probability (15%) makes immediate cleaning NPV positive.",
-      },
-      {
-        action: "Wait 24h",
-        recommended_window_hours: 48,
-        expected_energy_recovered_kwh: 13200,
-        cleaning_cost_inr: 45000,
-        avoided_loss_inr: 104000,
-        net_benefit_inr: 59000,
-        break_even_days: 4.1,
-        confidence: 0.85,
-        is_recommended: false,
-        rationale: "Delaying results in an additional ~₹18,000 avoidable energy loss.",
-      },
-      {
-        action: "Wait 72h",
-        recommended_window_hours: 72,
-        expected_energy_recovered_kwh: 11400,
-        cleaning_cost_inr: 45000,
-        avoided_loss_inr: 72000,
-        net_benefit_inr: 27000,
-        break_even_days: 5.8,
-        confidence: 0.81,
-        is_recommended: false,
-        rationale: "Suboptimal: rain forecast remains dry and generation revenue continues bleeding.",
-      },
-      {
-        action: "Wait 7 Days",
-        recommended_window_hours: 168,
-        expected_energy_recovered_kwh: 6800,
-        cleaning_cost_inr: 45000,
-        avoided_loss_inr: 34000,
-        net_benefit_inr: -11000,
-        break_even_days: 9.4,
-        confidence: 0.74,
-        is_recommended: false,
-        rationale: "Negative NPV: losses exceed cleaning cost; cementation risks increase with humidity.",
-      },
-    ],
-    loss_decomposition: {
-      total_loss_pct: 16.5,
-      irradiance_loss_pct: 2.1,
-      soiling_loss_pct: 12.6,
-      thermal_loss_pct: 1.1,
-      curtailment_loss_pct: 0.0,
-      equipment_loss_pct: 0.0,
-      unexplained_loss_pct: 0.7,
+    rain_probability_48h: 0.23,
+    days_since_rain: 19,
+    cleaning_cost_inr: 42000,
+    recommendation: {
+      action: "wait",
+      wait_hours: 36,
+      rationale: "Rain probability 23% within 48 h; projected additional loss is below the cleaning cost threshold.",
+      breakeven_days: 4.2,
     },
+    zones: [
+      { zone: "block-1", inverters: 12, soiling_loss_pct: 5.9, performance_ratio: 0.82, status: "watch", worst_asset_id: "INV-007" },
+      { zone: "block-2", inverters: 12, soiling_loss_pct: 8.4, performance_ratio: 0.79, status: "investigate", worst_asset_id: "INV-023" },
+    ],
   };
 
-  return fetchWithFallback(`${API_BASE}/soiling?asset_id=${assetId}`, fallback);
+  return fetchWithFallback(`${API_BASE}/soiling`, fallback);
 }
 
-export async function getScenarios(): Promise<ScenarioItem[]> {
+export async function getScenarios(): Promise<LiveResult<ScenarioItem[]>> {
+  // Matches the real GET /api/simulator/scenarios contract (docs/API_CONTRACT.md) exactly,
+  // used only when the API is unreachable.
   const fallback: ScenarioItem[] = [
-    { id: "bearing_wear", name: "Bearing Inner-Race Spalling", asset_type: "wind", description: "Progressive thermal and vibration increase on high-speed shaft", category: "equipment", affected_signals: ["bearing_temp", "vibration_rms"], duration_hours: 72 },
-    { id: "dust_storm", name: "Thar Desert Sandstorm Ingress", asset_type: "solar", description: "Rapid AOD & PM10 surge causing steep soiling attenuation", category: "environment", affected_signals: ["irradiance", "soiling_ratio", "power"], duration_hours: 24 },
-    { id: "dust_plus_rain", name: "Dust Storm Followed by Light Rain", asset_type: "solar", description: "Aerosol deposition followed by drizzle creating muddy cementation", category: "environment", affected_signals: ["soiling_ratio", "cementation_index"], duration_hours: 48 },
-    { id: "cloud_transient", name: "Monsoon Cumulus Cloud Transients", asset_type: "solar", description: "Rapid irradiance fluctuations without equipment impairment", category: "environment", affected_signals: ["irradiance", "power"], duration_hours: 12 },
-    { id: "grid_curtailment", name: "SLDC Grid Curtailment Directive", asset_type: "wind", description: "Active power setpoint capping; normal component temperatures", category: "environment", affected_signals: ["active_power"], duration_hours: 8 },
-    { id: "pitch_misalignment", name: "Blade Pitch Actuator Lag", asset_type: "wind", description: "Asymmetric aerodynamic loads and rotor speed hunting", category: "equipment", affected_signals: ["pitch_angle", "power_deficit"], duration_hours: 36 },
+    { scenario: "gearbox_bearing_wear", label: "Gearbox bearing wear", asset_type: "wind_turbine", component: "gearbox", is_equipment_fault: true, typical_onset_days: 14, description: "Progressive vibration and oil-temperature rise with mild power loss", expected_detection: "Asset-specific equipment fault, escalated for inspection" },
+    { scenario: "generator_overheating", label: "Generator overheating", asset_type: "wind_turbine", component: "generator", is_equipment_fault: true, typical_onset_days: 9, description: "Winding temperature climbs and the controller derates at high load", expected_detection: "Asset-specific thermal fault" },
+    { scenario: "pitch_misalignment", label: "Pitch misalignment", asset_type: "wind_turbine", component: "pitch_system", is_equipment_fault: true, typical_onset_days: 7, description: "Power loss concentrated at mid wind speeds with no thermal signature", expected_detection: "Aerodynamic fault distinguished from drivetrain wear by absent thermal rise" },
+    { scenario: "yaw_misalignment", label: "Yaw misalignment", asset_type: "wind_turbine", component: "yaw_system", is_equipment_fault: true, typical_onset_days: 10, description: "Cosine-squared power loss correlated with wind direction", expected_detection: "Direction-dependent loss, separable from a uniform derate" },
+    { scenario: "string_outage", label: "DC string outage", asset_type: "solar_inverter", component: "dc_string", is_equipment_fault: true, typical_onset_days: 1, description: "Step loss of DC current when strings drop offline", expected_detection: "Step change isolated to one inverter" },
+    { scenario: "inverter_derate", label: "Inverter thermal derate", asset_type: "solar_inverter", component: "inverter", is_equipment_fault: true, typical_onset_days: 5, description: "Inverter temperature rises and output is clipped below rating", expected_detection: "Asset-specific thermal fault on the AC side" },
+    { scenario: "soiling_accumulation", label: "Soiling accumulation", asset_type: "solar_inverter", component: "soiling", is_equipment_fault: false, typical_onset_days: 21, description: "Dust builds on the array and washes off after rain", expected_detection: "Recoverable loss, cleaning economics rather than a repair ticket" },
+    { scenario: "anemometer_drift", label: "Anemometer drift", asset_type: "wind_turbine", component: "anemometer", is_equipment_fault: false, typical_onset_days: 12, description: "The wind sensor reads progressively high, so the asset appears to underperform against its own measured wind while nothing mechanical has changed", expected_detection: "Instrumentation fault, NOT a drivetrain alarm" },
+    { scenario: "sensor_freeze", label: "Frozen sensor", asset_type: "wind_turbine", component: "anemometer", is_equipment_fault: false, typical_onset_days: 2, description: "A sensor holds its last value while the asset keeps operating", expected_detection: "Data-quality fault, suppressed from equipment alarms" },
+    { scenario: "curtailment_window", label: "Grid curtailment", asset_type: "wind_turbine", component: "none", is_equipment_fault: false, typical_onset_days: 1, description: "Output capped by grid instruction", expected_detection: "Commanded reduction, never an equipment alarm" },
+    { scenario: "cloud_transient", label: "Cloud transient", asset_type: "solar_inverter", component: "none", is_equipment_fault: false, typical_onset_days: 1, description: "Deep short-lived irradiance drops across the plant", expected_detection: "Environmental, explained by irradiance" },
+    { scenario: "icing_event", label: "Blade icing", asset_type: "wind_turbine", component: "none", is_equipment_fault: false, typical_onset_days: 2, description: "Power loss under low temperature and high humidity", expected_detection: "Environmental, explained by ambient conditions" },
   ];
 
   return fetchWithFallback(`${API_BASE}/simulator/scenarios`, fallback);
 }
 
+export interface InjectResult {
+  ok: boolean;
+  detail?: string;
+}
+
+export async function injectScenario(
+  assetId: string,
+  scenario: string,
+  severity = 0.7,
+  accelerationFactor = 60,
+  durationDays = 14
+): Promise<InjectResult> {
+  try {
+    const res = await fetch(`${API_BASE}/simulator/inject`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        asset_id: assetId,
+        scenario,
+        severity,
+        acceleration: accelerationFactor,
+        duration_days: durationDays,
+      }),
+    });
+    if (!res.ok) {
+      console.warn(`Scenario injection failed: ${res.status}`);
+      return { ok: false, detail: `API returned ${res.status}` };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.warn("Scenario injection unreachable:", err);
+    return { ok: false, detail: "API unreachable" };
+  }
+}
+
+export async function resetScenario(assetId?: string): Promise<InjectResult> {
+  try {
+    const res = await fetch(`${API_BASE}/simulator/reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(assetId ? { asset_id: assetId } : {}),
+    });
+    if (!res.ok) {
+      console.warn(`Scenario reset failed: ${res.status}`);
+      return { ok: false, detail: `API returned ${res.status}` };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.warn("Scenario reset unreachable:", err);
+    return { ok: false, detail: "API unreachable" };
+  }
+}
+
 export interface KnowledgeSearchResult {
-  section_id: string;
   doc_id: string;
   title: string;
+  section: string;
   snippet: string;
-  category: string;
-  similarity: number;
+  score: number;
+  retrieval: string;
 }
 
 export interface KnowledgeSearchResponse {
   query: string;
-  total_results: number;
   results: KnowledgeSearchResult[];
 }
 
-export async function searchKnowledge(query: string): Promise<KnowledgeSearchResponse> {
-  try {
-    const res = await fetch(`${API_BASE}/knowledge/search?q=${encodeURIComponent(query)}`);
-    if (res.ok) return await res.json();
-  } catch (err) {
-    console.warn("Knowledge search unreachable:", err);
-  }
-  return {
+export async function searchKnowledge(query: string): Promise<LiveResult<KnowledgeSearchResponse>> {
+  const fallback: KnowledgeSearchResponse = {
     query,
-    total_results: 1,
     results: [
       {
-        section_id: "SOP-WIND-042",
-        doc_id: "SOP-WIND-042",
-        title: "Bearing Temperature Thresholds & Vibration Envelope",
-        snippet: "When bearing delta exceeds 20°C above peer mean, schedule endoscopic inspection within 72h.",
-        category: "sop",
-        similarity: 0.92,
+        doc_id: "wind-gearbox-system",
+        title: "Wind Turbine Gearbox and Drivetrain System Manual",
+        section: "3. Drivetrain failure modes and their observable signatures",
+        snippet: "Failure-mode signatures expressed in the exact telemetry tags RAI monitors.",
+        score: 0.25,
+        retrieval: "fts5",
       },
     ],
   };
+  return fetchWithFallback(`${API_BASE}/knowledge/search?q=${encodeURIComponent(query)}`, fallback);
+}
+
+export interface KnowledgeDoc {
+  doc_id: string;
+  title: string;
+  asset_type: "wind_turbine" | "solar_inverter" | "both";
+  component: string;
+  kind: string;
+  sections: number;
+  source_note: string;
+}
+
+export async function getKnowledgeDocs(): Promise<LiveResult<KnowledgeDoc[]>> {
+  const fallback: KnowledgeDoc[] = [
+    { doc_id: "wind-gearbox-system", title: "Wind Turbine Gearbox and Drivetrain System Manual", asset_type: "wind_turbine", component: "gearbox", kind: "manual", sections: 13, source_note: "Illustrative sample document authored for this project" },
+    { doc_id: "wind-bearing-replacement-sop", title: "Main Bearing and HSS Bearing Replacement", asset_type: "wind_turbine", component: "gearbox", kind: "sop", sections: 9, source_note: "Illustrative sample document authored for this project" },
+    { doc_id: "solar-dc-string-system", title: "DC String and Array Manual", asset_type: "solar_inverter", component: "dc_array", kind: "manual", sections: 12, source_note: "Illustrative sample document authored for this project" },
+  ];
+  return fetchWithFallback(`${API_BASE}/knowledge/docs`, fallback);
 }
 
 export interface EvaluationData {
@@ -447,7 +628,7 @@ export interface EvaluationData {
   generalization?: Record<string, unknown>;
   calibration_bins?: {
     brier_score: number;
-    expected_calibration_error: number;
+    ece: number;
     bin_confidences: number[];
     bin_accuracies: number[];
     bin_counts: number[];

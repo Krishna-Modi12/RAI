@@ -8,16 +8,7 @@ import StatusPill from "../../../components/StatusPill";
 import { getAssetTimeseries, getInvestigation } from "../../../lib/api";
 import { formatPower, formatINR, formatPercent } from "../../../lib/format";
 import { TimeseriesPoint, InvestigationResult } from "../../../lib/types";
-import {
-  Wind,
-  Sun,
-  ArrowLeft,
-  RefreshCw,
-  Cpu,
-  CheckCircle2,
-  FileText,
-  AlertTriangle,
-} from "lucide-react";
+import { Wind, Sun, ArrowLeft, Cpu } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -29,30 +20,44 @@ export default function AssetPage({ params }: PageProps) {
   const isWind = assetId.startsWith("WT");
 
   const [timeseries, setTimeseries] = useState<TimeseriesPoint[]>([]);
+  const [timeseriesLive, setTimeseriesLive] = useState(false);
   const [investigation, setInvestigation] = useState<InvestigationResult | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [investigationLive, setInvestigationLive] = useState(false);
   const [recomputing, setRecomputing] = useState(false);
 
   useEffect(() => {
     async function load() {
-      setLoading(true);
       const [ts, inv] = await Promise.all([
         getAssetTimeseries(assetId),
         getInvestigation(assetId),
       ]);
-      setTimeseries(ts);
-      setInvestigation(inv);
-      setLoading(false);
+      setTimeseries(ts.data);
+      setTimeseriesLive(ts.live);
+      setInvestigation(inv.data);
+      setInvestigationLive(inv.live);
     }
     load();
   }, [assetId]);
 
   const handleRunAgent = async () => {
     setRecomputing(true);
-    // Trigger live recomputation
     const inv = await getInvestigation(assetId);
-    setInvestigation(inv);
+    setInvestigation(inv.data);
+    setInvestigationLive(inv.live);
     setTimeout(() => setRecomputing(false), 600);
+  };
+
+  const severityToBand = (severity: string | undefined): "low" | "elevated" | "high" | "critical" => {
+    switch (severity) {
+      case "critical":
+        return "critical";
+      case "high":
+        return "high";
+      case "medium":
+        return "elevated";
+      default:
+        return "low";
+    }
   };
 
   return (
@@ -84,15 +89,7 @@ export default function AssetPage({ params }: PageProps) {
               <h1 className="text-xl font-mono font-semibold tracking-tight text-[var(--text-primary)]">
                 {assetId}
               </h1>
-              <StatusPill
-                band={
-                  assetId === "WT-017"
-                    ? "critical"
-                    : assetId === "INV-023"
-                    ? "high"
-                    : "low"
-                }
-              />
+              <StatusPill band={severityToBand(investigation?.evidence.anomaly?.severity)} />
               <span className="text-xs font-mono text-[var(--text-tertiary)] bg-[var(--surface-sunken)] px-2 py-0.5 rounded-[2px] border border-[var(--border)]">
                 {isWind ? "Suzlon S111 / 2.1 MW" : "SMA Central / 1.0 MW"}
               </span>
@@ -117,6 +114,18 @@ export default function AssetPage({ params }: PageProps) {
       </div>
 
       {/* Quick Metrics Strip */}
+      <div className="flex items-center justify-end">
+        <span
+          className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
+          title={
+            timeseriesLive && investigationLive
+              ? undefined
+              : "API unavailable — showing last-known snapshot"
+          }
+        >
+          {timeseriesLive && investigationLive ? "LIVE" : "CACHED · last-known snapshot"}
+        </span>
+      </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
         <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
           <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Measured Power</div>
@@ -145,19 +154,19 @@ export default function AssetPage({ params }: PageProps) {
         </div>
 
         <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Failure Risk</div>
+          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Anomaly Score</div>
           <div className="text-base font-semibold text-[var(--critical)] mt-1">
             {((investigation?.evidence.anomaly?.score ?? 0.88) * 100).toFixed(0)}%
           </div>
-          <div className="text-[10px] text-[var(--text-tertiary)]">
-            calibrated Brier: 0.017
+          <div className="text-[10px] text-[var(--text-tertiary)] capitalize">
+            severity: {investigation?.evidence.anomaly?.severity ?? "—"}
           </div>
         </div>
 
         <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Daily Avoidable Loss</div>
+          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Avoidable Exposure</div>
           <div className="text-base font-semibold text-[var(--text-primary)] mt-1">
-            {formatINR(investigation?.evidence.economics?.daily_exposure_inr ?? 155000, { perDay: true }).display}
+            {formatINR(investigation?.evidence.economics?.avoidable_exposure_inr ?? 155000).display}
           </div>
           <div className="text-[10px] text-[var(--text-tertiary)]">
             Net NPV: +{formatINR(investigation?.intervention.net_benefit_inr ?? 3650000).display}

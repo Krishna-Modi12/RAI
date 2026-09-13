@@ -188,22 +188,20 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
               </div>
             </div>
 
-            {/* Loss Attribution Bar */}
-            {evidence.environment?.loss_breakdown && (
+            {/* Environmental Attribution */}
+            {evidence.environment?.explains_fraction != null && (
               <div className="space-y-1.5 pt-2">
                 <div className="text-[11px] font-sans font-medium text-[var(--text-secondary)]">
-                  Loss Decomposition Breakdown:
+                  Environmental Attribution:
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs font-mono">
-                  {Object.entries(evidence.environment.loss_breakdown).map(([k, v]) => (
-                    <span
-                      key={k}
-                      className="px-2 py-1 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[2px]"
-                    >
-                      <span className="text-[var(--text-tertiary)] uppercase mr-1">{k}:</span>
-                      <span className="font-semibold text-[var(--text-primary)]">{v.toFixed(1)}%</span>
+                  <span className="px-2 py-1 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[2px]">
+                    <span className="text-[var(--text-tertiary)] uppercase mr-1">explains:</span>
+                    <span className="font-semibold text-[var(--text-primary)]">
+                      {(evidence.environment.explains_fraction * 100).toFixed(1)}%
                     </span>
-                  ))}
+                    <span className="text-[var(--text-tertiary)]"> of deviation</span>
+                  </span>
                 </div>
               </div>
             )}
@@ -234,35 +232,33 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
         {openSections.peers && (
           <div className="p-4 space-y-3">
             <p className="text-xs font-sans text-[var(--text-secondary)]">
-              Comparing against cohort of {evidence.peers?.group_size ?? 8} identical configuration assets on the same feeder. Subject deviation is{" "}
+              Comparing against a cohort of {evidence.peers?.group_size ?? 8} identical-configuration assets on the same feeder. Subject deviates further than{" "}
               <span className="font-mono font-semibold text-[var(--critical)]">
-                +{evidence.peers?.peer_z_score?.toFixed(1) ?? "3.4"}σ
+                {evidence.peers?.deviation_percentile?.toFixed(0) ?? "—"}%
               </span>{" "}
-              from cohort median.
+              of the cohort.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
-              {evidence.peers?.distribution.map((p) => (
-                <div
-                  key={p.peer_id}
-                  className={`p-2 rounded-[2px] border ${
-                    p.is_subject
-                      ? "bg-[var(--accent-surface)] border-[var(--accent)] font-semibold"
-                      : "bg-[var(--surface-sunken)] border-[var(--border)]"
-                  }`}
-                >
-                  <div className="flex justify-between">
-                    <span>{p.peer_id}</span>
-                    {p.is_subject && <span className="text-[9px] text-[var(--accent)]">TARGET</span>}
-                  </div>
-                  <div className="text-[var(--text-primary)] mt-1">{p.power_kw} kW</div>
-                  <div className="text-[10px] text-[var(--text-tertiary)]">
-                    res: {p.residual_pct > 0 ? "+" : ""}{p.residual_pct}%
-                  </div>
+            <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+              <div className="p-2 rounded-[2px] border bg-[var(--accent-surface)] border-[var(--accent)] font-semibold">
+                <div className="flex justify-between">
+                  <span>Subject</span>
+                  <span className="text-[9px] text-[var(--accent)]">TARGET</span>
                 </div>
-              ))}
+                <div className="text-[10px] text-[var(--text-tertiary)] mt-1">
+                  residual: {(evidence.peers?.subject_residual_pct ?? 0) > 0 ? "+" : ""}
+                  {evidence.peers?.subject_residual_pct?.toFixed(1) ?? "—"}%
+                </div>
+              </div>
+              <div className="p-2 rounded-[2px] border bg-[var(--surface-sunken)] border-[var(--border)]">
+                <div>Peer Median (n={evidence.peers?.group_size ?? 0})</div>
+                <div className="text-[10px] text-[var(--text-tertiary)] mt-1">
+                  residual: {(evidence.peers?.peer_median_residual_pct ?? 0) > 0 ? "+" : ""}
+                  {evidence.peers?.peer_median_residual_pct?.toFixed(1) ?? "—"}%
+                </div>
+              </div>
             </div>
             <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--border)]">
-              SOURCE: GET /api/assets/{`{id}`}/peers · kdtree_peer_spatial_clustering
+              SOURCE: POST /api/assets/{`{id}`}/investigate · packet.peers
             </div>
           </div>
         )}
@@ -368,7 +364,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
             <DollarSign className="w-4 h-4 text-[var(--ok)]" />
             <span>6. Techno-Economic Intervention Trade-Offs</span>
             <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
-              Daily Exposure: {formatINR(evidence.economics?.daily_exposure_inr, { perDay: true }).display}
+              Avoidable Exposure: {formatINR(evidence.economics?.avoidable_exposure_inr).display}
             </span>
           </div>
           {openSections.economics ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

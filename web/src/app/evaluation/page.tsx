@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import StatusPill from "../../components/StatusPill";
 import { getEvaluationMetrics, type EvaluationData } from "../../lib/api";
+import { formatPercent } from "../../lib/format";
 import {
   ShieldCheck,
   BarChart2,
   CheckCircle2,
   AlertCircle,
-  HelpCircle,
   FileCheck,
   TrendingUp,
   Filter,
@@ -45,16 +44,16 @@ export default function EvaluationPage() {
       notes: "Fused expected-behavior GBM + residuals + persistence + peer consensus + environmental gating",
     },
     {
-      name: "Baseline 4: Residual + Isolation Forest",
+      name: "Baseline 4: Isolation Forest (alone)",
       tier: "Unsupervised ML",
-      score: 0.691,
-      prAuc: 0.594,
-      precision: 0.500,
-      recall: 0.333,
-      faYear: 0.20,
-      leadTime: "6.5 days",
-      brier: 0.084,
-      ece: 0.241,
+      score: 0.761,
+      prAuc: 0.644,
+      precision: null,
+      recall: null,
+      faYear: 0.19,
+      leadTime: "6.0 days",
+      brier: null,
+      ece: null,
       status: "REJECTED",
       notes: "Point-in-time isolation forest lacks temporal memory and multi-modal weather fusion",
     },
@@ -63,42 +62,42 @@ export default function EvaluationPage() {
       tier: "Statistical",
       score: 0.422,
       prAuc: 0.126,
-      precision: 0.015,
-      recall: 1.000,
-      faYear: 2473.1,
+      precision: null,
+      recall: null,
+      faYear: 3088.4,
       leadTime: "9.8 days",
-      brier: 0.192,
-      ece: 0.412,
+      brier: null,
+      ece: null,
       status: "REJECTED",
-      notes: "Unfiltered 3-sigma thresholds generate 2,473 false alarms/yr during nominal wind turbulence",
+      notes: "Unfiltered 3-sigma thresholds generate thousands of false alarms/yr during nominal wind turbulence",
     },
     {
-      name: "Baseline 2: Expected Behavior Regression",
+      name: "Baseline 2: Expected-Behaviour (GBM) alone",
       tier: "Regression",
       score: 0.235,
       prAuc: 0.202,
-      precision: 0.080,
-      recall: 0.167,
-      faYear: 26.9,
-      leadTime: "5.0 days",
-      brier: 0.110,
-      ece: 0.285,
+      precision: null,
+      recall: null,
+      faYear: 27.1,
+      leadTime: "5.1 days",
+      brier: null,
+      ece: null,
       status: "REJECTED",
       notes: "Static regression model lacks adaptive environmental context and peer normalization",
     },
     {
-      name: "Baseline 1: Static Physics / Nameplate Rules",
+      name: "Baseline 1: Physics / Nameplate Rule",
       tier: "Rule-based",
       score: 0.070,
       prAuc: 0.262,
-      precision: 0.040,
-      recall: 0.000,
+      precision: null,
+      recall: null,
       faYear: 38.1,
       leadTime: "0.0 days",
-      brier: 0.240,
-      ece: 0.380,
+      brier: null,
+      ece: null,
       status: "REJECTED",
-      notes: "Static power-curve envelope (±25%) fails slow thermal degradation until catastrophic failure",
+      notes: "Static power-curve envelope fails slow thermal degradation until catastrophic failure",
     },
   ];
 
@@ -112,8 +111,8 @@ export default function EvaluationPage() {
         recall: b.recall,
         faYear: b.false_alarms_per_year,
         leadTime: `${b.median_lead_days.toFixed(1)} days`,
-        brier: b.model.includes("challenger") ? (evalData.calibration_bins?.brier_score ?? 0.0423) : 0.08,
-        ece: b.model.includes("challenger") ? (evalData.calibration_bins?.expected_calibration_error ?? 0.1491) : 0.25,
+        brier: b.model.includes("challenger") ? (evalData.calibration_bins?.brier_score ?? 0.0423) : null,
+        ece: b.model.includes("challenger") ? (evalData.calibration_bins?.ece ?? 0.1491) : null,
         status: b.model.includes("challenger") ? "CHAMPION" : "REJECTED",
         notes: b.model.includes("challenger")
           ? "Fused expected-behavior GBM + residuals + persistence + peer consensus + environmental gating"
@@ -160,6 +159,10 @@ export default function EvaluationPage() {
         { range: "0.8 – 1.0", meanPred: "89.0%", empirical: "100.0%", count: 1 },
       ];
 
+  const calibIsLive = evalData?.calibration_bins?.brier_score != null;
+  const calibBrier = evalData?.calibration_bins?.brier_score ?? 0.0423;
+  const calibEce = evalData?.calibration_bins?.ece ?? 0.1491;
+
   const champIsLive = evalData?.champion_model?.care_score != null;
   const champCare = evalData?.champion_model?.care_score ?? 0.797;
   const champPrauc = evalData?.champion_model?.pr_auc ?? 0.822;
@@ -183,7 +186,7 @@ export default function EvaluationPage() {
 
         <div className="flex items-center space-x-2 font-mono text-xs px-2.5 py-1 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px]">
           <ShieldCheck className="w-4 h-4" />
-          <span>DEPENDENCE-AWARE · LEAKAGE-FREE EVALUATION</span>
+          <span>Leakage-free, dependence-aware evaluation</span>
         </div>
       </div>
 
@@ -220,7 +223,7 @@ export default function EvaluationPage() {
               <span>Track B: External SCADA Validation (Zero-Shot Tracking)</span>
             </div>
             <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px]">
-              TRACKING PASSED (R²=0.994) · ANOMALY BENCHMARK PENDING
+              Tracking passed (R²=0.994); anomaly benchmark pending
             </span>
           </div>
           <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
@@ -342,8 +345,8 @@ export default function EvaluationPage() {
                     {m.score.toFixed(3)}
                   </td>
                   <td className="py-3 px-2 text-right">{m.prAuc.toFixed(3)}</td>
-                  <td className="py-3 px-2 text-right">{(m.precision * 100).toFixed(1)}%</td>
-                  <td className="py-3 px-2 text-right">{(m.recall * 100).toFixed(1)}%</td>
+                  <td className="py-3 px-2 text-right">{formatPercent(m.precision != null ? m.precision * 100 : null)}</td>
+                  <td className="py-3 px-2 text-right">{formatPercent(m.recall != null ? m.recall * 100 : null)}</td>
                   <td
                     className={`py-3 px-2 text-right font-semibold ${
                       m.faYear > 10 ? "text-[var(--critical)]" : "text-[var(--ok)]"
@@ -352,8 +355,8 @@ export default function EvaluationPage() {
                     {m.faYear.toFixed(2)}
                   </td>
                   <td className="py-3 px-2 text-right">{m.leadTime}</td>
-                  <td className="py-3 px-2 text-right">{m.brier.toFixed(3)}</td>
-                  <td className="py-3 px-2 text-right">{m.ece.toFixed(4)}</td>
+                  <td className="py-3 px-2 text-right">{m.brier != null ? m.brier.toFixed(3) : "—"}</td>
+                  <td className="py-3 px-2 text-right">{m.ece != null ? m.ece.toFixed(4) : "—"}</td>
                   <td className="py-3 px-3 text-center">
                     {m.status === "CHAMPION" ? (
                       <span className="px-2 py-0.5 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px] text-[10px]">
@@ -461,7 +464,8 @@ export default function EvaluationPage() {
           <div className="flex items-center space-x-2">
             <TrendingUp className="w-4 h-4 text-[var(--accent)]" />
             <h2 className="text-xs font-semibold text-[var(--text-primary)]">
-              Probabilistic Risk Model Calibration (Brier: 0.0170 · ECE: 0.1286)
+              Probabilistic Risk Model Calibration (Brier: {calibBrier.toFixed(4)} · ECE: {calibEce.toFixed(4)}
+              {!calibIsLive && ", cached"})
             </h2>
           </div>
           <span className="text-[10px] font-mono text-[var(--text-tertiary)]">

@@ -19,10 +19,12 @@ import { Wind, Sun, Search, Filter, ArrowUpRight, AlertOctagon } from "lucide-re
 
 export default function FleetPage() {
   const [overview, setOverview] = useState<FleetOverview | null>(null);
+  const [overviewLive, setOverviewLive] = useState(false);
   const [priorityQueue, setPriorityQueue] = useState<PriorityQueueItem[]>([]);
   const [assets, setAssets] = useState<FleetAssetItem[]>([]);
+  const [assetsLive, setAssetsLive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState<"all" | "wind" | "solar">("all");
+  const [typeFilter, setTypeFilter] = useState<"all" | "wind_turbine" | "solar_inverter">("all");
   const [riskFilter, setRiskFilter] = useState<"all" | "at_risk" | "nominal">("all");
 
   useEffect(() => {
@@ -32,12 +34,19 @@ export default function FleetPage() {
         getPriorityQueue(),
         getFleetAssets(),
       ]);
-      setOverview(ov);
-      setPriorityQueue(pq);
-      setAssets(as);
+      setOverview(ov.data);
+      setOverviewLive(ov.live);
+      setPriorityQueue(pq.data);
+      setAssets(as.data);
+      setAssetsLive(as.live);
     }
     loadData();
   }, []);
+
+  const windCount = overview?.by_type?.find((t) => t.asset_type === "wind_turbine")?.count
+    ?? assets.filter((a) => a.asset_type === "wind_turbine").length;
+  const solarCount = overview?.by_type?.find((t) => t.asset_type === "solar_inverter")?.count
+    ?? assets.filter((a) => a.asset_type === "solar_inverter").length;
 
   const filteredAssets = assets.filter((asset) => {
     if (typeFilter !== "all" && asset.asset_type !== typeFilter) return false;
@@ -77,35 +86,31 @@ export default function FleetPage() {
         <MetricTile
           label="Fleet Operational Health"
           value={`${overview?.fleet_health ?? 93.8}%`}
-          context="Weighted across 42 generation units"
-          delta={{ value: "+0.4 pts", isPositive: true, isGood: true }}
+          context={`Weighted across ${overview?.assets_total ?? 42} generation units`}
           hero
           source="GET /api/fleet"
-          live={overview != null}
+          live={overviewLive}
         />
         <MetricTile
           label="Generation vs Expected"
           value={formatPower(overview?.generation_kw ?? 62450)}
           context={`Expected: ${formatPower(overview?.expected_generation_kw ?? 68200)}`}
-          delta={{ value: "−8.4%", isPositive: false, isGood: false }}
           source="physics_gbm_expectation"
-          live={overview != null}
+          live={overviewLive}
         />
         <MetricTile
           label="Plant Availability"
           value={`${overview?.availability_pct ?? 97.6}%`}
-          context="41 active / 1 scheduled outage"
-          delta={{ value: "+0.2%", isPositive: true, isGood: true }}
+          context={`${(overview?.assets_total ?? 42) - (overview?.assets_offline ?? 1)} active / ${overview?.assets_offline ?? 1} offline`}
           source="scada_status_flags"
-          live={overview != null}
+          live={overviewLive}
         />
         <MetricTile
           label="Avoidable Revenue Exposure"
           value={formatINR(overview?.revenue_at_risk_inr_per_day ?? 485000, { perDay: true }).display}
           context="Daily financial leakage if unaddressed"
-          delta={{ value: "+₹32K vs yesterday", isPositive: true, isGood: false }}
           source="rai.economics.engine"
-          live={overview != null}
+          live={overviewLive}
         />
       </div>
 
@@ -138,7 +143,7 @@ export default function FleetPage() {
               {/* Asset ID & Type */}
               <div className="min-w-[140px]">
                 <div className="flex items-center space-x-1.5">
-                  {item.asset_type === "wind" ? (
+                  {item.asset_type === "wind_turbine" ? (
                     <Wind className="w-3.5 h-3.5 text-[var(--accent)]" />
                   ) : (
                     <Sun className="w-3.5 h-3.5 text-[var(--series-2)]" />
@@ -148,7 +153,7 @@ export default function FleetPage() {
                   </span>
                 </div>
                 <div className="text-[11px] text-[var(--text-tertiary)] font-sans">
-                  {item.asset_name}
+                  {item.name} · {item.site}
                 </div>
               </div>
 
@@ -226,16 +231,16 @@ export default function FleetPage() {
                 All
               </button>
               <button
-                onClick={() => setTypeFilter("wind")}
-                className={`px-2.5 py-1 border-l border-[var(--border)] ${typeFilter === "wind" ? "bg-[var(--accent-surface)] text-[var(--accent)] font-semibold" : "text-[var(--text-secondary)]"}`}
+                onClick={() => setTypeFilter("wind_turbine")}
+                className={`px-2.5 py-1 border-l border-[var(--border)] ${typeFilter === "wind_turbine" ? "bg-[var(--accent-surface)] text-[var(--accent)] font-semibold" : "text-[var(--text-secondary)]"}`}
               >
-                Wind (24)
+                Wind ({windCount})
               </button>
               <button
-                onClick={() => setTypeFilter("solar")}
-                className={`px-2.5 py-1 border-l border-[var(--border)] ${typeFilter === "solar" ? "bg-[var(--accent-surface)] text-[var(--accent)] font-semibold" : "text-[var(--text-secondary)]"}`}
+                onClick={() => setTypeFilter("solar_inverter")}
+                className={`px-2.5 py-1 border-l border-[var(--border)] ${typeFilter === "solar_inverter" ? "bg-[var(--accent-surface)] text-[var(--accent)] font-semibold" : "text-[var(--text-secondary)]"}`}
               >
-                Solar (18)
+                Solar ({solarCount})
               </button>
             </div>
 
@@ -322,7 +327,7 @@ export default function FleetPage() {
                     </Link>
                   </td>
                   <td className="py-2 px-2 capitalize text-[var(--text-secondary)] font-sans">
-                    {asset.asset_type}
+                    {asset.asset_type === "wind_turbine" ? "Wind" : "Solar"}
                   </td>
                   <td className="py-2 px-2 text-[var(--text-secondary)] font-sans">
                     {asset.site}
@@ -376,8 +381,8 @@ export default function FleetPage() {
         </div>
 
         <div className="p-3 border-t border-[var(--border)] text-[10px] font-mono text-[var(--text-tertiary)] flex justify-between">
-          <span>SOURCE: GET /api/assets · precomputed_fleet_state (42 assets)</span>
-          <span>LATENCY: 12ms · ALL PARQUET SENSORS VALIDATED</span>
+          <span>SOURCE: GET /api/assets ({assets.length} assets)</span>
+          <span>{assetsLive ? "LIVE" : "CACHED — API unavailable, showing last-known snapshot"}</span>
         </div>
       </div>
     </div>

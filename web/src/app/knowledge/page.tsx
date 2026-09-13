@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { KnowledgeSearchResult, searchKnowledge } from "../../lib/api";
-import { BookOpen, Search, FileText, ArrowRight, ExternalLink } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { KnowledgeSearchResult, KnowledgeDoc, searchKnowledge, getKnowledgeDocs } from "../../lib/api";
+import { Search, FileText } from "lucide-react";
 
 export default function KnowledgePage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<KnowledgeSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [docs, setDocs] = useState<KnowledgeDoc[]>([]);
+  const [docsLive, setDocsLive] = useState(false);
 
   const sampleQueries = [
     "bearing temperature delta SOP",
@@ -17,23 +19,24 @@ export default function KnowledgePage() {
     "wind curtailment grid directive",
   ];
 
+  useEffect(() => {
+    async function load() {
+      const d = await getKnowledgeDocs();
+      setDocs(d.data);
+      setDocsLive(d.live);
+    }
+    load();
+  }, []);
+
   const handleSearch = async (q = query) => {
     if (!q.trim()) return;
     setIsSearching(true);
     const data = await searchKnowledge(q);
-    setResults(data.results || []);
+    setResults(data.data.results ?? []);
     setIsSearching(false);
   };
 
-  const domainDocs = [
-    { id: "SOP-WIND-042", title: "Wind Turbine Gearbox & Bearing Temperature Monitoring", category: "SOP", sections: 14 },
-    { id: "SOP-SOLAR-019", title: "PV Inverter Soiling Inspection & Jet Cleaning Protocol", category: "SOP", sections: 11 },
-    { id: "TECH-WIND-101", title: "Suzlon S111 SCADA Signal Registry & Sensor Health Checks", category: "Specification", sections: 18 },
-    { id: "TECH-SOLAR-202", title: "SMA Central Inverter Operating Limits & Derating Curves", category: "Specification", sections: 16 },
-    { id: "FAIL-BEAR-001", title: "High-Speed Shaft Bearing Spalling Failure Mode Analysis", category: "Failure Guide", sections: 9 },
-    { id: "FAIL-SOIL-002", title: "Desert Dust Deposition & Mud Cementation Kinetics in Kutch", category: "Failure Guide", sections: 12 },
-    { id: "ECON-OPT-301", title: "Techno-Economic Maintenance Dispatch & Spares Optimization", category: "Economics", sections: 8 },
-  ];
+  const totalSections = docs.reduce((sum, d) => sum + d.sections, 0);
 
   return (
     <div className="space-y-6">
@@ -44,14 +47,16 @@ export default function KnowledgePage() {
             Domain Knowledge Corpus & Technical SOPs
           </h1>
           <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Deterministic SQLite FTS5 RAG index spanning 19 engineering specifications, OEM manuals, and failure catalogs (221 sections)
+            Deterministic SQLite FTS5 RAG index spanning {docs.length || "—"} engineering specifications, OEM manuals, and failure catalogs ({totalSections || "—"} sections)
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 font-mono text-xs text-[var(--accent)] bg-[var(--accent-surface)] px-2.5 py-1 rounded-[2px] border border-[var(--accent-border)]">
-          <BookOpen className="w-4 h-4" />
-          <span>FTS5 BM25 RETRIEVER ACTIVE</span>
-        </div>
+        <span
+          className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
+          title={docsLive ? "Live from /api/knowledge/docs" : "API unavailable — showing last-known snapshot"}
+        >
+          {docsLive ? "LIVE" : "CACHED · last-known snapshot"}
+        </span>
       </div>
 
       {/* Search Bar & Sample Pills */}
@@ -116,10 +121,11 @@ export default function KnowledgePage() {
                 <div className="flex justify-between items-center text-xs font-semibold text-[var(--text-primary)]">
                   <span>{res.title}</span>
                   <span className="font-mono text-[10px] text-[var(--accent)]">
-                    Doc: {res.doc_id || res.section_id}
+                    {res.doc_id} · {res.score.toFixed(3)}
                   </span>
                 </div>
-                <blockquote className="text-xs font-sans text-[var(--text-secondary)] leading-relaxed italic border-l-2 border-[var(--accent)] pl-2">
+                <div className="text-[10px] font-mono text-[var(--text-tertiary)]">{res.section}</div>
+                <blockquote className="text-xs font-sans text-[var(--text-secondary)] leading-relaxed italic border-l-2 border-[var(--accent)] pl-2 whitespace-pre-line">
                   &ldquo;{res.snippet}&rdquo;
                 </blockquote>
               </div>
@@ -128,21 +134,21 @@ export default function KnowledgePage() {
         </div>
       )}
 
-      {/* 19-Document Corpus Catalog */}
+      {/* Full Document Corpus Catalog */}
       <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] overflow-hidden">
         <div className="p-4 bg-[var(--surface-inset)] border-b border-[var(--border)] flex justify-between items-center">
           <h2 className="text-xs font-semibold text-[var(--text-primary)]">
-            Core Engineering Knowledge Index (19 Domain Documents)
+            Core Engineering Knowledge Index ({docs.length} Domain Documents)
           </h2>
           <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
-            Indexed into artifacts/index/knowledge.db
+            SOURCE: GET /api/knowledge/docs
           </span>
         </div>
 
         <div className="divide-y divide-[var(--border)]">
-          {domainDocs.map((doc) => (
+          {docs.map((doc) => (
             <div
-              key={doc.id}
+              key={doc.doc_id}
               className="p-3.5 flex items-center justify-between hover:bg-[var(--surface-sunken)] transition-colors text-xs font-mono"
             >
               <div className="flex items-center space-x-3">
@@ -152,17 +158,14 @@ export default function KnowledgePage() {
                     {doc.title}
                   </div>
                   <div className="text-[11px] text-[var(--text-tertiary)]">
-                    {doc.id} · Category: {doc.category}
+                    {doc.doc_id} · {doc.kind} · {doc.asset_type}
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
                 <span className="text-[11px] text-[var(--text-secondary)]">
-                  {doc.sections} Indexed Sections
-                </span>
-                <span className="px-2 py-0.5 bg-[var(--ok-surface)] text-[var(--ok)] border border-[var(--ok)] rounded-[2px] text-[10px]">
-                  FTS5 EMBEDDED
+                  {doc.sections} sections
                 </span>
               </div>
             </div>

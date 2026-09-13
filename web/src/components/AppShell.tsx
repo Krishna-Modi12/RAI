@@ -7,14 +7,16 @@ import {
   Activity,
   Wind,
   Sun,
-  ShieldAlert,
   BookOpen,
   Cpu,
   BarChart3,
   Moon,
   SunMedium,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
+import { getHealth, getFleetOverview } from "../lib/api";
+import { HealthResponse, FleetOverview } from "../lib/types";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -24,6 +26,9 @@ export default function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [utcTime, setUtcTime] = useState<string>("");
+  const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [healthLive, setHealthLive] = useState(false);
+  const [overview, setOverview] = useState<FleetOverview | null>(null);
 
   useEffect(() => {
     // Theme sync
@@ -43,8 +48,20 @@ export default function AppShell({ children }: AppShellProps) {
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
+
+    async function loadStatus() {
+      const [h, ov] = await Promise.all([getHealth(), getFleetOverview()]);
+      setHealth(h.data);
+      setHealthLive(h.live);
+      setOverview(ov.data);
+    }
+    loadStatus();
+
     return () => clearInterval(interval);
   }, []);
+
+  const windCount = overview?.by_type?.find((t) => t.asset_type === "wind_turbine")?.count ?? 18;
+  const solarCount = overview?.by_type?.find((t) => t.asset_type === "solar_inverter")?.count ?? 24;
 
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
@@ -71,13 +88,10 @@ export default function AppShell({ children }: AppShellProps) {
             <span className="font-semibold tracking-tight text-lg text-[var(--accent)] font-sans">
               RAI
             </span>
-            <span className="text-xs text-[var(--text-secondary)] font-mono border-l border-[var(--border)] pl-2">
-              v2.1·PROD
-            </span>
           </Link>
           <div className="hidden sm:flex items-center text-xs text-[var(--text-secondary)] bg-[var(--surface-sunken)] px-2.5 py-1 rounded-[2px] border border-[var(--border)]">
             <span className="font-medium text-[var(--text-primary)] mr-1.5">Site:</span>
-            <span>Kutch Wind (24) + Charanka Solar (18)</span>
+            <span>Kutch Wind ({windCount}) + Charanka Solar ({solarCount})</span>
           </div>
         </div>
 
@@ -86,15 +100,26 @@ export default function AppShell({ children }: AppShellProps) {
           <div className="flex items-center space-x-2 text-xs font-mono text-[var(--text-secondary)] bg-[var(--surface-sunken)] px-2 py-1 rounded-[2px] border border-[var(--border)]">
             <span className="inline-block w-2 h-2 rounded-full bg-[var(--ok)] animate-pulse" />
             <span className="text-[var(--text-primary)]">{utcTime || "12:00:00 UTC"}</span>
-            <span className="text-[var(--text-tertiary)] border-l border-[var(--border)] pl-2">
-              sync: 14s
-            </span>
           </div>
 
-          {/* Model Status */}
-          <div className="hidden md:flex items-center space-x-1.5 text-xs font-mono px-2 py-1 rounded-[2px] bg-[var(--accent-surface)] text-[var(--accent)] border border-[var(--accent-border)]">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>CHAMPION: HYBRID (CARE: 0.659)</span>
+          {/* Needle Status — sourced from GET /api/health, per docs/DESIGN.md §6.1 */}
+          <div
+            className={`hidden md:flex items-center space-x-1.5 text-xs font-mono px-2 py-1 rounded-[2px] border ${
+              health?.needle_available
+                ? "bg-[var(--accent-surface)] text-[var(--accent)] border-[var(--accent-border)]"
+                : "bg-[var(--warn-surface)] text-[var(--warn-ink)] border-[var(--warn)]"
+            }`}
+            title={healthLive ? "Live from /api/health" : "API unavailable — showing last-known snapshot"}
+          >
+            {health?.needle_available ? (
+              <CheckCircle2 className="w-3.5 h-3.5" />
+            ) : (
+              <AlertCircle className="w-3.5 h-3.5" />
+            )}
+            <span>
+              {health?.needle_available ? "NEEDLE2" : "DETERMINISTIC REASONER (FALLBACK)"}
+              {!healthLive && " · cached"}
+            </span>
           </div>
 
           {/* Theme Toggle */}
@@ -144,24 +169,19 @@ export default function AppShell({ children }: AppShellProps) {
             })}
           </nav>
 
-          {/* Compact Fleet Counter Block */}
+          {/* Compact Fleet Counter Block — sourced from GET /api/fleet */}
           <div className="pt-3 border-t border-[var(--border)] space-y-2">
             <div className="bg-[var(--surface-raised)] p-2.5 rounded-[2px] border border-[var(--border)] text-xs font-mono space-y-1">
               <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Fleet Active</span>
-                <span className="text-[var(--text-primary)] font-semibold">42 / 42</span>
+                <span className="text-[var(--text-primary)] font-semibold">
+                  {overview ? `${overview.assets_total - overview.assets_offline} / ${overview.assets_total}` : "—"}
+                </span>
               </div>
               <div className="flex justify-between text-[var(--warn-ink)]">
-                <span>Under Review</span>
-                <span className="font-semibold">4</span>
+                <span>At Risk</span>
+                <span className="font-semibold">{overview?.assets_at_risk ?? "—"}</span>
               </div>
-              <div className="flex justify-between text-[var(--critical)]">
-                <span>Critical Faults</span>
-                <span className="font-semibold">1 (WT-017)</span>
-              </div>
-            </div>
-            <div className="text-[10px] text-[var(--text-tertiary)] font-mono px-1">
-              Deterministic Evidence Spine · Zero Pure-Accuracy Bias
             </div>
           </div>
         </aside>

@@ -62,7 +62,9 @@ export default function MetricTile({
             <span>{delta.value}</span>
           </span>
         )}
-        {source && (
+      </div>
+      {source && (
+        <div className="mt-1.5 pt-1.5 border-t border-[var(--border)]">
           <span
             className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
             title={live ? undefined : "API unavailable — showing last-known snapshot value"}
@@ -70,8 +72,8 @@ export default function MetricTile({
             {source}
             {!live && " · cached"}
           </span>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

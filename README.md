@@ -60,7 +60,7 @@ RAI answers three questions in under ten seconds:
 | **Historical Trajectory Memory** | Cosine similarity KNN retrieval of past degradation signatures with strict retrieval leakage guards | `rai/memory/cases.py` |
 | **Technical Knowledge RAG** | SQLite FTS5 BM25 retrieval over 19 maintenance manuals, failure catalogs, and OEM SOPs | `rai/rag/` |
 | **Deterministic Reasoning Agent** | Structured diagnosis and confidence-gated escalation with local Needle 2 runtime support | `rai/agent/` |
-| **High-Density Instrument Panel** | Bloomberg-terminal density Next.js 16 UI with OKLCH tokens, HeroChart, and Evidence Ledger | `web/src/` |
+| **High-Density Instrument Panel** | Bloomberg-terminal density Next.js 16 UI with OKLCH tokens, HeroChart, and Evidence Ledger. Every API client call returns `{data, live}`, and the UI shows a `LIVE`/`CACHED` badge rather than presenting a last-known snapshot with full visual authority | `web/src/lib/api.ts` |
 | **Controlled OOD Robustness Suite** | 12 pre-registered sensor perturbations (noise, missingness, drift, extreme weather, fault-magnitude, weather permutation) rerun end-to-end against the live pipeline, not a mocked score | `rai/eval/ood.py` |
 | **Real External Benchmark (CARE-to-Compare)** | Genuine, un-tuned baselines scored on the published Gück et al. (2024) wind SCADA dataset, formulas transcribed equation-by-equation from the paper | `rai/eval/external/care/` |
 | **Rolling-Origin Temporal Diagnosis** | Fold-by-fold root-cause analysis of why naive temporal CV collapses on rare-event data, with three honest re-aggregations instead of one convenient number | `docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md` |
