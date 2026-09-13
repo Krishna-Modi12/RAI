@@ -191,4 +191,4 @@
 | **Are the benchmarks leak-free?** | `docs/evaluation/GATE2_FORENSIC_AUDIT.md` (342h purge embargo, zero feature leakage) |
 | **How does it perform on real external data?** | `docs/evaluation/EXTERNAL_CARE.md` (Wind Farm A, Zenodo 14006163, CARE = 0.535) |
 | **Is the local LLM reasoning bounded?** | `rai/agent/needle_engine.py` (Needle 2 quantized, zero external API calls, deterministic math fallback) |
-| **Can the system be run completely offline?** | Yes, 552 unit tests pass offline; all SCADA and weather caches are local |
+| **Can the system be run completely offline?** | Yes, 554 unit tests pass offline; all SCADA and weather caches are local |
