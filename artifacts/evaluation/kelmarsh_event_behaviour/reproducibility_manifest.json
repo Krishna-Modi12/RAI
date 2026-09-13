@@ -1,0 +1,187 @@
+{
+  "experiment_id": "RAI-WIND-002",
+  "status": "PARTIAL",
+  "claim_level": "EXTERNAL_REAL + MODEL_COMPARISON + HISTORICAL_AUDIT",
+  "dataset": {
+    "zenodo_record": "5841834",
+    "archive": "Kelmarsh_SCADA_2019_3085.zip",
+    "sha256": "c2f11578b9a1678be198fd7883a7dfe1b923c5b0565f806bdda5dd9d0097f4dc",
+    "turbines": 6,
+    "year": 2019
+  },
+  "event_policy": {
+    "evaluated": [
+      "Forced outage",
+      "Scheduled Maintenance"
+    ],
+    "excluded": [
+      "Out of Environmental Specification",
+      "Out of Electrical Specification",
+      "Technical Standby"
+    ],
+    "not_failure_labels": true
+  },
+  "feature_policy": {
+    "signals": [
+      "timestamp",
+      "wind_speed_ms",
+      "power_kw",
+      "rotor_rpm"
+    ],
+    "transformations": "numeric coercion only; no future rolling features",
+    "units": {
+      "wind_speed_ms": "m/s",
+      "power_kw": "kW",
+      "rotor_rpm": "RPM"
+    }
+  },
+  "leakage_controls": [
+    {
+      "turbine_id": "Kelmarsh-1",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0015981735159817352,
+        "power_kw": 0.0015981735159817352,
+        "rotor_rpm": 0.0015981735159817352
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    },
+    {
+      "turbine_id": "Kelmarsh-2",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0013698630136986301,
+        "power_kw": 0.0013508371385083714,
+        "rotor_rpm": 0.0013698630136986301
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    },
+    {
+      "turbine_id": "Kelmarsh-3",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0013698630136986301,
+        "power_kw": 0.0013698630136986301,
+        "rotor_rpm": 0.0013698630136986301
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    },
+    {
+      "turbine_id": "Kelmarsh-4",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0010273972602739725,
+        "power_kw": 0.0010273972602739725,
+        "rotor_rpm": 0.0010273972602739725
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    },
+    {
+      "turbine_id": "Kelmarsh-5",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0015601217656012177,
+        "power_kw": 0.0015410958904109589,
+        "rotor_rpm": 0.0015601217656012177
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    },
+    {
+      "turbine_id": "Kelmarsh-6",
+      "rows": 52560,
+      "train_rows": 31536,
+      "test_rows": 21024,
+      "signals": [
+        "timestamp",
+        "wind_speed_ms",
+        "power_kw",
+        "rotor_rpm"
+      ],
+      "sampling_minutes": 10.0,
+      "missingness": {
+        "wind_speed_ms": 0.0010273972602739725,
+        "power_kw": 0.0010273972602739725,
+        "rotor_rpm": 0.0010273972602739725
+      },
+      "split": "chronological 60/40",
+      "future_statistics_used": false,
+      "event_labels_used_as_features": false,
+      "turbine_identity_used_as_feature": false
+    }
+  ],
+  "event_category_counts_all_turbines": {
+    "Full Performance": 36010,
+    "Out of Environmental Specification": 13424,
+    "Technical Standby": 9363,
+    "Forced outage": 146,
+    "Scheduled Maintenance": 64,
+    "Out of Electrical Specification": 42
+  },
+  "models": [
+    "statistical_z",
+    "isolation_forest",
+    "rai_champion"
+  ],
+  "window": "6h pre / documented event / 6h post",
+  "limitation": "Operational event association only; no causal or failure-prediction claim."
+}

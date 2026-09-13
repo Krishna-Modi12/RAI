@@ -23,22 +23,27 @@ export default function FleetPage() {
   const [priorityQueue, setPriorityQueue] = useState<PriorityQueueItem[]>([]);
   const [assets, setAssets] = useState<FleetAssetItem[]>([]);
   const [assetsLive, setAssetsLive] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | "wind_turbine" | "solar_inverter">("all");
   const [riskFilter, setRiskFilter] = useState<"all" | "at_risk" | "nominal">("all");
 
   useEffect(() => {
     async function loadData() {
-      const [ov, pq, as] = await Promise.all([
-        getFleetOverview(),
-        getPriorityQueue(),
-        getFleetAssets(),
-      ]);
-      setOverview(ov.data);
-      setOverviewLive(ov.live);
-      setPriorityQueue(pq.data);
-      setAssets(as.data);
-      setAssetsLive(as.live);
+      try {
+        const [ov, pq, as] = await Promise.all([
+          getFleetOverview(),
+          getPriorityQueue(),
+          getFleetAssets(),
+        ]);
+        setOverview(ov.data);
+        setOverviewLive(ov.live);
+        setPriorityQueue(pq.data);
+        setAssets(as.data);
+        setAssetsLive(as.live);
+      } finally {
+        setLoading(false);
+      }
     }
     loadData();
   }, []);
@@ -85,30 +90,30 @@ export default function FleetPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricTile
           label="Fleet Operational Health"
-          value={`${overview?.fleet_health ?? 93.8}%`}
-          context={`Weighted across ${overview?.assets_total ?? 42} generation units`}
+          value={overview ? `${overview.fleet_health}%` : "—"}
+          context={overview ? `Weighted across ${overview.assets_total} generation units` : "Loading live data"}
           hero
           source="GET /api/fleet"
           live={overviewLive}
         />
         <MetricTile
           label="Generation vs Expected"
-          value={formatPower(overview?.generation_kw ?? 62450)}
-          context={`Expected: ${formatPower(overview?.expected_generation_kw ?? 68200)}`}
+          value={overview ? formatPower(overview.generation_kw) : "—"}
+          context={overview ? `Expected: ${formatPower(overview.expected_generation_kw)}` : "Loading live data"}
           source="physics_gbm_expectation"
           live={overviewLive}
         />
         <MetricTile
           label="Plant Availability"
-          value={`${overview?.availability_pct ?? 97.6}%`}
-          context={`${(overview?.assets_total ?? 42) - (overview?.assets_offline ?? 1)} active / ${overview?.assets_offline ?? 1} offline`}
+          value={overview ? `${overview.availability_pct}%` : "—"}
+          context={overview ? `${overview.assets_total - overview.assets_offline} active / ${overview.assets_offline} offline` : "Loading live data"}
           source="scada_status_flags"
           live={overviewLive}
         />
         <MetricTile
           label="Expected Exposure (30-Day)"
-          value={formatINR(overview?.revenue_at_risk_inr_30d).display}
-          context="Modeled cost of leaving at-risk assets unaddressed for 30 days"
+          value={overview ? formatINR(overview.revenue_at_risk_inr_30d).display : "—"}
+          context={overview ? "Modeled cost of leaving at-risk assets unaddressed for 30 days" : "Loading live data"}
           source="rai.economics.engine"
           live={overviewLive}
         />
@@ -124,12 +129,16 @@ export default function FleetPage() {
             </h2>
           </div>
           <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
-            {priorityQueue.length} Active Work Orders
+            {loading ? "Loading work orders" : `${priorityQueue.length} Active Work Orders`}
           </span>
         </div>
 
         <div className="divide-y divide-[var(--border)]">
-          {priorityQueue.map((item) => (
+          {loading && priorityQueue.length === 0 ? (
+            <div className="p-4 text-xs text-[var(--text-secondary)]">Loading live work orders…</div>
+          ) : priorityQueue.length === 0 ? (
+            <div className="p-4 text-xs text-[var(--text-secondary)]">Unavailable — no live work-order data received.</div>
+          ) : priorityQueue.map((item) => (
             <div
               key={item.asset_id}
               className={`p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-[var(--surface-sunken)] transition-colors border-l-[3px] ${
@@ -219,7 +228,7 @@ export default function FleetPage() {
         <div className="p-3 bg-[var(--surface-inset)] border-b border-[var(--border)] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center space-x-3">
             <h2 className="text-xs font-semibold text-[var(--text-primary)]">
-              All Fleet Generation Assets ({filteredAssets.length} of {assets.length})
+              {loading ? "All Fleet Generation Assets (loading…)" : assetsLive ? `All Fleet Generation Assets (${filteredAssets.length} of ${assets.length})` : assets.length ? `All Fleet Generation Assets (${filteredAssets.length} of ${assets.length}, cached)` : "All Fleet Generation Assets (unavailable)"}
             </h2>
 
             {/* Type Filters */}

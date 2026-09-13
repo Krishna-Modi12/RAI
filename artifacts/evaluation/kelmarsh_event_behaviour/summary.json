@@ -1,0 +1,159 @@
+{
+  "experiment_id": "RAI-WIND-002",
+  "status": "PARTIAL",
+  "events_total_evaluated_window_candidates": 92,
+  "events_by_category": {
+    "Forced outage": 146,
+    "Scheduled Maintenance": 64
+  },
+  "models": [
+    {
+      "turbine_id": "Kelmarsh-1",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 17,
+      "event_coverage": 0.0,
+      "false_alarm_rate_outside_event_windows": 0.004034021871202916
+    },
+    {
+      "turbine_id": "Kelmarsh-1",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 17,
+      "event_coverage": 0.4117647058823529,
+      "false_alarm_rate_outside_event_windows": 0.0024787363304981775
+    },
+    {
+      "turbine_id": "Kelmarsh-1",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 17,
+      "event_coverage": 0.7647058823529411,
+      "false_alarm_rate_outside_event_windows": 0.009088699878493317
+    },
+    {
+      "turbine_id": "Kelmarsh-2",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 12,
+      "event_coverage": 0.0,
+      "false_alarm_rate_outside_event_windows": 0.0036372453928225023
+    },
+    {
+      "turbine_id": "Kelmarsh-2",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 12,
+      "event_coverage": 0.3333333333333333,
+      "false_alarm_rate_outside_event_windows": 0.002473326867119302
+    },
+    {
+      "turbine_id": "Kelmarsh-2",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 12,
+      "event_coverage": 0.5833333333333334,
+      "false_alarm_rate_outside_event_windows": 0.008292919495635306
+    },
+    {
+      "turbine_id": "Kelmarsh-3",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.05555555555555555,
+      "false_alarm_rate_outside_event_windows": 0.003660829128326902
+    },
+    {
+      "turbine_id": "Kelmarsh-3",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.7222222222222222,
+      "false_alarm_rate_outside_event_windows": 0.0027208865142970217
+    },
+    {
+      "turbine_id": "Kelmarsh-3",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.9444444444444444,
+      "false_alarm_rate_outside_event_windows": 0.010141486098743446
+    },
+    {
+      "turbine_id": "Kelmarsh-4",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.0,
+      "false_alarm_rate_outside_event_windows": 0.004448137647863917
+    },
+    {
+      "turbine_id": "Kelmarsh-4",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.5,
+      "false_alarm_rate_outside_event_windows": 0.0031283605435526445
+    },
+    {
+      "turbine_id": "Kelmarsh-4",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 18,
+      "event_coverage": 0.6666666666666666,
+      "false_alarm_rate_outside_event_windows": 0.01417538371297292
+    },
+    {
+      "turbine_id": "Kelmarsh-5",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 8,
+      "event_coverage": 0.0,
+      "false_alarm_rate_outside_event_windows": 0.006276857708464101
+    },
+    {
+      "turbine_id": "Kelmarsh-5",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 8,
+      "event_coverage": 0.75,
+      "false_alarm_rate_outside_event_windows": 0.005311187291777316
+    },
+    {
+      "turbine_id": "Kelmarsh-5",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 8,
+      "event_coverage": 1.0,
+      "false_alarm_rate_outside_event_windows": 0.018058036792042875
+    },
+    {
+      "turbine_id": "Kelmarsh-6",
+      "model": "statistical_z",
+      "test_rows": 21024,
+      "evaluated_events": 19,
+      "event_coverage": 0.0,
+      "false_alarm_rate_outside_event_windows": 0.005487237274018912
+    },
+    {
+      "turbine_id": "Kelmarsh-6",
+      "model": "isolation_forest",
+      "test_rows": 21024,
+      "evaluated_events": 19,
+      "event_coverage": 0.2631578947368421,
+      "false_alarm_rate_outside_event_windows": 0.0030375777766890404
+    },
+    {
+      "turbine_id": "Kelmarsh-6",
+      "model": "rai_champion",
+      "test_rows": 21024,
+      "evaluated_events": 19,
+      "event_coverage": 0.9473684210526315,
+      "false_alarm_rate_outside_event_windows": 0.006810053402577042
+    }
+  ],
+  "claim": "RAI anomaly scores were associated with documented operational event windows; this is not failure validation or prediction.",
+  "limitations": [
+    "Operational event association only; no causal or failure-prediction claim."
+  ]
+}

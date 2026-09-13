@@ -70,6 +70,25 @@ class SensorHealth(str, Enum):
     FAILED = "failed"
 
 
+class HistoricalSourceType(str, Enum):
+    """Provenance class for historical evidence; never implies diagnostic truth."""
+
+    REAL_EXTERNAL = "REAL_EXTERNAL"
+    HISTORICAL_REAL = "HISTORICAL_REAL"
+    INTERNAL_SYNTHETIC = "INTERNAL_SYNTHETIC"
+    SIMULATED_OUTCOME = "SIMULATED_OUTCOME"
+    MODEL_COMPARISON = "MODEL_COMPARISON"
+    SOFTWARE_INVARIANT = "SOFTWARE_INVARIANT"
+
+
+class EvidenceState(str, Enum):
+    OBSERVED = "OBSERVED"
+    RETRIEVED = "RETRIEVED"
+    INFERRED = "INFERRED"
+    UNKNOWN = "UNKNOWN"
+    ABSTAINED = "ABSTAINED"
+
+
 # ---------------------------------------------------------------------------
 # Asset registry
 # ---------------------------------------------------------------------------
@@ -208,7 +227,7 @@ class SoilingEvidence(BaseModel):
 
 
 class HistoricalCase(BaseModel):
-    """A past episode whose trajectory resembles the current one."""
+    """A provenance-safe historical episode used as contextual evidence."""
 
     case_id: str
     similarity: float = Field(ge=0.0, le=1.0)
@@ -220,6 +239,26 @@ class HistoricalCase(BaseModel):
     lead_time_days: float | None = None
     repair_cost_inr: float | None = None
     source: str = "synthetic_case_library"
+    asset_type: AssetType | None = None
+    timestamp: datetime | None = None
+    operating_regime: dict[str, str | float | bool | None] = Field(default_factory=dict)
+    environment: dict[str, str | float | bool | None] = Field(default_factory=dict)
+    expected_signals: list[str] = Field(default_factory=list)
+    residuals: dict[str, float | None] = Field(default_factory=dict)
+    persistence: str | float | None = None
+    anomaly_pattern: list[str] = Field(default_factory=list)
+    event_type: str = "UNKNOWN"
+    diagnostic_hypotheses: list[str] = Field(default_factory=list)
+    supporting_evidence: list[str] = Field(default_factory=list)
+    contradictory_evidence: list[str] = Field(default_factory=list)
+    maintenance_action: str | None = None
+    limitations: list[str] = Field(default_factory=list)
+    source_type: HistoricalSourceType = HistoricalSourceType.INTERNAL_SYNTHETIC
+    evidence_states: dict[str, EvidenceState] = Field(default_factory=dict)
+    why_matched: list[str] = Field(default_factory=list)
+    what_is_similar: list[str] = Field(default_factory=list)
+    what_is_different: list[str] = Field(default_factory=list)
+    why_may_not_apply: list[str] = Field(default_factory=list)
 
 
 class KnowledgeCitation(BaseModel):

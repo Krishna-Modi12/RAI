@@ -203,6 +203,10 @@ Query: `signal` (default `power_kw` / `ac_power_kw`), `hours` (default 168), `in
 
 `kind` ∈ `"changepoint" | "alert" | "maintenance" | "curtailment" | "weather" | "repair"`.
 
+Historical cases in investigation responses are contextual evidence. They include
+`source_type`, `evidence_states`, `why_matched`, `what_is_similar`,
+`what_is_different`, and `why_may_not_apply`; a match is not a confirmed diagnosis.
+
 ## `GET /api/assets/{asset_id}/peers`
 
 ```json

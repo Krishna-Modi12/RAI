@@ -138,11 +138,18 @@ class NeedleRuntime:
                 max_new_tokens=256,
                 strict=True,
             )
+        if out is None:
+            return {}
         if isinstance(out, str):
-            out = json.loads(out)
+            try:
+                out = json.loads(out)
+            except Exception:
+                return {}
         if hasattr(out, "model_dump"):
             out = out.model_dump()
-        return dict(out)
+        if isinstance(out, dict):
+            return dict(out)
+        return {}
 
     def confidence_of(self, result: dict[str, Any]) -> float | None:
         for key in ("confidence", "score", "calibrated_confidence"):

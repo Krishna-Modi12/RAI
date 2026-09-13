@@ -76,9 +76,15 @@ export interface HistoricalCaseItem {
   component: string;
   fault_mode: string;
   outcome: string;
-  lead_time_days: number;
-  repair_cost_inr: number;
+  lead_time_days: number | null;
+  repair_cost_inr: number | null;
   source: string;
+  source_type?: string;
+  evidence_states?: Record<string, string>;
+  why_matched?: string[];
+  what_is_similar?: string[];
+  what_is_different?: string[];
+  why_may_not_apply?: string[];
 }
 
 export interface CitationItem {

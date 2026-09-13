@@ -33,7 +33,13 @@ from rai.memory.library import (
     Case,
     cases_for,
 )
-from rai.schemas import EvidencePacket, HistoricalCase
+from rai.schemas import (
+    AssetType,
+    EvidencePacket,
+    EvidenceState,
+    HistoricalCase,
+    HistoricalSourceType,
+)
 
 log = logging.getLogger(__name__)
 
@@ -181,20 +187,109 @@ def find_similar_cases(
         if similarity < MIN_SIMILARITY:
             continue
         out.append(
-            HistoricalCase(
+            _historical_case(
+                packet,
                 case_id=case.case_id,
                 similarity=similarity,
-                asset_id=case.asset_id,
-                component=case.component,
-                fault_mode=case.fault_mode,
-                observed_signature=list(case.observed_signature),
-                outcome=case.outcome,
-                lead_time_days=case.lead_time_days,
-                repair_cost_inr=case.repair_cost_inr,
-                source="synthetic_case_library",
+                case=case,
             )
         )
     return out
+
+
+def _historical_case(
+    packet: EvidencePacket,
+    *,
+    case_id: str,
+    similarity: float,
+    case: Case,
+) -> HistoricalCase:
+    live = signature_from_packet(packet)
+    shared = [
+        name.replace("_", " ")
+        for name in FEATURES
+        if abs(live.get(name, 0.0) - case.signature.get(name, 0.0)) <= 0.20
+    ]
+    different = [
+        name.replace("_", " ")
+        for name in FEATURES
+        if abs(live.get(name, 0.0) - case.signature.get(name, 0.0)) > 0.35
+    ]
+    why_not = [
+        "Historical outcome is contextual evidence, not proof of the current diagnosis.",
+        "This corpus entry is an internally authored synthetic case, not a customer record.",
+    ]
+    if packet.environment is not None and _contradicts(packet, case):
+        why_not.append("Current environmental evidence conflicts with this case's equipment classification.")
+    return HistoricalCase(
+        case_id=case_id,
+        similarity=similarity,
+        asset_id=case.asset_id,
+        asset_type=packet.asset_type,
+        component=case.component,
+        fault_mode=case.fault_mode,
+        observed_signature=list(case.observed_signature),
+        outcome=case.outcome,
+        lead_time_days=case.lead_time_days,
+        repair_cost_inr=case.repair_cost_inr,
+        source="synthetic_case_library",
+        operating_regime={"asset_type": case.asset_type},
+        expected_signals=[],
+        residuals={name: value for name, value in case.signature.items()},
+        persistence=case.signature.get("persistence"),
+        anomaly_pattern=list(case.observed_signature),
+        event_type="equipment_fault" if case.equipment_fault else "non_equipment_deviation",
+        diagnostic_hypotheses=[case.fault_mode],
+        supporting_evidence=list(case.observed_signature),
+        contradictory_evidence=[],
+        maintenance_action=case.outcome,
+        limitations=["Case fields not present in the source record remain UNKNOWN."],
+        source_type=HistoricalSourceType.INTERNAL_SYNTHETIC,
+        evidence_states={
+            "observed_signature": EvidenceState.OBSERVED,
+            "outcome": EvidenceState.RETRIEVED,
+            "diagnostic_hypotheses": EvidenceState.INFERRED,
+            "missing_fields": EvidenceState.UNKNOWN,
+        },
+        why_matched=[f"Trajectory similarity {similarity:.3f} across the case signature.",
+                     "Shared: " + ", ".join(shared or ["no individual feature within threshold"])],
+        what_is_similar=shared,
+        what_is_different=different,
+        why_may_not_apply=why_not,
+    )
+
+
+def get_case_details(case_id: str) -> HistoricalCase | None:
+    """Return one fully explained case without exposing raw telemetry."""
+    from rai.memory.library import CASE_BY_ID
+
+    case = CASE_BY_ID.get(case_id)
+    if case is None:
+        return None
+    # A detail view has no live comparison; similarity is intentionally absent from this path.
+    return HistoricalCase(
+        case_id=case.case_id,
+        similarity=0.0,
+        asset_id=case.asset_id,
+        asset_type=AssetType(case.asset_type),
+        component=case.component,
+        fault_mode=case.fault_mode,
+        observed_signature=list(case.observed_signature),
+        outcome=case.outcome,
+        lead_time_days=case.lead_time_days,
+        repair_cost_inr=case.repair_cost_inr,
+        source="synthetic_case_library",
+        event_type="equipment_fault" if case.equipment_fault else "non_equipment_deviation",
+        diagnostic_hypotheses=[case.fault_mode],
+        supporting_evidence=list(case.observed_signature),
+        maintenance_action=case.outcome,
+        source_type=HistoricalSourceType.INTERNAL_SYNTHETIC,
+        limitations=["Detail lookup is provenance-only and is not a similarity judgement."],
+        evidence_states={"observed_signature": EvidenceState.OBSERVED,
+                         "outcome": EvidenceState.RETRIEVED,
+                         "diagnostic_hypotheses": EvidenceState.INFERRED},
+        why_may_not_apply=["Similarity was not evaluated for this standalone detail lookup."],
+    )
 
 
 def explain_match(packet: EvidencePacket, case_id: str) -> dict[str, float]:

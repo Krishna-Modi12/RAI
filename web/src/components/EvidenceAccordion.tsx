@@ -272,7 +272,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
         >
           <div className="flex items-center space-x-2.5">
             <Clock className="w-4 h-4 text-[var(--warn-ink)]" />
-            <span>4. Historical Failure Case Memory (Trajectory Retrieval)</span>
+            <span>4. Similar Historical Cases (Contextual Evidence)</span>
             <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
               {evidence.history?.cases.length ?? 0} matches
             </span>
@@ -299,10 +299,27 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                 <p className="text-[var(--text-secondary)] text-[11px] leading-relaxed">
                   {c.outcome}
                 </p>
+                <div className="grid gap-2 sm:grid-cols-2 pt-1 text-[11px]">
+                  <div>
+                    <div className="font-semibold text-[var(--text-primary)]">Why matched</div>
+                    <div className="text-[var(--text-secondary)]">
+                      {(c.why_matched ?? []).join(" ") || "Not evaluated"}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-[var(--text-primary)]">What differs</div>
+                    <div className="text-[var(--text-secondary)]">
+                      {(c.what_is_different ?? []).join(", ") || "No material difference recorded"}
+                    </div>
+                  </div>
+                </div>
                 <div className="flex items-center space-x-4 pt-1 font-mono text-[10px] text-[var(--text-tertiary)]">
-                  <span>Lead Time: {c.lead_time_days} days</span>
-                  <span>Avoided Cost: {formatINR(c.repair_cost_inr).display}</span>
-                  <span className="uppercase text-[9px]">Corpus: {c.source}</span>
+                  <span>Lead Time: {c.lead_time_days ?? "not evaluated"} days</span>
+                  <span>Avoided Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
+                  <span className="uppercase text-[9px]">Provenance: {c.source_type ?? c.source}</span>
+                </div>
+                <div className="text-[10px] text-[var(--warn-ink)]">
+                  Historical context only; it does not confirm the current diagnosis.
                 </div>
               </div>
             ))}

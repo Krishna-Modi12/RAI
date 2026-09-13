@@ -181,9 +181,9 @@ replaced with what a fresh run actually produces:
 
 ## Consolidated task log
 
-_Generated 2026-09-13 03:21 UTC from 32 task record(s) in `docs/checkpoints/`._
+_Generated 2026-09-13 04:09 UTC from 36 task record(s) in `docs/checkpoints/`._
 
-**26/32 task records complete.**
+**27/36 task records complete.**
 
 | | Task | Phase | Status |
 |---|---|---|---|
@@ -219,6 +219,10 @@ _Generated 2026-09-13 03:21 UTC from 32 task record(s) in `docs/checkpoints/`._
 | ✅ | frontend-live-cached-honesty-pass | 5 | complete |
 | ✅ | concurrent-investigate-crash-fix | 5 | complete |
 | ✅ | fleet-exposure-integrity | 5 | complete |
+| 🟡 | kelmarsh-benchmark-research | 5 | partial |
+| 🟡 | kelmarsh-event-behaviour | 5 | partial |
+| 🟡 | Historical case intelligence and provenance-safe retrieval | 3 | partial |
+| ✅ | Fixing frontend live-data browser path | 5 | complete |
 
 ### ✅ repository Copilot instructions
 
@@ -1898,3 +1902,106 @@ it survived 5/5 repeats in the same test.
 
 The independently validated Gate 5.6C solar-model gate remains incomplete and must not be
 represented as complete.
+
+### 🟡 kelmarsh-benchmark-research
+
+**What was built**
+
+- Recorded the first bounded research decision for the independent wind benchmark route.
+- Added a source-backed claim boundary: Kelmarsh is real operational SCADA plus event data, not yet confirmed component-failure ground truth.
+- Added the next executable experiment: version-pinned acquisition, event-code taxonomy, and adjudication before detector fitting.
+
+**How it was verified**
+
+Reviewed the official Zenodo dataset record and the OpenWindSCADA inventory README on 2026-09-13. No model or benchmark was run.
+
+**Measured results**
+
+Not evaluated. No detector was fit and no validation metric was produced.
+
+**Limitations**
+
+The public sources establish dataset contents and the absence of a public label column in the inventory, but they do not independently adjudicate every event code. The next task must perform that event-semantic audit before using Kelmarsh for validation.
+
+### 🟡 kelmarsh-event-behaviour
+
+**What was built**
+
+- Acquired and checksum-verified the pinned official Kelmarsh 2019 SCADA release.
+- Audited 299 SCADA columns and 59,326 status records across six turbines.
+- Implemented a bounded event/behaviour benchmark with a three-signal feature policy,
+  causal chronological split, statistical z-score, Isolation Forest, and RAI Champion.
+- Explicitly excluded environmental, electrical, technical-standby, communication, and
+  unknown records from event evaluation; no event was called a failure.
+
+**How it was verified**
+
+- `.venv\\Scripts\\python.exe -m rai.eval.external.kelmarsh.benchmark` — completed with status `PARTIAL`.
+- `.venv\\Scripts\\ruff.exe check rai\\eval\\external\\kelmarsh` — all checks passed.
+- `.venv\\Scripts\\python.exe -m pytest tests\\test_kelmarsh_event_behaviour.py tests\\test_external_care_adapter.py tests\\test_external_care_metrics.py -q` — expected 21 tests.
+
+**Measured results**
+
+92 test-period operational windows: 71 forced outage and 21 scheduled maintenance.
+Event coverage was 1.1% for statistical z-score, 47.8% for Isolation Forest, and
+81.5% for RAI Champion. Outside-window flag rates were 0.46%, 0.32%, and 1.11%.
+
+**Limitations**
+
+Status/event records are not independently adjudicated component-failure ground truth.
+The result is temporal association only; it does not establish causation or failure
+prediction. It covers one site and one year.
+
+### 🟡 Historical case intelligence and provenance-safe retrieval
+
+**What was built**
+
+- Extended `HistoricalCase` with structured context, provenance type, evidence states, and match/difference explanations.
+- Reused the existing weighted trajectory retrieval and separated it from document FTS5 retrieval.
+- Added bounded case-detail and comparison tools for the local agent.
+- Added a focused Asset Deep-Dive presentation for provenance and applicability.
+- Added deterministic regression coverage and documented the bounded claim.
+
+**How it was verified**
+
+`.venv\Scripts\python.exe -m pytest tests\test_historical_intelligence.py tests\test_economics_memory.py tests\test_agent_reasoning.py -q` — 30 passed.
+
+**Measured results**
+
+Authored thermal relevance precision@3: 1.00 (3/3). The regression set also verified
+provenance, explanation fields, and unknown-case abstention.
+
+**Limitations**
+
+The corpus is internally authored synthetic history. No independent real maintenance-case
+validation or diagnosis claim is supported.
+
+### ✅ Fixing frontend live-data browser path
+
+**What was built**
+
+- Routed browser API calls through a same-origin Next.js proxy by default.
+- Replaced misleading pre-fetch fallback metrics with explicit loading placeholders.
+- Added loading/unavailable/cached states for work orders and the fleet asset count.
+- Preserved real fallback snapshots while making their provenance visible.
+
+**How it was verified**
+
+- `Set-Location web; npm run lint` — 0 errors, 5 pre-existing warnings.
+- `Set-Location web; npm run build` — Next.js 16.3.5 production build passed.
+- `.venv\Scripts\python.exe -m pytest tests\test_frontend_runtime_contract.py -q` — 1 passed.
+- Fresh dev server on port 3101 and production-like server on port 3100 both returned
+  `/backend-api/assets` with HTTP 200 and rendered 42 assets including WT-017.
+- Browser rehearsal reached `/assets/WT-017`; timeseries, anomaly evidence, historical
+  cases, economics, and recommendation sections rendered. No console/network errors were
+  observed in the fresh dev or production-like sessions.
+
+**Measured results**
+
+Fleet rendering: 42 of 42 assets; 7 active work orders; WT-017 present.
+
+**Limitations**
+
+The existing shared API fallback snapshots remain available when the backend is unavailable
+and are labelled cached. Existing lint warnings in `HeroChart.tsx` and unrelated `api.ts`
+catch variables remain.

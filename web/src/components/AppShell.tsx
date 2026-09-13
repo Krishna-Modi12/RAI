@@ -60,8 +60,8 @@ export default function AppShell({ children }: AppShellProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const windCount = overview?.by_type?.find((t) => t.asset_type === "wind_turbine")?.count ?? 18;
-  const solarCount = overview?.by_type?.find((t) => t.asset_type === "solar_inverter")?.count ?? 24;
+  const windCount = overview?.by_type?.find((t) => t.asset_type === "wind_turbine")?.count;
+  const solarCount = overview?.by_type?.find((t) => t.asset_type === "solar_inverter")?.count;
 
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
@@ -91,7 +91,9 @@ export default function AppShell({ children }: AppShellProps) {
           </Link>
           <div className="hidden sm:flex items-center text-xs text-[var(--text-secondary)] bg-[var(--surface-sunken)] px-2.5 py-1 rounded-[2px] border border-[var(--border)]">
             <span className="font-medium text-[var(--text-primary)] mr-1.5">Site:</span>
-            <span>Kutch Wind ({windCount}) + Charanka Solar ({solarCount})</span>
+            <span>
+              Kutch Wind ({windCount ?? "—"}) + Charanka Solar ({solarCount ?? "—"})
+            </span>
           </div>
         </div>
 

@@ -17,7 +17,10 @@ import {
   ScenarioItem,
 } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+// In local browser sessions, proxy through Next so the browser does not depend on
+// which hostname/port the API process is bound to. Deployments may still provide
+// an explicit absolute API URL.
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/backend-api";
 
 export interface LiveResult<T> {
   data: T;
