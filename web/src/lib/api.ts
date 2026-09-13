@@ -635,6 +635,7 @@ export interface EvaluationData {
   };
   latencies?: Record<string, number>;
   alert_fatigue_funnel?: {
+    is_empirically_measured?: boolean;
     raw_statistical_detections_per_year: number;
     persistence_filtered_per_year: number;
     environmental_filtered_per_year: number;
@@ -642,7 +643,7 @@ export interface EvaluationData {
     confidence_gated_alerts_per_year: number;
     final_actionable_rate_per_asset_year: number;
     overall_noise_suppression_pct: number;
-    stages: Array<{ stage: string; annual_alarms: number; eliminated_pct: number }>;
+    funnel_stages: Array<{ stage: string; annual_alarms: number; eliminated_pct: number }>;
   };
   decision_regret?: {
     optimal_execution_pct: number;

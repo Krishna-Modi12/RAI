@@ -23,20 +23,28 @@ export default function AssetPage({ params }: PageProps) {
   const [timeseriesLive, setTimeseriesLive] = useState(false);
   const [investigation, setInvestigation] = useState<InvestigationResult | null>(null);
   const [investigationLive, setInvestigationLive] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [recomputing, setRecomputing] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     async function load() {
+      setLoading(true);
       const [ts, inv] = await Promise.all([
         getAssetTimeseries(assetId),
         getInvestigation(assetId),
       ]);
+      if (cancelled) return;
       setTimeseries(ts.data);
       setTimeseriesLive(ts.live);
       setInvestigation(inv.data);
       setInvestigationLive(inv.live);
+      setLoading(false);
     }
     load();
+    return () => {
+      cancelled = true;
+    };
   }, [assetId]);
 
   const handleRunAgent = async () => {
@@ -89,7 +97,11 @@ export default function AssetPage({ params }: PageProps) {
               <h1 className="text-xl font-mono font-semibold tracking-tight text-[var(--text-primary)]">
                 {assetId}
               </h1>
-              <StatusPill band={severityToBand(investigation?.evidence.anomaly?.severity)} />
+              {loading ? (
+                <StatusPill label="Syncing…" />
+              ) : (
+                <StatusPill band={severityToBand(investigation?.evidence.anomaly?.severity)} />
+              )}
               <span className="text-xs font-mono text-[var(--text-tertiary)] bg-[var(--surface-sunken)] px-2 py-0.5 rounded-[2px] border border-[var(--border)]">
                 {isWind ? "Suzlon S111 / 2.1 MW" : "SMA Central / 1.0 MW"}
               </span>
@@ -118,60 +130,87 @@ export default function AssetPage({ params }: PageProps) {
         <span
           className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
           title={
-            timeseriesLive && investigationLive
+            loading
+              ? "Fetching current telemetry and investigation evidence"
+              : timeseriesLive && investigationLive
               ? undefined
               : "API unavailable — showing last-known snapshot"
           }
         >
-          {timeseriesLive && investigationLive ? "LIVE" : "CACHED · last-known snapshot"}
+          {loading
+            ? "SYNCING…"
+            : timeseriesLive && investigationLive
+            ? "LIVE"
+            : "CACHED · last-known snapshot"}
         </span>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-        <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Measured Power</div>
-          <div className="text-base font-semibold text-[var(--text-primary)] mt-1">
-            {formatPower(timeseries[timeseries.length - 1]?.actual ?? 1850)}
-          </div>
-          <div className="text-[10px] text-[var(--text-tertiary)]">
-            Exp: {formatPower(timeseries[timeseries.length - 1]?.expected ?? 2100)}
-          </div>
-        </div>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] space-y-2"
+            >
+              <div className="h-2.5 w-20 bg-[var(--surface-sunken)] rounded-[2px] animate-pulse" />
+              <div className="h-4 w-16 bg-[var(--surface-sunken)] rounded-[2px] animate-pulse" />
+              <div className="h-2.5 w-24 bg-[var(--surface-sunken)] rounded-[2px] animate-pulse" />
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
+              <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Measured Power</div>
+              <div className="text-base font-semibold text-[var(--text-primary)] mt-1">
+                {timeseries.length ? formatPower(timeseries[timeseries.length - 1].actual) : "—"}
+              </div>
+              <div className="text-[10px] text-[var(--text-tertiary)]">
+                Exp: {timeseries.length ? formatPower(timeseries[timeseries.length - 1].expected) : "—"}
+              </div>
+            </div>
 
-        <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Power Deficit</div>
-          <div className="text-base font-semibold text-[var(--critical)] mt-1">
-            {formatPercent(
-              ((timeseries[timeseries.length - 1]?.actual -
-                timeseries[timeseries.length - 1]?.expected) /
-                (timeseries[timeseries.length - 1]?.expected || 1)) *
-                100,
-              true
-            )}
-          </div>
-          <div className="text-[10px] text-[var(--text-tertiary)]">
-            residual z: {timeseries[timeseries.length - 1]?.z_score}σ
-          </div>
-        </div>
+            <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
+              <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Power Deficit</div>
+              <div className="text-base font-semibold text-[var(--critical)] mt-1">
+                {timeseries.length
+                  ? formatPercent(
+                      ((timeseries[timeseries.length - 1].actual -
+                        timeseries[timeseries.length - 1].expected) /
+                        (timeseries[timeseries.length - 1].expected || 1)) *
+                        100,
+                      true
+                    )
+                  : "—"}
+              </div>
+              <div className="text-[10px] text-[var(--text-tertiary)]">
+                residual z: {timeseries.length ? timeseries[timeseries.length - 1].z_score : "—"}σ
+              </div>
+            </div>
 
-        <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Anomaly Score</div>
-          <div className="text-base font-semibold text-[var(--critical)] mt-1">
-            {((investigation?.evidence.anomaly?.score ?? 0.88) * 100).toFixed(0)}%
-          </div>
-          <div className="text-[10px] text-[var(--text-tertiary)] capitalize">
-            severity: {investigation?.evidence.anomaly?.severity ?? "—"}
-          </div>
-        </div>
+            <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
+              <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Anomaly Score</div>
+              <div className="text-base font-semibold text-[var(--critical)] mt-1">
+                {investigation?.evidence.anomaly?.score != null
+                  ? `${(investigation.evidence.anomaly.score * 100).toFixed(0)}%`
+                  : "—"}
+              </div>
+              <div className="text-[10px] text-[var(--text-tertiary)] capitalize">
+                severity: {investigation?.evidence.anomaly?.severity ?? "—"}
+              </div>
+            </div>
 
-        <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
-          <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Avoidable Exposure</div>
-          <div className="text-base font-semibold text-[var(--text-primary)] mt-1">
-            {formatINR(investigation?.evidence.economics?.avoidable_exposure_inr ?? 155000).display}
-          </div>
-          <div className="text-[10px] text-[var(--text-tertiary)]">
-            Net NPV: +{formatINR(investigation?.intervention.net_benefit_inr ?? 3650000).display}
-          </div>
-        </div>
+            <div className="p-3 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px]">
+              <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Avoidable Exposure</div>
+              <div className="text-base font-semibold text-[var(--text-primary)] mt-1">
+                {investigation?.evidence.economics?.avoidable_exposure_inr != null
+                  ? formatINR(investigation.evidence.economics.avoidable_exposure_inr).display
+                  : "—"}
+              </div>
+              <div className="text-[10px] text-[var(--text-tertiary)]">
+                Net NPV: {investigation ? `+${formatINR(investigation.intervention.net_benefit_inr).display}` : "—"}
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Hero Chart: Expected vs Actual with Residual Strip */}

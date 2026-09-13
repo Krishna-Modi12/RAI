@@ -121,8 +121,9 @@ export default function EvaluationPage() {
     : defaultModels;
 
   const funnelData = evalData?.alert_fatigue_funnel;
-  const alertFunnelStages = funnelData?.stages && funnelData.stages.length > 0
-    ? funnelData.stages.map((s, idx) => ({
+  const funnelIsLive = funnelData?.is_empirically_measured === true;
+  const alertFunnelStages = funnelData?.funnel_stages && funnelData.funnel_stages.length > 0
+    ? funnelData.funnel_stages.map((s, idx) => ({
         name: s.stage,
         rate: `${s.annual_alarms.toFixed(1)} / yr`,
         drop: idx === 0 ? "Baseline" : `-${s.eliminated_pct.toFixed(1)}%`,
@@ -385,7 +386,7 @@ export default function EvaluationPage() {
               <span>Operational Alert Fatigue Reduction Funnel</span>
             </div>
             <span className="text-[10px] font-mono text-[var(--ok)] font-semibold">
-              STAGE-GATED NOISE SUPPRESSION
+              Stage-gated noise suppression{!funnelIsLive && ", cached"}
             </span>
           </div>
 
