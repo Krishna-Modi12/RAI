@@ -172,13 +172,13 @@ $$\text{Regret} = \text{Cost}(\text{chosen policy}) - \text{Cost}(\text{ex-post 
 ### Value of Information (VOI)
 Formal economic calculation proving when pre-repair inspection is optimal:
 $$\text{VOI} = \mathbb{E}[\text{Cost without inspection}] - \mathbb{E}[\text{Cost with inspection}] - \text{Cost}_{\text{inspection}}$$
-* When prior risk is moderate ($15\% - 35\%$), inspection resolves diagnostic uncertainty and saves ₹65,000+ by avoiding premature major overhauls.
+* When prior risk is moderate ($15\% - 35\%$), inspection resolves diagnostic uncertainty and the model projects ₹65,000+ in avoided premature-overhaul cost (modeled, not realized savings).
 * When prior risk $>75\%$, VOI becomes negative, indicating that the asset should proceed directly to repair without paying for an intermediate inspection.
 
 ### Probabilistic Solar Cleaning Window
 * Integrates CAMS dust exposure integrals ($D(t)$ over 3h, 12h, 24h, 72h, 7d, 14d).
 * Simulates 200 Monte Carlo weather scenarios (dust front arrival vs rainfall wash probability).
-* Returns dynamic recommendations (e.g. *WAIT 24 HOURS*: 76% probability optimal, expected savings ₹18,400 by allowing rain to perform natural washing).
+* Returns dynamic recommendations (e.g. *WAIT 24 HOURS*: 76% probability optimal, modeled/projected savings of ₹18,400 by allowing rain to perform natural washing — not a realized figure).
 
 ---
 

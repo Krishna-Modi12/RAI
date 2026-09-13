@@ -355,9 +355,9 @@ pytest tests/ -q
 
 | Functional Area | Implemented? | Test-Verified? | Real-World Validated? | Operational Status |
 |---|---|---|---|---|
-| Closed-Loop Ingestion Mechanism | ✅ Yes | ✅ Yes (535 tests) | ⚠️ Awaiting Site Deployment | **Production Ready** |
+| Closed-Loop Ingestion Mechanism | ✅ Yes | ✅ Yes (535 tests) | ❌ No live utility field data | **Demonstrated (browser E2E), Not Production-Validated** |
 | Provenance Gating & Partition Purity | ✅ Yes | ✅ Yes (Formal gate) | ✅ Clean Isolation | **Production Ready** |
-| Historical Case Library (CARE/Kelmarsh/NREL PVDAQ) | ✅ Yes | ✅ Yes (14 cases) | ✅ Real Academic Data | **Validated** |
+| Historical Case Library (CARE/Kelmarsh/NREL PVDAQ) | ✅ Yes | ✅ Yes (14 cases) | ✅ Real Academic Data | **Demonstrated (self-graded retrieval metric; corpus provenance is real)** |
 | Crew Dispatch Optimization | ✅ Yes | ✅ Yes (Heuristic engine) | ⚠️ Requires OEM Tailoring | **Configurable** |
 | Real Utility Field Ground Truth | ❌ No | N/A | ❌ No | **Roadmap Milestone** |
 

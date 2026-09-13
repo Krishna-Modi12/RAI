@@ -17,7 +17,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Renewable Asset Intelligence (RAI) — Operations Command",
   description:
-    "Predictive Maintenance & Environmental Risk Intelligence for Wind & Solar Fleets. CARE benchmarked, leak-free operational validation.",
+    "Predictive Maintenance & Environmental Risk Intelligence for Wind & Solar Fleets. CARE-benchmarked wind anomaly detection with leak-free evaluation; decision-support prototype, not a deployed system.",
 };
 
 export default function RootLayout({

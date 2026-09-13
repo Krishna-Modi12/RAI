@@ -29,8 +29,8 @@ status: complete
 
 ## Limitations
 
-The independently validated Gate 5.6C solar-model gate remains incomplete and must not be
-represented as complete.
+Gate 5.6C solar-model development remains `NOT_INDEPENDENTLY_VALIDATED` (Gate 5.6B's
+Validation cohort is empty) and must not be represented as independently validated or complete.
 
 ## Next
 

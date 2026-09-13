@@ -524,7 +524,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
 
                     <div className="flex items-center space-x-4 pt-1 font-mono text-[10px] text-[var(--text-tertiary)]">
                       <span>Lead Time: {c.lead_time_days ?? "not evaluated"} days</span>
-                      <span>Avoided Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
+                      <span>Historical Repair Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
                       <span className="uppercase text-[9px]">
                         Provenance: {c.source_type ?? (isReal ? "EXTERNAL_REAL" : "INTERNAL_SYNTHETIC")}
                       </span>
@@ -728,7 +728,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                 </div>
                 <StatusPill
                   status={requires_human_review ? "warning" : "nominal"}
-                  label={requires_human_review ? "Human Escalation Required" : "Automated Execution Allowed"}
+                  label={requires_human_review ? "Human Escalation Required" : "Standard Review (No Escalation)"}
                 />
               </div>
 

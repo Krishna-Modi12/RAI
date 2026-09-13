@@ -678,7 +678,7 @@ export default function WorkOrdersPage() {
                 The Closed-Loop Operational Intelligence Architecture
               </h3>
               <p className="text-xs text-[var(--text-secondary)] mt-1">
-                How RAI continuously enhances its retrieval-augmented intelligence through human operator authorization and technician physical inspection ground truth.
+                The demonstrated mechanism by which RAI&apos;s retrieval-augmented intelligence is designed to improve through human operator authorization and technician physical-inspection ground truth. Shown end-to-end on internal/demo fixtures; no live commercial site is connected yet.
               </p>
             </div>
 
