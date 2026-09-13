@@ -410,20 +410,44 @@ class InvestigatorAgent:
                 )
 
             options = econ.get("options", [])
+            economic_decision = econ.get("economic_decision") or {}
             rec_id = econ.get("recommended_option_id")
             avoidable = econ.get("avoidable_exposure_inr")
 
             for opt in options:
                 evidence_items.append(
                     EvidenceItem(
-                        claim=f"Option {opt['option_id']} (delay {opt['delay_days']}d): exposure INR {opt['expected_exposure_inr']:,.0f}",
+                        claim=(
+                            f"Option {opt['option_id']} (delay {opt['delay_days']}d): "
+                            f"exposure INR {opt['expected_exposure_inr']:,.0f}"
+                        ),
                         state=EvidenceState.INFERRED,
                         source="rai.economics.engine",
                         source_type="NUMERICAL_NPV",
                     )
                 )
 
-            if avoidable is None or rec_id is None:
+            decision_name = economic_decision.get("decision")
+            if decision_name == "ABSTAIN":
+                return AgentResponse(
+                    question=question,
+                    asset_id=asset_id,
+                    status=AgentQueryStatus.INSUFFICIENT_EVIDENCE,
+                    tools_called=invoked,
+                    tool_results=tool_results,
+                    evidence_items=evidence_items,
+                    answer=(
+                        "Abstaining: the deterministic economics adapter could not "
+                        "estimate a responsible decision from the available evidence."
+                    ),
+                    hypotheses=[],
+                    unsupported_claims=[],
+                    requires_human_review=True,
+                    model_used=model_name,
+                    confidence=0.0,
+                )
+
+            if decision_name is None and (avoidable is None or rec_id is None):
                 return AgentResponse(
                     question=question,
                     asset_id=asset_id,
@@ -439,11 +463,20 @@ class InvestigatorAgent:
                     confidence=0.0,
                 )
 
-            answer = (
-                f"Economic analysis evaluated {len(options)} intervention options. "
-                f"Recommended option: '{rec_id}' with avoidable financial exposure of INR {avoidable:,.0f}. "
-                f"All computations are deterministic arithmetic from tariff {econ.get('tariff_inr_per_kwh')} INR/kWh."
-            )
+            if decision_name:
+                answer = (
+                    f"Deterministic economic decision: {decision_name}. "
+                    f"Evaluated {len(options)} intervention options under explicit assumptions. "
+                    "The agent is summarizing the computed decision and does not calculate it."
+                )
+                hypothesis = f"Economic decision: {decision_name}"
+            else:
+                answer = (
+                    f"Economic analysis evaluated {len(options)} intervention options. "
+                    f"Recommended option: '{rec_id}' with avoidable financial exposure of INR {avoidable:,.0f}. "
+                    f"All computations are deterministic arithmetic from tariff {econ.get('tariff_inr_per_kwh')} INR/kWh."
+                )
+                hypothesis = f"Recommended intervention: {rec_id}"
             return AgentResponse(
                 question=question,
                 asset_id=asset_id,
@@ -452,7 +485,7 @@ class InvestigatorAgent:
                 tool_results=tool_results,
                 evidence_items=evidence_items,
                 answer=answer,
-                hypotheses=[f"Recommended intervention: {rec_id}"],
+                hypotheses=[hypothesis],
                 unsupported_claims=[],
                 requires_human_review=False,
                 model_used=model_name,

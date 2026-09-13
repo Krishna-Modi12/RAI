@@ -293,6 +293,39 @@ Array of `historical_cases` objects as above.
 
 The `economics` object as above. Query: `component` (optional override).
 
+## `GET /api/assets/{asset_id}/decision`
+
+Returns explicit economic decision support. Inputs carry provenance; missing
+inputs remain `null` and produce `ABSTAIN` rather than zero.
+
+```json
+{
+  "decision": "INSPECT",
+  "status": "ESTIMATED_UNDER_EXPLICIT_ASSUMPTIONS",
+  "asset_id": "WT-017",
+  "component": "gearbox",
+  "why": "Environmental evidence explains a substantial share of the deviation; inspect before committing to repair.",
+  "assumptions": [
+    {"name": "risk_score", "value": 0.42, "state": "INFERRED", "source": "rai.models.risk",
+     "limitation": "Risk score is not a calibrated failure probability."},
+    {"name": "tariff_inr_per_kwh", "value": 3.2, "state": "ASSUMED", "source": "rai.config.settings"}
+  ],
+  "uncertainty": ["Risk score is an inferred model output, not an independently observed failure probability."],
+  "energy_loss_inr": 12000.0,
+  "downtime_cost_inr": 24192.0,
+  "intervention_cost_inr": 1335000.0,
+  "inspection_cost_inr": 85000.0,
+  "expected_waiting_consequence_inr": 1420000.0,
+  "information_value_inr": null,
+  "recommended_option_id": "repair_now",
+  "robustness": "NOT_EVALUATED"
+}
+```
+
+`information_value_inr` is `null` until fleet-specific inspection
+sensitivity/specificity are established. Decision support is not a savings,
+ROI, or failure-probability guarantee.
+
 ## `GET /api/soiling`
 
 ```json

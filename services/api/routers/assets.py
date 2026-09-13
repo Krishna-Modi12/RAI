@@ -11,6 +11,7 @@ from pydantic import BaseModel
 
 from rai.agent.investigator import investigate
 from rai.config import FLEET_BY_ID, SITES, get_asset, peers_of
+from rai.economics.decision_support import evaluate_decision_support
 from rai.economics.engine import evaluate_options
 from rai.memory.retrieval import find_similar_cases
 from rai.models.pipeline import build_evidence_packet, compute_asset_state
@@ -334,10 +335,24 @@ def post_investigate(asset_id: str, body: InvestigateBody | None = None) -> dict
         out["historical_cases"] = [c.model_dump(mode="json") for c in res.verdict.historical_cases]
         out["citations"] = [c.model_dump(mode="json") for c in res.verdict.citations]
         out["economics"] = res.verdict.economics.model_dump(mode="json") if res.verdict.economics else None
+        out["economic_decision"] = evaluate_decision_support(
+            asset_id=asset_id,
+            component=res.verdict.component,
+            risk_score=res.packet.risk.risk_score,
+            risk_calibration=res.packet.risk.calibration,
+            risk_window_days=res.packet.risk.risk_window_days,
+            environmental_explanation=(
+                res.packet.environment.explains_fraction if res.packet.environment else None
+            ),
+            sensor_health=(
+                res.packet.environment.sensor_health.value if res.packet.environment else "ok"
+            ),
+        ).to_dict()
     else:
         out.setdefault("historical_cases", [])
         out.setdefault("citations", [])
         out.setdefault("economics", None)
+        out.setdefault("economic_decision", None)
     return out
 
 
@@ -371,3 +386,21 @@ def get_asset_economics(asset_id: str, component: str | None = Query(default=Non
         risk_window_days=risk_win,
     )
     return econ.model_dump(mode="json")
+
+
+@router.get("/{asset_id}/decision")
+def get_asset_decision(asset_id: str, component: str | None = Query(default=None)) -> dict[str, Any]:
+    """Return an explicit intervention decision with assumptions and unknown states."""
+    if asset_id not in FLEET_BY_ID:
+        raise AssetNotFoundError(asset_id)
+
+    st = compute_asset_state(asset_id)
+    return evaluate_decision_support(
+        asset_id=asset_id,
+        component=component,
+        risk_score=st.risk.risk_score if st.risk else None,
+        risk_calibration=st.risk.calibration if st.risk else None,
+        risk_window_days=st.risk.risk_window_days if st.risk else None,
+        environmental_explanation=st.environment.explains_fraction if st.environment else None,
+        sensor_health=st.environment.sensor_health.value if st.environment else "ok",
+    ).to_dict()

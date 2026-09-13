@@ -97,8 +97,8 @@ export interface CitationItem {
 export interface EconomicOptionItem {
   action: string;
   cost_inr: number;
-  avoided_loss_inr: number;
-  net_benefit_inr: number;
+  avoided_loss_inr: number | null;
+  net_benefit_inr: number | null;
   is_recommended: boolean;
 }
 
@@ -136,7 +136,7 @@ export interface InvestigationEvidence {
     options: EconomicOptionItem[];
     // Total avoidable exposure across the evaluation horizon (not a daily rate — the API
     // does not report one).
-    avoidable_exposure_inr: number;
+    avoidable_exposure_inr: number | null;
   };
 }
 
@@ -156,9 +156,36 @@ export interface InvestigationResult {
   intervention: {
     recommended_action: string;
     recommended_window_hours: number;
-    expected_savings_inr: number;
-    net_benefit_inr: number;
+    expected_savings_inr: number | null;
+    net_benefit_inr: number | null;
   };
+  economic_decision?: EconomicDecision | null;
+}
+
+export interface EconomicDecision {
+  decision: "INTERVENE" | "INSPECT" | "MONITOR" | "WAIT" | "ABSTAIN";
+  status: string;
+  asset_id: string;
+  component: string | null;
+  why: string;
+  assumptions: Array<{
+    name: string;
+    value: number | string | null;
+    state: "OBSERVED" | "ASSUMED" | "RETRIEVED" | "INFERRED" | "UNKNOWN";
+    source: string;
+    limitation?: string | null;
+  }>;
+  uncertainty: string[];
+  alternatives: string[];
+  energy_loss_inr: number | null;
+  downtime_cost_inr: number | null;
+  intervention_cost_inr: number | null;
+  inspection_cost_inr: number | null;
+  expected_waiting_consequence_inr: number | null;
+  information_value_inr: number | null;
+  recommended_option_id: string | null;
+  robustness: string;
+  options: Array<Record<string, unknown>>;
 }
 
 export interface TimeseriesPoint {

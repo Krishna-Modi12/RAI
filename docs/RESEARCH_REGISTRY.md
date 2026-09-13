@@ -47,6 +47,19 @@ truth.” The latter remains blocked until event semantics are independently adj
 | Limitations | Retrieval evaluation is deterministic and small; no claim of real maintenance-history coverage or diagnosis prediction is supported. |
 | Status | `IMPLEMENTED` |
 
+## RAI-ECON-001 — Explicit-assumption economic decision support
+
+| Field | Record |
+|---|---|
+| Question | How should RAI turn technical evidence into intervention priority without fabricating money or probabilities? |
+| Sources | NIST PHM standards and smart-manufacturing performance guidance; focused predictive-maintenance decision-analysis review; existing RAI decision-math audit. |
+| Alternatives | Explicit expected-consequence counterfactuals; full EVPI/EVSI/VOI policy; learned cost-sensitive policy. |
+| Decision | **IMPLEMENTED / BOUNDED:** retain the existing Python cost engine and add a provenance-labelled adapter returning `INTERVENE`, `INSPECT`, `MONITOR`, `WAIT`, or `ABSTAIN`. Do not apply VOI operationally until inspection test characteristics are established. |
+| Inputs | Model risk is `INFERRED`; environmental context is `OBSERVED`; tariff/downtime/component costs are `ASSUMED`; missing values remain `UNKNOWN`. |
+| Limitation | No real intervention outcomes, validated inspection sensitivity/specificity, or empirical maintenance-cost distribution is available. No claims of savings, ROI, cost optimization, or failure probability are supported. |
+| Artifacts | `rai/economics/decision_support.py`; `docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md`; `tests/test_economic_decision_support.py`. |
+| Status | `IMPLEMENTED` |
+
 ## RAI-AGENT-001 — Local evidence and tool-boundary evaluation
 
 | Field | Record |

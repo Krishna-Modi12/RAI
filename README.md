@@ -4,13 +4,13 @@
 
 Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric composition forecasts into defensible, economically optimal operational interventions. It learns what an asset should be generating under prevailing ambient conditions, measures conditioned residuals, checks CAMS dust plumes, weather transients, curtailment, and peer behavior, retrieves comparable historical episodes, calculates the net financial consequence of waiting, and returns a confidence-gated recommendation for a human operator.
 
-> **Implementation status:** 426 automated tests passing (verified by a direct `pytest` run on 2026-09-13; this repository is under active multi-session development, so re-verify before citing). Time-ordered, leakage-free splits (`rai/eval/leakage.py`), a 342-hour purge embargo, and a frozen decision threshold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). Champion model, first measured by a reproducible run of `python scripts/evaluate.py` and re-measured leak-free under embargo: **RAI Operational Score (CARE-inspired) = 0.797, embargoed PR-AUC = 0.822, MCC = 0.690, FA/yr = 0.19/asset-year, median lead time = 5.0 days** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). Real external validation now exists in two independent forms: a **controlled out-of-distribution perturbation suite** (`docs/evaluation/OOD.md`) and a **real external benchmark run against the published CARE-to-Compare dataset** (`docs/evaluation/EXTERNAL_CARE.md`, Zenodo 14006163, Wind Farm A, genuine off-the-shelf baselines, CARE = 0.535). A separate rolling-origin temporal-generalization study (`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`) concluded that finding is **honestly unresolved** at $N=6$ events, not swept under a bigger number. Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Start with [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)** for the history of what was fabricated and fixed in this repository's evaluation stack, then [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) for the current leak-free numbers — [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) and [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) still carry an early retraction notice and should not be cited on their own.
+> **Implementation status:** 463 automated tests passing (verified by a direct `pytest` run on 2026-09-13 across all 38 test modules; this repository is under active multi-session development, so re-verify before citing). Time-ordered, leakage-free splits (`rai/eval/leakage.py`), a 342-hour purge embargo, and a frozen decision threshold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). Champion model, first measured by a reproducible run of `python scripts/evaluate.py` and re-measured leak-free under embargo: **RAI Operational Score (CARE-inspired) = 0.797, embargoed PR-AUC = 0.822, MCC = 0.690, FA/yr = 0.19/asset-year, median lead time = 5.0 days** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). Real external validation now exists in two independent forms: a **controlled out-of-distribution perturbation suite** (`docs/evaluation/OOD.md`) and a **real external benchmark run against the published CARE-to-Compare dataset** (`docs/evaluation/EXTERNAL_CARE.md`, Zenodo 14006163, Wind Farm A, genuine off-the-shelf baselines, CARE = 0.535). A separate rolling-origin temporal-generalization study (`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`) concluded that finding is **honestly unresolved** at $N=6$ events, not swept under a bigger number. Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Start with [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)** for the history of what was fabricated and fixed in this repository's evaluation stack, then [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) for the current leak-free numbers — [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) and [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) still carry an early retraction notice and should not be cited on their own.
 
 [![Quality](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml/badge.svg)](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](services/api/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.5-000000?logo=next.js&logoColor=white)](web/package.json)
-[![Tests](https://img.shields.io/badge/tests-426%20passing-success)](CHECKPOINT.md)
+[![Tests](https://img.shields.io/badge/tests-463%20passing-success)](CHECKPOINT.md)
 [![Embargoed PR--AUC](https://img.shields.io/badge/embargoed%20PR--AUC-0.822-success)](docs/evaluation/GATE2_FORENSIC_AUDIT.md)
 [![External CARE](https://img.shields.io/badge/external%20CARE%20(Farm%20A)-0.535-blueviolet)](docs/evaluation/EXTERNAL_CARE.md)
 [![Audit Status](https://img.shields.io/badge/Forensics-Verified%20Clean-blue)](docs/EVALUATION_FORENSICS.md)
@@ -142,6 +142,8 @@ environment that may not have reliable outbound connectivity.
 - [Scientific Validation: Five Gates, Not One Number](#scientific-validation-five-gates-not-one-number)
 - [Solar External Data Status](#solar-external-data-status)
 - [Solar Environmental Intelligence & Soiling](#solar-environmental-intelligence--soiling)
+- [Local AI Agent Evidence & Tool Evaluation](#local-ai-agent-evidence--tool-evaluation)
+- [Economic Decision Support & Explicit Assumptions](#economic-decision-support--explicit-assumptions)
 - [Quick Start](#quick-start)
 - [Running Demonstrations](#running-demonstrations)
 - [Formal Evaluation](#formal-evaluation)
@@ -364,6 +366,37 @@ Solar generation losses are ambiguous. RAI uses Open-Meteo CAMS atmospheric data
 - **Model-Based Loss Attribution:** Derating is attributed to Soiling, Cloud Transients, Thermal Derating, Curtailment, and Equipment Degradation with uncertainty confidence intervals.
 - **Cementation Risk Hypothesis:** Detects high risk when light precipitation ($<3\,\text{mm}$) interacts with high surface particulate loads ($>100\,\mu\text{g/m}^3$), producing adhered cementation rather than self-cleaning.
 - **Probabilistic Cleaning Optimizer:** Dynamic cleaning opportunity detection comparing Clean Now vs. Wait 24h vs. Wait 72h vs. Post-Rain Reassess across Monte Carlo weather forecast scenarios.
+
+---
+
+## Local AI Agent Evidence & Tool Evaluation
+
+RAI uses a local AI agent (`Needle 2` / `InvestigatorAgent`) strictly bounded by read-only tools and structured evidence contracts. The execution path strictly enforces:
+$$\text{USER QUESTION} \longrightarrow \text{AGENT} \longrightarrow \text{BOUNDED TOOLS} \longrightarrow \text{NUMERICAL/RAG ENGINE} \longrightarrow \text{STRUCTURED EVIDENCE} \longrightarrow \text{SYNTHESIS} \longrightarrow \text{RESPONSE}$$
+
+- **Division of Labour**: Python computes all numerical residuals, calibrated risk bands, peer percentiles, environmental attribution, and NPV trade-offs. The agent reasons over typed evidence items, selects bounded tools, and articulates recommendations without hallucinated values.
+- **Evidence State Discrimination**: The system explicitly categorizes every claim into five states: `OBSERVED` (raw SCADA residuals, weather data), `RETRIEVED` (historical cases, OEM manuals), `INFERRED` (anomaly scores, failure horizons, economic NPV), `UNKNOWN` (missing sensors), and `ABSTAINED` (insufficient evidence).
+- **Deterministic Evaluation Suite**: Tested across Tasks A–G and 10 deterministic fixtures (`tests/test_local_agent_evaluation.py`):
+  - **Tool Selection Accuracy**: 100% (6/6).
+  - **Unsupported-Claim Rate**: 0.00% (zero premature failure claims or false certainty).
+  - **Abstention Correctness**: 100% (explicitly abstains on missing data).
+  - **Safety Invariants**: Zero plant setpoint controls; maintenance tickets are strictly `proposed_awaiting_human_approval`.
+- **Needle 2 Runtime**: Profiled at 4,384.6 ms latency, concurrency-safe across multiple threads, with strict separation between extraction confidence and physical failure probability.
+- **Corpus Boundary**: Current historical case retrieval is evaluated against an internally authored deterministic synthetic case library (`INTERNAL_SYNTHETIC`), not real historical failure validation.
+- **Full Report**: See [`docs/evaluation/LOCAL_AGENT_EVALUATION.md`](docs/evaluation/LOCAL_AGENT_EVALUATION.md).
+
+---
+
+## Economic Decision Support & Explicit Assumptions
+
+Rather than calculating an unsubstantiated "savings" or "ROI" number, RAI computes an explicit operational decision under transparent, source-labelled assumptions:
+
+- **Categorical Actions**: Returns one of five operational actions: `INTERVENE` (clear physical fault risk justifies action), `INSPECT` (environmental or sensor ambiguity warrants low-cost inspection before major repair), `MONITOR` (degradation detected but below intervention threshold), `WAIT` (waiting consequence is low or environmental transient will clear), or `ABSTAIN` (missing required inputs or uncalibrated risk).
+- **Explicit Assumptions & Limitations**: Every input to the decision engine carries provenance and state tags (`OBSERVED`, `ASSUMED`, `INFERRED`, `UNKNOWN`). For example, tariff rates and component repair costs are marked `ASSUMED`, while model risk score is explicitly marked `INFERRED` with a limitation disclaimer stating that risk score is not an independently validated failure probability.
+- **Consequence Components**: Transparent breakdown of energy loss, downtime impact, intervention cost, inspection cost, and expected consequence of waiting across 7-day, 14-day, and run-to-failure horizons.
+- **Zero Fabricated Probabilities**: Missing sensor channels or uncalibrated probabilities are never forward-filled with optimistic defaults; they remain `null` and force the decision engine to `ABSTAIN` or request inspection.
+- **REST API & UI Integration**: Surfaced directly via `GET /api/assets/{asset_id}/decision` and rendered on the asset investigation view with full assumption badges, uncertainty notes, and alternative action evaluations.
+- **Comprehensive Documentation**: See [`docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md`](docs/evaluation/ECONOMIC_DECISION_INTELLIGENCE.md).
 
 ---
 

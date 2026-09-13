@@ -259,14 +259,14 @@ function normalizeInvestigation(raw: Record<string, unknown>, assetId: string): 
   }));
 
   const options = ((economics.options as Array<Record<string, unknown>>) ?? []).map((o) => {
-    const avoidableTotal = (economics.avoidable_exposure_inr as number) ?? 0;
+    const avoidableTotal = economics.avoidable_exposure_inr as number | null | undefined;
     const expectedExposure = (o.expected_exposure_inr as number) ?? 0;
-    const avoidedLoss = avoidableTotal - expectedExposure;
+    const avoidedLoss = avoidableTotal == null ? null : avoidableTotal - expectedExposure;
     return {
       action: o.label as string,
       cost_inr: o.intervention_cost_inr as number,
       avoided_loss_inr: avoidedLoss,
-      net_benefit_inr: avoidedLoss - (o.intervention_cost_inr as number),
+      net_benefit_inr: avoidedLoss == null ? null : avoidedLoss - (o.intervention_cost_inr as number),
       is_recommended: o.option_id === economics.recommended_option_id,
     };
   });
@@ -319,15 +319,16 @@ function normalizeInvestigation(raw: Record<string, unknown>, assetId: string): 
       },
       economics: {
         options,
-        avoidable_exposure_inr: (economics.avoidable_exposure_inr as number) ?? 0,
+        avoidable_exposure_inr: (economics.avoidable_exposure_inr as number) ?? null,
       },
     },
     intervention: {
       recommended_action: (verdict.recommended_action as string) ?? "No action recommended",
       recommended_window_hours: (verdict.action_deadline_hours as number) ?? 0,
-      expected_savings_inr: (economics.avoidable_exposure_inr as number) ?? 0,
-      net_benefit_inr: recommendedOption?.net_benefit_inr ?? 0,
+      expected_savings_inr: (economics.avoidable_exposure_inr as number) ?? null,
+      net_benefit_inr: recommendedOption?.net_benefit_inr ?? null,
     },
+    economic_decision: (raw.economic_decision as InvestigationResult["economic_decision"]) ?? null,
   };
 }
 
@@ -407,20 +408,17 @@ export async function getInvestigation(assetId: string): Promise<LiveResult<Inve
         ],
       },
       economics: {
-        avoidable_exposure_inr: 7662566,
-        options: [
-          { action: "Repair Now (Planned)", cost_inr: 850000, avoided_loss_inr: 4500000, net_benefit_inr: 3650000, is_recommended: true },
-          { action: "Defer 7 Days", cost_inr: 1250000, avoided_loss_inr: 3200000, net_benefit_inr: 1950000, is_recommended: false },
-          { action: "Run to Failure", cost_inr: 5200000, avoided_loss_inr: 0, net_benefit_inr: -5200000, is_recommended: false },
-        ],
+        avoidable_exposure_inr: null,
+        options: [],
       },
     },
     intervention: {
-      recommended_action: isWT17 ? "Schedule High-Speed Bearing Inspection" : "Initiate Targeted Jet Cleaning (Zone 2)",
-      recommended_window_hours: isWT17 ? 72 : 48,
-      expected_savings_inr: isWT17 ? 3650000 : 210000,
-      net_benefit_inr: isWT17 ? 3650000 : 165000,
+      recommended_action: "Economic decision unavailable until live evidence is retrieved",
+      recommended_window_hours: 0,
+      expected_savings_inr: null,
+      net_benefit_inr: null,
     },
+    economic_decision: null,
   };
 
   try {

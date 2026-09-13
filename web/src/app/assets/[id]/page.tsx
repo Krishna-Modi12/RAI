@@ -206,7 +206,9 @@ export default function AssetPage({ params }: PageProps) {
                   : "—"}
               </div>
               <div className="text-[10px] text-[var(--text-tertiary)]">
-                Net NPV: {investigation ? `+${formatINR(investigation.intervention.net_benefit_inr).display}` : "—"}
+                Net NPV: {investigation?.intervention.net_benefit_inr == null
+                  ? "not evaluated"
+                  : `+${formatINR(investigation.intervention.net_benefit_inr).display}`}
               </div>
             </div>
           </>

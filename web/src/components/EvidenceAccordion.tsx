@@ -408,6 +408,33 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
 
         {openSections.economics && (
           <div className="p-4 space-y-3">
+            {investigation.economic_decision && (
+              <div className="grid gap-3 md:grid-cols-[auto_1fr] p-3 bg-[var(--accent-surface)]/20 border border-[var(--accent-border)] rounded-[3px]">
+                <div>
+                  <div className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Decision support</div>
+                  <div className="text-lg font-mono font-semibold text-[var(--text-primary)] mt-1">
+                    {investigation.economic_decision.decision}
+                  </div>
+                  <div className="text-[10px] font-mono text-[var(--text-tertiary)] mt-1">
+                    {investigation.economic_decision.status.replaceAll("_", " ")}
+                  </div>
+                </div>
+                <div className="space-y-2 text-xs text-[var(--text-secondary)]">
+                  <p>{investigation.economic_decision.why}</p>
+                  <p className="text-[10px] text-[var(--text-tertiary)]">
+                    Robustness: {investigation.economic_decision.robustness.replaceAll("_", " ")} ·
+                    Information value: {investigation.economic_decision.information_value_inr == null
+                      ? "not estimated"
+                      : formatINR(investigation.economic_decision.information_value_inr).display}
+                  </p>
+                  {investigation.economic_decision.uncertainty.length > 0 && (
+                    <div className="text-[10px] text-[var(--warn-ink)]">
+                      Uncertainty: {investigation.economic_decision.uncertainty[0]}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
             <div className="overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
@@ -437,10 +464,12 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                       <td className="py-2.5 text-right">{formatINR(opt.avoided_loss_inr).display}</td>
                       <td
                         className={`py-2.5 text-right ${
-                          opt.net_benefit_inr > 0 ? "text-[var(--ok)]" : "text-[var(--critical)]"
+                          opt.net_benefit_inr != null && opt.net_benefit_inr > 0
+                            ? "text-[var(--ok)]"
+                            : "text-[var(--critical)]"
                         }`}
                       >
-                        {formatINR(opt.net_benefit_inr).display}
+                        {opt.net_benefit_inr == null ? "not evaluated" : formatINR(opt.net_benefit_inr).display}
                       </td>
                       <td className="py-2.5 text-center">
                         {opt.is_recommended ? (
@@ -535,14 +564,19 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                   Prescribed Operational Intervention
                 </div>
                 <div className="text-xs font-semibold text-[var(--text-primary)] mt-0.5">
-                  {intervention.recommended_action} (Within {intervention.recommended_window_hours} Hours)
+                  {intervention.recommended_action}
+                  {intervention.recommended_window_hours > 0
+                    ? ` (Within ${intervention.recommended_window_hours} Hours)`
+                    : ""}
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="text-right font-mono text-xs">
                   <div className="text-[10px] text-[var(--text-tertiary)]">Net Project NPV</div>
                   <div className="font-semibold text-[var(--ok)]">
-                    +{formatINR(intervention.net_benefit_inr).display}
+                    {intervention.net_benefit_inr == null
+                      ? "not evaluated"
+                      : `+${formatINR(intervention.net_benefit_inr).display}`}
                   </div>
                 </div>
                 <button className="px-3 py-1.5 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-xs font-medium rounded-[2px] transition-colors shadow-sm">

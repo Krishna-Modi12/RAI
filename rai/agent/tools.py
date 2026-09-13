@@ -23,6 +23,7 @@ from rai.agent.interfaces import (
     resolve_knowledge,
 )
 from rai.config import ARTIFACTS, get_asset, tariff_for
+from rai.economics.decision_support import evaluate_decision_support
 
 log = logging.getLogger(__name__)
 
@@ -222,6 +223,23 @@ def estimate_economic_impact(asset_id: str, component: str = "gearbox") -> dict[
         "tariff_inr_per_kwh": tariff_for(asset_id),
         "recommended_option_id": evidence.recommended_option_id,
         "avoidable_exposure_inr": _round(evidence.avoidable_exposure_inr, 0),
+        "economic_decision": evaluate_decision_support(
+            asset_id=asset_id,
+            component=component,
+            risk_score=failure_probability,
+            risk_calibration=packet.risk.calibration if provider is not None else None,
+            risk_window_days=window,
+            environmental_explanation=(
+                packet.environment.explains_fraction
+                if provider is not None and packet.environment
+                else None
+            ),
+            sensor_health=(
+                packet.environment.sensor_health.value
+                if provider is not None and packet.environment
+                else "ok"
+            ),
+        ).to_dict(),
         "options": [
             {
                 "option_id": o.option_id,

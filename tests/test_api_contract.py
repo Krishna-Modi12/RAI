@@ -125,6 +125,7 @@ def test_api_asset_investigate():
     assert "historical_cases" in data
     assert "citations" in data
     assert "economics" in data
+    assert "economic_decision" in data
 
 
 def test_api_asset_cases():
@@ -141,6 +142,24 @@ def test_api_asset_economics():
     assert "options" in econ
     assert "recommended_option_id" in econ
     assert "avoidable_exposure_inr" in econ
+
+
+def test_api_asset_decision():
+    resp = client.get("/api/assets/WT-017/decision")
+    assert resp.status_code == 200
+    decision = resp.json()
+    assert decision["asset_id"] == "WT-017"
+    assert decision["decision"] in {
+        "INTERVENE",
+        "INSPECT",
+        "MONITOR",
+        "WAIT",
+        "ABSTAIN",
+    }
+    assert "assumptions" in decision
+    assert "uncertainty" in decision
+    assert "robustness" in decision
+    assert "information_value_inr" in decision
 
 
 def test_api_soiling():
