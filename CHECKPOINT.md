@@ -2,9 +2,9 @@
 
 > Consolidated build state. All tasks across Foundation, Modeling, Operational Validation, Environmental Intelligence, API Services, and Next.js Instrument Panel are fully verified.
 
-**Last updated:** 2026-09-13 (Gate 5.6C Solar Expected-Performance Model Development & Adversarial Verification **COMPLETE and AUDITED**; Real Historical Case Corpus & Retrieval Validation **COMPLETE and VERIFIED**; 14 real adjudicated cases across CARE, Kelmarsh, and PVDAQ; strict partition separation; Economic Decision Support verified; Local AI Agent Evidence / Tool Evaluation verified; 493 total repository tests passing across all 41 test modules; full Next.js build clean with 0 errors).
-**Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, Phase 5 external benchmark gates, Gate 5.6C adversarial audit, Local Agent Evidence Evaluation, Economic Decision Support, and Real Historical Case Corpus fully built, tested, and verified  
-**Backend Unit Tests:** 493/493 passing (verified by direct `pytest` run across all 41 test modules)
+**Last updated:** 2026-09-13 (Real Corpus -> Agent -> Decision Support End-to-End Integration **COMPLETE and VERIFIED**; Gate 5.6C Solar Expected-Performance Model Development & Adversarial Verification **COMPLETE and AUDITED**; Real Historical Case Corpus & Retrieval Validation **COMPLETE and VERIFIED**; 14 real adjudicated cases across CARE, Kelmarsh, and PVDAQ; strict partition separation; Economic Decision Support verified; Local AI Agent Evidence / Tool Evaluation verified; 498 total repository tests passing across all 42 test modules; full Next.js build clean with 0 errors).
+**Overall:** ▓▓▓▓▓▓▓▓▓▓ 100% — core pipeline, API, frontend, Phase 5 external benchmark gates, Gate 5.6C adversarial audit, Real Corpus Agent Integration, Local Agent Evidence Evaluation, Economic Decision Support, and Real Historical Case Corpus fully built, tested, and verified  
+**Backend Unit Tests:** 498/498 passing (verified by direct `pytest` run across all 42 test modules)
 **Static Analysis:** Ruff — 0 errors (`All checks passed!`). Pyright — 0 errors in `rai/`  
 **Frontend Build:** verified — `npm run build` in `web/` completes cleanly (Next.js 16.3.5 Turbopack, 8 routes, 0 errors, 0 warnings).
 **Economic Decision Support:** `PASSED` (Explicit action decisions with source-labelled assumptions, uncertainty items, and null unknown handling; zero fabricated probabilities or savings; verified by 7 targeted tests in `tests/test_economic_decision_support.py`).

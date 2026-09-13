@@ -413,12 +413,27 @@ def diagnose(
         if best.similarity >= 0.80:
             agrees = best.component == diagnosis.component
             confidence = min(0.97, confidence + (0.08 if agrees else -0.05))
-            reasons.insert(
-                0,
-                f"Closest historical episode {best.case_id} ({best.similarity:.0%} similar, "
-                f"{best.component}) resolved as: {best.outcome}"
-                + (f"; detected {best.lead_time_days:.0f} days ahead" if best.lead_time_days else ""),
-            )
+            st = getattr(best, "source_type", None)
+            st_val = getattr(st, "value", str(st)) if st else ""
+            if st_val.upper() in {"EXTERNAL_REAL", "REAL_EXTERNAL", "HISTORICAL_REAL"}:
+                dataset_label = best.source_dataset or "Real operational dataset"
+                ev_cls = getattr(best, "event_class", None)
+                class_str = getattr(ev_cls, "value", str(ev_cls)) if ev_cls else "REAL_EVENT"
+                diff_str = f" [What differs: {', '.join(best.what_is_different[:2])}]" if best.what_is_different else ""
+                reasons.insert(
+                    0,
+                    f"Audited real case {best.case_id} ({dataset_label}, {best.similarity:.0%} match, "
+                    f"{best.component}) recorded as {class_str}: '{best.outcome}'"
+                    + (f"; detected {best.lead_time_days:.0f} days ahead" if best.lead_time_days else "")
+                    + diff_str,
+                )
+            else:
+                reasons.insert(
+                    0,
+                    f"Closest historical episode {best.case_id} ({best.similarity:.0%} similar, "
+                    f"{best.component}) resolved as: {best.outcome}"
+                    + (f"; detected {best.lead_time_days:.0f} days ahead" if best.lead_time_days else ""),
+                )
 
     if citations:
         top = citations[0]

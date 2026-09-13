@@ -291,7 +291,9 @@ class InvestigatorAgent:
                 EvidenceItem(
                     claim=f"Historical Case {case_id} ({fault_mode}) retrieved.",
                     state=EvidenceState.RETRIEVED,
-                    source="synthetic_case_library",
+                    source=case_data.get("source_dataset") or (
+                        "real_historical_corpus" if source_type == HistoricalSourceType.EXTERNAL_REAL.value else "synthetic_case_library"
+                    ),
                     source_type=source_type,
                     case_id=case_id,
                     limitations=why_not_apply or ["Contextual reference only; not confirmed diagnosis."],
@@ -359,24 +361,30 @@ class InvestigatorAgent:
                 )
 
             for c in cases_list:
+                c_st = c.get("source_type", HistoricalSourceType.INTERNAL_SYNTHETIC.value)
+                c_src = c.get("source_dataset") or c.get("source") or (
+                    "real_historical_corpus" if c_st == HistoricalSourceType.EXTERNAL_REAL.value else "synthetic_case_library"
+                )
                 evidence_items.append(
                     EvidenceItem(
                         claim=f"Similar episode {c['case_id']} (similarity {c['similarity']:.0%}, {c['component']}).",
                         state=EvidenceState.RETRIEVED,
-                        source=c.get("source", "synthetic_case_library"),
-                        source_type=c.get("source_type", HistoricalSourceType.INTERNAL_SYNTHETIC.value),
+                        source=c_src,
+                        source_type=c_st,
                         case_id=c["case_id"],
                         limitations=c.get("why_may_not_apply", ["Contextual historical match only"]),
                     )
                 )
 
             top = cases_list[0]
+            top_st = top.get("source_type")
+            top_prov = f"Real dataset ({top.get('source_dataset', 'external SCADA')})" if top_st == "external_real" else str(top_st)
             answer = (
                 f"Retrieved {len(cases_list)} similar historical episodes. Top match is {top['case_id']} "
                 f"at {top['similarity']:.0%} similarity ({top['component']}: {top['fault_mode']}). "
                 f"Why matched: {' '.join(top.get('why_matched', [])[:2])}. "
                 f"What differs: {', '.join(top.get('what_is_different', [])[:2]) or 'no major differences'}. "
-                f"Provenance: {top.get('source_type')}. Note: Historical matches are contextual references and do not prove failure."
+                f"Provenance: {top_prov}. Note: Historical matches are contextual references and do not prove failure."
             )
             return AgentResponse(
                 question=question,
