@@ -256,10 +256,10 @@ export default function EvaluationPage() {
             <thead>
               <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left bg-[var(--surface-sunken)]">
                 <th className="py-2 px-3">Asset Class</th>
-                <th className="py-2 px-2 text-right">Total Assets</th>
-                <th className="py-2 px-2 text-right">Monitored Hours</th>
-                <th className="py-2 px-2 text-right">Independent Failure Events</th>
-                <th className="py-2 px-2 text-right">Normal Assets</th>
+                <th className="py-2 px-3 text-right">Total Assets</th>
+                <th className="py-2 px-3 text-right">Monitored Hours</th>
+                <th className="py-2 px-3 text-right">Independent Failure Events</th>
+                <th className="py-2 px-3 text-right">Normal Assets</th>
                 <th className="py-2 px-3">Injected Failure Families</th>
               </tr>
             </thead>
@@ -315,14 +315,14 @@ export default function EvaluationPage() {
             <thead>
               <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left bg-[var(--surface-sunken)]">
                 <th className="py-2.5 px-3">Model Candidate</th>
-                <th className="py-2.5 px-2 text-right">RAI Operational Score</th>
-                <th className="py-2.5 px-2 text-right">PR-AUC</th>
-                <th className="py-2.5 px-2 text-right">Precision</th>
-                <th className="py-2.5 px-2 text-right">Recall</th>
-                <th className="py-2.5 px-2 text-right">False Alarms / Yr</th>
-                <th className="py-2.5 px-2 text-right">Lead Time</th>
-                <th className="py-2.5 px-2 text-right">Brier Score</th>
-                <th className="py-2.5 px-2 text-right">ECE</th>
+                <th className="py-2.5 px-3 text-right">RAI Operational Score</th>
+                <th className="py-2.5 px-3 text-right">PR-AUC</th>
+                <th className="py-2.5 px-3 text-right">Precision</th>
+                <th className="py-2.5 px-3 text-right">Recall</th>
+                <th className="py-2.5 px-3 text-right">False Alarms / Yr</th>
+                <th className="py-2.5 px-3 text-right">Lead Time</th>
+                <th className="py-2.5 px-3 text-right">Brier Score</th>
+                <th className="py-2.5 px-3 text-right">ECE</th>
                 <th className="py-2.5 px-3 text-center">Status</th>
               </tr>
             </thead>

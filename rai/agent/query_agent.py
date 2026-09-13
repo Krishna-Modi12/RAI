@@ -74,8 +74,8 @@ class InvestigatorAgent:
         q = question.lower()
         selected: list[tuple[str, dict[str, Any]]] = []
 
-        # Extract explicit case ID if mentioned (e.g. CASE-W-001)
-        case_match = re.search(r"\b(case-[ws]-\d{3})\b", q)
+        # Extract explicit case ID if mentioned (e.g. CASE-W-001 or REAL-CARE-A-072 or REAL-PVDAQ-34)
+        case_match = re.search(r"\b(case-[ws]-\d{3}|real-[a-z0-9-]+)\b", q, re.IGNORECASE)
         target_case_id = case_match.group(1).upper() if case_match else None
 
         # Extract asset ID if present in question and not explicitly passed
@@ -96,8 +96,13 @@ class InvestigatorAgent:
 
         # 2. General Historical retrieval
         if any(w in q for w in ["similar", "seen before", "history", "historical", "past", "precedent"]):
+            partition = "all"
+            if "real" in q or "actual" in q or "field" in q:
+                partition = "real"
+            elif "synthetic" in q or "simulated" in q:
+                partition = "synthetic"
             if asset_id:
-                selected.append(("retrieve_historical_cases", {"asset_id": asset_id, "k": 3}))
+                selected.append(("retrieve_historical_cases", {"asset_id": asset_id, "k": 3, "corpus_partition": partition}))
             return selected
 
         # 3. Economic intervention / costing options

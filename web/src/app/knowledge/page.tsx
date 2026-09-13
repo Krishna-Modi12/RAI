@@ -84,7 +84,7 @@ export default function KnowledgePage() {
 
         {/* Suggested Queries */}
         <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
-          <span className="text-[var(--text-tertiary)] text-[11px] mr-1">Quick Queries:</span>
+          <span className="text-[var(--text-tertiary)] text-[11px] mr-1 whitespace-nowrap">Quick Queries:</span>
           {sampleQueries.map((sq) => (
             <button
               key={sq}
@@ -92,7 +92,7 @@ export default function KnowledgePage() {
                 setQuery(sq);
                 handleSearch(sq);
               }}
-              className="px-2 py-0.5 bg-[var(--surface-sunken)] hover:bg-[var(--surface-inset)] border border-[var(--border)] rounded-[2px] text-[11px] text-[var(--text-secondary)] transition-colors"
+              className="px-2 py-0.5 bg-[var(--surface-sunken)] hover:bg-[var(--surface-inset)] border border-[var(--border)] rounded-[2px] text-[11px] text-[var(--text-secondary)] transition-colors whitespace-nowrap"
             >
               {sq}
             </button>
@@ -164,7 +164,7 @@ export default function KnowledgePage() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <span className="text-[11px] text-[var(--text-secondary)]">
+                <span className="text-[11px] text-[var(--text-secondary)] whitespace-nowrap">
                   {doc.sections} sections
                 </span>
               </div>

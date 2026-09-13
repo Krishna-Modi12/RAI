@@ -72,3 +72,20 @@ truth.” The latter remains blocked until event semantics are independently adj
 | Limitations | Tool-selection accuracy here measures deterministic intent-to-tool contracts, not unconstrained Needle selection. No Needle latency or availability claim is made. |
 | Artifacts | `tests/test_local_agent_evaluation.py`; `docs/evaluation/LOCAL_AGENT_EVALUATION.md`. |
 | Status | `IMPLEMENTED` |
+
+## RAI-RAG-002 — Real historical-case corpus & retrieval validation
+
+| Field | Record |
+|---|---|
+| Question | Can RAI's existing trajectory and metadata retrieval architecture accurately retrieve relevant real operational and failure events with full provenance preservation and abstention, without confusing operational shutdowns with component failures? |
+| Hypothesis | Real historical cases from CARE to Compare, Kelmarsh SCADA/logs, and NREL PVDAQ can be partitioned, adjudicated, and retrieved with structured provenance and why/what-differed explanations without data leakage or conflating operational trips with component failures. |
+| Sources | CARE to Compare (Zenodo records 10958775 & 14006163); Kelmarsh Wind Farm (Zenodo record 5841834); NREL PVDAQ OEDI (Systems 34 & 1283). |
+| Adjudication | 14 curated real cases across 4 explicit event classes (`REAL_VERIFIED_EVENT`, `REAL_OPERATIONAL_EVENT`, `REAL_MAINTENANCE_EVENT`, `ENVIRONMENTAL_EVENT`). Operational trips (converter trips, fan overloads, midday inverter trips) explicitly typed as operational events with `equipment_fault=False`. |
+| Findings | Strict partition separation (`EXTERNAL_REAL` vs `INTERNAL_SYNTHETIC`) prevents synthetic regression failures. Explanations returning `why_matched`, `what_is_similar`, `what_is_different`, and `why_may_not_apply` provide transparent operator reasoning without probability fabrication. |
+| Results | 10 deterministic test queries: Mean Precision@1 = 90.0%, Mean Precision@3 = 80.0%, Mean Recall@3 = 85.0%, MRR = 0.950, Provenance Preservation Rate = 100.0%, Partition Purity Rate = 100.0%, Abstention Accuracy = 100.0%. |
+| Reliability | High for deterministic ranking, partition purity, and abstention across the adjudicated 14-case corpus; low for statistical generalization or real-world fault diagnosis. |
+| Decision | **IMPLEMENTED**: Strictly partitioned case library with explicit `partition="synthetic"|"real"|"all"` parameter (defaulting to `"synthetic"` for backwards compatibility). REST API (`GET /api/assets/{id}/cases?partition=real`) and agent tool `search_similar_cases` expose real cases with provenance. |
+| Limitations | Small adjudicated corpus (14 cases); similarity scores are geometric/lexical distances, not empirical failure probabilities; retrieval does not imply causal diagnosis. |
+| Artifacts | `rai/memory/real_corpus.py`; `rai/eval/retrieval_eval.py`; `artifacts/retrieval_benchmark_results.json`; `docs/evaluation/REAL_HISTORICAL_CASE_RETRIEVAL.md`; `tests/test_real_case_retrieval.py`; `tests/test_real_historical_retrieval.py`. |
+| Status | `IMPLEMENTED` |
+

@@ -80,9 +80,9 @@ export default function SimulatorPage() {
           <button
             onClick={handleReset}
             disabled={pending !== null}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-[var(--surface-raised)] hover:bg-[var(--surface-sunken)] border border-[var(--border-control)] text-xs font-medium text-[var(--text-primary)] rounded-[2px] transition-colors disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-[var(--surface-raised)] hover:bg-[var(--surface-sunken)] border border-[var(--border-control)] text-xs font-medium text-[var(--text-primary)] rounded-[2px] transition-colors disabled:opacity-50 whitespace-nowrap"
           >
-            <RotateCcw className={`w-3.5 h-3.5 ${pending === "reset" ? "animate-spin" : ""}`} />
+            <RotateCcw className={`w-3.5 h-3.5 flex-shrink-0 ${pending === "reset" ? "animate-spin" : ""}`} />
             <span>Reset Baseline Fleet</span>
           </button>
         </div>
@@ -194,13 +194,13 @@ export default function SimulatorPage() {
                   <button
                     onClick={() => handleInject(sc)}
                     disabled={pending !== null}
-                    className={`flex items-center space-x-1 px-3 py-1 text-xs font-medium rounded-[2px] transition-colors disabled:opacity-50 ${
+                    className={`flex items-center space-x-1 px-3 py-1 text-xs font-medium rounded-[2px] transition-colors disabled:opacity-50 whitespace-nowrap ${
                       isActive
                         ? "bg-[var(--accent)] text-[var(--text-inverse)]"
                         : "bg-[var(--surface-sunken)] hover:bg-[var(--surface-inset)] text-[var(--text-primary)] border border-[var(--border-control)]"
                     }`}
                   >
-                    <Play className={`w-3 h-3 ${pending === sc.scenario ? "animate-spin" : ""}`} />
+                    <Play className={`w-3 h-3 flex-shrink-0 ${pending === sc.scenario ? "animate-spin" : ""}`} />
                     <span>{isActive ? "Re-Inject" : "Inject Fault"}</span>
                   </button>
                 </div>

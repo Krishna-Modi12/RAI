@@ -105,6 +105,7 @@ body {
   font-family: var(--font-sans);
   font-feature-settings: "tnum" 1, "cv05" 1;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
 }
 
 /* Hairline borders */
@@ -141,4 +142,12 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-control);
+}
+
+/* Nowrap utility for inline elements (asset IDs, badges, etc.) */
+.nowrap {
+  white-space: nowrap;
 }

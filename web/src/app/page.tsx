@@ -150,24 +150,24 @@ export default function FleetPage() {
               }`}
             >
               {/* Asset ID & Type */}
-              <div className="min-w-[140px]">
+              <div className="min-w-[140px] flex-shrink-0">
                 <div className="flex items-center space-x-1.5">
                   {item.asset_type === "wind_turbine" ? (
-                    <Wind className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    <Wind className="w-3.5 h-3.5 text-[var(--accent)] flex-shrink-0" />
                   ) : (
-                    <Sun className="w-3.5 h-3.5 text-[var(--series-2)]" />
+                    <Sun className="w-3.5 h-3.5 text-[var(--series-2)] flex-shrink-0" />
                   )}
-                  <span className="font-mono font-semibold text-sm text-[var(--text-primary)]">
+                  <span className="font-mono font-semibold text-sm text-[var(--text-primary)] whitespace-nowrap">
                     {item.asset_id}
                   </span>
                 </div>
-                <div className="text-[11px] text-[var(--text-tertiary)] font-sans">
+                <div className="text-[11px] text-[var(--text-tertiary)] font-sans whitespace-nowrap">
                   {item.name} · {item.site}
                 </div>
               </div>
 
               {/* Headline & Signal */}
-              <div className="flex-1 space-y-0.5">
+              <div className="flex-1 min-w-0 space-y-0.5">
                 <div className="text-xs font-medium text-[var(--text-primary)]">
                   {item.headline}
                 </div>
@@ -177,28 +177,28 @@ export default function FleetPage() {
               </div>
 
               {/* Metrics (Risk, Revenue, Deadline) */}
-              <div className="flex items-center space-x-6 font-mono text-xs">
-                <div>
+              <div className="flex items-center gap-4 font-mono text-xs flex-shrink-0">
+                <div className="min-w-[72px]">
                   <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Risk</div>
                   <div className="flex items-center space-x-1.5 mt-0.5">
                     <StatusPill band={item.risk_band} />
-                    <span className="font-semibold text-[var(--text-primary)]">
+                    <span className="font-semibold text-[var(--text-primary)] whitespace-nowrap">
                       {(item.risk_score * 100).toFixed(0)}%
                     </span>
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-right min-w-[72px]">
                   <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Exposure</div>
-                  <div className="font-semibold text-[var(--text-primary)] mt-0.5">
+                  <div className="font-semibold text-[var(--text-primary)] mt-0.5 whitespace-nowrap">
                     {formatINR(item.revenue_at_risk_inr).display}
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-right min-w-[52px]">
                   <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Deadline</div>
                   <div
-                    className={`font-semibold mt-0.5 ${
+                    className={`font-semibold mt-0.5 whitespace-nowrap ${
                       item.deadline_hours <= 48 ? "text-[var(--critical)]" : "text-[var(--warn-ink)]"
                     }`}
                   >
@@ -208,13 +208,13 @@ export default function FleetPage() {
               </div>
 
               {/* Action Button */}
-              <div>
+              <div className="flex-shrink-0">
                 <Link
                   href={`/assets/${item.asset_id}`}
-                  className="inline-flex items-center space-x-1 px-3 py-1.5 bg-[var(--surface-raised)] border border-[var(--border-control)] hover:border-[var(--accent)] text-xs font-medium text-[var(--text-primary)] rounded-[2px] transition-colors"
+                  className="inline-flex items-center space-x-1 px-3 py-1.5 bg-[var(--surface-raised)] border border-[var(--border-control)] hover:border-[var(--accent)] text-xs font-medium text-[var(--text-primary)] rounded-[2px] transition-colors whitespace-nowrap"
                 >
                   <span>Investigate</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <ArrowUpRight className="w-3.5 h-3.5 flex-shrink-0" />
                 </Link>
               </div>
             </div>
@@ -295,14 +295,14 @@ export default function FleetPage() {
             <thead>
               <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left bg-[var(--surface-sunken)]">
                 <th className="py-2.5 px-4">Asset ID</th>
-                <th className="py-2.5 px-2">Type</th>
-                <th className="py-2.5 px-2">Site</th>
-                <th className="py-2.5 px-2">Status</th>
-                <th className="py-2.5 px-2 text-right">Health</th>
-                <th className="py-2.5 px-2 text-right">Risk Score</th>
-                <th className="py-2.5 px-2 text-right">Power</th>
-                <th className="py-2.5 px-2 text-right">Expected</th>
-                <th className="py-2.5 px-2 text-right">Residual</th>
+                <th className="py-2.5 px-3">Type</th>
+                <th className="py-2.5 px-3">Site</th>
+                <th className="py-2.5 px-3">Status</th>
+                <th className="py-2.5 px-3 text-right">Health</th>
+                <th className="py-2.5 px-3 text-right">Risk Score</th>
+                <th className="py-2.5 px-3 text-right">Power</th>
+                <th className="py-2.5 px-3 text-right">Expected</th>
+                <th className="py-2.5 px-3 text-right">Residual</th>
                 <th className="py-2.5 px-4 text-center">Action</th>
               </tr>
             </thead>
@@ -318,22 +318,24 @@ export default function FleetPage() {
                       : ""
                   }`}
                 >
-                  <td className="py-2 px-4 font-semibold text-[var(--text-primary)] flex items-center space-x-2">
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        asset.status === "critical"
-                          ? "bg-[var(--critical)]"
-                          : asset.status === "warning"
-                          ? "bg-[var(--warn)]"
-                          : "bg-[var(--ok)]"
-                      }`}
-                    />
-                    <Link
-                      href={`/assets/${asset.asset_id}`}
-                      className="hover:text-[var(--accent)] hover:underline"
-                    >
-                      {asset.asset_id}
-                    </Link>
+                  <td className="py-2 px-4 font-semibold text-[var(--text-primary)]">
+                    <div className="flex items-center space-x-2">
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                          asset.status === "critical"
+                            ? "bg-[var(--critical)]"
+                            : asset.status === "warning"
+                            ? "bg-[var(--warn)]"
+                            : "bg-[var(--ok)]"
+                        }`}
+                      />
+                      <Link
+                        href={`/assets/${asset.asset_id}`}
+                        className="hover:text-[var(--accent)] hover:underline whitespace-nowrap"
+                      >
+                        {asset.asset_id}
+                      </Link>
+                    </div>
                   </td>
                   <td className="py-2 px-2 capitalize text-[var(--text-secondary)] font-sans">
                     {asset.asset_type === "wind_turbine" ? "Wind" : "Solar"}
@@ -378,7 +380,7 @@ export default function FleetPage() {
                   <td className="py-2 px-4 text-center">
                     <Link
                       href={`/assets/${asset.asset_id}`}
-                      className="text-[11px] text-[var(--accent)] hover:underline font-sans"
+                      className="text-[11px] text-[var(--accent)] hover:underline font-sans whitespace-nowrap"
                     >
                       Inspect
                     </Link>

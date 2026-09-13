@@ -30,6 +30,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
     economics: true,
     decision: true,
   });
+  const [historyFilter, setHistoryFilter] = useState<"all" | "real" | "synthetic">("all");
 
   const toggleSection = (id: string) => {
     setOpenSections((prev) => ({ ...prev, [id]: !prev [id] }));
@@ -63,13 +64,13 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
               <table className="w-full text-xs font-mono">
                 <thead>
                   <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left">
-                    <th className="py-2">Signal Name</th>
-                    <th className="py-2 text-right">Actual</th>
-                    <th className="py-2 text-right">Expected</th>
-                    <th className="py-2 text-right">Residual</th>
-                    <th className="py-2 text-right">Z-Score</th>
-                    <th className="py-2 text-right">Trend/Day</th>
-                    <th className="py-2 text-center">Deviation Bar (±3σ)</th>
+                    <th className="py-2 px-3">Signal Name</th>
+                    <th className="py-2 px-3 text-right">Actual</th>
+                    <th className="py-2 px-3 text-right">Expected</th>
+                    <th className="py-2 px-3 text-right">Residual</th>
+                    <th className="py-2 px-3 text-right">Z-Score</th>
+                    <th className="py-2 px-3 text-right">Trend/Day</th>
+                    <th className="py-2 px-3 text-center">Deviation Bar (±3σ)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -80,23 +81,25 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                         sig.dominant ? "bg-[var(--accent-surface)]/30 font-medium" : ""
                       }`}
                     >
-                      <td className="py-2 flex items-center space-x-1.5 font-sans">
-                        {sig.dominant && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-                        )}
-                        <span className="text-[var(--text-primary)]">{sig.name}</span>
-                        {sig.dominant && (
-                          <span className="text-[9px] font-mono px-1 py-0.2 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px]">
-                            DOMINANT
-                          </span>
-                        )}
+                      <td className="py-2 px-3">
+                        <div className="flex items-center space-x-1.5 font-sans">
+                          {sig.dominant && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] flex-shrink-0" />
+                          )}
+                          <span className="text-[var(--text-primary)]">{sig.name}</span>
+                          {sig.dominant && (
+                            <span className="text-[9px] font-mono px-1 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px] whitespace-nowrap">
+                              DOMINANT
+                            </span>
+                          )}
+                        </div>
                       </td>
-                      <td className="py-2 text-right">{sig.actual.toFixed(1)}</td>
-                      <td className="py-2 text-right text-[var(--text-secondary)]">
+                      <td className="py-2 px-3 text-right whitespace-nowrap">{sig.actual.toFixed(1)}</td>
+                      <td className="py-2 px-3 text-right text-[var(--text-secondary)] whitespace-nowrap">
                         {sig.expected.toFixed(1)}
                       </td>
                       <td
-                        className={`py-2 text-right font-semibold ${
+                        className={`py-2 px-3 text-right font-semibold whitespace-nowrap ${
                           sig.residual > 0 ? "text-[var(--critical)]" : "text-[var(--series-1)]"
                         }`}
                       >
@@ -104,7 +107,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                         {sig.residual.toFixed(1)}
                       </td>
                       <td
-                        className={`py-2 text-right font-semibold ${
+                        className={`py-2 px-3 text-right font-semibold whitespace-nowrap ${
                           Math.abs(sig.z_score) >= 3
                             ? "text-[var(--critical)]"
                             : Math.abs(sig.z_score) >= 2
@@ -114,7 +117,7 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                       >
                         {formatZScore(sig.z_score)}σ
                       </td>
-                      <td className="py-2 text-right text-[var(--text-secondary)]">
+                      <td className="py-2 px-3 text-right text-[var(--text-secondary)] whitespace-nowrap">
                         {sig.trend_per_day > 0 ? "+" : ""}
                         {sig.trend_per_day.toFixed(2)}
                       </td>
@@ -294,50 +297,144 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
 
         {openSections.history && (
           <div className="p-4 space-y-3">
-            {evidence.history?.cases.map((c) => (
-              <div
-                key={c.case_id}
-                className="p-3 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] space-y-1.5 text-xs"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="font-mono font-semibold text-[var(--text-primary)]">
-                    {c.case_id} · {c.component}
-                  </div>
-                  <span className="font-mono px-1.5 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px] text-[10px]">
-                    Cosine Similarity: {(c.similarity * 100).toFixed(0)}%
-                  </span>
-                </div>
-                <div className="font-medium text-[var(--warn-ink)]">{c.fault_mode}</div>
-                <p className="text-[var(--text-secondary)] text-[11px] leading-relaxed">
-                  {c.outcome}
-                </p>
-                <div className="grid gap-2 sm:grid-cols-2 pt-1 text-[11px]">
-                  <div>
-                    <div className="font-semibold text-[var(--text-primary)]">Why matched</div>
-                    <div className="text-[var(--text-secondary)]">
-                      {(c.why_matched ?? []).join(" ") || "Not evaluated"}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-[var(--text-primary)]">What differs</div>
-                    <div className="text-[var(--text-secondary)]">
-                      {(c.what_is_different ?? []).join(", ") || "No material difference recorded"}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4 pt-1 font-mono text-[10px] text-[var(--text-tertiary)]">
-                  <span>Lead Time: {c.lead_time_days ?? "not evaluated"} days</span>
-                  <span>Avoided Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
-                  <span className="uppercase text-[9px]">Provenance: {c.source_type ?? c.source}</span>
-                </div>
-                <div className="text-[10px] text-[var(--warn-ink)] flex items-center justify-between">
-                  <span>Historical context only; it does not confirm the current diagnosis.</span>
-                  <span className="text-[var(--text-tertiary)] font-mono text-[9px]">Corpus: INTERNAL_SYNTHETIC</span>
-                </div>
+            {/* Partition Filter Control */}
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+              <span className="text-[10px] font-mono text-[var(--text-secondary)] uppercase tracking-wider">
+                Corpus Partition:
+              </span>
+              <div className="inline-flex rounded-[2px] border border-[var(--border)] bg-[var(--surface-inset)] p-0.5 text-[10px] font-mono">
+                <button
+                  type="button"
+                  onClick={() => setHistoryFilter("all")}
+                  className={`px-2 py-0.5 rounded-[1px] transition-colors ${
+                    historyFilter === "all"
+                      ? "bg-[var(--surface-raised)] text-[var(--text-primary)] font-semibold shadow-xs"
+                      : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+                  }`}
+                >
+                  ALL ({evidence.history?.cases.length ?? 0})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHistoryFilter("real")}
+                  className={`px-2 py-0.5 rounded-[1px] transition-colors ${
+                    historyFilter === "real"
+                      ? "bg-emerald-950/60 text-emerald-300 font-semibold border border-emerald-500/40"
+                      : "text-[var(--text-tertiary)] hover:text-emerald-400"
+                  }`}
+                >
+                  REAL ONLY ({(evidence.history?.cases ?? []).filter(c => c.source_type === "EXTERNAL_REAL").length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHistoryFilter("synthetic")}
+                  className={`px-2 py-0.5 rounded-[1px] transition-colors ${
+                    historyFilter === "synthetic"
+                      ? "bg-amber-950/60 text-amber-300 font-semibold border border-amber-500/40"
+                      : "text-[var(--text-tertiary)] hover:text-amber-400"
+                  }`}
+                >
+                  SYNTHETIC ({(evidence.history?.cases ?? []).filter(c => c.source_type !== "EXTERNAL_REAL").length})
+                </button>
               </div>
-            ))}
+            </div>
+
+            {(evidence.history?.cases ?? [])
+              .filter((c) => {
+                if (historyFilter === "real") return c.source_type === "EXTERNAL_REAL";
+                if (historyFilter === "synthetic") return c.source_type !== "EXTERNAL_REAL";
+                return true;
+              })
+              .map((c) => {
+                const isReal = c.source_type === "EXTERNAL_REAL";
+                return (
+                  <div
+                    key={c.case_id}
+                    className={`p-3 bg-[var(--surface-sunken)] border rounded-[3px] space-y-2 text-xs ${
+                      isReal
+                        ? "border-emerald-500/30 shadow-[inset_0_1px_0_rgba(16,185,129,0.08)]"
+                        : "border-[var(--border)]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-mono font-semibold text-[var(--text-primary)]">
+                          {c.case_id} · {c.component}
+                        </span>
+                        {isReal ? (
+                          <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-emerald-950/50 border border-emerald-500/50 text-emerald-400 rounded-[2px] flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                            REAL HISTORICAL CASE
+                          </span>
+                        ) : (
+                          <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-amber-950/40 border border-amber-500/40 text-amber-400 rounded-[2px]">
+                            SYNTHETIC SCENARIO
+                          </span>
+                        )}
+                        {c.event_class && (
+                          <span className="px-1.5 py-0.5 font-mono text-[9px] bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+                            {c.event_class}
+                          </span>
+                        )}
+                      </div>
+                      <span className="font-mono px-1.5 py-0.5 bg-[var(--accent-surface)] text-[var(--accent)] rounded-[2px] text-[10px]">
+                        Cosine Similarity: {(c.similarity * 100).toFixed(0)}%
+                      </span>
+                    </div>
+
+                    <div className="font-medium text-[var(--warn-ink)] flex items-center justify-between">
+                      <span>{c.fault_mode}</span>
+                      <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{c.source}</span>
+                    </div>
+
+                    <p className="text-[var(--text-secondary)] text-[11px] leading-relaxed">
+                      {c.outcome}
+                    </p>
+
+                    <div className="grid gap-2 sm:grid-cols-2 pt-1 text-[11px]">
+                      <div className="p-2 rounded-[2px] bg-[var(--surface-raised)]/60 border border-[var(--border)]/70">
+                        <div className="font-semibold text-[var(--text-primary)] flex items-center gap-1 text-[10px] uppercase font-mono tracking-wider">
+                          Why matched / Similarities
+                        </div>
+                        <div className="text-[var(--text-secondary)] mt-0.5">
+                          {(c.why_matched ?? []).join(" ") || (c.what_is_similar ?? []).join(", ") || "Residual feature pattern matched baseline vector"}
+                        </div>
+                      </div>
+                      <div className="p-2 rounded-[2px] bg-[var(--surface-raised)]/60 border border-[var(--border)]/70">
+                        <div className="font-semibold text-[var(--text-primary)] flex items-center gap-1 text-[10px] uppercase font-mono tracking-wider">
+                          What differs / Boundary
+                        </div>
+                        <div className="text-[var(--text-secondary)] mt-0.5">
+                          {(c.what_is_different ?? []).join(", ") || "No material difference recorded"}
+                        </div>
+                      </div>
+                    </div>
+
+                    {c.why_may_not_apply && c.why_may_not_apply.length > 0 && (
+                      <div className="p-1.5 bg-amber-950/20 border border-amber-500/20 rounded-[2px] text-[10px] text-amber-300 font-mono">
+                        Applicability limitations: {c.why_may_not_apply.join("; ")}
+                      </div>
+                    )}
+
+                    <div className="flex items-center space-x-4 pt-1 font-mono text-[10px] text-[var(--text-tertiary)]">
+                      <span>Lead Time: {c.lead_time_days ?? "not evaluated"} days</span>
+                      <span>Avoided Cost: {c.repair_cost_inr == null ? "not evaluated" : formatINR(c.repair_cost_inr).display}</span>
+                      <span className="uppercase text-[9px]">
+                        Provenance: {c.source_type ?? (isReal ? "EXTERNAL_REAL" : "INTERNAL_SYNTHETIC")}
+                      </span>
+                    </div>
+
+                    <div className="text-[10px] text-[var(--warn-ink)] flex items-center justify-between pt-1 border-t border-[var(--border)]/40">
+                      <span>Historical context only; it does not confirm the current diagnosis.</span>
+                      <span className="text-[var(--text-tertiary)] font-mono text-[9px]">
+                        Corpus: {isReal ? "EXTERNAL_REAL (Audited Record)" : "INTERNAL_SYNTHETIC (Simulation)"}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--border)]">
-              SOURCE: SQLite Trajectory Embeddings · cosine_knn_retriever
+              SOURCE: SQLite Trajectory Embeddings · cosine_knn_retriever · Partition: {historyFilter.toUpperCase()}
             </div>
           </div>
         )}

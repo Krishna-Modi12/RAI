@@ -13,13 +13,13 @@ from rai.agent.investigator import investigate
 from rai.config import FLEET_BY_ID, SITES, get_asset, peers_of
 from rai.economics.decision_support import evaluate_decision_support
 from rai.economics.engine import evaluate_options
-from rai.memory.retrieval import find_similar_cases
+from rai.memory.retrieval import find_similar_cases, get_case_details
 from rai.models.pipeline import build_evidence_packet, compute_asset_state
 from rai.schemas import AssetType
 from rai.store.events import events_in_window
 from rai.store.state import load_asset_state, save_asset_state
 from rai.store.telemetry import available_columns, load_telemetry
-from services.api.errors import AssetNotFoundError, SignalNotFoundError
+from services.api.errors import AssetNotFoundError, CaseNotFoundError, SignalNotFoundError
 
 router = APIRouter(prefix="/api/assets", tags=["assets"])
 
@@ -357,13 +357,62 @@ def post_investigate(asset_id: str, body: InvestigateBody | None = None) -> dict
 
 
 @router.get("/{asset_id}/cases")
-def get_asset_cases(asset_id: str) -> list[dict[str, Any]]:
+def get_asset_cases(
+    asset_id: str,
+    partition: str = Query(default="all"),
+    k: int = Query(default=5),
+) -> list[dict[str, Any]]:
     if asset_id not in FLEET_BY_ID:
         raise AssetNotFoundError(asset_id)
 
     packet = build_evidence_packet(asset_id)
-    cases = find_similar_cases(packet, k=5)
+    cases = find_similar_cases(packet, k=k, corpus_partition=partition)
     return [c.model_dump(mode="json") for c in cases]
+
+
+@router.get("/historical-cases/{case_id}")
+def get_historical_case(case_id: str) -> dict[str, Any]:
+    detail = get_case_details(case_id)
+    if detail is None:
+        raise CaseNotFoundError(case_id)
+    return detail.model_dump(mode="json")
+
+
+@router.get("/historical-corpus/info")
+def get_historical_corpus_info() -> dict[str, Any]:
+    from rai.memory.library import SYNTHETIC_CASES, get_real_cases
+    real = get_real_cases()
+    return {
+        "synthetic_case_count": len(SYNTHETIC_CASES),
+        "real_case_count": len(real),
+        "total_cases": len(SYNTHETIC_CASES) + len(real),
+        "sources": {
+            "real": [
+                {
+                    "dataset": "CARE to Compare (Fraunhofer IEE)",
+                    "reference": "Zenodo 10.5281/zenodo.10958775",
+                    "license": "CC-BY-SA-4.0",
+                },
+                {
+                    "dataset": "Kelmarsh Wind Farm (Plumley 2022)",
+                    "reference": "Zenodo 10.5281/zenodo.5841834",
+                    "license": "CC-BY-4.0",
+                },
+                {
+                    "dataset": "NREL PVDAQ (OEDI Open Data Lake)",
+                    "reference": "NREL OEDI PVDAQ Systems 34 & 1283",
+                    "license": "Public Domain",
+                },
+            ],
+            "synthetic": [
+                {
+                    "dataset": "Internal Synthetic Scenario Library",
+                    "reference": "knowledge/incidents/",
+                    "license": "Internal Proprietary",
+                }
+            ],
+        },
+    }
 
 
 @router.get("/{asset_id}/economics")

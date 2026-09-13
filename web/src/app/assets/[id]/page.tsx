@@ -72,14 +72,14 @@ export default function AssetPage({ params }: PageProps) {
     <div className="space-y-6">
       {/* Navigation Breadcrumb */}
       <div className="flex items-center space-x-2 text-xs font-mono text-[var(--text-secondary)]">
-        <Link href="/" className="hover:text-[var(--text-primary)] flex items-center space-x-1">
+        <Link href="/" className="hover:text-[var(--text-primary)] flex items-center space-x-1 whitespace-nowrap">
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Fleet Command</span>
         </Link>
         <span>/</span>
-        <span className="text-[var(--text-primary)] font-semibold">{assetId}</span>
+        <span className="text-[var(--text-primary)] font-semibold whitespace-nowrap">{assetId}</span>
         <span>/</span>
-        <span>Deep-Dive Investigation</span>
+        <span className="whitespace-nowrap">Deep-Dive Investigation</span>
       </div>
 
       {/* Asset Header Banner */}
@@ -94,7 +94,7 @@ export default function AssetPage({ params }: PageProps) {
           </div>
           <div>
             <div className="flex items-center space-x-2.5">
-              <h1 className="text-xl font-mono font-semibold tracking-tight text-[var(--text-primary)]">
+              <h1 className="text-xl font-mono font-semibold tracking-tight text-[var(--text-primary)] whitespace-nowrap">
                 {assetId}
               </h1>
               {loading ? (

@@ -97,7 +97,7 @@ def get_soiling_estimate(asset_id: str) -> dict[str, Any]:
     }
 
 
-def search_similar_cases(asset_id: str, k: int = 3) -> dict[str, Any]:
+def search_similar_cases(asset_id: str, k: int = 3, corpus_partition: str = "all") -> dict[str, Any]:
     """Find contextual historical cases; a match is not a confirmed diagnosis."""
     provider, ev_detail = resolve_evidence_provider()
     memory, mem_detail = resolve_case_memory()
@@ -107,11 +107,12 @@ def search_similar_cases(asset_id: str, k: int = 3) -> dict[str, Any]:
         return _unavailable("case_memory", mem_detail)
     try:
         packet = provider.build_evidence_packet(asset_id)
-        cases = memory.find_similar_cases(packet, k=k)
+        cases = memory.find_similar_cases(packet, k=k, corpus_partition=corpus_partition)
     except Exception as exc:  # noqa: BLE001
         return _unavailable("case_memory", f"{type(exc).__name__}: {exc}")
     return {
         "count": len(cases),
+        "corpus_partition": corpus_partition,
         "cases": [
             {
                 "case_id": c.case_id,
@@ -122,6 +123,12 @@ def search_similar_cases(asset_id: str, k: int = 3) -> dict[str, Any]:
                 "lead_time_days": _round(c.lead_time_days, 1),
                 "source": c.source,
                 "source_type": c.source_type.value,
+                "source_dataset": c.source_dataset,
+                "source_reference": c.source_reference,
+                "event_class": c.event_class,
+                "evidence_quality": c.evidence_quality,
+                "expected_behavior": c.expected_behavior,
+                "maintenance_action": c.maintenance_action,
                 "evidence_states": {key: state.value for key, state in c.evidence_states.items()},
                 "why_matched": c.why_matched,
                 "what_is_similar": c.what_is_similar,

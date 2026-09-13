@@ -72,7 +72,7 @@ export default function AppShell({ children }: AppShellProps) {
 
   const navItems = [
     { href: "/", label: "Fleet Command", icon: Activity },
-    { href: "/assets/WT-017", label: "Asset Deep-Dive", icon: Wind },
+    { href: "/assets", label: "Asset Registry", icon: Wind },
     { href: "/soiling", label: "Soiling & Weather", icon: Sun },
     { href: "/evaluation", label: "Model Scorecard", icon: BarChart3 },
     { href: "/knowledge", label: "Knowledge Corpus", icon: BookOpen },
@@ -85,7 +85,7 @@ export default function AppShell({ children }: AppShellProps) {
       <header className="h-12 sticky top-0 z-40 bg-[var(--surface-raised)] border-b border-[var(--border)] px-4 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-semibold tracking-tight text-lg text-[var(--accent)] font-sans">
+            <span className="font-semibold tracking-tight text-lg text-[var(--accent)] font-sans whitespace-nowrap">
               RAI
             </span>
           </Link>
@@ -165,7 +165,7 @@ export default function AppShell({ children }: AppShellProps) {
                   }`}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span>{item.label}</span>
+                  <span className="whitespace-nowrap">{item.label}</span>
                 </Link>
               );
             })}

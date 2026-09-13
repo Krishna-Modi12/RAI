@@ -41,6 +41,15 @@ class ScenarioNotFoundError(APIError):
         )
 
 
+class CaseNotFoundError(APIError):
+    def __init__(self, case_id: str) -> None:
+        super().__init__(
+            status_code=404,
+            detail=f"unknown case_id {case_id!r}",
+            code="case_not_found",
+        )
+
+
 class ModelNotTrainedError(APIError):
     def __init__(self, detail: str) -> None:
         super().__init__(status_code=503, detail=detail, code="model_not_trained")

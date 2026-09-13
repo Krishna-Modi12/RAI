@@ -202,7 +202,7 @@ def test_retrieved_evidence_retains_provenance_and_limitations(agent: Investigat
     assert len(retrieved_items) > 0
     top = retrieved_items[0]
     assert top.case_id is not None
-    assert top.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC.value
+    assert top.source_type in [HistoricalSourceType.INTERNAL_SYNTHETIC.value, HistoricalSourceType.EXTERNAL_REAL.value]
     assert len(top.limitations) > 0
 
 

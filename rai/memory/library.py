@@ -23,6 +23,9 @@ that every deviation is a gearbox failure.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
+
+from rai.schemas import HistoricalSourceType
 
 # --------------------------------------------------------------------------- signal taxonomy
 
@@ -92,6 +95,19 @@ class Case:
     signature: dict[str, float] = field(default_factory=dict)
     source_doc: str | None = None
     closed_at: str | None = None
+    source_type: HistoricalSourceType = HistoricalSourceType.INTERNAL_SYNTHETIC
+    event_class: str = "UNKNOWN"
+    source_dataset: str | None = None
+    source_reference: str | None = None
+    license: str | None = None
+    evidence_quality: str = "SYNTHETIC_SCENARIO"
+    limitations: list[str] = field(default_factory=list)
+    signals: dict[str, Any] = field(default_factory=dict)
+    operating_regime: dict[str, Any] = field(default_factory=dict)
+    environment: dict[str, Any] = field(default_factory=dict)
+    expected_behavior: str = "UNKNOWN"
+    maintenance_action: str | None = None
+    adjudication: dict[str, Any] = field(default_factory=dict)
 
     def vector(self) -> list[float]:
         return [float(self.signature.get(name, 0.0)) for name in FEATURES]
@@ -574,11 +590,65 @@ SOLAR_CASES: list[Case] = [
     ),
 ]
 
-CASES: list[Case] = [*WIND_CASES, *SOLAR_CASES]
-
-CASE_BY_ID: dict[str, Case] = {c.case_id: c for c in CASES}
+SYNTHETIC_CASES: list[Case] = [*WIND_CASES, *SOLAR_CASES]
 
 
-def cases_for(asset_type: str) -> list[Case]:
-    """Cases from the same asset family. Cross-family retrieval is never useful here."""
-    return [c for c in CASES if c.asset_type == asset_type]
+def get_real_cases() -> list[Case]:
+    """Dynamically fetch real historical cases from the audited real corpus."""
+    from rai.memory.real_corpus import get_real_cases as _fetch_real
+
+    return _fetch_real()
+
+
+def get_all_cases() -> list[Case]:
+    """All cases in memory, both real and synthetic."""
+    return [*get_real_cases(), *SYNTHETIC_CASES]
+
+
+CASES: list[Case] = SYNTHETIC_CASES
+
+
+def cases_for(asset_type: str, partition: str = "all") -> list[Case]:
+    """Cases from the same asset family, filtered by corpus partition.
+
+    partition:
+    - 'real': only EXTERNAL_REAL historical cases
+    - 'synthetic': only INTERNAL_SYNTHETIC test cases
+    - 'all': both real and synthetic cases (preserving explicit source_type)
+    """
+    if partition == "real":
+        pool = get_real_cases()
+    elif partition == "synthetic":
+        pool = SYNTHETIC_CASES
+    else:
+        pool = get_all_cases()
+    return [c for c in pool if c.asset_type == asset_type]
+
+
+def get_case_by_id(case_id: str) -> Case | None:
+    """Retrieve case by ID across both real and synthetic libraries."""
+    for c in get_all_cases():
+        if c.case_id == case_id:
+            return c
+    return None
+
+
+class _CaseByIdDict(dict):
+    """Dict-like proxy for backward compatibility with CASE_BY_ID."""
+
+    def get(self, key: str, default: Any = None) -> Any:
+        found = get_case_by_id(key)
+        return found if found is not None else default
+
+    def __getitem__(self, key: str) -> Any:
+        found = get_case_by_id(key)
+        if found is None:
+            raise KeyError(key)
+        return found
+
+    def __contains__(self, key: object) -> bool:
+        return get_case_by_id(str(key)) is not None
+
+
+CASE_BY_ID: dict[str, Case] = _CaseByIdDict()
+

@@ -138,14 +138,32 @@ def _contradicts(packet: EvidencePacket, case: Case) -> bool:
     env = packet.environment
     if env is None:
         return False
-    if case.equipment_fault and env.verdict.value == "environmental":
+
+    is_equipment = case.equipment_fault or (case.event_class == "REAL_VERIFIED_EVENT")
+    if is_equipment and env.verdict.value == "environmental":
         return True
-    return bool(
-        not case.equipment_fault
+
+    # Environmental cases contradict when live deviation is confirmed not environmental
+    is_environmental = (case.event_class == "ENVIRONMENTAL_EVENT") or (
+        not case.equipment_fault and case.component == "environment"
+    )
+    if (
+        is_environmental
         and env.verdict.value == "not_environmental"
         and env.sensor_health.value == "ok"
         and not env.curtailment_detected
-    )
+    ):
+        return True
+
+    # Legacy synthetic non-equipment cases (sensor faults, curtailment)
+    if not case.equipment_fault and case.event_class is None:
+        return bool(
+            env.verdict.value == "not_environmental"
+            and env.sensor_health.value == "ok"
+            and not env.curtailment_detected
+        )
+
+    return False
 
 
 def find_similar_cases(
@@ -153,16 +171,20 @@ def find_similar_cases(
     k: int = 5,
     knowledge_cutoff: Any = None,
     exclude_asset_id: str | None = None,
+    corpus_partition: str = "all",
+    partition: str | None = None,
 ) -> list[HistoricalCase]:
     """Return up to `k` past episodes whose trajectory resembles this asset's, best first.
 
-    Guards against temporal leakage (knowledge_cutoff) and self-retrieval (exclude_asset_id).
+    Guards against temporal leakage (knowledge_cutoff), self-retrieval (exclude_asset_id),
+    and supports corpus partitioning ('real', 'synthetic', or 'all').
     """
     import pandas as pd
 
+    selected_partition = partition if partition is not None else corpus_partition
     cutoff = pd.to_datetime(knowledge_cutoff, utc=True) if knowledge_cutoff is not None else None
     live = signature_from_packet(packet)
-    candidates = cases_for(packet.asset_type.value)
+    candidates = cases_for(packet.asset_type.value, partition=selected_partition)
     if not candidates:
         return []
 
@@ -215,12 +237,78 @@ def _historical_case(
         for name in FEATURES
         if abs(live.get(name, 0.0) - case.signature.get(name, 0.0)) > 0.35
     ]
-    why_not = [
-        "Historical outcome is contextual evidence, not proof of the current diagnosis.",
-        "This corpus entry is an internally authored synthetic case, not a customer record.",
-    ]
+
+    is_real = getattr(case, "source_type", None) == HistoricalSourceType.EXTERNAL_REAL
+
+    if is_real:
+        source_label = getattr(case, "source_dataset", None) or "real_case_corpus"
+        source_type = HistoricalSourceType.EXTERNAL_REAL
+        event_class_str = getattr(case, "event_class", "REAL_VERIFIED_EVENT")
+        event_type = event_class_str
+
+        why_matched = [
+            f"Trajectory similarity {similarity:.3f} across the physical case signature.",
+            f"Shared feature dimensions: {', '.join(shared) if shared else 'overall vector distance'}.",
+        ]
+        if event_class_str == "REAL_VERIFIED_EVENT":
+            why_matched.append(
+                f"Documented component failure ({case.component}) shares residual signature."
+            )
+        elif event_class_str in ("REAL_OPERATIONAL_EVENT", "REAL_MAINTENANCE_EVENT"):
+            why_matched.append(
+                f"Documented operational event ({case.component}) shares deficit/standstill pattern."
+            )
+        elif event_class_str == "ENVIRONMENTAL_EVENT":
+            why_matched.append(
+                "Documented environmental event shares external weather-driven signature."
+            )
+
+        why_not = [
+            "Historical outcome is contextual evidence, not proof of current diagnosis or failure probability.",
+            f"Case provenance: {getattr(case, 'source_reference', case.source_doc or 'Real external dataset')}.",
+        ]
+        if event_class_str == "REAL_OPERATIONAL_EVENT":
+            why_not.append(
+                "This is an operational/control shutdown record, NOT confirmed equipment damage."
+            )
+        elif event_class_str == "REAL_MAINTENANCE_EVENT":
+            why_not.append(
+                "This is a scheduled/manual service intervention, NOT an unmitigated equipment fault."
+            )
+        elif event_class_str == "ENVIRONMENTAL_EVENT":
+            why_not.append(
+                "This event is weather/resource-driven, NOT an internal equipment failure."
+            )
+
+        limitations = list(getattr(case, "limitations", [])) or [
+            "Case fields not present in source record remain UNKNOWN."
+        ]
+    else:
+        source_label = "synthetic_case_library"
+        source_type = HistoricalSourceType.INTERNAL_SYNTHETIC
+        event_type = "equipment_fault" if case.equipment_fault else "non_equipment_deviation"
+        why_matched = [
+            f"Trajectory similarity {similarity:.3f} across the case signature.",
+            "Shared: " + ", ".join(shared or ["no individual feature within threshold"]),
+        ]
+        why_not = [
+            "Historical outcome is contextual evidence, not proof of the current diagnosis.",
+            "This corpus entry is an internally authored synthetic case, not a customer record.",
+        ]
+        limitations = ["Case fields not present in the source record remain UNKNOWN."]
+
     if packet.environment is not None and _contradicts(packet, case):
-        why_not.append("Current environmental evidence conflicts with this case's equipment classification.")
+        why_not.append(
+            "Current environmental evidence conflicts with this case's equipment classification."
+        )
+
+    evidence_states = {
+        "observed_signature": EvidenceState.OBSERVED,
+        "outcome": EvidenceState.RETRIEVED,
+        "diagnostic_hypotheses": EvidenceState.INFERRED,
+        "missing_fields": EvidenceState.UNKNOWN,
+    }
+
     return HistoricalCase(
         case_id=case_id,
         similarity=similarity,
@@ -232,30 +320,33 @@ def _historical_case(
         outcome=case.outcome,
         lead_time_days=case.lead_time_days,
         repair_cost_inr=case.repair_cost_inr,
-        source="synthetic_case_library",
-        operating_regime={"asset_type": case.asset_type},
+        source=source_label,
+        operating_regime={"asset_type": case.asset_type, **getattr(case, "operating_regime", {})},
         expected_signals=[],
         residuals={name: value for name, value in case.signature.items()},
         persistence=case.signature.get("persistence"),
         anomaly_pattern=list(case.observed_signature),
-        event_type="equipment_fault" if case.equipment_fault else "non_equipment_deviation",
+        event_type=event_type,
         diagnostic_hypotheses=[case.fault_mode],
         supporting_evidence=list(case.observed_signature),
         contradictory_evidence=[],
         maintenance_action=case.outcome,
-        limitations=["Case fields not present in the source record remain UNKNOWN."],
-        source_type=HistoricalSourceType.INTERNAL_SYNTHETIC,
-        evidence_states={
-            "observed_signature": EvidenceState.OBSERVED,
-            "outcome": EvidenceState.RETRIEVED,
-            "diagnostic_hypotheses": EvidenceState.INFERRED,
-            "missing_fields": EvidenceState.UNKNOWN,
-        },
-        why_matched=[f"Trajectory similarity {similarity:.3f} across the case signature.",
-                     "Shared: " + ", ".join(shared or ["no individual feature within threshold"])],
+        limitations=limitations,
+        source_type=source_type,
+        evidence_states=evidence_states,
+        why_matched=why_matched,
         what_is_similar=shared,
         what_is_different=different,
         why_may_not_apply=why_not,
+        source_dataset=getattr(case, "source_dataset", None),
+        source_reference=getattr(case, "source_reference", None),
+        event_class=getattr(case, "event_class", None),
+        event_description=getattr(case, "fault_mode", None),
+        signals=dict(getattr(case, "signals", {})),
+        observed_pattern=list(getattr(case, "observed_signature", [])),
+        expected_behavior=getattr(case, "expected_behavior", None),
+        evidence_quality=getattr(case, "evidence_quality", "UNKNOWN"),
+        adjudication=dict(getattr(case, "adjudication", {})),
     )
 
 
@@ -266,7 +357,25 @@ def get_case_details(case_id: str) -> HistoricalCase | None:
     case = CASE_BY_ID.get(case_id)
     if case is None:
         return None
-    # A detail view has no live comparison; similarity is intentionally absent from this path.
+
+    is_real = getattr(case, "source_type", None) == HistoricalSourceType.EXTERNAL_REAL
+    source_label = (
+        getattr(case, "source_dataset", None) or "real_case_corpus"
+        if is_real
+        else "synthetic_case_library"
+    )
+    source_type = (
+        HistoricalSourceType.EXTERNAL_REAL if is_real else HistoricalSourceType.INTERNAL_SYNTHETIC
+    )
+    event_type = (
+        getattr(case, "event_class", "REAL_VERIFIED_EVENT")
+        if is_real
+        else ("equipment_fault" if case.equipment_fault else "non_equipment_deviation")
+    )
+    limitations = list(getattr(case, "limitations", [])) if is_real else [
+        "Detail lookup is provenance-only and is not a similarity judgement."
+    ]
+
     return HistoricalCase(
         case_id=case.case_id,
         similarity=0.0,
@@ -278,17 +387,35 @@ def get_case_details(case_id: str) -> HistoricalCase | None:
         outcome=case.outcome,
         lead_time_days=case.lead_time_days,
         repair_cost_inr=case.repair_cost_inr,
-        source="synthetic_case_library",
-        event_type="equipment_fault" if case.equipment_fault else "non_equipment_deviation",
+        source=source_label,
+        event_type=event_type,
         diagnostic_hypotheses=[case.fault_mode],
         supporting_evidence=list(case.observed_signature),
         maintenance_action=case.outcome,
-        source_type=HistoricalSourceType.INTERNAL_SYNTHETIC,
-        limitations=["Detail lookup is provenance-only and is not a similarity judgement."],
-        evidence_states={"observed_signature": EvidenceState.OBSERVED,
-                         "outcome": EvidenceState.RETRIEVED,
-                         "diagnostic_hypotheses": EvidenceState.INFERRED},
-        why_may_not_apply=["Similarity was not evaluated for this standalone detail lookup."],
+        source_type=source_type,
+        limitations=limitations,
+        evidence_states={
+            "observed_signature": EvidenceState.OBSERVED,
+            "outcome": EvidenceState.RETRIEVED,
+            "diagnostic_hypotheses": EvidenceState.INFERRED,
+        },
+        why_may_not_apply=[
+            "Similarity was not evaluated for this standalone detail lookup.",
+            *(
+                [f"Source reference: {case.source_reference}"]
+                if is_real and getattr(case, "source_reference", None)
+                else []
+            ),
+        ],
+        source_dataset=getattr(case, "source_dataset", None),
+        source_reference=getattr(case, "source_reference", None),
+        event_class=getattr(case, "event_class", None),
+        event_description=getattr(case, "fault_mode", None),
+        signals=dict(getattr(case, "signals", {})),
+        observed_pattern=list(getattr(case, "observed_signature", [])),
+        expected_behavior=getattr(case, "expected_behavior", None),
+        evidence_quality=getattr(case, "evidence_quality", "UNKNOWN"),
+        adjudication=dict(getattr(case, "adjudication", {})),
     )
 
 

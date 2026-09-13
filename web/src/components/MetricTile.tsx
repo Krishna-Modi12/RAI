@@ -26,8 +26,8 @@ export default function MetricTile({
   live = true,
 }: MetricTileProps) {
   return (
-    <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] p-4 flex flex-col justify-between min-h-[96px]">
-      <div className="text-[11px] font-sans text-[var(--text-secondary)] tracking-tight">
+    <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] p-4 flex flex-col justify-between min-h-[104px]">
+      <div className="text-[11px] font-sans text-[var(--text-secondary)] tracking-tight truncate" title={label}>
         {label}
       </div>
 
@@ -66,7 +66,7 @@ export default function MetricTile({
       {source && (
         <div className="mt-1.5 pt-1.5 border-t border-[var(--border)]">
           <span
-            className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider"
+            className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider whitespace-nowrap"
             title={live ? undefined : "API unavailable — showing last-known snapshot value"}
           >
             {source}

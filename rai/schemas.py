@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -74,6 +74,7 @@ class HistoricalSourceType(str, Enum):
     """Provenance class for historical evidence; never implies diagnostic truth."""
 
     REAL_EXTERNAL = "REAL_EXTERNAL"
+    EXTERNAL_REAL = "EXTERNAL_REAL"
     HISTORICAL_REAL = "HISTORICAL_REAL"
     INTERNAL_SYNTHETIC = "INTERNAL_SYNTHETIC"
     SIMULATED_OUTCOME = "SIMULATED_OUTCOME"
@@ -259,6 +260,15 @@ class HistoricalCase(BaseModel):
     what_is_similar: list[str] = Field(default_factory=list)
     what_is_different: list[str] = Field(default_factory=list)
     why_may_not_apply: list[str] = Field(default_factory=list)
+    source_dataset: str | None = None
+    source_reference: str | None = None
+    event_class: str | None = None
+    event_description: str | None = None
+    signals: dict[str, Any] = Field(default_factory=dict)
+    observed_pattern: list[str] = Field(default_factory=list)
+    expected_behavior: str | None = None
+    evidence_quality: str = "UNKNOWN"
+    adjudication: dict[str, Any] = Field(default_factory=dict)
 
 
 class KnowledgeCitation(BaseModel):

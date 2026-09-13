@@ -1,0 +1,175 @@
+{
+  "timestamp": "2026-09-13T04:39:48.374218+00:00",
+  "total_queries": 10,
+  "mean_precision_at_1": 0.9,
+  "mean_precision_at_3": 0.8,
+  "mean_recall_at_3": 0.85,
+  "mean_reciprocal_rank": 0.95,
+  "provenance_preservation_rate": 1.0,
+  "partition_purity_rate": 1.0,
+  "abstention_accuracy": 1.0,
+  "query_results": [
+    {
+      "query_id": "Q1_WT_BEARING_ROTOR_DAMAGE",
+      "retrieved_case_ids": [
+        "REAL-CARE-B-053",
+        "REAL-KEL-1-FORCED-2550",
+        "REAL-CARE-A-068"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.333,
+      "recall_at_3": 0.333,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-CARE-B-053 (71%)"
+    },
+    {
+      "query_id": "Q2_WT_ELECTRICAL_CONVERTER_TRIP",
+      "retrieved_case_ids": [
+        "REAL-KEL-1-FORCED-2550",
+        "REAL-CARE-C-081",
+        "REAL-CARE-A-068"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 1.0,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-KEL-1-FORCED-2550 (80%)"
+    },
+    {
+      "query_id": "Q3_WT_ATMOSPHERIC_STANDSTILL",
+      "retrieved_case_ids": [
+        "REAL-KEL-1-ENV-0010",
+        "REAL-CARE-A-025-NORM",
+        "REAL-CARE-C-044"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.667,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-KEL-1-ENV-0010 (85%)"
+    },
+    {
+      "query_id": "Q4_SOLAR_MIDDAY_OUTAGE",
+      "retrieved_case_ids": [
+        "REAL-PVDAQ-034-OUTAGE"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 1.0,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-PVDAQ-034-OUTAGE (68%)"
+    },
+    {
+      "query_id": "Q5_WT_MAINTENANCE_ANALOGY",
+      "retrieved_case_ids": [
+        "REAL-KEL-1-ENV-0010",
+        "REAL-CARE-A-025-NORM",
+        "REAL-CARE-C-044"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.667,
+      "recall_at_3": 0.667,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-KEL-1-ENV-0010 (85%)"
+    },
+    {
+      "query_id": "Q6_WT_TRANSFORMER_HIGH_TEMP",
+      "retrieved_case_ids": [
+        "REAL-KEL-1-FORCED-2550",
+        "REAL-CARE-C-081",
+        "REAL-CARE-A-068"
+      ],
+      "precision_at_1": 0.0,
+      "precision_at_3": 0.667,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 0.5,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-KEL-1-FORCED-2550 (80%)"
+    },
+    {
+      "query_id": "Q7_WT_BASELINE_NORMAL",
+      "retrieved_case_ids": [
+        "REAL-KEL-1-ENV-0010",
+        "REAL-CARE-A-025-NORM",
+        "REAL-CARE-C-044"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 0.667,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-KEL-1-ENV-0010 (87%)"
+    },
+    {
+      "query_id": "Q8_SOLAR_CLIPPING_CONTEXT",
+      "retrieved_case_ids": [
+        "REAL-PVDAQ-034-OUTAGE"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 1.0,
+      "recall_at_3": 0.5,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-PVDAQ-034-OUTAGE (58%)"
+    },
+    {
+      "query_id": "Q9_OUT_OF_DOMAIN_ABSTENTION",
+      "retrieved_case_ids": [],
+      "precision_at_1": 1.0,
+      "precision_at_3": 1.0,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Correctly abstained on out-of-domain / non-existent case."
+    },
+    {
+      "query_id": "Q10_PARTITION_PURITY_AUDIT",
+      "retrieved_case_ids": [
+        "REAL-CARE-B-053",
+        "REAL-KEL-1-FORCED-2550",
+        "REAL-CARE-A-068"
+      ],
+      "precision_at_1": 1.0,
+      "precision_at_3": 1.0,
+      "recall_at_3": 1.0,
+      "reciprocal_rank": 1.0,
+      "provenance_preserved": true,
+      "partition_purity": true,
+      "abstention_correct": true,
+      "explanations_present": true,
+      "notes": "Top: REAL-CARE-B-053 (71%)"
+    }
+  ]
+}

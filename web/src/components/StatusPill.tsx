@@ -83,7 +83,7 @@ export default function StatusPill({ band, status, label }: StatusPillProps) {
 
   return (
     <span
-      className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-[2px] border text-[11px] font-sans font-medium ${bg} ${text} ${border}`}
+      className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-[2px] border text-[11px] font-sans font-medium whitespace-nowrap ${bg} ${text} ${border}`}
     >
       <span className="text-[9px] leading-none">{glyph}</span>
       <span>{textLabel}</span>

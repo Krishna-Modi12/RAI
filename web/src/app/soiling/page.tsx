@@ -95,15 +95,15 @@ export default function SoilingPage() {
         <div className="flex items-center space-x-6 text-xs font-mono">
           <div>
             <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Rain (48h)</div>
-            <div className="font-semibold">{formatPercent(rain_probability_48h * 100)}</div>
+            <div className="font-semibold whitespace-nowrap">{formatPercent(rain_probability_48h * 100)}</div>
           </div>
           <div>
             <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Days Since Rain</div>
-            <div className="font-semibold text-[var(--text-primary)]">{days_since_rain.toFixed(1)}</div>
+            <div className="font-semibold text-[var(--text-primary)] whitespace-nowrap">{days_since_rain.toFixed(1)} d</div>
           </div>
           <div>
             <div className="text-[10px] text-[var(--text-tertiary)] uppercase">Breakeven</div>
-            <div className="font-semibold text-[var(--text-primary)]">{recommendation.breakeven_days.toFixed(1)}d</div>
+            <div className="font-semibold text-[var(--text-primary)] whitespace-nowrap">{recommendation.breakeven_days.toFixed(1)} d</div>
           </div>
         </div>
       </div>
@@ -149,25 +149,25 @@ export default function SoilingPage() {
           <table className="w-full text-xs font-mono">
             <thead>
               <tr className="border-b border-[var(--border)] text-[10px] text-[var(--text-tertiary)] uppercase text-left">
-                <th className="py-2">Zone</th>
-                <th className="py-2 text-right">Inverters</th>
-                <th className="py-2 text-right">Soiling Loss</th>
-                <th className="py-2 text-right">Performance Ratio</th>
-                <th className="py-2 text-right">Worst Asset</th>
-                <th className="py-2 text-center">Status</th>
+                <th className="py-2 px-3">Zone</th>
+                <th className="py-2 px-3 text-right">Inverters</th>
+                <th className="py-2 px-3 text-right">Soiling Loss</th>
+                <th className="py-2 px-3 text-right">Performance Ratio</th>
+                <th className="py-2 px-3 text-right">Worst Asset</th>
+                <th className="py-2 px-3 text-center">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border)]">
               {zones.map((z) => (
                 <tr key={z.zone} className="hover:bg-[var(--surface-sunken)]">
-                  <td className="py-2.5 font-sans font-medium text-[var(--text-primary)]">{z.zone}</td>
-                  <td className="py-2.5 text-right">{z.inverters}</td>
-                  <td className="py-2.5 text-right text-[var(--critical)]">{z.soiling_loss_pct.toFixed(1)}%</td>
-                  <td className="py-2.5 text-right">{z.performance_ratio.toFixed(2)}</td>
-                  <td className="py-2.5 text-right">{z.worst_asset_id}</td>
-                  <td className="py-2.5 text-center">
+                  <td className="py-2.5 px-3 font-sans font-medium text-[var(--text-primary)] whitespace-nowrap">{z.zone}</td>
+                  <td className="py-2.5 px-3 text-right whitespace-nowrap">{z.inverters}</td>
+                  <td className="py-2.5 px-3 text-right text-[var(--critical)] whitespace-nowrap">{z.soiling_loss_pct.toFixed(1)}%</td>
+                  <td className="py-2.5 px-3 text-right whitespace-nowrap">{z.performance_ratio.toFixed(2)}</td>
+                  <td className="py-2.5 px-3 text-right whitespace-nowrap">{z.worst_asset_id}</td>
+                  <td className="py-2.5 px-3 text-center">
                     <span
-                      className={`px-2 py-0.5 rounded-[2px] text-[10px] border ${
+                      className={`px-2 py-0.5 rounded-[2px] text-[10px] border whitespace-nowrap ${
                         z.status === "investigate"
                           ? "bg-[var(--critical-surface)] text-[var(--critical-ink)] border-[var(--critical)]"
                           : z.status === "watch"

@@ -80,6 +80,17 @@ export interface HistoricalCaseItem {
   repair_cost_inr: number | null;
   source: string;
   source_type?: string;
+  source_dataset?: string;
+  source_reference?: string;
+  event_class?: string;
+  evidence_quality?: string;
+  adjudication?: {
+    what_is_explicitly_known?: string;
+    what_is_inferred?: string;
+    what_remains_unknown?: string;
+    what_source_proves?: string;
+    what_source_does_not_prove?: string;
+  };
   evidence_states?: Record<string, string>;
   why_matched?: string[];
   what_is_similar?: string[];
