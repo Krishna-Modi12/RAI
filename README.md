@@ -4,13 +4,13 @@
 
 Renewable Asset Intelligence (RAI) turns noisy SCADA telemetry and atmospheric composition forecasts into defensible, economically optimal operational interventions. It learns what an asset should be generating under prevailing ambient conditions, measures conditioned residuals, checks CAMS dust plumes, weather transients, curtailment, and peer behavior, retrieves comparable historical episodes, calculates the net financial consequence of waiting, and returns a confidence-gated recommendation for a human operator.
 
-> **Implementation status:** 421 automated tests passing (verified by a direct `pytest` run on 2026-09-13; this repository is under active multi-session development, so re-verify before citing). Time-ordered, leakage-free splits (`rai/eval/leakage.py`), a 342-hour purge embargo, and a frozen decision threshold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). Champion model, first measured by a reproducible run of `python scripts/evaluate.py` and re-measured leak-free under embargo: **RAI Operational Score (CARE-inspired) = 0.797, embargoed PR-AUC = 0.822, MCC = 0.690, FA/yr = 0.19/asset-year, median lead time = 5.0 days** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). Real external validation now exists in two independent forms: a **controlled out-of-distribution perturbation suite** (`docs/evaluation/OOD.md`) and a **real external benchmark run against the published CARE-to-Compare dataset** (`docs/evaluation/EXTERNAL_CARE.md`, Zenodo 14006163, Wind Farm A, genuine off-the-shelf baselines, CARE = 0.535). A separate rolling-origin temporal-generalization study (`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`) concluded that finding is **honestly unresolved** at $N=6$ events, not swept under a bigger number. Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Start with [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)** for the history of what was fabricated and fixed in this repository's evaluation stack, then [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) for the current leak-free numbers — [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) and [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) still carry an early retraction notice and should not be cited on their own.
+> **Implementation status:** 426 automated tests passing (verified by a direct `pytest` run on 2026-09-13; this repository is under active multi-session development, so re-verify before citing). Time-ordered, leakage-free splits (`rai/eval/leakage.py`), a 342-hour purge embargo, and a frozen decision threshold (`docs/evaluation/GATE2_FORENSIC_AUDIT.md`). Champion model, first measured by a reproducible run of `python scripts/evaluate.py` and re-measured leak-free under embargo: **RAI Operational Score (CARE-inspired) = 0.797, embargoed PR-AUC = 0.822, MCC = 0.690, FA/yr = 0.19/asset-year, median lead time = 5.0 days** across 45,360 monitored asset-hours ($N=6$ independent failure episodes — treat sub-breakdowns of that N as indicative, not decisive). Real external validation now exists in two independent forms: a **controlled out-of-distribution perturbation suite** (`docs/evaluation/OOD.md`) and a **real external benchmark run against the published CARE-to-Compare dataset** (`docs/evaluation/EXTERNAL_CARE.md`, Zenodo 14006163, Wind Farm A, genuine off-the-shelf baselines, CARE = 0.535). A separate rolling-origin temporal-generalization study (`docs/evaluation/PHASE_3A1_TEMPORAL_DIAGNOSIS.md`) concluded that finding is **honestly unresolved** at $N=6$ events, not swept under a bigger number. Solar Environmental Intelligence with CAMS atmospheric dust exposure memory ($D(t)$), `pvlib` clear-sky POA normalization, and model-based loss attribution. **Start with [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)** for the history of what was fabricated and fixed in this repository's evaluation stack, then [`docs/evaluation/GATE2_FORENSIC_AUDIT.md`](docs/evaluation/GATE2_FORENSIC_AUDIT.md) for the current leak-free numbers — [`docs/EVALUATION_FORENSICS.md`](docs/EVALUATION_FORENSICS.md) and [`docs/PHASE_2_JUDGE_PACKAGE.md`](docs/PHASE_2_JUDGE_PACKAGE.md) still carry an early retraction notice and should not be cited on their own.
 
 [![Quality](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml/badge.svg)](https://github.com/Krishna-Modi12/renewable-asset-intelligence/actions/workflows/quality.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](services/api/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.5-000000?logo=next.js&logoColor=white)](web/package.json)
-[![Tests](https://img.shields.io/badge/tests-421%20passing-success)](CHECKPOINT.md)
+[![Tests](https://img.shields.io/badge/tests-426%20passing-success)](CHECKPOINT.md)
 [![Embargoed PR--AUC](https://img.shields.io/badge/embargoed%20PR--AUC-0.822-success)](docs/evaluation/GATE2_FORENSIC_AUDIT.md)
 [![External CARE](https://img.shields.io/badge/external%20CARE%20(Farm%20A)-0.535-blueviolet)](docs/evaluation/EXTERNAL_CARE.md)
 [![Audit Status](https://img.shields.io/badge/Forensics-Verified%20Clean-blue)](docs/EVALUATION_FORENSICS.md)
@@ -282,14 +282,12 @@ To maintain strict scientific integrity, model evaluation is decoupled into two 
 | Baseline 2: Expected Behavior Only | Regression | 0.235 | 0.202 | 0.000 | 0.000 | 0.000 | 27.10 | 5.1 days | REJECTED |
 | Baseline 1: Physics / Nameplate Rule | Rule-based | 0.070 | 0.262 | 0.000 | 0.000 | 0.000 | 38.10 | 0.0 days | REJECTED |
 
-### Alert Fatigue Reduction Funnel — not computed
-An earlier draft showed a five-stage funnel landing on 3,218 → 742 → 93 → 17 → 4 alerts/year.
-Those numbers came from four filter ratios hardcoded to reproduce exactly that sequence, not
-from measuring anything. The four gates are real (persistence, environmental attribution, peer
-consensus, confidence threshold) but nothing yet counts how many raw exceedances each one
-removes across the fleet. The one number in this family that **is** measured is the CARE
-benchmark's false-alarm rate above: **0.19 false alarms / asset-year** for the champion,
-computed from real alarm timestamps.
+### Alert Fatigue Reduction Funnel — empirically measured
+The current evaluation artifact records a measured five-stage funnel: **3,456.1 → 10.0 →
+8.9 → 5.0 → 3.9 alarms/year**, ending at **0.09 actionable alerts / asset-year** with
+**99.89% overall noise suppression**. The counts are computed by walking all 42 fleet
+timelines across 45,360 observation hours; `/api/evaluation` serves these values from
+`artifacts/evaluation/results.json` and returns `null` when a field is absent.
 
 ### Probabilistic Risk Calibration & Decision Regret
 * **Brier Score:** `0.0439` *(mixes calibration, resolution, and uncertainty; low base rate drives score — from the risk model's own predictions, not a stand-in probability)*

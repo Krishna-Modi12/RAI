@@ -120,7 +120,7 @@ export default function AssetPage({ params }: PageProps) {
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-xs font-medium rounded-[2px] transition-colors shadow-sm disabled:opacity-50"
           >
             <Cpu className={`w-4 h-4 ${recomputing ? "animate-spin" : ""}`} />
-            <span>{recomputing ? "Executing Needle2..." : "Run Needle2 Reasoning"}</span>
+            <span>{recomputing ? "Running reasoning cycle..." : "Run reasoning cycle"}</span>
           </button>
         </div>
       </div>
