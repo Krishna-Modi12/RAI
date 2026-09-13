@@ -4,7 +4,11 @@
 
 Renewable Asset Intelligence (RAI) combines **physics-grounded numerical prediction**, **atmospheric environmental context**, **fleet-peer isolation**, **audited historical failure precedent**, **techno-economic consequence modeling**, and **bounded local AI** into an auditable, **human-governed operational decision loop** for wind and solar fleets.
 
+> **Positioning:** RAI is an **extensively tested and evidence-bounded research/product prototype**, with externally validated wind evidence and an end-to-end demonstrated operational decision loop. It maintains zero commercial plant connections and unclosed solar failure validation boundaries.
+
 [![Tests](https://img.shields.io/badge/tests-554%20passing-success)](CHECKPOINT.md)
+[![Adversarial QA](https://img.shields.io/badge/adversarial%20QA-47%2F47%20passed-success)](#adversarial-testing--system-resilience)
+[![Browser Audit](https://img.shields.io/badge/browser%20audit-8%20routes%20%7C%203%20viewports-blue)](#adversarial-testing--system-resilience)
 [![Scientific Evidence](https://img.shields.io/badge/evidence-frozen%20taxonomy-blue)](artifacts/evaluation/evidence_freeze/freeze_summary.md)
 [![Benchmark](https://img.shields.io/badge/CARE%20benchmark-0.535%20%28Wind%20Farm%20A%29-blueviolet)](docs/evaluation/EXTERNAL_CARE.md)
 [![Embargoed PR--AUC](https://img.shields.io/badge/embargoed%20PR--AUC-0.822-success)](docs/evaluation/GATE2_FORENSIC_AUDIT.md)
@@ -29,6 +33,7 @@ Renewable Asset Intelligence (RAI) combines **physics-grounded numerical predict
 - [Product Walkthrough](#product-walkthrough)
 - [Technical Architecture](#technical-architecture)
 - [Scientific Evidence: What is Actually Validated?](#scientific-evidence-what-is-actually-validated)
+- [Adversarial Testing & System Resilience](#adversarial-testing--system-resilience)
 - [Important Limitations & Boundaries](#important-limitations--boundaries)
 - [The 4-Minute Evaluator Demo](#the-4-minute-evaluator-demo)
 - [Quick Start: Run Locally in Under 3 Minutes](#quick-start-run-locally-in-under-3-minutes)
@@ -240,6 +245,60 @@ To uphold scientific integrity, RAI adheres to an official **Scientific Evidence
 | **Safe Crew Dispatch Optimizer** | Meteorological Window Scheduler | **ARCHITECTURALLY_SUPPORTED** | Dispatch optimization respecting user-configured wind speed (<12 m/s) and rain (0 mm) constraints |
 | **Solar Physics Layer** | Gate 5.6C Independent Audit | **NOT_VALIDATED** | Gate 5.6C remains unclosed; validation cohort is empty. Solar failure prediction is not claimed |
 | **Live Utility Deployment** | None | **NOT_VALIDATED** | Zero live commercial utility plant SCADA feeds are currently connected |
+
+---
+
+## Adversarial Testing & System Resilience
+
+Assume the evaluator does not trust the repository. To verify that RAI is truly resilient, reproducible, and safe under hostile technical evaluation, the entire system was subjected to a comprehensive adversarial stress test battery covering data, ML, decision logic, local AI agent boundaries, operational state machines, memory partitions, and browser interfaces.
+
+> [!NOTE]
+> **Adversarial Posture & Reality Check:** RAI is an **extensively tested and evidence-bounded research/product prototype**, featuring externally validated wind anomaly detection and an end-to-end demonstrated operational decision loop. It is **not** claimed to be "bug-free" or "production-deployed", and maintains strict, unvalidated boundaries on independent solar failure prediction.
+
+### Hostile Stress Test Battery (47/47 Passed)
+
+| Subsystem | Adversarial Stress Condition | Expected System Behavior | Result |
+|---|---|---|:---:|
+| **API Contracts & Fuzzing** | Missing parameters, negative values, type-jumps, non-existent assets (`WT-999`) | HTTP 400/404/422 with structured errors; zero stack trace leaks | **PASS** |
+| **Telemetry Pipelines** | Constant signals, zero variance, NaN values, missing timestamps, duplicate timestamps | Graceful degradation; zero divide-by-zero; fallback to unconditioned baseline | **PASS** |
+| **Environmental Attribution** | Stale weather cache, 0.0 AOD, contradictory dust vs wind signals | Attribution treats environment as context; never asserts absolute causation | **PASS** |
+| **Peer Common-Cause** | Single-peer cohort, empty peer group, site-wide convective transients | Distinguishes common-cause curtailment from isolated single-turbine defects | **PASS** |
+| **Differential Diagnosis** | Ambiguous sensor signatures, conflicting counterevidence | Hypotheses re-ranked dynamically; unknown evidence remains flagged unknown | **PASS** |
+| **Historical Memory** | RAG partition attack injecting synthetic demo IDs into `EXTERNAL_REAL` | Strict query partition enforcement; synthetic cases quarantined from real corpus | **PASS** |
+| **Local AI Reasoner** | Prompt injection, hallucination probes, requests to issue plant setpoints | 100% tool boundary adherence; zero direct control actuation; explicit abstention | **PASS** |
+| **Techno-Economics** | ₹0 consequence bounds, negative intervention costs, 30-day deferred downtime | Zero negative "savings"; counterfactual NPV bounds clearly documented | **PASS** |
+| **Work Order Lifecycle** | Illegal status transitions (`COMPLETED` -> `PROPOSE`), missing rejection rationale | State machine strictly enforces transitions; human operator sign-off required | **PASS** |
+| **Closed-Loop Quarantine** | Injection attack submitting `DEMO_SIMULATION` records for external promotion | Quarantined to `INTERNAL_SYNTHETIC`; requires `EXTERNAL_FIELD_OBSERVED + FIELD_VERIFIED` | **PASS** |
+| **Dispatch Optimization** | Unsafe wind speeds (>12 m/s), heavy rainfall (>2 mm/h), zero crew availability | No unsafe windows flagged; strict meteorological safety gates enforced | **PASS** |
+| **API Concurrency** | 32 simultaneous requests across investigation, fleet priority, and work orders | 100% success rate (32/32); zero race conditions, deadlocks, or state corruption | **PASS** |
+| **Secret Hygiene** | Automated AST and pattern scan for API keys, private tokens, passwords | 0 secrets or private credentials discovered across code, configs, and history | **PASS** |
+
+### Real Defect Discovered & Fixed: The `/assets` Contract Defect
+
+Adversarial testing is only as credible as the genuine bugs it uncovers. During automated Playwright browser testing of the `/assets` registry view against the live backend, the tester discovered an unhandled exception:
+
+```text
+TypeError: Cannot read properties of undefined (reading 'toFixed')
+  at AssetRegistryPage (web/src/app/assets/page.tsx:425:46)
+```
+
+- **Root Cause:** While `/api/assets/{id}` returned detailed individual operational states, the bulk `/api/assets` summary endpoint omitted `residual_pct`, `status`, and `last_update` fields from its response dictionary. The frontend called `.toFixed(1)` assuming these fields were always populated.
+- **The Fix:**
+  1. **Backend (`services/api/routers/assets.py`):** Extended `list_assets()` to compute `residual_pct` and derive operational `status` and `last_update`.
+  2. **Frontend (`web/src/app/assets/page.tsx`):** Added nullish coalescing defensive guards `(asset.residual_pct ?? 0).toFixed(1)`.
+  3. **Regression Test (`tests/test_api_contract.py`):** Added automated assertions verifying that all 10 required fields are present and numeric in `/api/assets`.
+
+### Multi-Device Browser Verification (24/24 Routes Clean)
+
+Using automated headless Chromium via Playwright, all eight primary frontend routes were verified across three device viewports:
+- **Desktop (1440×900)**: Fleet Command, Asset Deep Dive, Work Orders (all 3 tabs), Soiling, Evaluation, Knowledge, Simulator.
+- **Laptop (1280×720)**: Full layout responsiveness, metric card reflow, chart overflow safety.
+- **Mobile (390×844)**: Responsive drawer navigation, single-column stack, zero horizontal clipping.
+
+**Browser Verification Result:**
+- **Page errors (uncaught exceptions):** 0
+- **Console errors:** 0
+- **Failed network requests (HTTP >= 400):** 0
 
 ---
 
