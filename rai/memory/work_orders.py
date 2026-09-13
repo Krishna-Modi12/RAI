@@ -16,9 +16,11 @@ from typing import Any
 
 from rai.config import ARTIFACTS, get_asset
 from rai.schemas import (
+    FeedbackProvenance,
     FieldResolution,
     HistoricalCase,
     HistoricalSourceType,
+    ObservationLevel,
     WorkOrderFeedback,
     WorkOrderPriority,
     WorkOrderRecord,
@@ -121,6 +123,18 @@ def _to_record(data: dict[str, Any]) -> WorkOrderRecord:
         except ValueError:
             res_enum = FieldResolution.CONFIRMED_FAULT
 
+        fb_prov_raw = fb.get("provenance", data.get("provenance", FeedbackProvenance.INTERNAL_TEST_FIXTURE.value))
+        try:
+            fb_prov = FeedbackProvenance(fb_prov_raw)
+        except ValueError:
+            fb_prov = FeedbackProvenance.INTERNAL_TEST_FIXTURE
+
+        obs_level_raw = fb.get("observation_level", ObservationLevel.UNKNOWN.value)
+        try:
+            obs_level = ObservationLevel(obs_level_raw)
+        except ValueError:
+            obs_level = ObservationLevel.UNKNOWN
+
         parsed_fb.append(
             WorkOrderFeedback(
                 feedback_id=fb.get("feedback_id", f"FB-{datetime.now(UTC):%Y%m%d%H%M%S}"),
@@ -133,6 +147,8 @@ def _to_record(data: dict[str, Any]) -> WorkOrderRecord:
                 actual_downtime_hours=float(fb.get("actual_downtime_hours", 0.0)),
                 actual_parts_cost_inr=float(fb.get("actual_parts_cost_inr", 0.0)),
                 notes=fb.get("notes", ""),
+                provenance=fb_prov,
+                observation_level=obs_level,
             )
         )
 
@@ -148,6 +164,12 @@ def _to_record(data: dict[str, Any]) -> WorkOrderRecord:
     except ValueError:
         prio_enum = WorkOrderPriority.MEDIUM
 
+    rec_prov_raw = data.get("provenance", FeedbackProvenance.INTERNAL_TEST_FIXTURE.value)
+    try:
+        rec_prov = FeedbackProvenance(rec_prov_raw)
+    except ValueError:
+        rec_prov = FeedbackProvenance.INTERNAL_TEST_FIXTURE
+
     return WorkOrderRecord(
         ticket_id=data["ticket_id"],
         asset_id=data["asset_id"],
@@ -160,6 +182,7 @@ def _to_record(data: dict[str, Any]) -> WorkOrderRecord:
         status=status_enum,
         created_at=c_at,
         created_by=data.get("created_by", "rai_agent"),
+        provenance=rec_prov,
         approved_by=data.get("approved_by"),
         approved_at=app_at,
         rejected_by=data.get("rejected_by"),
@@ -176,6 +199,7 @@ def propose_work_order(
     deadline_hours: int = 72,
     priority: str | WorkOrderPriority = WorkOrderPriority.MEDIUM,
     created_by: str = "rai_agent",
+    provenance: str | FeedbackProvenance = FeedbackProvenance.INTERNAL_TEST_FIXTURE,
 ) -> WorkOrderRecord:
     """Propose a maintenance inspection ticket for human approval."""
     if not isinstance(asset_id, str) or not asset_id.strip():
@@ -192,6 +216,7 @@ def propose_work_order(
     ticket_id = f"TCK-{asset_id}-{now:%Y%m%dT%H%M%SZ}"
 
     prio_str = priority.value if isinstance(priority, WorkOrderPriority) else str(priority)
+    prov_str = provenance.value if isinstance(provenance, FeedbackProvenance) else str(provenance)
 
     record_dict: dict[str, Any] = {
         "ticket_id": ticket_id,
@@ -205,6 +230,7 @@ def propose_work_order(
         "status": WorkOrderStatus.PROPOSED_AWAITING_APPROVAL.value,
         "created_at": now.isoformat(),
         "created_by": created_by,
+        "provenance": prov_str,
         "feedback": [],
     }
 
@@ -317,6 +343,8 @@ def record_feedback(
     actual_downtime_hours: float = 0.0,
     actual_parts_cost_inr: float = 0.0,
     notes: str = "",
+    provenance: str | FeedbackProvenance | None = None,
+    observation_level: str | ObservationLevel | None = None,
 ) -> WorkOrderRecord:
     """Record technician field inspection feedback and mark work order completed."""
     if not technician_id or not technician_id.strip():
@@ -332,8 +360,30 @@ def record_feedback(
             raise KeyError(f"Work order {ticket_id} not found")
 
         data = records[ticket_id]
+        status_val = data.get("status")
+        if status_val not in {
+            WorkOrderStatus.APPROVED.value,
+            WorkOrderStatus.IN_PROGRESS.value,
+            WorkOrderStatus.COMPLETED.value,
+        }:
+            raise ValueError(
+                f"Cannot record technician feedback on work order with status '{status_val}'. "
+                "Human approval is required before technician feedback can be recorded."
+            )
+
         now = datetime.now(UTC)
         feedback_id = f"FB-{ticket_id}-{len(data.get('feedback', [])) + 1}"
+
+        # Determine provenance: explicit override or inherit from parent ticket
+        if provenance is not None:
+            prov_str = provenance.value if isinstance(provenance, FeedbackProvenance) else str(provenance)
+        else:
+            prov_str = data.get("provenance", FeedbackProvenance.INTERNAL_TEST_FIXTURE.value)
+
+        if observation_level is not None:
+            obs_str = observation_level.value if isinstance(observation_level, ObservationLevel) else str(observation_level)
+        else:
+            obs_str = ObservationLevel.UNKNOWN.value
 
         fb_entry = {
             "feedback_id": feedback_id,
@@ -346,6 +396,8 @@ def record_feedback(
             "actual_downtime_hours": max(0.0, float(actual_downtime_hours)),
             "actual_parts_cost_inr": max(0.0, float(actual_parts_cost_inr)),
             "notes": notes[:500],
+            "provenance": prov_str,
+            "observation_level": obs_str,
         }
 
         if "feedback" not in data:
@@ -360,13 +412,18 @@ def record_feedback(
 def export_field_cases_for_retrieval() -> list[HistoricalCase]:
     """Export confirmed field-resolution work orders as HistoricalCase objects.
 
-    Provides closed-loop operational intelligence: verified ground truth from field inspections
-    enriches the case retrieval library with explicit source provenance 'operator_field_verified'.
+    STRICT PROMOTION RULE:
+    - A record is labeled EXTERNAL_REAL only if it originates from verified external field
+      observations (provenance == EXTERNAL_FIELD_OBSERVED and observation_level == PHYSICAL_INSPECTION_VERIFIED).
+    - Synthetic test fixtures, demonstrations, and unverified claims remain INTERNAL_SYNTHETIC.
+    - Idempotency is enforced: duplicate feedback entries are deduplicated by case_id.
     """
     with _lock:
         records = _read_records_raw()
 
     field_cases: list[HistoricalCase] = []
+    seen_case_ids: set[str] = set()
+
     for data in records.values():
         feedbacks = data.get("feedback", [])
         for fb in feedbacks:
@@ -376,12 +433,39 @@ def export_field_cases_for_retrieval() -> list[HistoricalCase]:
                 FieldResolution.CONFIRMED_FAULT.value,
                 FieldResolution.EARLY_INSPECTION_PREVENTED_FAILURE.value,
             }:
+                findings = fb.get("findings", "")
+                if not findings or len(findings.strip()) < 5:
+                    continue  # Strict promotion rule: minimum finding detail required
+
                 case_id = f"FIELD-{fb.get('feedback_id', data['ticket_id'])}"
+                if case_id in seen_case_ids:
+                    continue
+                seen_case_ids.add(case_id)
+
+                fb_prov = fb.get("provenance", data.get("provenance", FeedbackProvenance.INTERNAL_TEST_FIXTURE.value))
+                obs_level = fb.get("observation_level", ObservationLevel.UNKNOWN.value)
+
+                is_external_real = (
+                    fb_prov == FeedbackProvenance.EXTERNAL_FIELD_OBSERVED.value
+                    and obs_level in (ObservationLevel.FIELD_VERIFIED.value, "physical_inspection_verified", "FIELD_VERIFIED")
+                )
+
+                if is_external_real:
+                    ev_quality = "FIELD_VERIFIED"
+                elif obs_level in (ObservationLevel.TECHNICIAN_REPORTED.value, "technician_observation", "TECHNICIAN_REPORTED"):
+                    ev_quality = "TECHNICIAN_REPORTED"
+                elif obs_level in (ObservationLevel.OPERATOR_REPORTED.value, "operator_claim", "OPERATOR_REPORTED"):
+                    ev_quality = "OPERATOR_REPORTED"
+                elif fb_prov == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value:
+                    ev_quality = "SYNTHETIC_TEST_FIXTURE"
+                else:
+                    ev_quality = "UNKNOWN"
+
                 asset_id = data.get("asset_id", "WT-001")
                 asset_type = "wind_turbine" if asset_id.startswith("WT") else "solar_inverter"
 
                 why_matched = [
-                    f"Operator verified field event on {asset_id} ({data.get('component')})",
+                    f"Field event record on {asset_id} ({data.get('component')})",
                     f"Resolution: {res}",
                 ]
                 what_different = [
@@ -394,17 +478,17 @@ def export_field_cases_for_retrieval() -> list[HistoricalCase]:
                         asset_id=asset_id,
                         asset_type=asset_type,
                         component=fb.get("component_inspected") or data.get("component", "unknown"),
-                        fault_mode=fb.get("findings")[:80],
+                        fault_mode=findings[:80],
                         similarity=0.85,
-                        outcome=f"Field resolution ({res}): {fb.get('findings')}",
+                        outcome=f"Field resolution ({res}): {findings}",
                         lead_time_days=max(0.5, float(fb.get("actual_downtime_hours", 0.0)) / 24.0),
-                        source_type=HistoricalSourceType.EXTERNAL_REAL,
-                        source_dataset=f"Operator Verified ({data.get('site', 'Local Plant')})",
-                        event_class="FIELD_VERIFIED_RESOLUTION",
+                        source_type=HistoricalSourceType.EXTERNAL_REAL if is_external_real else HistoricalSourceType.INTERNAL_SYNTHETIC,
+                        source_dataset=f"Operator Verified ({data.get('site', 'Local Plant')})" if is_external_real else "Synthetic Test Ledger",
+                        event_class="FIELD_VERIFIED_RESOLUTION" if is_external_real else "SYNTHETIC_WORK_ORDER_FEEDBACK",
                         why_matched=why_matched,
                         what_is_different=what_different,
+                        evidence_quality=ev_quality,
                     )
                 )
-
 
     return field_cases

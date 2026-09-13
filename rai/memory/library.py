@@ -596,12 +596,16 @@ SYNTHETIC_CASES: list[Case] = [*WIND_CASES, *SOLAR_CASES]
 def get_field_feedback_cases() -> list[Case]:
     """Dynamically construct Case objects from confirmed field-resolution work orders.
 
-    This fulfills the closed-loop learning architecture: when technicians record confirmed
-    physical equipment faults or prevented failures on site, the ground truth is immediately
-    indexed into the active retrieval library under EXTERNAL_REAL provenance.
+    STRICT PROMOTION & PARTITION RULE:
+    Only feedback explicitly tagged as EXTERNAL_FIELD_OBSERVED with PHYSICAL_INSPECTION_VERIFIED
+    is promoted to HistoricalSourceType.EXTERNAL_REAL.
+    All automated test fixtures, simulator tickets, and unverified operator claims MUST remain
+    HistoricalSourceType.INTERNAL_SYNTHETIC with evidence_quality='SYNTHETIC_TEST_FIXTURE'.
+    Deduplication by case_id ensures idempotent indexing.
     """
     try:
         from rai.memory.work_orders import FieldResolution, list_work_orders
+        from rai.schemas import FeedbackProvenance, ObservationLevel
     except ImportError:
         return []
 
@@ -611,6 +615,8 @@ def get_field_feedback_cases() -> list[Case]:
         return []
 
     cases: list[Case] = []
+    seen_case_ids: set[str] = set()
+
     for rec in records:
         feedbacks = getattr(rec, "feedback", []) or []
         for fb in feedbacks:
@@ -622,10 +628,17 @@ def get_field_feedback_cases() -> list[Case]:
             }:
                 fb_id = getattr(fb, "feedback_id", None) or (fb.get("feedback_id") if isinstance(fb, dict) else rec.ticket_id)
                 case_id = f"FIELD-{fb_id}"
+                if case_id in seen_case_ids:
+                    continue
+                seen_case_ids.add(case_id)
+
                 asset_id = rec.asset_id
                 asset_type = "wind_turbine" if asset_id.startswith("WT") else "solar_inverter"
                 comp = getattr(fb, "component_inspected", None) or (fb.get("component_inspected") if isinstance(fb, dict) else None) or rec.component or "general"
                 findings = getattr(fb, "findings", None) or (fb.get("findings") if isinstance(fb, dict) else None) or "Confirmed physical equipment fault."
+                if not findings or len(findings.strip()) < 5:
+                    continue  # Strict promotion rule: require non-trivial findings
+
                 downtime = float(getattr(fb, "actual_downtime_hours", None) or (fb.get("actual_downtime_hours") if isinstance(fb, dict) else None) or 0.0)
                 cost = float(
                     getattr(fb, "actual_parts_cost_inr", None)
@@ -635,6 +648,38 @@ def get_field_feedback_cases() -> list[Case]:
                     or 0.0
                 )
                 findings_lower = findings.lower()
+
+                # Determine provenance & verification level
+                raw_prov = (
+                    getattr(fb, "provenance", None)
+                    or (fb.get("provenance") if isinstance(fb, dict) else None)
+                    or getattr(rec, "provenance", None)
+                    or FeedbackProvenance.INTERNAL_TEST_FIXTURE.value
+                )
+                prov_val = raw_prov.value if hasattr(raw_prov, "value") else str(raw_prov)
+
+                raw_obs = (
+                    getattr(fb, "observation_level", None)
+                    or (fb.get("observation_level") if isinstance(fb, dict) else None)
+                    or ObservationLevel.UNKNOWN.value
+                )
+                obs_val = raw_obs.value if hasattr(raw_obs, "value") else str(raw_obs)
+
+                is_external_real = (
+                    prov_val == FeedbackProvenance.EXTERNAL_FIELD_OBSERVED.value
+                    and obs_val in (ObservationLevel.FIELD_VERIFIED.value, "physical_inspection_verified", "FIELD_VERIFIED")
+                )
+
+                if is_external_real:
+                    ev_quality = "FIELD_VERIFIED"
+                elif obs_val in (ObservationLevel.TECHNICIAN_REPORTED.value, "technician_observation", "TECHNICIAN_REPORTED"):
+                    ev_quality = "TECHNICIAN_REPORTED"
+                elif obs_val in (ObservationLevel.OPERATOR_REPORTED.value, "operator_claim", "OPERATOR_REPORTED"):
+                    ev_quality = "OPERATOR_REPORTED"
+                elif prov_val == FeedbackProvenance.INTERNAL_TEST_FIXTURE.value:
+                    ev_quality = "SYNTHETIC_TEST_FIXTURE"
+                else:
+                    ev_quality = "UNKNOWN"
 
                 # Derive physical channel weights from findings and component
                 is_thermal = any(k in findings_lower for k in ("temp", "bearing", "heat", "overheat", "thermal")) or comp in ("gearbox", "generator", "inverter")
@@ -676,18 +721,22 @@ def get_field_feedback_cases() -> list[Case]:
                         signature=sig,
                         source_doc=f"work-order-{rec.ticket_id}",
                         closed_at=str(closed_ts) if closed_ts else None,
-                        source_type=HistoricalSourceType.EXTERNAL_REAL,
-                        event_class="FIELD_VERIFIED_RESOLUTION",
-                        source_dataset=f"Operator Field Verified ({rec.site})",
+                        source_type=HistoricalSourceType.EXTERNAL_REAL if is_external_real else HistoricalSourceType.INTERNAL_SYNTHETIC,
+                        event_class="FIELD_VERIFIED_RESOLUTION" if is_external_real else "SYNTHETIC_WORK_ORDER_FEEDBACK",
+                        source_dataset=f"Operator Field Verified ({rec.site})" if is_external_real else f"Synthetic Test Ledger ({rec.site})",
                         source_reference=f"Work Order Ticket {rec.ticket_id}",
-                        license="Proprietary Plant Operations Record",
-                        evidence_quality="OPERATOR_FIELD_VERIFIED",
-                        limitations=["Local plant physical inspection outcome; verifies equipment condition at time of service."],
+                        license="Proprietary Plant Operations Record" if is_external_real else "Internal Synthetic Test Fixture",
+                        evidence_quality=ev_quality,
+                        limitations=[
+                            "Local plant physical inspection outcome; verifies equipment condition at time of service."
+                            if is_external_real
+                            else "Deterministic synthetic test record for pipeline verification only; not physical ground truth."
+                        ],
                         adjudication={
-                            "what_is_explicitly_known": f"Physical inspection confirmed {res_val}.",
-                            "what_is_inferred": "Failure mode corroborated by physical inspection findings.",
+                            "what_is_explicitly_known": f"Physical inspection recorded resolution: {res_val}.",
+                            "what_is_inferred": "Corroborated by inspection finding records." if is_external_real else "Synthetically constructed for testing.",
                             "what_remains_unknown": "Exact micro-crack initiation timestamp.",
-                            "what_source_proves": "Physical ground-truth verified by on-site maintenance crew.",
+                            "what_source_proves": "Physical ground-truth verified by on-site maintenance crew." if is_external_real else "Proves closed-loop data ingestion mechanism.",
                             "what_source_does_not_prove": "Does not prove identical wear rates on different asset classes.",
                         },
                     )
@@ -696,15 +745,22 @@ def get_field_feedback_cases() -> list[Case]:
 
 
 def get_real_cases() -> list[Case]:
-    """Dynamically fetch real historical cases from both the audited academic corpus and verified field feedback."""
+    """Dynamically fetch real historical cases strictly guaranteeing EXTERNAL_REAL partition purity.
+
+    Only genuine external cases from the audited academic corpus and verified external field feedback
+    are included. Synthetic test fixtures and unverified feedback are excluded.
+    """
     from rai.memory.real_corpus import get_real_cases as _fetch_real
 
-    return [*_fetch_real(), *get_field_feedback_cases()]
+    real_field_cases = [c for c in get_field_feedback_cases() if c.source_type == HistoricalSourceType.EXTERNAL_REAL]
+    return [*_fetch_real(), *real_field_cases]
 
 
 def get_all_cases() -> list[Case]:
-    """All cases in memory: academic real cases, verified field feedback, and synthetic validation fixtures."""
-    return [*get_real_cases(), *SYNTHETIC_CASES]
+    """All cases in memory: academic real cases, all field feedback cases, and synthetic validation fixtures."""
+    from rai.memory.real_corpus import get_real_cases as _fetch_real
+
+    return [*_fetch_real(), *get_field_feedback_cases(), *SYNTHETIC_CASES]
 
 
 CASES: list[Case] = SYNTHETIC_CASES
@@ -714,9 +770,9 @@ def cases_for(asset_type: str, partition: str = "all") -> list[Case]:
     """Cases from the same asset family, filtered by corpus partition.
 
     partition:
-    - 'real': only EXTERNAL_REAL historical cases
-    - 'synthetic': only INTERNAL_SYNTHETIC test cases
-    - 'all': both real and synthetic cases (preserving explicit source_type)
+    - 'real': strictly EXTERNAL_REAL historical cases (academic + verified external field)
+    - 'synthetic': strictly INTERNAL_SYNTHETIC benchmark validation cases
+    - 'all': both partitions with explicit source_type preserved
     """
     if partition == "real":
         pool = get_real_cases()

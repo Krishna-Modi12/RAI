@@ -15,7 +15,14 @@ from rai.memory.work_orders import (
     record_feedback,
     reject_work_order,
 )
-from rai.schemas import FieldResolution, WorkOrderPriority, WorkOrderStatus
+from rai.schemas import (
+    FeedbackProvenance,
+    FieldResolution,
+    HistoricalSourceType,
+    ObservationLevel,
+    WorkOrderPriority,
+    WorkOrderStatus,
+)
 
 router = APIRouter(prefix="/api/work-orders", tags=["work-orders"])
 
@@ -27,6 +34,7 @@ class ProposeRequest(BaseModel):
     deadline_hours: int = 72
     priority: WorkOrderPriority = WorkOrderPriority.MEDIUM
     created_by: str = "operator"
+    provenance: FeedbackProvenance = FeedbackProvenance.INTERNAL_TEST_FIXTURE
 
 
 class ActionRequest(BaseModel):
@@ -45,6 +53,8 @@ class FeedbackRequest(BaseModel):
     actual_downtime_hours: float = 0.0
     actual_parts_cost_inr: float = 0.0
     notes: str = ""
+    provenance: FeedbackProvenance = FeedbackProvenance.INTERNAL_TEST_FIXTURE
+    observation_level: ObservationLevel = ObservationLevel.UNKNOWN
 
 
 @router.get("")
@@ -115,10 +125,12 @@ def get_closed_loop_metrics() -> dict[str, Any]:
     concordance_pct = (
         round((confirmed_faults / total_feedbacks) * 100.0, 1)
         if total_feedbacks > 0
-        else 100.0
+        else None
     )
 
     field_cases = get_field_feedback_cases()
+    real_field_cases = [c for c in field_cases if c.source_type == HistoricalSourceType.EXTERNAL_REAL]
+    synthetic_field_cases = [c for c in field_cases if c.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC]
     academic_cases = get_real_cases()
 
     total_parts_cost = sum(
@@ -128,7 +140,7 @@ def get_closed_loop_metrics() -> dict[str, Any]:
         float(getattr(fb, "actual_downtime_hours", 0.0) or 0.0) for fb in feedbacks
     )
     mean_downtime = (
-        round(total_downtime / total_feedbacks, 1) if total_feedbacks > 0 else 0.0
+        round(total_downtime / total_feedbacks, 1) if total_feedbacks > 0 else None
     )
 
     return {
@@ -141,12 +153,20 @@ def get_closed_loop_metrics() -> dict[str, Any]:
         "total_feedbacks": total_feedbacks,
         "confirmed_faults": confirmed_faults,
         "concordance_rate_pct": concordance_pct,
+        "concordance_status": "EMPIRICALLY_MEASURED" if total_feedbacks > 0 else "NO_VERIFIED_CASES_YET",
         "indexed_field_cases_count": len(field_cases),
-        "total_academic_real_cases_count": max(0, len(academic_cases) - len(field_cases)),
+        "indexed_real_field_cases_count": len(real_field_cases),
+        "indexed_synthetic_field_cases_count": len(synthetic_field_cases),
+        "total_academic_real_cases_count": max(0, len(academic_cases) - len(real_field_cases)),
         "total_real_retrieval_pool_size": len(academic_cases),
         "total_parts_cost_inr": total_parts_cost,
         "total_downtime_hours": total_downtime,
         "mean_downtime_hours": mean_downtime,
+        "downtime_status": "EMPIRICALLY_MEASURED" if total_feedbacks > 0 else "NO_FIELD_OBSERVATIONS",
+        "economic_provenance": {
+            "avoided_loss_nature": "PROJECTED_MODELLED_RISK_ESTIMATE",
+            "incurred_cost_nature": "EMPIRICALLY_RECORDED_PARTS_AND_LABOUR",
+        },
     }
 
 
@@ -170,6 +190,7 @@ def create_proposal(req: ProposeRequest) -> dict[str, Any]:
             deadline_hours=req.deadline_hours,
             priority=req.priority,
             created_by=req.created_by,
+            provenance=req.provenance,
         )
         return record.model_dump(mode="json")
     except KeyError as e:
@@ -224,6 +245,8 @@ def submit_feedback(ticket_id: str, req: FeedbackRequest) -> dict[str, Any]:
             actual_downtime_hours=req.actual_downtime_hours,
             actual_parts_cost_inr=req.actual_parts_cost_inr,
             notes=req.notes,
+            provenance=req.provenance,
+            observation_level=req.observation_level,
         )
         return record.model_dump(mode="json")
     except KeyError as e:

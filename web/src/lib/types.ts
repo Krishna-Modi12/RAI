@@ -317,6 +317,8 @@ export interface WorkOrderFeedback {
   actual_downtime_hours: number;
   actual_parts_cost_inr: number;
   notes?: string;
+  provenance?: "external_field_observed" | "internal_test_fixture" | "demo_simulation" | "operator_entered_unverified" | "unknown";
+  observation_level?: "FIELD_VERIFIED" | "TECHNICIAN_REPORTED" | "OPERATOR_REPORTED" | "UNKNOWN" | "physical_inspection_verified" | "technician_observation" | "operator_claim" | "unknown";
 }
 
 export interface WorkOrder {
@@ -331,6 +333,7 @@ export interface WorkOrder {
   status: WorkOrderStatus;
   created_at: string;
   created_by: string;
+  provenance?: "external_field_observed" | "internal_test_fixture" | "demo_simulation" | "operator_entered_unverified" | "unknown";
   approved_by?: string | null;
   approved_at?: string | null;
   rejected_by?: string | null;
@@ -350,6 +353,9 @@ export interface SiteWeatherWindow {
   status: "SAFE" | "MARGINAL" | "UNSAFE";
   safety_rationale: string;
   safe_window_hours: number;
+  is_live_weather?: boolean;
+  weather_source?: string;
+  threshold_provenance?: string;
 }
 
 export interface CrewAssignment {
@@ -387,12 +393,16 @@ export interface ClosedLoopMetrics {
   rejected: number;
   total_feedbacks: number;
   confirmed_faults: number;
-  concordance_rate_pct: number;
+  concordance_rate_pct?: number | null;
+  concordance_status?: string;
   indexed_field_cases_count: number;
+  indexed_real_field_cases_count?: number;
+  indexed_synthetic_field_cases_count?: number;
   total_academic_real_cases_count: number;
   total_real_retrieval_pool_size: number;
   total_parts_cost_inr: number;
   total_downtime_hours: number;
-  mean_downtime_hours: number;
+  mean_downtime_hours?: number | null;
+  downtime_status?: string;
 }
 

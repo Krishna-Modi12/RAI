@@ -113,8 +113,23 @@ def test_list_and_get_work_orders():
     assert any(o.ticket_id == wo.ticket_id for o in wt004_orders)
 
 
-def test_export_field_cases_retrieval():
+def test_feedback_cannot_bypass_approval():
+    wo = propose_work_order("WT-005", "yaw_system", "Check hydraulic pressure", 72)
+    assert wo.status == WorkOrderStatus.PROPOSED_AWAITING_APPROVAL
+
+    with pytest.raises(ValueError, match="Human approval is required"):
+        record_feedback(
+            ticket_id=wo.ticket_id,
+            technician_id="unauthorized_tech",
+            resolution=FieldResolution.CONFIRMED_FAULT,
+            findings="Attempting to record feedback prior to approval",
+            component_inspected="yaw_system",
+        )
+
+
+def test_export_field_cases_retrieval_synthetic_default():
     wo = propose_work_order("WT-005", "main_bearing", "Acoustic emission scan", 72)
+    approve_work_order(wo.ticket_id, approved_by="ops_supervisor")
     record_feedback(
         ticket_id=wo.ticket_id,
         technician_id="vibe_analyst",
@@ -127,6 +142,100 @@ def test_export_field_cases_retrieval():
     assert len(cases) >= 1
     case = next((c for c in cases if "WT-005" in " ".join(c.why_matched)), None)
     assert case is not None
+    # Default test fixtures MUST remain INTERNAL_SYNTHETIC to prevent partition contamination
+    assert case.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC
+    assert case.event_class == "SYNTHETIC_WORK_ORDER_FEEDBACK"
+    assert "early_inspection_prevented_failure" in case.outcome
+
+
+def test_export_field_cases_retrieval_external_real():
+    from rai.schemas import FeedbackProvenance, ObservationLevel
+
+    wo = propose_work_order(
+        asset_id="WT-005",
+        component="main_bearing",
+        action="Calibrated acoustic emission sensor inspection",
+        deadline_hours=72,
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
+    )
+    approve_work_order(wo.ticket_id, approved_by="ops_supervisor")
+    record_feedback(
+        ticket_id=wo.ticket_id,
+        technician_id="site_cert_tech_09",
+        resolution=FieldResolution.EARLY_INSPECTION_PREVENTED_FAILURE,
+        findings="Certified field teardown: outer race fatigue spall arrested prior to catastrophic thermal trip.",
+        component_inspected="main_bearing",
+        actual_downtime_hours=3.5,
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
+        observation_level=ObservationLevel.FIELD_VERIFIED,
+    )
+    cases = export_field_cases_for_retrieval()
+    case = next((c for c in cases if wo.ticket_id in str(c.case_id)), None)
+    assert case is not None
     assert case.source_type == HistoricalSourceType.EXTERNAL_REAL
     assert case.event_class == "FIELD_VERIFIED_RESOLUTION"
-    assert "early_inspection_prevented_failure" in case.outcome
+    assert case.evidence_quality == "FIELD_VERIFIED"
+
+
+def test_ledger_immutability_and_appended_feedback():
+    """Verify that multiple feedbacks form an append-only audit trail without mutating past entries."""
+    wo = propose_work_order("WT-008", "generator", "Vibration analysis on drive-end bearing", 48)
+    approve_work_order(wo.ticket_id, approved_by="senior_engineer")
+
+    # Entry 1: Initial technician inspection
+    rec1 = record_feedback(
+        ticket_id=wo.ticket_id,
+        technician_id="tech_alpha",
+        resolution=FieldResolution.CONFIRMED_FAULT,
+        findings="Initial finding: mechanical looseness detected on mounting foot.",
+        component_inspected="generator",
+        actual_downtime_hours=2.0,
+        actual_parts_cost_inr=12000.0,
+    )
+    assert len(rec1.feedback) == 1
+    assert rec1.feedback[0].findings == "Initial finding: mechanical looseness detected on mounting foot."
+
+    # Entry 2: Follow-up / correction audit entry
+    rec2 = record_feedback(
+        ticket_id=wo.ticket_id,
+        technician_id="supervisor_beta",
+        resolution=FieldResolution.CONFIRMED_FAULT,
+        findings="Follow-up correction: foot re-torqued, but shaft alignment also required shimming.",
+        component_inspected="generator",
+        actual_downtime_hours=4.0,
+        actual_parts_cost_inr=35000.0,
+    )
+    assert len(rec2.feedback) == 2
+    # Prior entry is immutably preserved
+    assert rec2.feedback[0].technician_id == "tech_alpha"
+    assert "mounting foot" in rec2.feedback[0].findings
+    assert rec2.feedback[0].actual_downtime_hours == 2.0
+    # New entry appended
+    assert rec2.feedback[1].technician_id == "supervisor_beta"
+    assert "shaft alignment" in rec2.feedback[1].findings
+    assert rec2.feedback[1].actual_downtime_hours == 4.0
+
+
+def test_weather_threshold_provenance_and_source():
+    """Verify that weather thresholds are explicitly labeled as configured operational constraints."""
+    from rai.decision.dispatch_optimizer import evaluate_site_weather
+
+    win = evaluate_site_weather("kutch-wind")
+    assert win.threshold_provenance == "CONFIGURED_OPERATIONAL_CONSTRAINT"
+    assert win.weather_source is not None
+    assert "open_meteo" in win.weather_source.lower()
+
+    data = win.to_dict()
+    assert data["threshold_provenance"] == "CONFIGURED_OPERATIONAL_CONSTRAINT"
+
+
+def test_projected_vs_actual_economics():
+    """Verify distinction between projected model-estimated avoided loss and actual incurred parts cost."""
+    from rai.decision.dispatch_optimizer import generate_fleet_dispatch_plan
+
+    plan = generate_fleet_dispatch_plan()
+    assert plan.total_avoided_loss_inr > 0.0
+    for asgn in plan.assignments:
+        # Projected avoided loss is an operational risk estimate
+        assert asgn.projected_avoided_loss_inr >= 50_000.0
+

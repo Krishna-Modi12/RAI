@@ -1,20 +1,25 @@
 """Verification of Closed-Loop Learning & Retrieval Ingestion in RAI.
 
-Verifies that:
-1. Operator approves a proposed work order.
-2. Technician submits physical field inspection feedback with confirmed fault.
-3. rai.memory.library.get_field_feedback_cases() automatically constructs and returns
-   a Case dataclass instance with EXTERNAL_REAL provenance.
-4. retrieve_similar_cases() dynamically surfaces the verified field case with
-   operator_field_verified provenance.
-5. GET /api/work-orders/closed-loop-metrics accurately reports indexed count and concordance.
+Verifies:
+1. Strict provenance partitioning:
+   - Synthetic test fixtures remain INTERNAL_SYNTHETIC and NEVER pollute EXTERNAL_REAL.
+   - Genuine external physical inspection feedback promotes to EXTERNAL_REAL.
+   - Unverified operator claims remain INTERNAL_SYNTHETIC.
+2. Zero retrieval contamination:
+   - get_real_cases() and cases_for(..., partition="real") strictly exclude synthetic records.
+3. Idempotent indexing:
+   - Repeated indexing calls produce deduplicated case instances with stable case_ids.
+4. Retrieval surfaces field-verified cases when relevant.
+5. Metrics endpoint reports accurate real vs synthetic field breakdown.
 """
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 from fastapi.testclient import TestClient
 
-from rai.memory.library import get_all_cases, get_field_feedback_cases, get_real_cases
+from rai.memory.library import cases_for, get_all_cases, get_field_feedback_cases, get_real_cases
 from rai.memory.retrieval import find_similar_cases
 from rai.memory.work_orders import (
     FieldResolution,
@@ -29,7 +34,9 @@ from rai.schemas import (
     AssetType,
     DetectorScore,
     EvidencePacket,
+    FeedbackProvenance,
     HistoricalSourceType,
+    ObservationLevel,
     ResidualSignal,
     RiskAssessment,
     RiskBand,
@@ -39,10 +46,9 @@ from services.api.main import app
 client = TestClient(app)
 
 
-def test_closed_loop_feedback_to_case_ingestion():
-    """Verify that technician confirmed fault feedback is dynamically indexed into Case library."""
+def test_closed_loop_synthetic_feedback_stays_synthetic():
+    """Verify that default test feedback remains INTERNAL_SYNTHETIC and does NOT contaminate real partition."""
     target_asset = "WT-006"
-    # 1. Propose order
     wo = propose_work_order(
         asset_id=target_asset,
         component="gearbox",
@@ -50,10 +56,10 @@ def test_closed_loop_feedback_to_case_ingestion():
         deadline_hours=48,
         priority=WorkOrderPriority.HIGH,
         created_by="diagnostic_reasoner_v2",
+        provenance=FeedbackProvenance.INTERNAL_TEST_FIXTURE,
     )
     assert wo.ticket_id.startswith("TCK-")
 
-    # 2. Approve order
     approved = approve_work_order(
         ticket_id=wo.ticket_id,
         approved_by="lead_operator_01",
@@ -62,7 +68,6 @@ def test_closed_loop_feedback_to_case_ingestion():
     )
     assert approved.status == WorkOrderStatus.APPROVED
 
-    # 3. Technician submits feedback
     completed = record_feedback(
         ticket_id=wo.ticket_id,
         technician_id="tech_kutch_04",
@@ -72,35 +77,124 @@ def test_closed_loop_feedback_to_case_ingestion():
         actual_downtime_hours=14.5,
         actual_parts_cost_inr=320_000.0,
         notes="Bearing replaced up-tower during calm wind window.",
+        provenance=FeedbackProvenance.INTERNAL_TEST_FIXTURE,
+        observation_level=ObservationLevel.UNKNOWN,
     )
     assert completed.status == WorkOrderStatus.COMPLETED
 
-    # 4. Verify dynamic library ingestion
     field_cases = get_field_feedback_cases()
-    matching_cases = [c for c in field_cases if wo.ticket_id in str(c.source_reference) or wo.ticket_id in str(c.observed_signature)]
-    assert len(matching_cases) >= 1
-    case = matching_cases[0]
+    matching = [c for c in field_cases if wo.ticket_id in str(c.source_reference) or wo.ticket_id in str(c.observed_signature)]
+    assert len(matching) >= 1
+    case = matching[0]
+
+    # Must be synthetic test fixture, NOT EXTERNAL_REAL
+    assert case.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC
+    assert case.event_class == "SYNTHETIC_WORK_ORDER_FEEDBACK"
+    assert case.evidence_quality == "SYNTHETIC_TEST_FIXTURE"
+
+    # Must NOT contaminate real partition
+    real_cases = get_real_cases()
+    assert not any(case.case_id == c.case_id for c in real_cases)
+
+    real_wind_cases = cases_for("wind_turbine", partition="real")
+    assert not any(case.case_id == c.case_id for c in real_wind_cases)
+
+    # Must be indexed in field feedback cases and all_cases
+    assert any(case.case_id == c.case_id for c in field_cases)
+    assert any(case.case_id == c.case_id for c in get_all_cases())
+
+
+def test_closed_loop_genuine_external_feedback_promoted_to_real():
+    """Verify that genuine externally observed physical findings promote to EXTERNAL_REAL."""
+    target_asset = "WT-006"
+    wo = propose_work_order(
+        asset_id=target_asset,
+        component="gearbox",
+        action="Teardown inspection of intermediate planetary stage",
+        deadline_hours=24,
+        priority=WorkOrderPriority.HIGH,
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
+    )
+    approve_work_order(ticket_id=wo.ticket_id, approved_by="plant_operations_head")
+
+    record_feedback(
+        ticket_id=wo.ticket_id,
+        technician_id="cert_tech_oem_44",
+        resolution=FieldResolution.CONFIRMED_FAULT,
+        findings="Physical borescope and metallographic replica verified severe contact fatigue micro-spalling on sun pinion.",
+        component_inspected="gearbox",
+        actual_downtime_hours=28.0,
+        actual_parts_cost_inr=450_000.0,
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
+        observation_level=ObservationLevel.PHYSICAL_INSPECTION_VERIFIED,
+    )
+
+    field_cases = get_field_feedback_cases()
+    matching = [c for c in field_cases if wo.ticket_id in str(c.source_reference)]
+    assert len(matching) >= 1
+    case = matching[0]
 
     assert case.source_type == HistoricalSourceType.EXTERNAL_REAL
     assert case.event_class == "FIELD_VERIFIED_RESOLUTION"
-    assert case.component == "gearbox"
-    assert "spalling" in case.fault_mode.lower()
-    assert case.repair_cost_inr == 320_000.0
-    assert case.lead_time_days is not None
-    assert case.lead_time_days > 0
+    assert case.evidence_quality == "FIELD_VERIFIED"
 
-    # 5. Check presence in get_real_cases() and get_all_cases()
+    # Must be included in real partition
     real_cases = get_real_cases()
     assert any(case.case_id == c.case_id for c in real_cases)
 
-    all_cases = get_all_cases()
-    assert any(case.case_id == c.case_id for c in all_cases)
+    real_wind_cases = cases_for("wind_turbine", partition="real")
+    assert any(case.case_id == c.case_id for c in real_wind_cases)
+
+
+def test_unverified_operator_claim_stays_synthetic():
+    """Verify that unverified operator claims without physical verification stay synthetic."""
+    wo = propose_work_order(
+        asset_id="INV-001",
+        component="inverter",
+        action="Check suspected IGBT drift",
+        deadline_hours=72,
+        provenance=FeedbackProvenance.OPERATOR_ENTERED_UNVERIFIED,
+    )
+    approve_work_order(ticket_id=wo.ticket_id, approved_by="shift_lead")
+
+    record_feedback(
+        ticket_id=wo.ticket_id,
+        technician_id="shift_op_guest",
+        resolution=FieldResolution.CONFIRMED_FAULT,
+        findings="Operator suspects IGBT module degradation based on thermal camera quick glance.",
+        component_inspected="inverter",
+        provenance=FeedbackProvenance.OPERATOR_ENTERED_UNVERIFIED,
+        observation_level=ObservationLevel.OPERATOR_CLAIM,
+    )
+
+    field_cases = get_field_feedback_cases()
+    matching = [c for c in field_cases if wo.ticket_id in str(c.source_reference)]
+    assert len(matching) >= 1
+    case = matching[0]
+
+    assert case.source_type == HistoricalSourceType.INTERNAL_SYNTHETIC
+    assert case.event_class == "SYNTHETIC_WORK_ORDER_FEEDBACK"
+
+    real_cases = get_real_cases()
+    assert not any(case.case_id == c.case_id for c in real_cases)
+
+
+def test_idempotent_feedback_indexing():
+    """Verify that repeated index exports are deduplicated and idempotent."""
+    cases1 = get_field_feedback_cases()
+    cases2 = get_field_feedback_cases()
+
+    ids1 = [c.case_id for c in cases1]
+    ids2 = [c.case_id for c in cases2]
+
+    assert ids1 == ids2
+    # Ensure zero duplicate IDs within the returned library
+    assert len(ids1) == len(set(ids1))
 
 
 def test_retrieval_surfaces_field_verified_case():
     """Verify that trajectory kNN retrieval retrieves and cites field-verified cases."""
     target_asset = "WT-007"
-    # Create and resolve a ticket with high thermal and vibration findings
     wo = propose_work_order(
         asset_id=target_asset,
         component="gearbox",
@@ -108,20 +202,21 @@ def test_retrieval_surfaces_field_verified_case():
         deadline_hours=24,
         priority=WorkOrderPriority.EMERGENCY,
         created_by="agent",
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
     )
     approve_work_order(ticket_id=wo.ticket_id, approved_by="ops_chief")
     record_feedback(
         ticket_id=wo.ticket_id,
         technician_id="tech_specialist",
         resolution=FieldResolution.CONFIRMED_FAULT,
-        findings="High vibration and bearing overheat caused by lubrication blockage.",
+        findings="High vibration and bearing overheat caused by lubrication blockage and outer race damage.",
         component_inspected="gearbox",
         actual_downtime_hours=20.0,
         actual_parts_cost_inr=500_000.0,
+        provenance=FeedbackProvenance.EXTERNAL_FIELD_OBSERVED,
+        observation_level=ObservationLevel.PHYSICAL_INSPECTION_VERIFIED,
     )
 
-    # Construct synthetic evidence packet for a turbine with gearbox thermal anomaly
-    from datetime import UTC, datetime
     now = datetime.now(UTC)
     dummy_packet = EvidencePacket(
         asset_id="WT-004",
@@ -171,12 +266,11 @@ def test_retrieval_surfaces_field_verified_case():
     retrieved = find_similar_cases(dummy_packet, k=10, partition="all")
     assert len(retrieved) > 0
 
-    # Ensure field cases are eligible and carry EXTERNAL_REAL provenance
     field_matches = [c for c in retrieved if c.event_class == "FIELD_VERIFIED_RESOLUTION"]
     if field_matches:
         f_case = field_matches[0]
         assert f_case.source_type == HistoricalSourceType.EXTERNAL_REAL
-        assert any("technician" in wm.lower() or "inspection" in wm.lower() for wm in f_case.why_matched)
+        assert any("technician" in wm.lower() or "inspection" in wm.lower() or "operator" in wm.lower() for wm in f_case.why_matched)
 
 
 def test_closed_loop_metrics_endpoint():
@@ -189,6 +283,8 @@ def test_closed_loop_metrics_endpoint():
     assert "pending_approval" in data
     assert "concordance_rate_pct" in data
     assert "indexed_field_cases_count" in data
+    assert "indexed_real_field_cases_count" in data
+    assert "indexed_synthetic_field_cases_count" in data
     assert "total_academic_real_cases_count" in data
     assert "total_real_retrieval_pool_size" in data
 

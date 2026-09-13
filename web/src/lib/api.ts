@@ -757,6 +757,8 @@ export async function submitWorkOrderFeedback(
     actual_downtime_hours?: number;
     actual_parts_cost_inr?: number;
     notes?: string;
+    provenance?: string;
+    observation_level?: string;
   }
 ): Promise<WorkOrder | null> {
   try {

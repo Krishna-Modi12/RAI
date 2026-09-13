@@ -527,6 +527,25 @@ class WorkOrderPriority(str, Enum):
     EMERGENCY = "emergency"
 
 
+class FeedbackProvenance(str, Enum):
+    INTERNAL_TEST_FIXTURE = "internal_test_fixture"
+    DEMO_SIMULATION = "demo_simulation"
+    OPERATOR_ENTERED_UNVERIFIED = "operator_entered_unverified"
+    EXTERNAL_FIELD_OBSERVED = "external_field_observed"
+    UNKNOWN = "unknown"
+
+
+class ObservationLevel(str, Enum):
+    FIELD_VERIFIED = "FIELD_VERIFIED"
+    TECHNICIAN_REPORTED = "TECHNICIAN_REPORTED"
+    OPERATOR_REPORTED = "OPERATOR_REPORTED"
+    UNKNOWN = "UNKNOWN"
+    # Legacy aliases
+    PHYSICAL_INSPECTION_VERIFIED = "FIELD_VERIFIED"
+    TECHNICIAN_OBSERVATION = "TECHNICIAN_REPORTED"
+    OPERATOR_CLAIM = "OPERATOR_REPORTED"
+
+
 class WorkOrderFeedback(BaseModel):
     """Ground-truth inspection findings recorded by an authorized technician."""
 
@@ -540,6 +559,8 @@ class WorkOrderFeedback(BaseModel):
     actual_downtime_hours: float = 0.0
     actual_parts_cost_inr: float = 0.0
     notes: str = ""
+    provenance: FeedbackProvenance = FeedbackProvenance.INTERNAL_TEST_FIXTURE
+    observation_level: ObservationLevel = ObservationLevel.UNKNOWN
 
 
 class WorkOrderRecord(BaseModel):
@@ -556,6 +577,7 @@ class WorkOrderRecord(BaseModel):
     status: WorkOrderStatus = WorkOrderStatus.PROPOSED_AWAITING_APPROVAL
     created_at: datetime
     created_by: str = "rai_agent"
+    provenance: FeedbackProvenance = FeedbackProvenance.INTERNAL_TEST_FIXTURE
     approved_by: str | None = None
     approved_at: datetime | None = None
     rejected_by: str | None = None

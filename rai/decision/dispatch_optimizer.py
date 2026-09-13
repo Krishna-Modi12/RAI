@@ -21,12 +21,25 @@ from rai.memory.work_orders import (
     list_work_orders,
 )
 
-WIND_CLIMB_SPEED_LIMIT_MS = 12.0
-WIND_GUST_LIMIT_MS = 18.0
-WIND_RAIN_PROB_LIMIT_PCT = 35.0
+# CONFIGURED OPERATIONAL CONSTRAINTS (Site Dispatch Heuristics)
+# ---------------------------------------------------------------------------
+# NOTE: These values represent site-configurable operational dispatch assumptions,
+# NOT universal OEM engineering standards or statutory laws.
+# In production environments, operators must configure these thresholds to match
+# plant-specific safety manuals (e.g., turbine OEM climb limits, OSHA/CEA electrical codes).
+CONFIGURED_WIND_CLIMB_SPEED_LIMIT_MS = 12.0
+CONFIGURED_WIND_GUST_LIMIT_MS = 18.0
+CONFIGURED_WIND_RAIN_PROB_LIMIT_PCT = 35.0
 
-SOLAR_RAIN_PROB_LIMIT_PCT = 25.0
-SOLAR_HEAT_LIMIT_C = 45.0
+CONFIGURED_SOLAR_RAIN_PROB_LIMIT_PCT = 25.0
+CONFIGURED_SOLAR_HEAT_LIMIT_C = 45.0
+
+# Backward compatibility aliases
+WIND_CLIMB_SPEED_LIMIT_MS = CONFIGURED_WIND_CLIMB_SPEED_LIMIT_MS
+WIND_GUST_LIMIT_MS = CONFIGURED_WIND_GUST_LIMIT_MS
+WIND_RAIN_PROB_LIMIT_PCT = CONFIGURED_WIND_RAIN_PROB_LIMIT_PCT
+SOLAR_RAIN_PROB_LIMIT_PCT = CONFIGURED_SOLAR_RAIN_PROB_LIMIT_PCT
+SOLAR_HEAT_LIMIT_C = CONFIGURED_SOLAR_HEAT_LIMIT_C
 
 ESTIMATED_DURATION_HOURS: dict[str, float] = {
     "gearbox": 6.0,
@@ -41,7 +54,14 @@ ESTIMATED_DURATION_HOURS: dict[str, float] = {
     "general": 2.0,
 }
 
-COMPONENT_AVOIDED_LOSS_INR: dict[str, float] = {
+# MODELLED COMPONENT OUTAGE EXPOSURE ESTIMATES (INR)
+# ---------------------------------------------------------------------------
+# PROVENANCE & UNCERTAINTY NOTE:
+# These figures represent heuristic operational priorities based on estimated
+# component replacement costs and modelled 48-hour lost generation exposure.
+# They are MODELLED / PROJECTED consequence estimates used for dispatch sorting;
+# they are NOT realized cash savings or observed financial outcomes.
+COMPONENT_PROJECTED_EXPOSURE_INR: dict[str, float] = {
     "gearbox": 1_250_000.0,
     "generator": 850_000.0,
     "main_bearing": 1_100_000.0,
@@ -53,6 +73,9 @@ COMPONENT_AVOIDED_LOSS_INR: dict[str, float] = {
     "transformer": 750_000.0,
     "general": 85_000.0,
 }
+
+# Backward compatibility alias
+COMPONENT_AVOIDED_LOSS_INR = COMPONENT_PROJECTED_EXPOSURE_INR
 
 
 class WeatherSafetyStatus(str, Enum):
@@ -73,6 +96,9 @@ class SiteWeatherWindow:
     status: WeatherSafetyStatus
     safety_rationale: str
     safe_window_hours: float
+    is_live_weather: bool = True
+    weather_source: str = "open_meteo_cams"
+    threshold_provenance: str = "CONFIGURED_OPERATIONAL_CONSTRAINT"
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -194,6 +220,8 @@ def evaluate_site_weather(site: str) -> SiteWeatherWindow:
         status=status,
         safety_rationale=rationale,
         safe_window_hours=safe_hours,
+        is_live_weather=getattr(cond, "is_live", True),
+        weather_source=getattr(cond, "source_detail", "open_meteo_cams"),
     )
 
 

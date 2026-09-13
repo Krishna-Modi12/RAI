@@ -33,6 +33,7 @@ export default function WorkOrderModal({
   const [downtimeHours, setDowntimeHours] = useState(4.0);
   const [partsCostINR, setPartsCostINR] = useState(15000);
   const [notes, setNotes] = useState("");
+  const [observationLevel, setObservationLevel] = useState<"FIELD_VERIFIED" | "TECHNICIAN_REPORTED" | "OPERATOR_REPORTED" | "UNKNOWN">("FIELD_VERIFIED");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +74,7 @@ export default function WorkOrderModal({
           actual_downtime_hours: Number(downtimeHours),
           actual_parts_cost_inr: Number(partsCostINR),
           notes: notes.trim(),
+          observation_level: observationLevel,
         });
         if (res) {
           onSuccess(res);
@@ -249,6 +251,22 @@ export default function WorkOrderModal({
                   <option value="false_alarm">False Alarm (Clean Inspection / Benign)</option>
                   <option value="no_fault_found">No Fault Found (Cannot Reproduce)</option>
                   <option value="maintenance_deferred">Maintenance Deferred</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-[var(--text-secondary)] mb-1">
+                  Observation / Verification Tier *
+                </label>
+                <select
+                  value={observationLevel}
+                  onChange={(e) => setObservationLevel(e.target.value as "FIELD_VERIFIED" | "TECHNICIAN_REPORTED" | "OPERATOR_REPORTED" | "UNKNOWN")}
+                  className="w-full px-2.5 py-1.5 bg-[var(--surface-inset)] border border-[var(--border)] rounded-[2px] text-xs font-mono text-[var(--text-primary)] focus:outline-hidden"
+                >
+                  <option value="FIELD_VERIFIED">FIELD_VERIFIED (Physical Disassembly / Teardown Verified)</option>
+                  <option value="TECHNICIAN_REPORTED">TECHNICIAN_REPORTED (Visual / Non-Intrusive Inspection)</option>
+                  <option value="OPERATOR_REPORTED">OPERATOR_REPORTED (Control Room / Operator Note)</option>
+                  <option value="UNKNOWN">UNKNOWN (Unverified Preliminary Note)</option>
                 </select>
               </div>
 

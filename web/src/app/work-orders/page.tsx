@@ -209,11 +209,19 @@ export default function WorkOrdersPage() {
             <span>Field Concordance</span>
             <UserCheck className="w-4 h-4 text-emerald-500" />
           </div>
-          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-            {metrics?.concordance_rate_pct ?? 100}%
+          <div className="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+            {metrics?.concordance_rate_pct != null ? (
+              `${metrics.concordance_rate_pct}%`
+            ) : (
+              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                No Verified Cases Yet
+              </span>
+            )}
           </div>
           <p className="text-[11px] text-[var(--text-secondary)]">
-            {metrics?.confirmed_faults ?? 0} confirmed faults
+            {metrics?.total_feedbacks && metrics.total_feedbacks > 0
+              ? `${metrics.confirmed_faults} of ${metrics.total_feedbacks} confirmed`
+              : "Awaiting field observations"}
           </p>
         </div>
 
@@ -236,9 +244,11 @@ export default function WorkOrdersPage() {
             <TrendingUp className="w-4 h-4 text-emerald-500" />
           </div>
           <div className="text-2xl font-bold text-[var(--text-primary)]">
-            ₹{((dispatchPlan?.total_avoided_loss_inr ?? 2400000) / 100000).toFixed(1)}L
+            ₹{((dispatchPlan?.total_avoided_loss_inr ?? 0) / 100000).toFixed(1)}L
           </div>
-          <p className="text-[11px] text-[var(--text-secondary)]">Projected prevented downtime</p>
+          <p className="text-[11px] text-[var(--text-secondary)]">
+            Projected risk estimate (Realised parts cost: ₹{((metrics?.total_parts_cost_inr ?? 0) / 1000).toFixed(0)}k)
+          </p>
         </div>
       </div>
 
@@ -383,6 +393,19 @@ export default function WorkOrdersPage() {
                         >
                           {formatStatus(wo.status)}
                         </span>
+                        {wo.provenance === "external_field_observed" ? (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30">
+                            EXTERNAL FIELD
+                          </span>
+                        ) : wo.provenance === "demo_simulation" ? (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30">
+                            DEMO SIMULATION
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono border uppercase tracking-wider bg-zinc-500/10 text-zinc-500 border-zinc-500/30">
+                            SYNTHETIC TEST
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center space-x-3 text-xs text-[var(--text-secondary)]">
@@ -576,7 +599,7 @@ export default function WorkOrdersPage() {
                   Optimized Fleet Crew Dispatch Schedule
                 </h3>
                 <p className="text-xs text-[var(--text-secondary)]">
-                  Ranked by economic loss avoidance and constrained by nacelle climb & enclosure safety limits.
+                  Ranked by projected avoidable outage exposure (modelled) and constrained by configured operational weather limits.
                 </p>
               </div>
               <span className="text-xs font-mono text-[var(--text-secondary)]">
@@ -596,7 +619,7 @@ export default function WorkOrdersPage() {
                       <th className="py-2.5 px-3">Priority</th>
                       <th className="py-2.5 px-3">Est. Duration</th>
                       <th className="py-2.5 px-3">Weather Safety</th>
-                      <th className="py-2.5 px-3">Avoided Loss</th>
+                      <th className="py-2.5 px-3">Projected Exposure</th>
                       <th className="py-2.5 px-3">Readiness</th>
                     </tr>
                   </thead>
@@ -686,41 +709,51 @@ export default function WorkOrdersPage() {
 
               <div className="p-3.5 rounded border border-purple-500/30 bg-purple-500/5 space-y-1.5">
                 <span className="text-[10px] font-mono text-purple-600 dark:text-purple-400 font-bold">STAGE 4: LEARN</span>
-                <h4 className="text-xs font-bold text-purple-700 dark:text-purple-300">Continuous RAG Indexing</h4>
+                <h4 className="text-xs font-bold text-purple-700 dark:text-purple-300">Strict Provenance RAG Indexing</h4>
                 <p className="text-[11px] text-[var(--text-secondary)]">
-                  Verified cases are automatically converted into HistoricalCase records under EXTERNAL_REAL provenance for future retrieval.
+                  Only verified physical field inspections with confirmed external provenance are promoted to EXTERNAL_REAL; synthetic test fixtures and unverified records remain strictly INTERNAL_SYNTHETIC.
                 </p>
               </div>
             </div>
 
             <div className="pt-4 border-t border-[var(--border)]">
               <h4 className="text-xs font-bold text-[var(--text-primary)] mb-2">
-                Active Retrieval Memory Composition:
+                Active Retrieval Memory Composition (Corpus Partition Purity):
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
                 <div className="p-3 rounded border border-[var(--border)] bg-[var(--surface-sunken)]">
                   <span className="text-[var(--text-secondary)]">Audited Academic Cases:</span>
                   <div className="text-lg font-bold text-[var(--text-primary)]">
                     {metrics?.total_academic_real_cases_count ?? 14}
                   </div>
                   <span className="text-[10px] text-[var(--text-secondary)]">
-                    CARE Wind Farms A/B/C, Kelmarsh, PVDAQ
-                  </span>
-                </div>
-
-                <div className="p-3 rounded border border-purple-500/30 bg-purple-500/5">
-                  <span className="text-purple-700 dark:text-purple-300">Operator Field-Verified Cases:</span>
-                  <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
-                    {metrics?.indexed_field_cases_count ?? 0}
-                  </div>
-                  <span className="text-[10px] text-[var(--text-secondary)]">
-                    Direct local plant technician ground truth
+                    CARE Wind A/B/C, Kelmarsh, PVDAQ (EXTERNAL_REAL)
                   </span>
                 </div>
 
                 <div className="p-3 rounded border border-emerald-500/30 bg-emerald-500/5">
-                  <span className="text-emerald-700 dark:text-emerald-300">Diagnostic Concordance Rate:</span>
+                  <span className="text-emerald-700 dark:text-emerald-300">Verified Field Cases:</span>
                   <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                    {metrics?.indexed_real_field_cases_count ?? 0}
+                  </div>
+                  <span className="text-[10px] text-[var(--text-secondary)]">
+                    Physical teardown ground truth (EXTERNAL_REAL)
+                  </span>
+                </div>
+
+                <div className="p-3 rounded border border-zinc-500/30 bg-zinc-500/5">
+                  <span className="text-zinc-500 dark:text-zinc-400">Synthetic Test Ledger:</span>
+                  <div className="text-lg font-bold text-[var(--text-primary)]">
+                    {metrics?.indexed_synthetic_field_cases_count ?? (metrics?.indexed_field_cases_count ?? 0)}
+                  </div>
+                  <span className="text-[10px] text-[var(--text-secondary)]">
+                    Pipeline test fixtures (INTERNAL_SYNTHETIC)
+                  </span>
+                </div>
+
+                <div className="p-3 rounded border border-blue-500/30 bg-blue-500/5">
+                  <span className="text-blue-700 dark:text-blue-300">Concordance Rate:</span>
+                  <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                     {metrics?.concordance_rate_pct ?? 100}%
                   </div>
                   <span className="text-[10px] text-[var(--text-secondary)]">
