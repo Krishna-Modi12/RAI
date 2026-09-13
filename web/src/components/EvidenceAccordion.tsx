@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { InvestigationResult } from "../lib/types";
+import React, { useState, useEffect } from "react";
+import { InvestigationResult, WorkOrder } from "../lib/types";
 import { formatINR, formatZScore } from "../lib/format";
+import { getWorkOrders, proposeWorkOrder } from "../lib/api";
+import WorkOrderModal from "./WorkOrderModal";
 import {
   AlertTriangle,
   CloudSun,
@@ -13,6 +15,10 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
+  ClipboardList,
+  Wrench,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import StatusPill from "./StatusPill";
 
@@ -29,12 +35,76 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
     knowledge: true,
     economics: true,
     decision: true,
+    workorders: true,
   });
   const [historyFilter, setHistoryFilter] = useState<"all" | "real" | "synthetic">("all");
 
-  const toggleSection = (id: string) => {
-    setOpenSections((prev) => ({ ...prev, [id]: !prev [id] }));
+  const [workOrders, setWorkOrders] = useState<WorkOrder[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"approve" | "reject" | "feedback">("approve");
+  const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadWorkOrders() {
+      const res = await getWorkOrders(investigation.asset_id);
+      if (!cancelled && res.data) {
+        setWorkOrders(res.data);
+      }
+    }
+    loadWorkOrders();
+    return () => {
+      cancelled = true;
+    };
+  }, [investigation.asset_id]);
+
+  const handleApproveClick = async () => {
+    const pending = workOrders.find((wo) => wo.status === "proposed_awaiting_human_approval");
+    if (pending) {
+      setSelectedWorkOrder(pending);
+      setModalMode("approve");
+      setModalOpen(true);
+    } else {
+      const dominantSignal = investigation.evidence.anomaly?.signals?.find((s) => s.dominant)?.name || "system";
+      const created = await proposeWorkOrder({
+        asset_id: investigation.asset_id,
+        component: dominantSignal,
+        action: investigation.intervention.recommended_action || "Inspect and verify asset condition",
+        deadline_hours: investigation.intervention.recommended_window_hours || 72,
+        priority: "high",
+        created_by: "rai_agent_recommendation",
+      });
+      if (created) {
+        setWorkOrders((prev) => [created, ...prev]);
+        setSelectedWorkOrder(created);
+        setModalMode("approve");
+        setModalOpen(true);
+      }
+    }
   };
+
+  const handleOpenAction = (wo: WorkOrder, mode: "approve" | "reject" | "feedback") => {
+    setSelectedWorkOrder(wo);
+    setModalMode(mode);
+    setModalOpen(true);
+  };
+
+  const handleModalSuccess = (updated: WorkOrder) => {
+    setWorkOrders((prev) => {
+      const idx = prev.findIndex((w) => w.ticket_id === updated.ticket_id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = updated;
+        return next;
+      }
+      return [updated, ...prev];
+    });
+  };
+
+  const toggleSection = (id: string) => {
+    setOpenSections((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
 
   const { evidence, intervention, verdict, confidence, needle_used, requires_human_review } =
     investigation;
@@ -676,8 +746,12 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
                       : `+${formatINR(intervention.net_benefit_inr).display}`}
                   </div>
                 </div>
-                <button className="px-3 py-1.5 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-xs font-medium rounded-[2px] transition-colors shadow-sm">
-                  Approve Work Order
+                <button
+                  onClick={handleApproveClick}
+                  className="px-3.5 py-1.5 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-xs font-medium rounded-[2px] transition-colors shadow-sm flex items-center space-x-1.5 cursor-pointer"
+                >
+                  <ClipboardList className="w-3.5 h-3.5" />
+                  <span>Authorize Work Order</span>
                 </button>
               </div>
             </div>
@@ -688,6 +762,175 @@ export default function EvidenceAccordion({ investigation }: EvidenceAccordionPr
           </div>
         )}
       </div>
+
+      {/* 8. OPERATIONAL WORK ORDERS & FIELD FEEDBACK HISTORY */}
+      <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-[3px] overflow-hidden">
+        <button
+          onClick={() => toggleSection("workorders")}
+          className="w-full h-10 px-4 bg-[var(--surface-inset)] border-b border-[var(--border)] flex items-center justify-between text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--surface-sunken)] transition-colors"
+        >
+          <div className="flex items-center space-x-2.5">
+            <ClipboardList className="w-4 h-4 text-[var(--accent)]" />
+            <span>8. Operational Work Orders & Ground-Truth Field Ledger</span>
+            <span className="px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--text-secondary)] rounded-[2px]">
+              AUDIT LEDGER
+            </span>
+            <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
+              {workOrders.length} {workOrders.length === 1 ? "record" : "records"}
+            </span>
+          </div>
+          {openSections.workorders ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+
+        {openSections.workorders && (
+          <div className="p-4 space-y-3">
+            {workOrders.length === 0 ? (
+              <div className="p-4 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] text-center text-xs text-[var(--text-tertiary)]">
+                No maintenance work orders have been logged yet for asset {investigation.asset_id}.
+                Click <span className="text-[var(--text-primary)] font-medium">Authorize Work Order</span> above to dispatch an intervention.
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {workOrders.map((wo) => {
+                  const isPending = wo.status === "proposed_awaiting_human_approval";
+                  const isApproved = wo.status === "approved_scheduled";
+                  const isCompleted = wo.status === "completed";
+                  const isRejected = wo.status === "rejected";
+
+                  return (
+                    <div
+                      key={wo.ticket_id}
+                      className="p-3.5 bg-[var(--surface-sunken)] border border-[var(--border)] rounded-[3px] space-y-2.5"
+                    >
+                      {/* Ticket Header Row */}
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-mono text-xs font-semibold text-[var(--text-primary)]">
+                            {wo.ticket_id}
+                          </span>
+                          <span
+                            className={`px-1.5 py-0.5 text-[9px] font-mono font-medium uppercase rounded-[2px] border ${
+                              isApproved
+                                ? "bg-[var(--ok-surface)] text-[var(--ok)] border-[var(--ok)]/40"
+                                : isCompleted
+                                ? "bg-[var(--accent-surface)] text-[var(--accent)] border-[var(--accent-border)]"
+                                : isRejected
+                                ? "bg-[var(--critical-surface)]/20 text-[var(--critical)] border-[var(--critical)]/40"
+                                : "bg-[var(--surface-inset)] text-[var(--warn-ink)] border-[var(--warn-ink)]/40"
+                            }`}
+                          >
+                            {wo.status.replaceAll("_", " ")}
+                          </span>
+                          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
+                            Priority: {wo.priority} · {wo.deadline_hours}h
+                          </span>
+                        </div>
+
+                        {/* Action buttons based on lifecycle state */}
+                        <div className="flex items-center space-x-2">
+                          {isPending && (
+                            <>
+                              <button
+                                onClick={() => handleOpenAction(wo, "approve")}
+                                className="px-2.5 py-1 bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] font-sans text-[11px] font-medium rounded-[2px] transition-colors flex items-center space-x-1"
+                              >
+                                <CheckCircle2 className="w-3 h-3" />
+                                <span>Approve</span>
+                              </button>
+                              <button
+                                onClick={() => handleOpenAction(wo, "reject")}
+                                className="px-2.5 py-1 bg-[var(--surface-inset)] hover:bg-[var(--critical-surface)]/20 text-[var(--critical)] border border-[var(--border)] hover:border-[var(--critical)]/40 font-sans text-[11px] font-medium rounded-[2px] transition-colors flex items-center space-x-1"
+                              >
+                                <XCircle className="w-3 h-3" />
+                                <span>Reject</span>
+                              </button>
+                            </>
+                          )}
+                          {(isApproved || isCompleted) && (
+                            <button
+                              onClick={() => handleOpenAction(wo, "feedback")}
+                              className="px-2.5 py-1 bg-[var(--surface-raised)] hover:bg-[var(--surface-inset)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-[11px] font-medium rounded-[2px] transition-colors flex items-center space-x-1"
+                            >
+                              <Wrench className="w-3 h-3 text-[var(--accent)]" />
+                              <span>{isCompleted ? "Add Inspection Notes" : "Log Field Feedback"}</span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Ticket Details */}
+                      <div className="text-xs text-[var(--text-secondary)]">
+                        <span className="font-semibold text-[var(--text-primary)]">{wo.component}:</span> {wo.action}
+                      </div>
+
+                      {/* Audit Log / Rejection Reason */}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-mono text-[var(--text-tertiary)] pt-1 border-t border-[var(--border)]">
+                        <span>Created: {new Date(wo.created_at).toLocaleString()} ({wo.created_by})</span>
+                        {wo.approved_by && (
+                          <span className="text-[var(--ok)]">
+                            Approved by {wo.approved_by} on {wo.approved_at ? new Date(wo.approved_at).toLocaleDateString() : "—"}
+                          </span>
+                        )}
+                        {wo.rejected_by && (
+                          <span className="text-[var(--critical)]">
+                            Rejected by {wo.rejected_by}: &quot;{wo.rejection_reason}&quot;
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Feedback Records List */}
+                      {wo.feedback && wo.feedback.length > 0 && (
+                        <div className="pt-2 space-y-2">
+                          <div className="text-[10px] font-mono uppercase text-[var(--text-tertiary)] font-semibold">
+                            Recorded Ground-Truth Findings:
+                          </div>
+                          {wo.feedback.map((fb) => (
+                            <div
+                              key={fb.feedback_id}
+                              className="p-2.5 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[2px] text-xs space-y-1"
+                            >
+                              <div className="flex items-center justify-between text-[10px] font-mono">
+                                <span className="font-semibold text-[var(--text-primary)]">
+                                  Resolution: {fb.resolution.replaceAll("_", " ").toUpperCase()}
+                                </span>
+                                <span className="text-[var(--text-tertiary)]">
+                                  Tech: {fb.technician_id} · {new Date(fb.submitted_at).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <p className="text-[var(--text-secondary)] font-sans">{fb.findings}</p>
+                              {(fb.actual_downtime_hours > 0 || fb.actual_parts_cost_inr > 0) && (
+                                <div className="text-[10px] font-mono text-[var(--text-tertiary)] flex space-x-3 pt-0.5">
+                                  <span>Downtime: {fb.actual_downtime_hours}h</span>
+                                  <span>Parts: ₹{fb.actual_parts_cost_inr.toLocaleString()}</span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className="text-[10px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--border)]">
+              SOURCE: rai.memory.work_orders · persistent audit ledger (artifacts/tickets.jsonl)
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Interactive Work Order Modal */}
+      {modalOpen && selectedWorkOrder && (
+        <WorkOrderModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          workOrder={selectedWorkOrder}
+          mode={modalMode}
+          onSuccess={handleModalSuccess}
+        />
+      )}
     </div>
   );
 }
+

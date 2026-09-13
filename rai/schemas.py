@@ -392,6 +392,46 @@ class EvidencePacket(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Differential Diagnosis & Counterevidence
+# ---------------------------------------------------------------------------
+
+
+class HypothesisStatus(str, Enum):
+    SUPPORTED = "supported"        # Evidence actively supports this hypothesis
+    RULED_OUT = "ruled_out"        # Counterevidence refutes this hypothesis
+    CONTENDING = "contending"      # Plausible alternative, cannot be ruled out
+    UNSUPPORTED = "unsupported"    # Lacks sufficient indicative signatures
+
+
+class DiagnosticHypothesis(BaseModel):
+    name: str                       # e.g. "gearbox_bearing_degradation"
+    component: str                  # e.g. "gearbox"
+    category: str                   # "equipment_fault", "operational_state", "environmental", "sensor"
+    description: str                # e.g. "Progressive mechanical degradation of high-speed shaft bearing"
+    status: HypothesisStatus
+    supporting_evidence: list[str] = Field(default_factory=list)
+    counterevidence: list[str] = Field(default_factory=list)
+    confidence_delta: float = 0.0
+
+
+class DifferentialStatus(str, Enum):
+    RESOLVED_SINGLE_FAULT = "resolved_single_fault"       # Exactly one fault hypothesis supported, competitors ruled out
+    RESOLVED_OPERATIONAL = "resolved_operational"         # Operational condition (curtailment, clipping) proven
+    RESOLVED_ENVIRONMENTAL = "resolved_environmental"     # Weather/environmental condition proven
+    RESOLVED_SENSOR_ANOMALY = "resolved_sensor_anomaly"   # Sensor malfunction proven
+    COMPETING_HYPOTHESES = "competing_hypotheses"         # Multiple viable hypotheses, counterevidence inconclusive
+    NO_PLAUSIBLE_HYPOTHESIS = "no_plausible_hypothesis"   # Anomaly does not match known fault/operational modes
+
+
+class DifferentialDiagnosisVerdict(BaseModel):
+    dominant_hypothesis: str | None = None
+    status: DifferentialStatus = DifferentialStatus.NO_PLAUSIBLE_HYPOTHESIS
+    hypotheses: list[DiagnosticHypothesis] = Field(default_factory=list)
+    counterevidence_summary: list[str] = Field(default_factory=list)
+    abstention_rationale: str | None = None
+
+
+# ---------------------------------------------------------------------------
 # Agent output
 # ---------------------------------------------------------------------------
 
@@ -411,6 +451,7 @@ class AgentVerdict(BaseModel):
     historical_cases: list[HistoricalCase] = Field(default_factory=list)
     citations: list[KnowledgeCitation] = Field(default_factory=list)
     economics: EconomicEvidence | None = None
+    differential: DifferentialDiagnosisVerdict | None = None
     model_used: str = "needle2"
     fallback_used: bool = False
     tool_calls: list[str] = Field(default_factory=list)
@@ -455,3 +496,70 @@ class InjectedEvent(BaseModel):
     end: datetime | None = None
     severity_final: float
     description: str
+
+
+# ---------------------------------------------------------------------------
+# Operational Work Orders & Technician Field Feedback
+# ---------------------------------------------------------------------------
+
+
+class WorkOrderStatus(str, Enum):
+    PROPOSED_AWAITING_APPROVAL = "proposed_awaiting_human_approval"
+    APPROVED = "approved_scheduled"
+    REJECTED = "rejected"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+
+
+class FieldResolution(str, Enum):
+    CONFIRMED_FAULT = "confirmed_fault"
+    FALSE_ALARM = "false_alarm"
+    EARLY_INSPECTION_PREVENTED_FAILURE = "early_inspection_prevented_failure"
+    NO_FAULT_FOUND = "no_fault_found"
+    MAINTENANCE_DEFERRED = "maintenance_deferred"
+
+
+class WorkOrderPriority(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    EMERGENCY = "emergency"
+
+
+class WorkOrderFeedback(BaseModel):
+    """Ground-truth inspection findings recorded by an authorized technician."""
+
+    feedback_id: str
+    ticket_id: str
+    technician_id: str
+    submitted_at: datetime
+    resolution: FieldResolution
+    findings: str
+    component_inspected: str
+    actual_downtime_hours: float = 0.0
+    actual_parts_cost_inr: float = 0.0
+    notes: str = ""
+
+
+class WorkOrderRecord(BaseModel):
+    """Complete work order record tracking proposal, operator decision, and field feedback."""
+
+    ticket_id: str
+    asset_id: str
+    asset_name: str
+    site: str
+    component: str
+    action: str
+    priority: WorkOrderPriority = WorkOrderPriority.MEDIUM
+    deadline_hours: int = 72
+    status: WorkOrderStatus = WorkOrderStatus.PROPOSED_AWAITING_APPROVAL
+    created_at: datetime
+    created_by: str = "rai_agent"
+    approved_by: str | None = None
+    approved_at: datetime | None = None
+    rejected_by: str | None = None
+    rejected_at: datetime | None = None
+    rejection_reason: str | None = None
+    feedback: list[WorkOrderFeedback] = Field(default_factory=list)
+

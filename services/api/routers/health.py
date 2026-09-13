@@ -33,3 +33,63 @@ def get_health() -> dict[str, Any]:
         "models_loaded": ["wind_expected_power", "solar_expected_power", "risk"],
         "assets": len(FLEET),
     }
+
+
+@router.get("/healthz", tags=["probes"])
+def liveness_probe() -> dict[str, str]:
+    """Standard Kubernetes/Docker liveness probe."""
+    return {"status": "alive", "service": "renewable-asset-intelligence"}
+
+
+@router.get("/readyz", tags=["probes"])
+def readiness_probe() -> dict[str, Any]:
+    """Standard Kubernetes/Docker readiness probe checking core subsystems."""
+    checks: dict[str, Any] = {}
+    is_ready = True
+
+    # 1. Telemetry store check
+    try:
+        extent = data_extent()
+        checks["telemetry_store"] = {
+            "status": "ok",
+            "start": extent[0].isoformat() if extent else None,
+            "end": extent[1].isoformat() if extent else None,
+        }
+    except Exception as e:
+        checks["telemetry_store"] = {"status": "degraded", "error": str(e)}
+
+    # 2. Agent & Reasoner capabilities
+    try:
+        cap = probe_capabilities()
+        checks["reasoner"] = {
+            "status": "ok",
+            "needle": cap.needle,
+            "evidence": cap.evidence,
+        }
+    except Exception as e:
+        checks["reasoner"] = {"status": "degraded", "error": str(e)}
+
+    # 3. Fleet configuration
+    checks["fleet"] = {
+        "status": "ok" if len(FLEET) == 42 else "unexpected_count",
+        "assets_configured": len(FLEET),
+    }
+
+    # 4. Work order ledger check
+    try:
+        from rai.memory.work_orders import TICKET_LOG
+
+        checks["work_orders"] = {
+            "status": "ok",
+            "path": str(TICKET_LOG),
+            "exists": TICKET_LOG.exists(),
+        }
+    except Exception as e:
+        checks["work_orders"] = {"status": "degraded", "error": str(e)}
+
+    return {
+        "status": "ready" if is_ready else "not_ready",
+        "timestamp": datetime.now(UTC).isoformat(),
+        "checks": checks,
+    }
+

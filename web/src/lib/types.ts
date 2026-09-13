@@ -149,6 +149,32 @@ export interface InvestigationEvidence {
     // does not report one).
     avoidable_exposure_inr: number | null;
   };
+  differential?: DifferentialVerdict;
+}
+
+export interface DiagnosticHypothesisItem {
+  name: string;
+  component: string;
+  category: string;
+  description: string;
+  status: "supported" | "ruled_out" | "contending" | "unsupported";
+  supporting_evidence: string[];
+  counterevidence: string[];
+  confidence_delta: number;
+}
+
+export interface DifferentialVerdict {
+  dominant_hypothesis?: string | null;
+  status:
+    | "resolved_single_fault"
+    | "resolved_operational"
+    | "resolved_environmental"
+    | "resolved_sensor_anomaly"
+    | "competing_hypotheses"
+    | "no_plausible_hypothesis";
+  hypotheses: DiagnosticHypothesisItem[];
+  counterevidence_summary: string[];
+  abstention_rationale?: string | null;
 }
 
 export interface InvestigationResult {
@@ -262,3 +288,54 @@ export interface ScenarioItem {
   description: string;
   expected_detection: string;
 }
+
+export type WorkOrderStatus =
+  | "proposed_awaiting_human_approval"
+  | "approved_scheduled"
+  | "rejected"
+  | "in_progress"
+  | "completed"
+  | "cancelled";
+
+export type WorkOrderPriority = "low" | "medium" | "high" | "emergency";
+
+export type FieldResolution =
+  | "confirmed_fault"
+  | "false_alarm"
+  | "early_inspection_prevented_failure"
+  | "no_fault_found"
+  | "maintenance_deferred";
+
+export interface WorkOrderFeedback {
+  feedback_id: string;
+  ticket_id: string;
+  technician_id: string;
+  submitted_at: string;
+  resolution: FieldResolution;
+  findings: string;
+  component_inspected: string;
+  actual_downtime_hours: number;
+  actual_parts_cost_inr: number;
+  notes?: string;
+}
+
+export interface WorkOrder {
+  ticket_id: string;
+  asset_id: string;
+  asset_name: string;
+  site: string;
+  component: string;
+  action: string;
+  priority: WorkOrderPriority;
+  deadline_hours: number;
+  status: WorkOrderStatus;
+  created_at: string;
+  created_by: string;
+  approved_by?: string | null;
+  approved_at?: string | null;
+  rejected_by?: string | null;
+  rejected_at?: string | null;
+  rejection_reason?: string | null;
+  feedback?: WorkOrderFeedback[];
+}
+

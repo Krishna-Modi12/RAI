@@ -22,7 +22,7 @@ from rai.agent.interfaces import (
     resolve_evidence_provider,
     resolve_knowledge,
 )
-from rai.config import ARTIFACTS, get_asset, tariff_for
+from rai.config import ARTIFACTS, tariff_for
 from rai.economics.decision_support import evaluate_decision_support
 
 log = logging.getLogger(__name__)
@@ -268,6 +268,8 @@ def create_inspection_ticket(
     deadline_hours: int = 72,
 ) -> dict[str, Any]:
     """Propose a maintenance inspection ticket for human approval. Does not dispatch work."""
+    from rai.memory.work_orders import propose_work_order
+
     if not isinstance(asset_id, str) or not asset_id.strip():
         return {"created": False, "reason": "asset_id must be a non-empty string"}
     if not isinstance(component, str) or not component.strip():
@@ -280,33 +282,25 @@ def create_inspection_ticket(
         or deadline_hours <= 0
     ):
         return {"created": False, "reason": "deadline_hours must be a positive integer"}
+
     try:
-        asset = get_asset(asset_id)
+        record = propose_work_order(
+            asset_id=asset_id,
+            component=component,
+            action=action,
+            deadline_hours=deadline_hours,
+        )
+        return {
+            "created": True,
+            "ticket_id": record.ticket_id,
+            "status": record.status.value,
+            "note": "Proposed only. A human must approve before any work is dispatched.",
+        }
     except KeyError:
         return {"created": False, "reason": f"unknown asset_id {asset_id}"}
+    except Exception as e:
+        return {"created": False, "reason": str(e)}
 
-    now = datetime.now(UTC)
-    ticket = {
-        "ticket_id": f"TCK-{asset_id}-{now:%Y%m%dT%H%M%SZ}",
-        "asset_id": asset_id,
-        "asset_name": asset.name,
-        "site": asset.site,
-        "component": component,
-        "action": action[:400],
-        "deadline_hours": int(deadline_hours),
-        "status": "proposed_awaiting_human_approval",
-        "created_at": now.isoformat(),
-        "created_by": "rai_agent",
-    }
-    TICKET_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with TICKET_LOG.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(ticket) + "\n")
-    return {
-        "created": True,
-        "ticket_id": ticket["ticket_id"],
-        "status": ticket["status"],
-        "note": "Proposed only. A human must approve before any work is dispatched.",
-    }
 
 
 # --------------------------------------------------------------------------- canonical aliases

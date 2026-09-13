@@ -15,6 +15,7 @@ import {
   TimeseriesPoint,
   SoilingResponse,
   ScenarioItem,
+  WorkOrder,
 } from "./types";
 
 // In local browser sessions, proxy through Next so the browser does not depend on
@@ -681,6 +682,90 @@ export async function getEvaluationMetrics(): Promise<EvaluationData | null> {
     }
   } catch (err) {
     console.warn("Evaluation metrics fetch failed, using offline fallback:", err);
+  }
+  return null;
+}
+
+export async function getWorkOrders(
+  assetId?: string,
+  status?: string
+): Promise<LiveResult<WorkOrder[]>> {
+  const params = new URLSearchParams();
+  if (assetId) params.set("asset_id", assetId);
+  if (status) params.set("status", status);
+  const qs = params.toString() ? `?${params.toString()}` : "";
+  return fetchWithFallback<WorkOrder[]>(`${API_BASE}/work-orders${qs}`, []);
+}
+
+export async function getWorkOrder(ticketId: string): Promise<LiveResult<WorkOrder | null>> {
+  return fetchWithFallback<WorkOrder | null>(`${API_BASE}/work-orders/${ticketId}`, null);
+}
+
+export async function proposeWorkOrder(data: {
+  asset_id: string;
+  component: string;
+  action: string;
+  deadline_hours?: number;
+  priority?: "low" | "medium" | "high" | "emergency";
+  created_by?: string;
+}): Promise<WorkOrder | null> {
+  try {
+    const res = await fetch(`${API_BASE}/work-orders/propose`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) return await res.json();
+  } catch (err) {
+    console.error("Failed to propose work order:", err);
+  }
+  return null;
+}
+
+export async function actionWorkOrder(
+  ticketId: string,
+  data: {
+    action: "approve" | "reject";
+    actor: string;
+    deadline_hours?: number;
+    priority?: "low" | "medium" | "high" | "emergency";
+    reason?: string;
+  }
+): Promise<WorkOrder | null> {
+  try {
+    const res = await fetch(`${API_BASE}/work-orders/${ticketId}/action`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) return await res.json();
+  } catch (err) {
+    console.error("Failed to action work order:", err);
+  }
+  return null;
+}
+
+export async function submitWorkOrderFeedback(
+  ticketId: string,
+  data: {
+    technician_id: string;
+    resolution: string;
+    findings: string;
+    component_inspected?: string;
+    actual_downtime_hours?: number;
+    actual_parts_cost_inr?: number;
+    notes?: string;
+  }
+): Promise<WorkOrder | null> {
+  try {
+    const res = await fetch(`${API_BASE}/work-orders/${ticketId}/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) return await res.json();
+  } catch (err) {
+    console.error("Failed to submit work order feedback:", err);
   }
   return null;
 }

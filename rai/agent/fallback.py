@@ -23,9 +23,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from rai.config import settings
+from rai.models.differential import evaluate_differential_diagnosis
 from rai.schemas import (
     AgentVerdict,
     AssetType,
+    DifferentialDiagnosisVerdict,
+    DifferentialStatus,
     EconomicEvidence,
     EnvironmentVerdict,
     EvidencePacket,
@@ -439,13 +442,33 @@ def diagnose(
         top = citations[0]
         reasons.append(f"Procedure reference: {top.title} — {top.section}")
 
+    # Differential Diagnosis: evaluate competing hypotheses and active counterevidence
+    differential = evaluate_differential_diagnosis(packet)
+    if diagnosis.is_equipment_fault:
+        if differential.status is DifferentialStatus.COMPETING_HYPOTHESES:
+            confidence = max(0.20, confidence - 0.12)
+            if differential.abstention_rationale:
+                reasons.append(f"Differential: {differential.abstention_rationale}")
+        elif differential.status in {
+            DifferentialStatus.RESOLVED_SINGLE_FAULT,
+            DifferentialStatus.RESOLVED_OPERATIONAL,
+            DifferentialStatus.RESOLVED_ENVIRONMENTAL,
+            DifferentialStatus.RESOLVED_SENSOR_ANOMALY,
+        }:
+            confidence = min(0.98, confidence + 0.04)
+            if differential.counterevidence_summary:
+                reasons.append(f"Counterevidence: {differential.counterevidence_summary[0]}")
+    elif differential.counterevidence_summary:
+        reasons.append(f"Counterevidence: {differential.counterevidence_summary[0]}")
+
     requires_review = (
         diagnosis.human_review
         or confidence < settings.needle_confidence_threshold
         or diagnosis.severity is Severity.CRITICAL
+        or (diagnosis.is_equipment_fault and differential.status is DifferentialStatus.COMPETING_HYPOTHESES)
     )
 
-    action = _recommend_action(diagnosis, packet, economics)
+    action = _recommend_action(diagnosis, packet, economics, differential)
     deadline = DEADLINE_BY_SEVERITY.get(diagnosis.severity)
 
     return AgentVerdict(
@@ -461,6 +484,7 @@ def diagnose(
         historical_cases=cases[:5],
         citations=citations[:3],
         economics=economics,
+        differential=differential,
         model_used="deterministic_reasoner",
         fallback_used=True,
     )
@@ -470,6 +494,7 @@ def _recommend_action(
     diagnosis: _Diagnosis,
     packet: EvidencePacket,
     economics: EconomicEvidence | None,
+    differential: DifferentialDiagnosisVerdict | None = None,
 ) -> str:
     if not diagnosis.is_equipment_fault:
         if diagnosis.component == "soiling":
@@ -484,6 +509,13 @@ def _recommend_action(
         if diagnosis.component in {"anemometer"}:
             return "Validate and recalibrate the affected sensor before assessing drivetrain condition"
         return "No maintenance action required; continue monitoring"
+
+    if (
+        differential
+        and differential.status is DifferentialStatus.COMPETING_HYPOTHESES
+        and differential.abstention_rationale
+    ):
+        return f"Inspect first to resolve competing explanations ({differential.dominant_hypothesis or 'unattributed'})."
 
     if economics and economics.recommended_option_id:
         chosen = next(

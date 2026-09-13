@@ -17,6 +17,7 @@ data/synthetic/*
 artifacts/models/*
 artifacts/index/*
 artifacts/*.jsonl
+artifacts/*.tmp
 !artifacts/**/.gitkeep
 *.parquet
 *.duckdb

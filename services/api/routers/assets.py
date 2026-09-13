@@ -335,6 +335,9 @@ def post_investigate(asset_id: str, body: InvestigateBody | None = None) -> dict
         out["historical_cases"] = [c.model_dump(mode="json") for c in res.verdict.historical_cases]
         out["citations"] = [c.model_dump(mode="json") for c in res.verdict.citations]
         out["economics"] = res.verdict.economics.model_dump(mode="json") if res.verdict.economics else None
+        out["differential"] = (
+            res.verdict.differential.model_dump(mode="json") if res.verdict.differential else None
+        )
         out["economic_decision"] = evaluate_decision_support(
             asset_id=asset_id,
             component=res.verdict.component,
@@ -352,6 +355,7 @@ def post_investigate(asset_id: str, body: InvestigateBody | None = None) -> dict
         out.setdefault("historical_cases", [])
         out.setdefault("citations", [])
         out.setdefault("economics", None)
+        out.setdefault("differential", None)
         out.setdefault("economic_decision", None)
     return out
 

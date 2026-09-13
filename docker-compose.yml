@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rai_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - RAI_ENV=production
+      - RAI_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: rai_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
