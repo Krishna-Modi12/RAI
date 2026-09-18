@@ -93,11 +93,11 @@ RAI maintains an immutable Scientific Evidence Freeze ([`freeze_summary.md`](art
 
 | Evidence Tier | Capability | Underlying Dataset / Method | What is Actually Proven |
 |---|---|---|---|
-| **VALIDATED** | **Wind Anomaly Detection** | CARE Benchmark (Zenodo 10958775; Farms A/B/C) | Normal accuracy > 0.995; embargoed leak-free PR-AUC = 0.822, MCC = 0.690 |
+| **VALIDATED** | **Wind Anomaly Detection** | CARE Benchmark (Zenodo 10958775; Farms A/B/C) | Normal accuracy > 0.995 (internal Gate 2 holdout PR-AUC = 0.822 is a separate, self-graded metric on our own fleet, not a CARE figure) |
 | **VALIDATED** | **Cross-Farm Transfer** | CARE Gate 5.4 Protocol | Target-normal calibration recovers 106.3% of performance without retraining |
 | **VALIDATED** | **Operational Event Association** | Kelmarsh Wind Farm (Zenodo 5841834) | SCADA anomaly windows statistically associate with recorded Greenbyte log events |
-| **VALIDATED** | **Historical Case Retrieval** | 14 Audited Academic Records | High-precision vector retrieval with preserved provenance and contrastive explainability |
 | **VALIDATED** | **Solar Data Foundation** | NREL PVDAQ (OEDI 450 daily files; Gate 5.6A/B) | Robust data ingestion, temporal ordering, and quality filters over multi-year solar data |
+| **DEMONSTRATED** | **Historical Case Retrieval** | 14 Audited Academic Records | Retrieval implemented end-to-end over 14 curated real cases; precision/relevance checked on internal fixtures, not an external benchmark |
 | **DEMONSTRATED** | **Local AI Agent Reasoning** | Internal Evaluation Battery (Tasks A–G) | 100% tool selection, 100% abstention correctness, 0.00% unsupported claims |
 | **DEMONSTRATED** | **Techno-Economic Engine** | Mathematical Decision Engine (`rai/economics/`) | Deterministic NPV calculation under explicit, source-labelled user cost assumptions |
 | **DEMONSTRATED** | **Work Order Lifecycle** | Next.js Console & FastAPI Service | Full-lifecycle propose, approve, reject, feedback, and audit tracking |
@@ -105,7 +105,8 @@ RAI maintains an immutable Scientific Evidence Freeze ([`freeze_summary.md`](art
 | **ARCHITECTURALLY SUPPORTED** | **Differential Diagnosis** | Rule-Based Counterevidence Matrix | Formal elimination of competing failure hypotheses from sensor signatures |
 | **ARCHITECTURALLY SUPPORTED** | **Meteorological Crew Dispatch** | Open-Meteo Window Scheduler | Route optimization respecting user-configured wind (<12 m/s) and rain (0 mm) limits |
 | **NOT VALIDATED** | **Independent Solar Failure Model** | Gate 5.6C Independent Audit | Validation cohort empty; solar component failure prediction is **not claimed** |
-| **NOT VALIDATED** | **Live Utility Deployment** | None | Zero live commercial utility plant SCADA feeds currently connected |
+
+*Deployment status (outside the audited 18-capability registry): zero live commercial utility-plant SCADA feeds are currently connected to RAI.*
 
 ---
 

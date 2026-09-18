@@ -75,8 +75,8 @@
 ### Phase C: Post-Presentation Judge Q&A
 
 - [ ] **Adhere to the 4 Evidence Tiers:**
-  - Wind Anomaly & Cross-Farm Transfer: **VALIDATED** (CARE benchmark, PR-AUC = 0.822).
-  - Historical Retrieval: **VALIDATED** (14 audited academic cases).
+  - Wind Anomaly & Cross-Farm Transfer: **VALIDATED** (CARE benchmark, normal accuracy > 0.995; PR-AUC 0.822 is a separate internal Gate 2 metric, not CARE).
+  - Historical Retrieval: **DEMONSTRATED** (14 audited academic cases; internal retrieval-quality checks, not externally validated).
   - Decision Loop, Economics & Local Agent: **DEMONSTRATED** (Operational prototype).
   - Independent Solar Failure Validation & Live Plant SCADA: **NOT VALIDATED** (Unclosed gate; 0 live commercial feeds).
 - [ ] **Defend Against Core Challenges (Refer to `JUDGE_QA.md`):**

@@ -59,11 +59,11 @@
 
 > "Before I show you the running system, let me state plainly what is scientifically validated and what is not:
 >
-> On wind anomaly detection, our model is **validated** on the peer-reviewed CARE Benchmark across 36 commercial turbines, achieving an out-of-sample normal classification accuracy exceeding 0.995 and an embargoed, leak-free PR-AUC of 0.822.
+> On wind anomaly detection, our model is **validated** on the peer-reviewed CARE Benchmark across 36 commercial turbines, achieving an out-of-sample normal classification accuracy exceeding 0.995 (internal Gate 2 holdout PR-AUC of 0.822 is a separate, self-graded metric on our own 42-asset fleet, not a CARE figure).
 >
 > On cross-farm transfer, our target-normal calibration is **validated**, recovering 106.3% of baseline performance without target retraining.
 >
-> On historical retrieval, our k-NN vector memory is **validated** across 14 curated academic records from CARE, Kelmarsh, and NREL PVDAQ.
+> On historical retrieval, our k-NN vector memory is **demonstrated** across 14 curated academic records from CARE, Kelmarsh, and NREL PVDAQ.
 >
 > Our local AI reasoner, techno-economics, and closed-loop lifecycle are **demonstrated** on internal operational test fixtures.
 >

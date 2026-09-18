@@ -8,9 +8,9 @@
 
 > "Renewable Asset Intelligence turns ambiguous renewable-asset alarms into defensible maintenance decisions.
 >
-> Instead of stopping at threshold anomaly detection, RAI compares observed generation against physics expectations, atmospheric dust context, feeder peers, and 14 audited academic failure cases. It then models the financial cost of waiting and proposes a human-approved work order for weather-safe crew dispatch.
+> Instead of stopping at threshold anomaly detection, RAI compares observed generation against physics expectations, atmospheric dust context, feeder peers, and 14 audited academic historical cases. It then models the financial cost of waiting and proposes a human-approved work order for weather-safe crew dispatch.
 >
-> Our core wind detection is benchmarked on peer-reviewed data with PR-AUC of 0.822; our broader operational decision loop is fully demonstrated with strict evidence boundaries."
+> Our core wind detection is benchmarked on the peer-reviewed CARE dataset with normal accuracy above 0.995; our broader operational decision loop is fully demonstrated with strict evidence boundaries."
 
 ---
 
@@ -38,10 +38,10 @@
 >
 > All expected power curves, residual z-scores, CAMS aerosol dust integrals $D(t)$, peer cohort percentiles, and Net Present Value cash flows are computed deterministically in Python.
 >
-> When turbine WT-004 shows a generator winding anomaly at +12.3σ, RAI checks CAMS atmospheric data to rule out weather, isolates the unit against 8 feeder peers to rule out grid curtailment, and searches 14 audited academic cases to retrieve a matching Kelmarsh cooling trip at 80% similarity.
+> When turbine WT-004 shows a generator winding anomaly at +12.3σ, RAI checks CAMS atmospheric data to rule out weather, isolates the unit against 8 feeder peers to rule out grid curtailment, and searches 14 audited academic cases to retrieve a matching Kelmarsh protection-trip event at 80% similarity.
 >
 > Our economic engine models a +₹9.07L net benefit for intervening immediately, and our quantized local Needle 2 reasoner explains the evidence packet to the operator. The operator approves the ticket, which is dispatched strictly within safe meteorological windows.
 >
-> In terms of validation: our wind anomaly detection is validated on the CARE Benchmark across 36 commercial turbines with leak-free PR-AUC of 0.822 and out-of-sample normal accuracy above 0.995. Our closed loop enforces dual-key promotion to ensure synthetic test tickets never pollute real benchmark partitions.
+> In terms of validation: our wind anomaly detection is validated on the CARE Benchmark across 36 commercial turbines with out-of-sample normal accuracy above 0.995 (our internal Gate 2 holdout PR-AUC of 0.822 is a separate, self-graded metric on our own fleet, not a CARE figure). Our closed loop enforces dual-key promotion to ensure synthetic test tickets never pollute real benchmark partitions.
 >
 > All 554 tests pass offline, and the repository is completely reproducible."

@@ -197,6 +197,13 @@ img {
   line-height: 1.55;
 }
 
+.deployment-note {
+  margin-top: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+
 /* BADGES & STATUS TAGS */
 .badge {
   display: inline-flex;
